@@ -1,0 +1,252 @@
+{
+  "_comment": "Main configuration file for AirLink Docs site.",
+
+  "site": {
+    "title": "AirLink Panel",
+    "description": "Open-source game server management platform with powerful addon support",
+    "version": "1.0.0",
+    "versionLabel": "v1.0.0 beta",
+    "githubOrg": "AirlinkLabs",
+    "githubPanel": "AirlinkLabs/panel",
+    "githubDaemon": "AirlinkLabs/daemon",
+    "discordUrl": "https://discord.gg/D8YbT9rDqz",
+    "faviconUrl": "https://raw.githubusercontent.com/airlinklabs/panel/refs/heads/main/public/uploads/favicons/favicon.ico"
+  },
+
+  "underConstruction": {
+    "enabled": false,
+    "message": "This site is currently under construction.",
+    "popupTitle": "Under Construction",
+    "popupMessage": "Welcome! This docs site is still being built.",
+    "navbarBadge": "Under Construction",
+    "footerNote": "Under construction — content may be incomplete."
+  },
+
+  "install": {
+    "quickInstallCommand": "bash <(curl -s https://raw.githubusercontent.com/airlinklabs/panel/refs/heads/main/installer.sh)",
+    "requirements": [
+      "Node.js v16 or higher",
+      "npm v8 or higher",
+      "PostgreSQL or MySQL",
+      "Git"
+    ],
+    "manualSteps": [
+      {
+        "title": "Clone Repository",
+        "commands": [
+          "cd /var/www/",
+          "git clone https://github.com/AirlinkLabs/panel.git",
+          "cd panel"
+        ]
+      },
+      {
+        "title": "Set Permissions",
+        "commands": [
+          "sudo chown -R www-data:www-data /var/www/panel",
+          "sudo chmod -R 755 /var/www/panel",
+          "mv example.env .env"
+        ]
+      },
+      {
+        "title": "Install Dependencies & Build",
+        "commands": [
+          "npm install -g typescript",
+          "npm install --omit=dev",
+          "npm run build-ts"
+        ]
+      },
+      {
+        "title": "Database Setup",
+        "commands": [
+          "npm run migrate:dev"
+        ]
+      },
+      {
+        "title": "Start with pm2",
+        "commands": [
+          "npm install pm2 -g",
+          "pm2 start dist/app.js --name \"panel\"",
+          "pm2 save && pm2 startup"
+        ]
+      }
+    ],
+    "systemdCommands": [
+      "systemctl start airlink-panel",
+      "systemctl stop airlink-panel",
+      "systemctl status airlink-panel"
+    ]
+  },
+
+  "features": [
+    {
+      "id": "server-management",
+      "icon": "server",
+      "title": "Server Management",
+      "description": "Deploy and manage multiple game servers from a single interface.",
+      "longDescription": "Start, stop, restart, and monitor resources in real-time. CPU, memory, and disk usage across all servers. One-click server creation with pre-configured game templates.",
+      "imageFolder": "public/assets/features/server-management"
+    },
+    {
+      "id": "user-system",
+      "icon": "users",
+      "title": "User System",
+      "description": "Granular access control with admin controls and user roles.",
+      "longDescription": "Admin controls, user roles, and server-level access management. Assign sub-users to specific servers with read-only or full access. Session-based authentication with CSRF protection.",
+      "imageFolder": "public/assets/features/user-system"
+    },
+    {
+      "id": "addon-architecture",
+      "icon": "puzzle",
+      "title": "Addon Architecture",
+      "description": "Extend functionality without touching core code.",
+      "longDescription": "Addons can add routes, database tables, UI components, and integrate external services. Full access to the panel API including the router, Prisma ORM, logger, and UI registration system.",
+      "imageFolder": "public/assets/features/addon-architecture"
+    },
+    {
+      "id": "database-migrations",
+      "icon": "database",
+      "title": "Database Migrations",
+      "description": "Addons handle their own database schema automatically.",
+      "longDescription": "Define migrations in package.json and they run automatically when the addon is enabled. Applied migrations are tracked so they never run twice. Supports SQLite, MySQL, and PostgreSQL.",
+      "imageFolder": "public/assets/features/database-migrations"
+    },
+    {
+      "id": "modern-stack",
+      "icon": "bolt",
+      "title": "Modern Stack",
+      "description": "TypeScript, Prisma, Express — standard tools, clean codebase.",
+      "longDescription": "TypeScript gives type safety across the whole codebase. Prisma handles database queries with full type inference. Express keeps routing straightforward. Easy to understand for any Node.js developer.",
+      "imageFolder": "public/assets/features/modern-stack"
+    },
+    {
+      "id": "rest-api",
+      "icon": "plug",
+      "title": "REST API",
+      "description": "Everything the panel does is accessible through the API.",
+      "longDescription": "Build your own client interfaces, automate deployments, or integrate AirLink with external tools. All endpoints return consistent JSON with proper HTTP status codes.",
+      "imageFolder": "public/assets/features/rest-api"
+    }
+  ],
+
+  "addons": [
+    {
+      "id": "modrinth-store",
+      "name": "Modrinth Store",
+      "author": "g-flame",
+      "version": "v1.6.23",
+      "status": "working",
+      "description": "Browse, search, and install Minecraft mods and modpacks from Modrinth directly inside your AirLink admin panel.",
+      "longDescription": "The Modrinth Store Addon integrates Modrinth directly into your AirLink panel. Browse, search, and install mods or modpacks from the admin panel with full feature control.",
+      "tags": ["Minecraft", "Mods", "Modrinth API"],
+      "iconFile": "https://raw.githubusercontent.com/modrinth/knossos/refs/heads/master/assets/images/logo.svg",
+      "imageFolder": "public/assets/addons/modrinth-store",
+      "github": "https://github.com/g-flame-oss/airlink-addons/tree/modrinth-addon",
+      "features": [
+        "Browse and search Modrinth mod database",
+        "One-click mod and modpack installation",
+        "Progress bars for download feedback",
+        "Admin panel integration with sidebar entry",
+        "Full Modrinth API support"
+      ],
+      "installSteps": [
+        {
+          "title": "Navigate to addons folder",
+          "commands": ["cd /var/www/panel/storage/addons/"]
+        },
+        {
+          "title": "Clone the addon",
+          "commands": ["git clone --branch modrinth-addon https://github.com/g-flame-oss/airlink-addons.git modrinth-store"]
+        },
+        {
+          "title": "Install dependencies and build",
+          "commands": [
+            "cd /var/www/panel/storage/addons/modrinth-store",
+            "sudo npm install",
+            "sudo npm run build"
+          ]
+        },
+        {
+          "title": "Restart AirLink panel",
+          "commands": ["systemctl restart airlink-panel"]
+        }
+      ],
+      "installNote": "The Modrinth Store will appear in your AirLink admin panel after restarting."
+    },
+    {
+      "id": "parachute",
+      "name": "Parachute",
+      "author": "g-flame",
+      "version": "v1.0.0",
+      "status": "working",
+      "description": "Google Drive integration for server backups. Upload, download, and restore server files with OAuth authentication.",
+      "longDescription": "Parachute integrates with Google Drive for server backups and file management. Handles OAuth authentication, token storage, and server-specific operations using server UUIDs.",
+      "tags": ["Backups", "Google Drive", "OAuth"],
+      "iconFile": "https://www.svgrepo.com/show/510106/parachute.svg",
+      "imageFolder": "public/assets/addons/parachute",
+      "github": "https://github.com/g-flame-oss/airlink-addons/tree/parachute",
+      "features": [
+        "Connect servers to Google Drive via OAuth",
+        "Upload and download server backup files",
+        "Restore backups with a single click",
+        "Optional file encryption",
+        "Per-server backup management using UUIDs"
+      ],
+      "installSteps": [
+        {
+          "title": "Navigate to addons folder",
+          "commands": ["cd /var/www/panel/storage/addons/"]
+        },
+        {
+          "title": "Clone the addon",
+          "commands": ["git clone --branch parachute https://github.com/g-flame-oss/airlink-addons.git parachute"]
+        },
+        {
+          "title": "Install dependencies and build",
+          "commands": [
+            "cd /var/www/panel/storage/addons/parachute",
+            "npm install",
+            "npm run build"
+          ]
+        },
+        {
+          "title": "Configure environment variables",
+          "commands": [
+            "APP_URL=https://yourpanel.com",
+            "GOOGLE_CLIENT_ID=your_google_app_key",
+            "GOOGLE_CLIENT_SECRET=your_google_app_secret"
+          ]
+        },
+        {
+          "title": "Restart AirLink panel",
+          "commands": ["systemctl restart airlink-panel"]
+        }
+      ],
+      "installNote": "You need a Google OAuth app — create one at console.cloud.google.com. Set APP_URL, GOOGLE_CLIENT_ID, and GOOGLE_CLIENT_SECRET in your panel .env before restarting."
+    }
+  ],
+
+  "team": {
+    "repos": ["AirlinkLabs/panel", "AirlinkLabs/daemon"],
+    "customContributors": {}
+  },
+
+  "docs": {
+    "manifest": [
+      {
+        "slug": "quickstart",
+        "title": "Quick Start",
+        "description": "Get your first addon running in about 10 minutes"
+      },
+      {
+        "slug": "addons",
+        "title": "Addon Development",
+        "description": "Complete guide to building addons for AirLink Panel"
+      },
+      {
+        "slug": "migrations",
+        "title": "Database Migrations",
+        "description": "How addons handle their own database schema"
+      }
+    ]
+  }
+}

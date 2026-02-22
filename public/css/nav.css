@@ -1,0 +1,196 @@
+/* nav.css */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(10, 10, 10, 0.88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.3s, border-color 0.3s;
+  height: 60px;
+}
+[data-theme="light"] .navbar {
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.navbar .container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* brand */
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+  text-decoration: none;
+  margin-right: 8px;
+}
+.nav-brand img {
+  width: 28px;
+  height: 28px;
+}
+.nav-brand-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.nav-brand-ver {
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--text3);
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 1px 7px;
+  border-radius: 99px;
+  margin-left: 2px;
+}
+
+/* links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  list-style: none;
+  flex: 1;
+}
+.nav-links a,
+.nav-links button.nav-link-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13.5px;
+  font-family: var(--sans);
+  color: var(--text3);
+  padding: 6px 11px;
+  border-radius: 7px;
+  transition: all 0.18s;
+  text-decoration: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.nav-links a:hover,
+.nav-links button.nav-link-btn:hover { color: var(--text); background: var(--bg3); }
+
+.nav-divider { width: 1px; height: 16px; background: var(--border); margin: 0 4px; }
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* theme toggle */
+.theme-btn {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text3);
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.theme-btn:hover { color: var(--text); border-color: var(--border2); }
+
+/* uc badge */
+.uc-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-family: var(--mono);
+  color: #f59e0b;
+  background: rgba(245,158,11,0.1);
+  border: 1px solid rgba(245,158,11,0.3);
+  padding: 3px 10px;
+  border-radius: 99px;
+}
+
+/* mobile hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4.5px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg3);
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.hamburger span {
+  display: block;
+  width: 15px;
+  height: 1.5px;
+  background: var(--text2);
+  border-radius: 2px;
+  transition: all 0.28s cubic-bezier(0.23,1,0.32,1);
+  transform-origin: center;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* mobile drawer */
+@media (max-width: 820px) {
+  .hamburger { display: flex; }
+  .nav-divider { display: none; }
+
+  .nav-links {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.25s;
+  }
+  .nav-links.open {
+    max-height: 500px;
+    opacity: 1;
+    pointer-events: auto;
+    padding: 8px 12px 14px;
+  }
+  .nav-links li { width: 100%; }
+  .nav-links a,
+  .nav-links button.nav-link-btn {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 11px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 480px) {
+  .nav-brand-ver { display: none; }
+  .nav-actions .btn { padding: 6px 12px; font-size: 12px; }
+}
