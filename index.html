@@ -352,6 +352,15 @@
   if (!cfg) return;
   var site = cfg.site || {};
 
+  // Wrap getIcon to strip any trailing '"> ' artifacts that some SVG strings produce
+  var _getIcon = getIcon;
+  getIcon = function (name, size) {
+    var s = _getIcon(name, size) || '';
+    // Remove any stray '"> ' or '">' that appears after a self-closing tag
+    s = s.replace(/\s*"\s*>\s*$/g, '').replace(/\/>\s*">/g, '/>');
+    return s;
+  };
+
   // favicon
   if (site.faviconUrl) document.getElementById('site-favicon').href = site.faviconUrl;
 
