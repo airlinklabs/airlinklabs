@@ -146,7 +146,7 @@
       <p>Extend the panel without touching core code.</p>
     </div>
 
-    <div class="addons-info-grid fade-up" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:36px;margin-bottom:56px;">
+    <div class="addons-info-grid fade-up">
       <div>
         <h3 style="font-size:18px;margin-bottom:12px;">How It Works</h3>
         <p style="font-size:14px;color:var(--text3);line-height:1.75;">Each addon lives in its own folder under <code>panel/storage/addons/</code>. When enabled, it gets full access to the router, database, and UI system. Addons are isolated — enabling or disabling one never breaks the rest of the panel.</p>
@@ -167,7 +167,7 @@
       </div>
     </div>
 
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;" class="fade-up">
+    <div class="addons-subheader fade-up">
       <div>
         <h3 style="font-size:20px;margin-bottom:4px;">Community Addons</h3>
         <p style="color:var(--text3);font-size:14px;">From the <code>airlinklabs/addons</code> registry. Click any card for details.</p>
@@ -511,12 +511,20 @@
   // ---- Addons from registry ----
   var _registryAddons = [];
 
-  function renderIcon(addon) {
-    if (addon.iconType === 'svg' && addon.icon) return addon.icon;
+  // Safe icon injection: always uses DOM, never inline onerror strings
+  function injectIcon(containerEl, addon, size) {
+    size = size || 22;
+    containerEl.innerHTML = '';
     if (addon.icon) {
-      return '<img src="' + escHtml(addon.icon) + '" alt="" onerror="this.parentElement.innerHTML=\'' + getIcon('puzzle', 22).replace(/'/g,"&#39;") + '\'">';
+      var img = document.createElement('img');
+      img.src = addon.icon;
+      img.alt = '';
+      img.style.cssText = 'width:' + size + 'px;height:' + size + 'px;object-fit:contain;display:block;flex-shrink:0;';
+      img.onerror = function () { containerEl.innerHTML = getIcon('puzzle', size); };
+      containerEl.appendChild(img);
+    } else {
+      containerEl.innerHTML = getIcon('puzzle', size);
     }
-    return getIcon('puzzle', 22);
   }
 
   function buildAddons(addons) {
@@ -532,7 +540,7 @@
       card.dataset.addonId = addon.id;
       card.innerHTML =
         '<div class="addon-card-header">' +
-          '<div class="addon-icon">' + renderIcon(addon) + '</div>' +
+          '<div class="addon-icon"></div>' +
           '<div class="addon-meta">' +
             '<div class="addon-name">' + escHtml(addon.name) + '</div>' +
             '<div class="addon-author">by ' + escHtml(addon.author || '') + '</div>' +
@@ -545,11 +553,13 @@
           '<span>' + escHtml(addon.version || '') + '</span>' +
           '<span class="addon-hint">Details ' + getIcon('arrowRight', 11) + '</span>' +
         '</div>';
+      // inject icon safely via DOM after innerHTML is set
+      injectIcon(card.querySelector('.addon-icon'), addon, 22);
       grid.appendChild(card);
     });
 
-    // "View all" card if there are more
-    if (addons.length > 5 || true) {
+    // "View all" card
+    if (addons.length >= 0) {
       var moreCard = document.createElement('div');
       moreCard.className = 'addon-card-coming fade-up';
       moreCard.id = 'view-all-card';
@@ -586,27 +596,33 @@
     .then(function (contents) {
       var folders = contents.filter(function (i) { return i.type === 'dir' && !i.name.startsWith('.'); });
       return Promise.all(folders.slice(0, 6).map(function (f) {
-        return fetch('https://raw.githubusercontent.com/' + ADDONS_REPO + '/main/' + f.name + '/info.json')
+        var base = 'https://raw.githubusercontent.com/' + ADDONS_REPO + '/main/' + f.name;
+        return fetch(base + '/info.json')
           .then(function (r) { return r.ok ? r.json() : null; })
           .then(function (pkg) {
             if (!pkg) return null;
-            return {
-              id: f.name,
-              name: pkg.name || f.name,
-              version: pkg.version || '',
-              description: pkg.description || '',
-              longDescription: pkg.longDescription || pkg.description || '',
-              author: pkg.author || '',
-              tags: pkg.tags || [],
-              status: pkg.status || 'working',
-              icon: pkg.icon || '',
-              iconType: pkg.iconType || 'url',
-              features: pkg.features || [],
-              github: pkg.github || 'https://github.com/' + ADDONS_REPO + '/tree/main/' + f.name,
-              installNote: pkg.installNote || '',
-              installSteps: [],
-              screenshots: pkg.screenshots || []
-            };
+            return fetch(base + '/install.json')
+              .then(function (r) { return r.ok ? r.json() : {}; })
+              .catch(function () { return {}; })
+              .then(function (inst) {
+                return {
+                  id: f.name,
+                  name: pkg.name || f.name,
+                  version: pkg.version || '',
+                  description: pkg.description || '',
+                  longDescription: pkg.longDescription || pkg.description || '',
+                  author: pkg.author || '',
+                  tags: pkg.tags || [],
+                  status: pkg.status || 'working',
+                  icon: pkg.icon || '',
+                  iconType: pkg.iconType || 'url',
+                  features: pkg.features || [],
+                  github: pkg.github || 'https://github.com/' + ADDONS_REPO + '/tree/main/' + f.name,
+                  installNote: inst.note || '',
+                  installSteps: inst.steps || [],
+                  screenshots: pkg.screenshots || []
+                };
+              });
           })
           .catch(function () { return null; });
       }));
@@ -703,7 +719,7 @@
     addonOverlay.querySelector('[data-tab="overview"]').classList.add('active');
     document.getElementById('ap-overview').classList.add('active');
 
-    document.getElementById('ap-icon').innerHTML = renderIcon(addon);
+    injectIcon(document.getElementById('ap-icon'), addon, 28);
     document.getElementById('ap-name').textContent   = addon.name;
     document.getElementById('ap-byline').textContent = 'by ' + (addon.author || 'Unknown') + ' · ' + (addon.version || '');
     document.getElementById('ap-github-btn').href    = addon.github || '#';
@@ -779,8 +795,9 @@
 })();
 </script>
 
-<!-- Inline style additions for skeleton + nav tweaks -->
+<!-- Inline style additions -->
 <style>
+  /* ── Skeleton loaders ── */
   .addon-card-skeleton {
     background: var(--bg2);
     border: 1px solid var(--border);
@@ -793,7 +810,65 @@
     50% { opacity: 0.35; }
   }
 
-  /* ── Navbar desktop refinements ────── */
+  /* ── Addon icon: constrained, never bleeds ── */
+  .addon-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+  }
+  .addon-icon img, .addon-popup-icon img {
+    display: block;
+    object-fit: contain;
+  }
+  .addon-popup-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+  }
+
+  /* ── Popup action buttons: wrap on small screens ── */
+  .addon-popup-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .addon-popup-btns .btn {
+    flex: 1 1 120px;
+    min-width: 0;
+    justify-content: center;
+  }
+
+  /* ── Addons info grid: sane mobile spacing ── */
+  .addons-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 600px) {
+    .addons-info-grid {
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+  }
+
+  /* ── Addons section subheader row: wrap cleanly ── */
+  .addons-subheader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  /* ── Navbar desktop ── */
   @media (min-width: 821px) {
     .nav-links a, .nav-links button.nav-link-btn {
       font-size: 13px;
@@ -803,27 +878,13 @@
     .nav-actions .btn-primary { padding: 7px 14px; }
   }
 
-  /* ── Mobile: hide Discord + GitHub buttons, only show theme + hamburger ── */
+  /* ── Navbar mobile ── */
   @media (max-width: 820px) {
-    #nav-discord,
-    #nav-github {
-      display: none !important;
-    }
-    /* nav-links is hidden on mobile but still takes up space via flex:1 — remove that */
-    .nav-links {
-      flex: 0 !important;
-    }
-    /* push actions to the right with auto margin on brand instead */
-    .nav-brand {
-      margin-right: auto;
-    }
-    .nav-actions {
-      gap: 6px;
-      margin-left: 0;
-    }
+    #nav-discord, #nav-github { display: none !important; }
+    .nav-links { flex: 0 !important; }
+    .nav-brand { margin-right: auto; }
+    .nav-actions { gap: 6px; margin-left: 0; }
   }
-
-  /* ── Hide mobile-only nav items on desktop ── */
   @media (min-width: 821px) {
     .nav-mobile-only { display: none !important; }
   }
