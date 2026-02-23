@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AirLink Panel</title>
+  <meta name="description" content="Open-source game server management platform with powerful addon support">
+  <link rel="icon" id="site-favicon" href="" type="image/x-icon">
+  <link rel="stylesheet" href="public/css/base.css">
+  <link rel="stylesheet" href="public/css/nav.css">
+  <link rel="stylesheet" href="public/css/sections.css">
+  <script src="public/js/icons.js"></script>
+  <script src="public/js/config.js"></script>
+</head>
+<body>
+
+<!-- ── Navbar ───────────────────────────────── -->
+<nav class="navbar">
+  <div class="container">
+    <a class="nav-brand" href="index.html">
+      <img src="public/assets/plane.png" alt="AirLink" id="nav-logo"
+        onerror="this.style.display='none'">
+      <span class="nav-brand-name" id="site-title">AirLink</span>
+      <span class="nav-brand-ver" id="site-version">v1.0.0 beta</span>
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#install">Install</a></li>
+      <li><a href="#addons">Addons</a></li>
+      <li><a href="marketplace/">Marketplace</a></li>
+      <li><a href="#team">Team</a></li>
+      <li>
+        <button class="nav-link-btn" id="btn-announcements">
+          <span id="announcements-icon"></span> Announcements
+        </button>
+      </li>
+      <li>
+        <button class="nav-link-btn" id="btn-docs">
+          <span id="docs-icon"></span> Docs
+        </button>
+      </li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="theme-btn" id="themeBtn" aria-label="Toggle theme"></button>
+      <a id="nav-github" href="#" class="btn btn-ghost" target="_blank" rel="noopener">
+        <span id="nav-github-icon"></span> GitHub
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ─────────────────────────────────── -->
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <div class="screenshot-track" id="screenshot-track">
+      <img src="public/assets/screenshot-1.jpg" alt="">
+      <img src="public/assets/screenshot-2.jpg" alt="">
+      <img src="public/assets/screenshot-3.jpg" alt="">
+      <img src="public/assets/screenshot-4.jpg" alt="">
+      <img src="public/assets/screenshot-5.jpg" alt="">
+      <img src="public/assets/screenshot-6.jpg" alt="">
+      <img src="public/assets/screenshot-1.jpg" alt="">
+      <img src="public/assets/screenshot-2.jpg" alt="">
+      <img src="public/assets/screenshot-3.jpg" alt="">
+      <img src="public/assets/screenshot-4.jpg" alt="">
+      <img src="public/assets/screenshot-5.jpg" alt="">
+      <img src="public/assets/screenshot-6.jpg" alt="">
+    </div>
+  </div>
+  <div class="hero-fade"></div>
+  <div class="hero-fade-sides"></div>
+
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-eyebrow" id="hero-eyebrow">
+        <span id="eyebrow-icon"></span>
+        Open Source &bull; MIT License
+      </div>
+      <h1>
+        Game server management<br>
+        that actually <span>makes sense</span>
+      </h1>
+      <p class="hero-desc">
+        AirLink is an open-source panel built with TypeScript — handles multiple
+        game servers, user permissions, and extends through addons without touching
+        core code.
+      </p>
+      <div class="hero-actions">
+        <a href="#install" class="btn btn-primary btn-lg">Get Started</a>
+        <a id="hero-discord" href="#" class="btn btn-ghost btn-lg" target="_blank" rel="noopener">
+          <span id="hero-discord-icon"></span> Discord
+        </a>
+      </div>
+
+      <div class="hero-stats" id="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num" id="stat-stars">—</div>
+          <div class="hero-stat-label">GitHub Stars</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num" id="stat-contributors">—</div>
+          <div class="hero-stat-label">Contributors</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num" id="stat-commits">—</div>
+          <div class="hero-stat-label">Commits</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">2</div>
+          <div class="hero-stat-label">Repositories</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Features ─────────────────────────────── -->
+<section class="section section-alt" id="features">
+  <div class="container">
+    <div class="section-header fade-up">
+      <h2>Core Features</h2>
+      <p>Click any card to see screenshots and full details.</p>
+    </div>
+    <div class="features-grid" id="features-grid">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ── Install ───────────────────────────────── -->
+<section class="section" id="install">
+  <div class="container">
+    <div class="section-header fade-up">
+      <h2>Installation</h2>
+      <p>Pick how you want to set things up.</p>
+    </div>
+    <div class="install-wrap fade-up" id="install-wrap">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ── Addons ────────────────────────────────── -->
+<section class="section section-alt" id="addons">
+  <div class="container">
+    <div class="section-header fade-up">
+      <h2>Addon System</h2>
+      <p>Extend the panel without touching core code.</p>
+    </div>
+
+    <!-- how addons work -->
+    <div class="addons-info-grid fade-up" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:36px;margin-bottom:56px;">
+      <div>
+        <h3 style="font-size:18px;margin-bottom:12px;">How It Works</h3>
+        <p style="font-size:14px;color:var(--text3);line-height:1.75;">Each addon lives in its own folder under <code>panel/storage/addons/</code>. When enabled, it gets full access to the router, database, and UI system. Addons are isolated — enabling or disabling one never breaks the rest of the panel.</p>
+        <p style="font-size:14px;color:var(--text3);line-height:1.75;margin-top:10px;">Migrations are defined in <code>package.json</code> and run automatically. Applied migrations are tracked so they never run twice.</p>
+      </div>
+      <div>
+        <h3 style="font-size:18px;margin-bottom:12px;">Basic Structure</h3>
+        <div class="code-block">
+          <code>my-addon/</code>
+          <code>├── package.json</code>
+          <code>├── index.ts</code>
+          <code>├── views/</code>
+          <code>│   └── main.ejs</code>
+          <code>└── lib/</code>
+          <code>    └── helpers.ts</code>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size:20px;margin-bottom:6px;" class="fade-up">Community Addons</h3>
+    <p style="color:var(--text3);font-size:14px;margin-bottom:8px;" class="fade-up">Ready-to-use addons. Click any card for details and install steps.</p>
+
+    <div class="addons-grid" id="addons-grid">
+      <!-- populated by JS, then coming-soon card appended -->
+    </div>
+  </div>
+</section>
+
+<!-- ── Commits / Activity ──────────────────── -->
+<section class="commits-section" id="activity">
+  <div class="container">
+    <div class="section-header fade-up">
+      <h2>Recent Activity</h2>
+      <p>Latest commits across both repositories.</p>
+    </div>
+    <div class="commits-grid">
+      <div class="commits-repo-card fade-up">
+        <div class="commits-repo-header">
+          <span class="commits-repo-label" id="panel-repo-label">panel</span>
+          <button class="btn btn-ghost btn-view-commits" style="font-size:12px;padding:5px 11px;" id="btn-view-panel" data-repo="AirlinkLabs/panel">View history</button>
+        </div>
+        <div class="commit-list" id="preview-panel">
+          <div class="commit-loading">Loading...</div>
+        </div>
+      </div>
+      <div class="commits-repo-card fade-up fade-up-d1">
+        <div class="commits-repo-header">
+          <span class="commits-repo-label" id="daemon-repo-label">daemon</span>
+          <button class="btn btn-ghost btn-view-commits" style="font-size:12px;padding:5px 11px;" id="btn-view-daemon" data-repo="AirlinkLabs/daemon">View history</button>
+        </div>
+        <div class="commit-list" id="preview-daemon">
+          <div class="commit-loading">Loading...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Team ─────────────────────────────────── -->
+<section class="section section-alt" id="team">
+  <div class="container">
+    <div class="section-header fade-up">
+      <h2>The Team</h2>
+      <p>People building and maintaining AirLink Panel.</p>
+    </div>
+
+    <div class="contrib-header-row fade-up">
+      <div class="contrib-stats">
+        <div class="contrib-stat">
+          <div class="contrib-stat-num" id="stat-contributors">—</div>
+          <div class="contrib-stat-label">Contributors</div>
+        </div>
+        <div class="contrib-stat">
+          <div class="contrib-stat-num" id="stat-commits">—</div>
+          <div class="contrib-stat-label">Total Commits</div>
+        </div>
+        <div class="contrib-stat">
+          <div class="contrib-stat-num" id="stat-stars-team">—</div>
+          <div class="contrib-stat-label">Stars</div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--text3);font-family:var(--mono);">Click any card for full profile</p>
+    </div>
+
+    <div class="contrib-grid" id="contributors-grid">
+      <div style="color:var(--text3);font-family:var(--mono);font-size:13px;padding:24px;">Loading contributors...</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ───────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-brand-row">
+          <img src="public/assets/plane.png" alt="AirLink" onerror="this.style.display='none'">
+          <span id="footer-title">AirLink Panel</span>
+        </div>
+        <p>Open-source game server management. MIT licensed — fork it, modify it, use it.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#install">Installation</a></li>
+          <li><a href="#addons">Addons</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="docs/readme/">Announcements</a></li>
+          <li><a href="docs/quickstart/">Quick Start</a></li>
+          <li><a href="docs/addons/">Addon Docs</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Links</h4>
+        <ul>
+          <li><a id="footer-discord" href="#">Discord</a></li>
+          <li><a id="footer-github" href="#" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a id="footer-issues" href="#" target="_blank" rel="noopener">Issues</a></li>
+          <li><a id="footer-license" href="#" target="_blank" rel="noopener">MIT License</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p style="font-size:11px;color:var(--text3);">Made by the Thavanish</p>
+      <p style="font-size:11px;color:var(--text3);">
+        <a href="docs/readme/" style="color:var(--text3);">Announcements</a> &bull;
+        <a href="docs/quickstart/" style="color:var(--text3);">Docs</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- ── Feature popup ─────────────────────────── -->
+<div class="feat-overlay" id="feat-overlay">
+  <div class="feat-popup">
+    <div class="feat-slideshow" id="feat-slideshow"></div>
+    <div class="feat-popup-body">
+      <h2 id="feat-title"></h2>
+      <div id="feat-desc"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Addon popup ───────────────────────────── -->
+<div class="addon-overlay" id="addon-overlay">
+  <div class="addon-popup">
+    <div class="addon-popup-slideshow" id="addon-slideshow" style="display:none"></div>
+    <div class="addon-popup-header">
+      <div class="addon-popup-top">
+        <div class="addon-popup-icon" id="ap-icon"></div>
+        <div class="addon-popup-name-block">
+          <div class="addon-popup-name" id="ap-name"></div>
+          <div class="addon-popup-byline" id="ap-byline"></div>
+        </div>
+        <button class="addon-popup-close" id="ap-close"></button>
+      </div>
+      <div class="addon-popup-btns">
+        <a id="ap-github-btn" href="#" target="_blank" rel="noopener" class="btn btn-ghost">
+          <span id="ap-github-icon"></span> GitHub
+        </a>
+        <button id="ap-install-btn" class="btn btn-primary">
+          <span id="ap-dl-icon"></span> Install
+        </button>
+      </div>
+    </div>
+    <div class="addon-popup-body">
+      <div class="addon-tab-bar">
+        <button class="addon-tab active" data-tab="overview">Overview</button>
+        <button class="addon-tab" data-tab="install">Installation</button>
+      </div>
+      <div class="addon-panel active" id="ap-overview">
+        <p class="addon-desc-text" id="ap-desc"></p>
+        <div id="ap-features"></div>
+      </div>
+      <div class="addon-panel" id="ap-install">
+        <div id="ap-steps"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Submit addon popup ────────────────────── -->
+<div class="submit-overlay" id="submit-overlay">
+  <div class="submit-popup">
+    <div class="submit-popup-header">
+      <h2>Community Add-ons</h2>
+      <button class="submit-close" id="submit-close"></button>
+    </div>
+    <p>
+      We're building a community addon registry! Soon you'll be able to browse and install
+      addons from the community directly from this page.
+    </p>
+    <p>Want to submit your addon? Here's how:</p>
+    <ol>
+      <li>Make sure your addon works with the latest version of AirLink Panel</li>
+      <li>Add a <code>README.md</code> to your addon repository with install instructions</li>
+      <li>Fork this documentation repository on GitHub</li>
+      <li>Add your addon's info to <code>config.json</code> in the <code>addons</code> array</li>
+      <li>Open a Pull Request with a clear description of what your addon does</li>
+    </ol>
+    <div class="code-block" style="margin-bottom:18px;">
+      <code># Fork the repo first, then:</code>
+      <code>git clone https://github.com/YOUR_USERNAME/panel-docs</code>
+      <code>cd panel-docs</code>
+      <code># edit config.json, add your addon</code>
+      <code>git commit -am "feat: add my-addon to community list"</code>
+      <code>git push origin main</code>
+      <code># then open a PR on GitHub!</code>
+    </div>
+    <div class="submit-popup-btns">
+      <a id="submit-pr-btn" href="#" class="btn btn-primary" target="_blank" rel="noopener">
+        <span id="submit-pr-icon"></span> Open PR on GitHub
+      </a>
+      <button class="btn btn-ghost" id="submit-dismiss">Maybe later</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Docs popup / explorer ─────────────────── -->
+<div class="feat-overlay" id="docs-overlay">
+  <div class="feat-popup" style="max-width:520px;">
+    <div class="feat-popup-body" style="padding:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h2 style="font-size:18px;display:flex;align-items:center;gap:8px;">
+          <span id="docs-popup-icon"></span> Documentation
+        </h2>
+        <button class="addon-popup-close" id="docs-popup-close"></button>
+      </div>
+      <div id="docs-popup-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="public/js/main.js"></script>
+<script src="public/js/nav.js"></script>
+<script src="public/js/install.js"></script>
+<script src="public/js/commits.js"></script>
+<script src="public/js/contributors.js"></script>
+
+<script>
+(function () {
+  var cfg = window.SITE_CONFIG;
+  if (!cfg) return;
+  var site = cfg.site || {};
+
+  // favicon
+  if (site.faviconUrl) document.getElementById('site-favicon').href = site.faviconUrl;
+
+  // title / version
+  var rawTitle = site.title || 'AirLink';
+  document.title = rawTitle.toLowerCase().indexOf('panel') !== -1 ? rawTitle : rawTitle + ' Panel';
+  var titleEl = document.getElementById('site-title');
+  var verEl = document.getElementById('site-version');
+  if (titleEl) titleEl.textContent = site.title || 'AirLink';
+  if (verEl) verEl.textContent = site.versionLabel || 'v1.0.0 beta';
+  var footerTitleEl = document.getElementById('footer-title');
+  if (footerTitleEl) footerTitleEl.textContent = rawTitle.toLowerCase().indexOf('panel') !== -1 ? rawTitle : rawTitle + ' Panel';
+
+  // icons in nav
+  document.getElementById('nav-github-icon').innerHTML = getIcon('github');
+  document.getElementById('announcements-icon').innerHTML = getIcon('fileText');
+  document.getElementById('docs-icon').innerHTML = getIcon('book');
+
+  // hero
+  document.getElementById('eyebrow-icon').innerHTML = getIcon('bolt', 12);
+  document.getElementById('hero-discord-icon').innerHTML = getIcon('discord');
+
+  // links
+  var panelUrl = site.githubPanel ? 'https://github.com/' + site.githubPanel : '#';
+  var daemonUrl = site.githubDaemon ? 'https://github.com/' + site.githubDaemon : '#';
+  var discordUrl = site.discordUrl || '#';
+
+  document.getElementById('nav-github').href = panelUrl;
+  document.getElementById('hero-discord').href = discordUrl;
+  document.getElementById('footer-discord').href = discordUrl;
+  document.getElementById('footer-github').href = panelUrl;
+  document.getElementById('footer-issues').href = panelUrl + '/issues';
+  document.getElementById('footer-license').href = panelUrl + '/blob/main/LICENSE';
+
+  // commit section
+  var panelLabel = document.getElementById('panel-repo-label');
+  var daemonLabel = document.getElementById('daemon-repo-label');
+  var btnPanel = document.getElementById('btn-view-panel');
+  var btnDaemon = document.getElementById('btn-view-daemon');
+  if (panelLabel) panelLabel.textContent = site.githubPanel || 'panel';
+  if (daemonLabel) daemonLabel.textContent = site.githubDaemon || 'daemon';
+  if (btnPanel) btnPanel.dataset.repo = site.githubPanel || '';
+  if (btnDaemon) btnDaemon.dataset.repo = site.githubDaemon || '';
+
+  // stars counter
+  var repoList = [site.githubPanel, site.githubDaemon].filter(Boolean);
+  Promise.all(repoList.map(function (r) {
+    return cachedFetch('repo-' + r, 'https://api.github.com/repos/' + r).catch(function () { return null; });
+  })).then(function (data) {
+    var total = data.reduce(function (s, d) { return s + (d ? (d.stargazers_count || 0) : 0); }, 0);
+    var starEl = document.getElementById('stat-stars');
+    var starTeamEl = document.getElementById('stat-stars-team');
+    if (starEl) starEl.textContent = total || '—';
+    if (starTeamEl) starTeamEl.textContent = total || '—';
+  });
+
+  // ---- Features grid ----
+  function buildFeatures() {
+    var grid = document.getElementById('features-grid');
+    var features = cfg.features || [];
+    if (!grid || !features.length) return;
+    var delays = ['', 'fade-up-d1', 'fade-up-d2', 'fade-up-d3', 'fade-up-d4', 'fade-up-d5'];
+    features.forEach(function (f, i) {
+      var card = document.createElement('div');
+      card.className = 'feature-card fade-up ' + (delays[i % 6] || '');
+      card.dataset.featureId = f.id;
+      card.dataset.title = f.title;
+      card.dataset.desc = f.description;
+      card.dataset.longdesc = f.longDescription;
+      card.dataset.icon = f.icon || 'puzzle';
+      card.dataset.folder = f.imageFolder || '';
+      card.innerHTML =
+        '<div class="feature-icon">' + getIcon(f.icon || 'puzzle') + '</div>' +
+        '<h3>' + escHtml(f.title) + '</h3>' +
+        '<p>' + escHtml(f.description) + '</p>' +
+        '<div class="feature-card-hint">Click to see details ' + getIcon('arrowRight', 11) + '</div>';
+      grid.appendChild(card);
+    });
+    initScrollAnimations();
+  }
+
+  // ---- Install wizard ----
+  function buildInstall() {
+    var wrap = document.getElementById('install-wrap');
+    var inst = cfg.install || {};
+    if (!wrap) return;
+
+    var reqs = (inst.requirements || []).map(function (r) { return '<li>' + escHtml(r) + '</li>'; }).join('');
+    var reqsHtml = '<div class="requirements"><h4>Requirements</h4><ul>' + reqs + '</ul></div>';
+
+    var quickHtml =
+      '<div class="install-panel" data-panel="quick">' +
+        '<div class="install-panel-header">' +
+          '<button class="btn btn-ghost btn-back">' + getIcon('arrowLeft') + ' Back</button>' +
+          '<h3>Quick Install</h3>' +
+        '</div>' +
+        '<p style="font-size:14px;color:var(--text3);margin-bottom:14px;">Run as root. Handles everything — dependencies, addons, systemd setup.</p>' +
+        '<div class="code-block"><code>' + escHtml(inst.quickInstallCommand || '') + '</code></div>' +
+        '<p style="font-size:13px;color:var(--text3);margin:12px 0 6px;">After install, manage with systemd:</p>' +
+        '<div class="code-block">' + (inst.systemdCommands || []).map(function (c) { return '<code>' + escHtml(c) + '</code>'; }).join('') + '</div>' +
+        reqsHtml +
+      '</div>';
+
+    var stepsHtml = (inst.manualSteps || []).map(function (s, i) {
+      return '<div class="install-step">' +
+        '<div class="install-step-num">' + (i + 1) + '</div>' +
+        '<div class="install-step-body">' +
+          '<h4>' + escHtml(s.title) + '</h4>' +
+          '<div class="code-block">' + s.commands.map(function (c) { return '<code>' + escHtml(c) + '</code>'; }).join('') + '</div>' +
+        '</div>' +
+        '</div>';
+    }).join('');
+
+    var manualHtml =
+      '<div class="install-panel" data-panel="manual">' +
+        '<div class="install-panel-header">' +
+          '<button class="btn btn-ghost btn-back">' + getIcon('arrowLeft') + ' Back</button>' +
+          '<h3>Manual Install</h3>' +
+        '</div>' +
+        '<div class="install-steps">' + stepsHtml + '</div>' +
+        reqsHtml +
+      '</div>';
+
+    wrap.innerHTML =
+      '<div class="install-choice-grid">' +
+        '<button class="install-choice btn-quick">' +
+          '<div class="install-choice-icon">' + getIcon('bolt', 22) + '</div>' +
+          '<h3>Quick Install</h3>' +
+          '<p>One command. Handles everything including deps and systemd.</p>' +
+        '</button>' +
+        '<button class="install-choice btn-manual">' +
+          '<div class="install-choice-icon">' + getIcon('code', 22) + '</div>' +
+          '<h3>Manual Install</h3>' +
+          '<p>Step by step. Full control over every part of setup.</p>' +
+        '</button>' +
+      '</div>' +
+      quickHtml + manualHtml;
+
+    initInstallWizard();
+    initCopyButtons();
+  }
+
+  // ---- Addons grid ----
+  function buildAddons() {
+    var grid = document.getElementById('addons-grid');
+    var addons = cfg.addons || [];
+    if (!grid) return;
+
+    addons.forEach(function (addon, i) {
+      var card = document.createElement('div');
+      card.className = 'addon-card fade-up';
+      card.dataset.addonId = addon.id;
+      var tags = (addon.tags || []).map(function (t) { return '<span class="tag">' + escHtml(t) + '</span>'; }).join('');
+      card.innerHTML =
+        '<div class="addon-card-header">' +
+          '<div class="addon-icon">' +
+            (addon.iconFile
+              ? '<img src="' + escHtml(addon.iconFile) + '" alt="' + escHtml(addon.name) + '" onerror="this.parentElement.innerHTML=\'' + getIcon('puzzle', 22).replace(/'/g,"&#39;") + '\'">'
+              : getIcon('puzzle', 22)) +
+          '</div>' +
+          '<div class="addon-meta">' +
+            '<div class="addon-name">' + escHtml(addon.name) + '</div>' +
+            '<div class="addon-author">by ' + escHtml(addon.author || '') + '</div>' +
+          '</div>' +
+          '<span class="badge badge-green">' + escHtml(addon.status || 'working') + '</span>' +
+        '</div>' +
+        '<p class="addon-desc">' + escHtml(addon.description) + '</p>' +
+        '<div class="addon-tags">' + tags + '</div>' +
+        '<div class="addon-footer">' +
+          '<span>' + escHtml(addon.version || '') + '</span>' +
+          '<span class="addon-hint">Details ' + getIcon('arrowRight', 11) + '</span>' +
+        '</div>';
+      grid.appendChild(card);
+    });
+
+    // Community coming soon card - links to marketplace page
+    var comingCard = document.createElement('div');
+    comingCard.className = 'addon-card-coming fade-up';
+    comingCard.id = 'coming-soon-card';
+    comingCard.innerHTML =
+      '<div class="addon-card-coming-icon">' + getIcon('puzzle', 28) + '</div>' +
+      '<h3>Community Add-ons</h3>' +
+      '<p>Browse the full marketplace or submit your own</p>' +
+      '<span class="addon-coming-btn">Open Marketplace ' + getIcon('arrowRight', 12) + '</span>';
+    grid.appendChild(comingCard);
+
+    initScrollAnimations();
+  }
+
+  // ---- Feature popup ----
+  var featOverlay = document.getElementById('feat-overlay');
+  var featSlideshow = document.getElementById('feat-slideshow');
+  var featTitle = document.getElementById('feat-title');
+  var featDesc = document.getElementById('feat-desc');
+
+  function closeFeat() {
+    featOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  featOverlay.addEventListener('click', function (e) { if (e.target === featOverlay) closeFeat(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeFeat(); });
+
+  document.addEventListener('click', function (e) {
+    var card = e.target.closest('.feature-card');
+    if (!card) return;
+    var title = card.dataset.title || '';
+    var desc = card.dataset.desc || '';
+    var longDesc = card.dataset.longdesc || '';
+    var iconKey = card.dataset.icon || 'puzzle';
+    var folder = card.dataset.folder || '';
+
+    featTitle.textContent = title;
+    featDesc.innerHTML = '';
+    if (desc) { var p1 = document.createElement('p'); p1.textContent = desc; featDesc.appendChild(p1); }
+    if (longDesc) { var p2 = document.createElement('p'); p2.textContent = longDesc; featDesc.appendChild(p2); }
+
+    featSlideshow.innerHTML = '<div class="feat-slide-empty">' + getIcon('bolt', 28) + '</div>';
+    if (folder) {
+      loadImagesFromFolder(folder, function (images) {
+        makeSlideshow(featSlideshow, images, iconKey, {
+          closeBtn: closeFeat,
+          arrowClass: 'feat-slide-arrow',
+          imgClass: 'feat-slide-img',
+          dotClass: 'feat-dot',
+          emptyClass: 'feat-slide-empty'
+        });
+      });
+    } else {
+      makeSlideshow(featSlideshow, [], iconKey, { closeBtn: closeFeat, arrowClass: 'feat-slide-arrow', imgClass: 'feat-slide-img', dotClass: 'feat-dot', emptyClass: 'feat-slide-empty' });
+    }
+
+    featOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+
+  // ---- Addon popup ----
+  var addonOverlay = document.getElementById('addon-overlay');
+  var apClose = document.getElementById('ap-close');
+  document.getElementById('ap-github-icon').innerHTML = getIcon('github');
+  document.getElementById('ap-dl-icon').innerHTML = getIcon('download');
+  apClose.innerHTML = getIcon('close');
+
+  function closeAddon() {
+    addonOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  addonOverlay.addEventListener('click', function (e) { if (e.target === addonOverlay) closeAddon(); });
+  apClose.addEventListener('click', closeAddon);
+
+  addonOverlay.querySelectorAll('.addon-tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      addonOverlay.querySelectorAll('.addon-tab, .addon-panel').forEach(function (el) { el.classList.remove('active'); });
+      tab.classList.add('active');
+      document.getElementById('ap-' + tab.dataset.tab).classList.add('active');
+    });
+  });
+
+  document.getElementById('ap-install-btn').addEventListener('click', function () {
+    addonOverlay.querySelectorAll('.addon-tab, .addon-panel').forEach(function (el) { el.classList.remove('active'); });
+    addonOverlay.querySelector('[data-tab="install"]').classList.add('active');
+    document.getElementById('ap-install').classList.add('active');
+  });
+
+  function openAddonPopup(addon) {
+    // reset tabs
+    addonOverlay.querySelectorAll('.addon-tab, .addon-panel').forEach(function (el) { el.classList.remove('active'); });
+    addonOverlay.querySelector('[data-tab="overview"]').classList.add('active');
+    document.getElementById('ap-overview').classList.add('active');
+
+    // icon
+    var iconEl = document.getElementById('ap-icon');
+    iconEl.innerHTML = addon.iconFile
+      ? '<img src="' + escHtml(addon.iconFile) + '" alt="' + escHtml(addon.name) + '" onerror="this.parentElement.innerHTML=\'' + getIcon('puzzle', 24).replace(/'/g,"&#39;") + '\'">'
+      : getIcon('puzzle', 24);
+
+    document.getElementById('ap-name').textContent = addon.name;
+    document.getElementById('ap-byline').textContent = 'by ' + (addon.author || 'Unknown') + ' · ' + (addon.version || '');
+    document.getElementById('ap-github-btn').href = addon.github || '#';
+    document.getElementById('ap-desc').textContent = addon.longDescription || addon.description;
+
+    // slideshow
+    var slideEl = document.getElementById('addon-slideshow');
+    slideEl.style.display = 'none';
+    if (addon.imageFolder) {
+      loadImagesFromFolder(addon.imageFolder, function (images) {
+        if (images.length) {
+          slideEl.style.display = '';
+          makeSlideshow(slideEl, images, 'puzzle', {
+            arrowClass: 'feat-slide-arrow',
+            imgClass: 'addon-slide-img',
+            dotClass: 'feat-dot',
+            emptyClass: 'feat-slide-empty'
+          });
+        }
+      });
+    }
+
+    // features
+    var featEl = document.getElementById('ap-features');
+    featEl.innerHTML = '';
+    if (addon.features && addon.features.length) {
+      var title = document.createElement('div');
+      title.className = 'addon-feat-title';
+      title.textContent = 'Features';
+      featEl.appendChild(title);
+      addon.features.forEach(function (f) {
+        var item = document.createElement('div');
+        item.className = 'addon-feat-item';
+        item.innerHTML = '<span class="addon-feat-check">' + getIcon('check', 13) + '</span>' + escHtml(f);
+        featEl.appendChild(item);
+      });
+    }
+
+    // install steps
+    var stepsEl = document.getElementById('ap-steps');
+    stepsEl.innerHTML = '';
+    if (addon.installSteps) {
+      addon.installSteps.forEach(function (s, i) {
+        var step = document.createElement('div');
+        step.className = 'addon-step';
+        step.innerHTML =
+          '<div class="addon-step-num">' + (i + 1) + '</div>' +
+          '<div class="addon-step-body">' +
+            '<h4>' + escHtml(s.title) + '</h4>' +
+            '<div class="code-block">' + s.commands.map(function (c) { return '<code>' + escHtml(c) + '</code>'; }).join('') + '</div>' +
+          '</div>';
+        stepsEl.appendChild(step);
+      });
+    }
+    if (addon.installNote) {
+      var note = document.createElement('div');
+      note.className = 'addon-note';
+      note.innerHTML = getIcon('info') + ' ' + escHtml(addon.installNote);
+      stepsEl.appendChild(note);
+    }
+    initCopyButtons();
+
+    addonOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // addon card click delegation
+  document.addEventListener('click', function (e) {
+    var card = e.target.closest('.addon-card');
+    if (!card) return;
+    var id = card.dataset.addonId;
+    var addon = (cfg.addons || []).find(function (a) { return a.id === id; });
+    if (addon) openAddonPopup(addon);
+  });
+
+  // coming soon card
+  var submitOverlay = document.getElementById('submit-overlay');
+  document.getElementById('submit-close').innerHTML = getIcon('close');
+  function closeSubmit() { submitOverlay.classList.remove('active'); document.body.style.overflow = ''; }
+  submitOverlay.addEventListener('click', function (e) { if (e.target === submitOverlay) closeSubmit(); });
+  document.getElementById('submit-close').addEventListener('click', closeSubmit);
+  document.getElementById('submit-dismiss').addEventListener('click', closeSubmit);
+
+  var submitPrBtn = document.getElementById('submit-pr-btn');
+  document.getElementById('submit-pr-icon').innerHTML = getIcon('pullRequest');
+  if (submitPrBtn) {
+    submitPrBtn.href = panelUrl ? panelUrl.replace('/panel', '/panel-docs') + '/pulls' : '#';
+  }
+
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('#coming-soon-card')) {
+      window.location.href = 'marketplace/';
+    }
+  });
+
+  // ---- Docs popup ----
+  var docsOverlay = document.getElementById('docs-overlay');
+  var docsClose = document.getElementById('docs-popup-close');
+  document.getElementById('docs-popup-icon').innerHTML = getIcon('book');
+  docsClose.innerHTML = getIcon('close');
+  function closeDocs() { docsOverlay.classList.remove('active'); document.body.style.overflow = ''; }
+  docsOverlay.addEventListener('click', function (e) { if (e.target === docsOverlay) closeDocs(); });
+  docsClose.addEventListener('click', closeDocs);
+
+  function openDocs() {
+    var list = document.getElementById('docs-popup-list');
+    var manifest = (cfg.docs && cfg.docs.manifest) || [];
+    list.innerHTML = '';
+
+    // readme first
+    var readmeItem = document.createElement('a');
+    readmeItem.href = 'docs/readme/';
+    readmeItem.style.cssText = 'display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:9px;border:1px solid var(--border);margin-bottom:8px;text-decoration:none;color:inherit;transition:all 0.18s;';
+    readmeItem.onmouseenter = function () { this.style.background = 'var(--bg3)'; };
+    readmeItem.onmouseleave = function () { this.style.background = ''; };
+    readmeItem.innerHTML =
+      '<div style="width:32px;height:32px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;">' + getIcon('fileText') + '</div>' +
+      '<div><div style="font-size:14px;font-weight:500;color:var(--text);">Announcements</div><div style="font-size:12px;color:var(--text3);">Project announcements and updates</div></div>' +
+      '<span style="margin-left:auto;color:var(--text3);">' + getIcon('chevRight') + '</span>';
+    list.appendChild(readmeItem);
+
+    manifest.forEach(function (doc) {
+      var item = document.createElement('a');
+      item.href = 'docs/' + doc.slug + '/';
+      item.style.cssText = 'display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:9px;border:1px solid var(--border);margin-bottom:8px;text-decoration:none;color:inherit;transition:all 0.18s;';
+      item.onmouseenter = function () { this.style.background = 'var(--bg3)'; };
+      item.onmouseleave = function () { this.style.background = ''; };
+      item.innerHTML =
+        '<div style="width:32px;height:32px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;">' + getIcon('book') + '</div>' +
+        '<div><div style="font-size:14px;font-weight:500;color:var(--text);">' + escHtml(doc.title) + '</div><div style="font-size:12px;color:var(--text3);">' + escHtml(doc.description) + '</div></div>' +
+        '<span style="margin-left:auto;color:var(--text3);">' + getIcon('chevRight') + '</span>';
+      list.appendChild(item);
+    });
+
+    docsOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  document.getElementById('btn-docs').addEventListener('click', openDocs);
+  document.getElementById('btn-announcements').addEventListener('click', function () {
+    window.location.href = 'docs/readme/';
+  });
+
+  // build everything
+  buildFeatures();
+  buildInstall();
+  buildAddons();
+})();
+</script>
+
+</body>
+</html>
