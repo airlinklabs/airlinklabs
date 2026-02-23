@@ -9,6 +9,17 @@
   <link rel="stylesheet" href="../public/css/nav.css">
   <link rel="stylesheet" href="../public/css/marketplace.css">
   <style>
+    /* Hide action buttons on mobile — links are in the drawer instead */
+    @media (max-width: 820px) {
+      #nav-discord, #nav-github { display: none !important; }
+      .nav-links { flex: 0 !important; }
+      .nav-brand { margin-right: auto; }
+      .nav-actions { gap: 6px; margin-left: 0; }
+    }
+    @media (min-width: 821px) {
+      .nav-mobile-only { display: none !important; }
+      #nav-discord { padding: 7px 10px; } /* icon-only compact */
+    }
     .mkt-source-badge {
       display: flex;
       align-items: center;
@@ -57,11 +68,13 @@
       <li><a href="../index.html#install">Install</a></li>
       <li><a href="../marketplace/" class="nav-active">Marketplace</a></li>
       <li><a href="../index.html#team">Team</a></li>
+      <li class="nav-mobile-only"><a id="nav-discord-mobile" href="#">Discord</a></li>
+      <li class="nav-mobile-only"><a id="nav-github-mobile" href="#" target="_blank" rel="noopener">GitHub</a></li>
     </ul>
     <div class="nav-actions">
       <button class="theme-btn" id="themeBtn" aria-label="Toggle theme"></button>
       <a id="nav-discord" href="#" class="btn btn-ghost" target="_blank" rel="noopener">
-        <span id="nav-discord-icon"></span> Discord
+        <span id="nav-discord-icon"></span>
       </a>
       <a id="nav-github" href="#" class="btn btn-ghost" target="_blank" rel="noopener">
         <span id="nav-github-icon"></span> GitHub
@@ -279,8 +292,15 @@
   document.getElementById('nav-discord-icon').innerHTML = getIcon('discord');
   var navGh = document.getElementById('nav-github');
   var navDc = document.getElementById('nav-discord');
-  if (navGh) navGh.href = site.githubPanel ? 'https://github.com/' + site.githubPanel : '#';
-  if (navDc) navDc.href = site.discordUrl || '#';
+  var panelUrl   = site.githubPanel ? 'https://github.com/' + site.githubPanel : '#';
+  var discordUrl = site.discordUrl || '#';
+  if (navGh) navGh.href = panelUrl;
+  if (navDc) navDc.href = discordUrl;
+  // mobile drawer links
+  var mobileGh = document.getElementById('nav-github-mobile');
+  var mobileDc = document.getElementById('nav-discord-mobile');
+  if (mobileGh) mobileGh.href = panelUrl;
+  if (mobileDc) mobileDc.href = discordUrl;
 
   // ui icons
   document.getElementById('mkt-search-icon').innerHTML  = getIcon('search');
