@@ -55,64 +55,224 @@
       50% { opacity: 0.4; }
     }
 
-    /* ── Popup button row: never overflow ── */
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       ADDON POPUP — fully self-contained
+       Uses !important throughout to beat
+       anything marketplace.css might set
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+    /* Overlay backdrop */
+    .addon-overlay {
+      position: fixed !important;
+      inset: 0 !important;
+      background: rgba(0,0,0,0.65) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 16px !important;
+      z-index: 1000 !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transition: opacity 0.18s ease !important;
+      box-sizing: border-box !important;
+    }
+    .addon-overlay.active {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+
+    /* The popup card */
+    .addon-popup {
+      position: relative !important;
+      background: var(--bg1, #111) !important;
+      border: 1px solid var(--border, #2a2a2a) !important;
+      border-radius: 14px !important;
+      width: 100% !important;
+      max-width: 600px !important;
+      max-height: 88vh !important;
+      display: flex !important;
+      flex-direction: column !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5) !important;
+      transform: translateY(8px) !important;
+      transition: transform 0.18s ease !important;
+    }
+    .addon-overlay.active .addon-popup {
+      transform: translateY(0) !important;
+    }
+
+    /* Slideshow (optional, sits above header) */
+    .addon-popup-slideshow {
+      flex-shrink: 0 !important;
+      max-height: 200px !important;
+      overflow: hidden !important;
+    }
+
+    /* Header section — fixed, never scrolls */
+    .addon-popup-header {
+      flex-shrink: 0 !important;
+      padding: 20px 20px 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Top row: icon · name · close button */
+    .addon-popup-top {
+      display: flex !important;
+      align-items: flex-start !important;
+      gap: 12px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Icon box */
+    .addon-popup-icon {
+      flex-shrink: 0 !important;
+      width: 44px !important;
+      height: 44px !important;
+      border-radius: 10px !important;
+      background: var(--bg2, #1a1a1a) !important;
+      border: 1px solid var(--border, #2a2a2a) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      overflow: hidden !important;
+    }
+    .addon-popup-icon img {
+      width: 28px !important;
+      height: 28px !important;
+      object-fit: contain !important;
+      display: block !important;
+    }
+
+    /* Name + byline block */
+    .addon-popup-name-block {
+      flex: 1 1 0% !important;
+      min-width: 0 !important;
+    }
+    .addon-popup-name {
+      font-size: 17px !important;
+      font-weight: 600 !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      color: var(--text1, #fff) !important;
+    }
+    .addon-popup-byline {
+      font-size: 12px !important;
+      color: var(--text3, #666) !important;
+      margin-top: 2px !important;
+    }
+
+    /* Meta row: version tag + status badge */
+    .addon-popup-meta {
+      display: flex !important;
+      align-items: center !important;
+      flex-wrap: wrap !important;
+      gap: 6px !important;
+      margin-top: 6px !important;
+    }
+
+    /* Close button — top-right, never pushes layout */
+    .addon-popup-close {
+      flex-shrink: 0 !important;
+      margin-left: auto !important;
+      width: 30px !important;
+      height: 30px !important;
+      border-radius: 8px !important;
+      background: var(--bg2, #1a1a1a) !important;
+      border: 1px solid var(--border, #2a2a2a) !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      color: var(--text3, #888) !important;
+      padding: 0 !important;
+      transition: background 0.15s, color 0.15s !important;
+    }
+    .addon-popup-close:hover {
+      background: var(--bg3, #222) !important;
+      color: var(--text1, #fff) !important;
+    }
+
+    /* Action buttons row */
     .addon-popup-btns {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 14px;
-      width: 100%;
-      box-sizing: border-box;
+      display: flex !important;
+      flex-direction: row !important;
+      gap: 8px !important;
+      margin-top: 14px !important;
+      padding-bottom: 16px !important;
+      border-bottom: 1px solid var(--border, #2a2a2a) !important;
+      box-sizing: border-box !important;
+      width: 100% !important;
     }
     .addon-popup-btns .btn {
-      flex: 1 1 50px;
-      min-width: 0;
-      max-width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
+      flex: 1 1 0% !important;
+      min-width: 0 !important;
+      justify-content: center !important;
+      text-align: center !important;
+      box-sizing: border-box !important;
+      padding: 8px 12px !important;
+      font-size: 13px !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
     }
-    /* Popup top row: icon + name block + close — keep close from pushing things off */
-    .addon-popup-top {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      width: 100%;
-      box-sizing: border-box;
-      min-width: 0;
-    }
-    .addon-popup-name-block {
-      flex: 1;
-      min-width: 0;
-    }
-    .addon-popup-close {
-      flex-shrink: 0;
-      margin-right: auto;
-    }
-    /* Popup itself: constrain to viewport */
-    .addon-popup {
-      max-width: min(640px, 96vw);
-      width: 100%;
-      box-sizing: border-box;
-      overflow: hidden;
-    }
-    @media (max-width: 480px) {
-      .addon-popup-btns .btn {
-        flex: 1 1 100%;
+    @media (max-width: 400px) {
+      .addon-popup-btns {
+        flex-direction: column !important;
       }
     }
 
-    /* ── Addon icon: always constrained ── */
-    .addon-icon img {
+    /* Scrollable body */
+    .addon-popup-body {
+      flex: 1 1 auto !important;
+      overflow-y: auto !important;
+      padding: 0 20px 20px !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Tab bar */
+    .addon-tab-bar {
+      display: flex !important;
+      gap: 4px !important;
+      padding: 14px 0 10px !important;
+      border-bottom: 1px solid var(--border, #2a2a2a) !important;
+      margin-bottom: 16px !important;
+    }
+    .addon-tab {
+      padding: 5px 14px !important;
+      border-radius: 7px !important;
+      font-size: 13px !important;
+      font-weight: 500 !important;
+      background: transparent !important;
+      border: none !important;
+      cursor: pointer !important;
+      color: var(--text3, #888) !important;
+      transition: background 0.15s, color 0.15s !important;
+    }
+    .addon-tab.active,
+    .addon-tab:hover {
+      background: var(--bg2, #1a1a1a) !important;
+      color: var(--text1, #fff) !important;
+    }
+    .addon-panel { display: none !important; }
+    .addon-panel.active { display: block !important; }
+
+    /* Addon icon on cards */
+    .addon-icon {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-shrink: 0 !important;
       width: 26px !important;
       height: 26px !important;
-      object-fit: contain;
-      display: block;
     }
-    .addon-popup-icon img {
-      width: 32px !important;
-      height: 32px !important;
-      object-fit: contain;
-      display: block;
+    .addon-icon img {
+      width: 22px !important;
+      height: 22px !important;
+      object-fit: contain !important;
+      display: block !important;
     }
   </style>
 </head>
@@ -221,12 +381,12 @@
         <div class="addon-popup-name-block">
           <div class="addon-popup-name" id="mp-name"></div>
           <div class="addon-popup-byline" id="mp-byline"></div>
-          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px;">
+          <div class="addon-popup-meta">
             <span class="tag" id="mp-version"></span>
             <span class="badge badge-green" id="mp-status"></span>
           </div>
         </div>
-        <button class="addon-popup-close" id="mp-close"></button>
+        <button class="addon-popup-close" id="mp-close" aria-label="Close"></button>
       </div>
       <div class="addon-popup-btns">
         <a id="mp-github-btn" href="#" target="_blank" rel="noopener" class="btn btn-ghost">
