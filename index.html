@@ -3,47 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AirLink Panel</title>
-  <meta name="description" content="Open-source game server management platform with powerful addon support">
+  <title>Marketplace — AirLink</title>
   <link rel="icon" id="site-favicon" href="" type="image/x-icon">
-  <link rel="stylesheet" href="public/css/base.css">
-  <link rel="stylesheet" href="public/css/nav.css">
-  <link rel="stylesheet" href="public/css/sections.css">
-  <script src="public/js/icons.js"></script>
-  <script src="public/js/config.js"></script>
+  <link rel="stylesheet" href="../public/css/base.css">
+  <link rel="stylesheet" href="../public/css/nav.css">
+  <link rel="stylesheet" href="../public/css/marketplace.css">
+  <style>
+    .mkt-source-badge {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      font-family: var(--mono);
+      color: var(--text3);
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 6px 12px;
+      margin-bottom: 16px;
+    }
+    .mkt-source-badge a {
+      color: var(--accent2);
+      text-decoration: underline;
+      margin-left: auto;
+    }
+    .mkt-skeleton {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      height: 160px;
+      animation: skeleton-pulse 1.4s ease-in-out infinite;
+    }
+    @keyframes skeleton-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+  </style>
+  <script src="../public/js/icons.js"></script>
+  <script src="../public/js/config.js"></script>
 </head>
 <body>
 
-<!-- ── Navbar ───────────────────────────────── -->
 <nav class="navbar">
   <div class="container">
-    <a class="nav-brand" href="index.html">
-      <img src="public/assets/plane.png" alt="AirLink" id="nav-logo"
-        onerror="this.style.display='none'">
+    <a class="nav-brand" href="../index.html">
+      <img src="../public/assets/plane.png" alt="" onerror="this.style.display='none'">
       <span class="nav-brand-name" id="site-title">AirLink</span>
       <span class="nav-brand-ver" id="site-version">v1.0.0 beta</span>
     </a>
-
     <ul class="nav-links" id="nav-links">
-      <li><a href="#features">Features</a></li>
-      <li><a href="#install">Install</a></li>
-      <li><a href="#addons">Addons</a></li>
-      <li><a href="marketplace/">Marketplace</a></li>
-      <li><a href="#team">Team</a></li>
-      <li>
-        <button class="nav-link-btn" id="btn-announcements">
-          <span id="announcements-icon"></span> Announcements
-        </button>
-      </li>
-      <li>
-        <button class="nav-link-btn" id="btn-docs">
-          <span id="docs-icon"></span> Docs
-        </button>
-      </li>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../index.html#features">Features</a></li>
+      <li><a href="../index.html#install">Install</a></li>
+      <li><a href="../marketplace/" class="nav-active">Marketplace</a></li>
+      <li><a href="../index.html#team">Team</a></li>
     </ul>
-
     <div class="nav-actions">
       <button class="theme-btn" id="themeBtn" aria-label="Toggle theme"></button>
+      <a id="nav-discord" href="#" class="btn btn-ghost" target="_blank" rel="noopener">
+        <span id="nav-discord-icon"></span> Discord
+      </a>
       <a id="nav-github" href="#" class="btn btn-ghost" target="_blank" rel="noopener">
         <span id="nav-github-icon"></span> GitHub
       </a>
@@ -54,274 +73,94 @@
   </div>
 </nav>
 
-<!-- ── Hero ─────────────────────────────────── -->
-<section class="hero" id="home">
-  <div class="hero-bg">
-    <div class="screenshot-track" id="screenshot-track">
-      <img src="public/assets/screenshot-1.jpg" alt="">
-      <img src="public/assets/screenshot-2.jpg" alt="">
-      <img src="public/assets/screenshot-3.jpg" alt="">
-      <img src="public/assets/screenshot-4.jpg" alt="">
-      <img src="public/assets/screenshot-5.jpg" alt="">
-      <img src="public/assets/screenshot-6.jpg" alt="">
-      <img src="public/assets/screenshot-1.jpg" alt="">
-      <img src="public/assets/screenshot-2.jpg" alt="">
-      <img src="public/assets/screenshot-3.jpg" alt="">
-      <img src="public/assets/screenshot-4.jpg" alt="">
-      <img src="public/assets/screenshot-5.jpg" alt="">
-      <img src="public/assets/screenshot-6.jpg" alt="">
-    </div>
-  </div>
-  <div class="hero-fade"></div>
-  <div class="hero-fade-sides"></div>
-
-  <div class="container">
-    <div class="hero-content">
-      <div class="hero-eyebrow" id="hero-eyebrow">
-        <span id="eyebrow-icon"></span>
-        Open Source &bull; MIT License
-      </div>
-      <h1>
-        Game server management<br>
-        that actually <span>makes sense</span>
-      </h1>
-      <p class="hero-desc">
-        AirLink is an open-source panel built with TypeScript — handles multiple
-        game servers, user permissions, and extends through addons without touching
-        core code.
-      </p>
-      <div class="hero-actions">
-        <a href="#install" class="btn btn-primary btn-lg">Get Started</a>
-        <a id="hero-discord" href="#" class="btn btn-ghost btn-lg" target="_blank" rel="noopener">
-          <span id="hero-discord-icon"></span> Discord
-        </a>
-      </div>
-
-      <div class="hero-stats" id="hero-stats">
-        <div class="hero-stat">
-          <div class="hero-stat-num" id="stat-stars">—</div>
-          <div class="hero-stat-label">GitHub Stars</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num" id="stat-contributors">—</div>
-          <div class="hero-stat-label">Contributors</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num" id="stat-commits">—</div>
-          <div class="hero-stat-label">Commits</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">2</div>
-          <div class="hero-stat-label">Repositories</div>
-        </div>
+<div class="mkt-layout">
+  <!-- sidebar filters -->
+  <aside class="mkt-sidebar">
+    <div class="mkt-sidebar-section">
+      <div class="mkt-sidebar-label">Filter by tag</div>
+      <div id="tag-filters" class="mkt-tag-list">
+        <button class="mkt-tag-btn active" data-tag="all">All</button>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ── Features ─────────────────────────────── -->
-<section class="section section-alt" id="features">
-  <div class="container">
-    <div class="section-header fade-up">
-      <h2>Core Features</h2>
-      <p>Click any card to see screenshots and full details.</p>
-    </div>
-    <div class="features-grid" id="features-grid">
-      <!-- populated by JS -->
-    </div>
-  </div>
-</section>
-
-<!-- ── Install ───────────────────────────────── -->
-<section class="section" id="install">
-  <div class="container">
-    <div class="section-header fade-up">
-      <h2>Installation</h2>
-      <p>Pick how you want to set things up.</p>
-    </div>
-    <div class="install-wrap fade-up" id="install-wrap">
-      <!-- populated by JS -->
-    </div>
-  </div>
-</section>
-
-<!-- ── Addons ────────────────────────────────── -->
-<section class="section section-alt" id="addons">
-  <div class="container">
-    <div class="section-header fade-up">
-      <h2>Addon System</h2>
-      <p>Extend the panel without touching core code.</p>
-    </div>
-
-    <!-- how addons work -->
-    <div class="addons-info-grid fade-up" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:36px;margin-bottom:56px;">
-      <div>
-        <h3 style="font-size:18px;margin-bottom:12px;">How It Works</h3>
-        <p style="font-size:14px;color:var(--text3);line-height:1.75;">Each addon lives in its own folder under <code>panel/storage/addons/</code>. When enabled, it gets full access to the router, database, and UI system. Addons are isolated — enabling or disabling one never breaks the rest of the panel.</p>
-        <p style="font-size:14px;color:var(--text3);line-height:1.75;margin-top:10px;">Migrations are defined in <code>package.json</code> and run automatically. Applied migrations are tracked so they never run twice.</p>
+    <div class="mkt-sidebar-section">
+      <div class="mkt-sidebar-label">Status</div>
+      <div class="mkt-tag-list">
+        <button class="mkt-status-btn active" data-status="all">All</button>
+        <button class="mkt-status-btn" data-status="working">Working</button>
+        <button class="mkt-status-btn" data-status="beta">Beta</button>
+        <button class="mkt-status-btn" data-status="wip">WIP</button>
       </div>
-      <div>
-        <h3 style="font-size:18px;margin-bottom:12px;">Basic Structure</h3>
-        <div class="code-block">
-          <code>my-addon/</code>
-          <code>├── package.json</code>
-          <code>├── index.ts</code>
-          <code>├── views/</code>
-          <code>│   └── main.ejs</code>
-          <code>└── lib/</code>
-          <code>    └── helpers.ts</code>
-        </div>
+    </div>
+    <div class="mkt-sidebar-section mkt-submit-box">
+      <div class="mkt-sidebar-label">Submit an Addon</div>
+      <p class="mkt-submit-desc">Built something? Add it to the marketplace by opening a pull request to the addons repo.</p>
+      <a id="mkt-submit-btn" href="#" class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:10px;" target="_blank" rel="noopener">
+        <span id="mkt-submit-icon"></span> Submit Addon
+      </a>
+    </div>
+  </aside>
+
+  <!-- main -->
+  <div class="mkt-main">
+    <div class="mkt-header">
+      <div class="mkt-header-text">
+        <h1>Addon Marketplace</h1>
+        <p id="mkt-count">Loading addons from registry...</p>
+      </div>
+      <div class="mkt-search-wrap">
+        <span class="mkt-search-icon" id="mkt-search-icon"></span>
+        <input type="text" id="mkt-search" class="mkt-search" placeholder="Search addons..." autocomplete="off" spellcheck="false">
+        <button class="mkt-search-clear" id="mkt-search-clear" style="display:none;" aria-label="Clear search"></button>
       </div>
     </div>
 
-    <h3 style="font-size:20px;margin-bottom:6px;" class="fade-up">Community Addons</h3>
-    <p style="color:var(--text3);font-size:14px;margin-bottom:8px;" class="fade-up">Ready-to-use addons. Click any card for details and install steps.</p>
-
-    <div class="addons-grid" id="addons-grid">
-      <!-- populated by JS, then coming-soon card appended -->
-    </div>
-  </div>
-</section>
-
-<!-- ── Commits / Activity ──────────────────── -->
-<section class="commits-section" id="activity">
-  <div class="container">
-    <div class="section-header fade-up">
-      <h2>Recent Activity</h2>
-      <p>Latest commits across both repositories.</p>
-    </div>
-    <div class="commits-grid">
-      <div class="commits-repo-card fade-up">
-        <div class="commits-repo-header">
-          <span class="commits-repo-label" id="panel-repo-label">panel</span>
-          <button class="btn btn-ghost btn-view-commits" style="font-size:12px;padding:5px 11px;" id="btn-view-panel" data-repo="AirlinkLabs/panel">View history</button>
-        </div>
-        <div class="commit-list" id="preview-panel">
-          <div class="commit-loading">Loading...</div>
-        </div>
-      </div>
-      <div class="commits-repo-card fade-up fade-up-d1">
-        <div class="commits-repo-header">
-          <span class="commits-repo-label" id="daemon-repo-label">daemon</span>
-          <button class="btn btn-ghost btn-view-commits" style="font-size:12px;padding:5px 11px;" id="btn-view-daemon" data-repo="AirlinkLabs/daemon">View history</button>
-        </div>
-        <div class="commit-list" id="preview-daemon">
-          <div class="commit-loading">Loading...</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Team ─────────────────────────────────── -->
-<section class="section section-alt" id="team">
-  <div class="container">
-    <div class="section-header fade-up">
-      <h2>The Team</h2>
-      <p>People building and maintaining AirLink Panel.</p>
+    <!-- source badge -->
+    <div id="mkt-source-badge" class="mkt-source-badge" style="display:none;">
+      <span id="mkt-source-icon"></span>
+      <span id="mkt-source-text"></span>
+      <a id="mkt-source-link" href="#" target="_blank" rel="noopener">View repo</a>
     </div>
 
-    <div class="contrib-header-row fade-up">
-      <div class="contrib-stats">
-        <div class="contrib-stat">
-          <div class="contrib-stat-num" id="stat-contributors">—</div>
-          <div class="contrib-stat-label">Contributors</div>
-        </div>
-        <div class="contrib-stat">
-          <div class="contrib-stat-num" id="stat-commits">—</div>
-          <div class="contrib-stat-label">Total Commits</div>
-        </div>
-        <div class="contrib-stat">
-          <div class="contrib-stat-num" id="stat-stars-team">—</div>
-          <div class="contrib-stat-label">Stars</div>
-        </div>
-      </div>
-      <p style="font-size:12px;color:var(--text3);font-family:var(--mono);">Click any card for full profile</p>
+    <div class="mkt-grid" id="mkt-grid">
+      <div class="mkt-skeleton"></div>
+      <div class="mkt-skeleton"></div>
+      <div class="mkt-skeleton"></div>
+      <div class="mkt-skeleton"></div>
+      <div class="mkt-skeleton"></div>
+      <div class="mkt-skeleton"></div>
     </div>
 
-    <div class="contrib-grid" id="contributors-grid">
-      <div style="color:var(--text3);font-family:var(--mono);font-size:13px;padding:24px;">Loading contributors...</div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Footer ───────────────────────────────── -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="footer-brand-row">
-          <img src="public/assets/plane.png" alt="AirLink" onerror="this.style.display='none'">
-          <span id="footer-title">AirLink Panel</span>
-        </div>
-        <p>Open-source game server management. MIT licensed — fork it, modify it, use it.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Product</h4>
-        <ul>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#install">Installation</a></li>
-          <li><a href="#addons">Addons</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Resources</h4>
-        <ul>
-          <li><a href="docs/readme/">Announcements</a></li>
-          <li><a href="docs/quickstart/">Quick Start</a></li>
-          <li><a href="docs/addons/">Addon Docs</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Links</h4>
-        <ul>
-          <li><a id="footer-discord" href="#">Discord</a></li>
-          <li><a id="footer-github" href="#" target="_blank" rel="noopener">GitHub</a></li>
-          <li><a id="footer-issues" href="#" target="_blank" rel="noopener">Issues</a></li>
-          <li><a id="footer-license" href="#" target="_blank" rel="noopener">MIT License</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p style="font-size:11px;color:var(--text3);">Made by the Thavanish</p>
-      <p style="font-size:11px;color:var(--text3);">
-        <a href="docs/readme/" style="color:var(--text3);">Announcements</a> &bull;
-        <a href="docs/quickstart/" style="color:var(--text3);">Docs</a>
-      </p>
-    </div>
-  </div>
-</footer>
-
-<!-- ── Feature popup ─────────────────────────── -->
-<div class="feat-overlay" id="feat-overlay">
-  <div class="feat-popup">
-    <div class="feat-slideshow" id="feat-slideshow"></div>
-    <div class="feat-popup-body">
-      <h2 id="feat-title"></h2>
-      <div id="feat-desc"></div>
+    <div class="mkt-empty" id="mkt-empty" style="display:none;">
+      <span id="mkt-empty-icon"></span>
+      <p>No addons match your search.</p>
+      <button class="btn btn-ghost mkt-reset-btn" id="mkt-reset">Clear filters</button>
     </div>
   </div>
 </div>
 
-<!-- ── Addon popup ───────────────────────────── -->
+<!-- addon detail overlay -->
 <div class="addon-overlay" id="addon-overlay">
   <div class="addon-popup">
-    <div class="addon-popup-slideshow" id="addon-slideshow" style="display:none"></div>
+    <div class="addon-popup-slideshow" id="mp-slideshow" style="display:none;"></div>
     <div class="addon-popup-header">
       <div class="addon-popup-top">
-        <div class="addon-popup-icon" id="ap-icon"></div>
+        <div class="addon-popup-icon" id="mp-icon"></div>
         <div class="addon-popup-name-block">
-          <div class="addon-popup-name" id="ap-name"></div>
-          <div class="addon-popup-byline" id="ap-byline"></div>
+          <div class="addon-popup-name" id="mp-name"></div>
+          <div class="addon-popup-byline" id="mp-byline"></div>
         </div>
-        <button class="addon-popup-close" id="ap-close"></button>
+        <button class="addon-popup-close" id="mp-close"></button>
       </div>
-      <div class="addon-popup-btns">
-        <a id="ap-github-btn" href="#" target="_blank" rel="noopener" class="btn btn-ghost">
-          <span id="ap-github-icon"></span> GitHub
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <span class="tag" id="mp-version"></span>
+        <span class="badge badge-green" id="mp-status"></span>
+      </div>
+      <div class="addon-popup-btns" style="margin-top:12px;">
+        <a id="mp-github-btn" href="#" target="_blank" rel="noopener" class="btn btn-ghost">
+          <span id="mp-github-icon"></span> GitHub
         </a>
-        <button id="ap-install-btn" class="btn btn-primary">
-          <span id="ap-dl-icon"></span> Install
+        <button id="mp-install-tab-btn" class="btn btn-primary">
+          <span id="mp-dl-icon"></span> Install
         </button>
       </div>
     </div>
@@ -330,506 +169,511 @@
         <button class="addon-tab active" data-tab="overview">Overview</button>
         <button class="addon-tab" data-tab="install">Installation</button>
       </div>
-      <div class="addon-panel active" id="ap-overview">
-        <p class="addon-desc-text" id="ap-desc"></p>
-        <div id="ap-features"></div>
+      <div class="addon-panel active" id="mp-panel-overview">
+        <p class="addon-desc-text" id="mp-desc"></p>
+        <div id="mp-features"></div>
       </div>
-      <div class="addon-panel" id="ap-install">
-        <div id="ap-steps"></div>
+      <div class="addon-panel" id="mp-panel-install">
+        <div id="mp-install-steps"></div>
+        <div class="addon-note" id="mp-note" style="display:none;">
+          <span id="mp-note-icon"></span>
+          <span id="mp-note-text"></span>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ── Submit addon popup ────────────────────── -->
+<!-- submit overlay -->
 <div class="submit-overlay" id="submit-overlay">
   <div class="submit-popup">
     <div class="submit-popup-header">
-      <h2>Community Add-ons</h2>
+      <h2>Submit Your Addon</h2>
       <button class="submit-close" id="submit-close"></button>
     </div>
-    <p>
-      We're building a community addon registry! Soon you'll be able to browse and install
-      addons from the community directly from this page.
-    </p>
-    <p>Want to submit your addon? Here's how:</p>
-    <ol>
-      <li>Make sure your addon works with the latest version of AirLink Panel</li>
-      <li>Add a <code>README.md</code> to your addon repository with install instructions</li>
-      <li>Fork this documentation repository on GitHub</li>
-      <li>Add your addon's info to <code>config.json</code> in the <code>addons</code> array</li>
-      <li>Open a Pull Request with a clear description of what your addon does</li>
-    </ol>
-    <div class="code-block" style="margin-bottom:18px;">
-      <code># Fork the repo first, then:</code>
-      <code>git clone https://github.com/YOUR_USERNAME/panel-docs</code>
-      <code>cd panel-docs</code>
-      <code># edit config.json, add your addon</code>
-      <code>git commit -am "feat: add my-addon to community list"</code>
-      <code>git push origin main</code>
-      <code># then open a PR on GitHub!</code>
-    </div>
-    <div class="submit-popup-btns">
-      <a id="submit-pr-btn" href="#" class="btn btn-primary" target="_blank" rel="noopener">
-        <span id="submit-pr-icon"></span> Open PR on GitHub
-      </a>
-      <button class="btn btn-ghost" id="submit-dismiss">Maybe later</button>
-    </div>
-  </div>
-</div>
-
-<!-- ── Docs popup / explorer ─────────────────── -->
-<div class="feat-overlay" id="docs-overlay">
-  <div class="feat-popup" style="max-width:520px;">
-    <div class="feat-popup-body" style="padding:24px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-        <h2 style="font-size:18px;display:flex;align-items:center;gap:8px;">
-          <span id="docs-popup-icon"></span> Documentation
-        </h2>
-        <button class="addon-popup-close" id="docs-popup-close"></button>
+    <div style="padding:20px 28px 28px;">
+      <p style="font-size:14px;color:var(--text3);margin-bottom:20px;">
+        Add your addon to the <code>airlinklabs/addons</code> repository by opening a pull request. Each addon gets its own folder.
+      </p>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="addon-step">
+          <div class="addon-step-num">1</div>
+          <div class="addon-step-body">
+            <h4>Fork the addons repo</h4>
+            <p style="font-size:13px;color:var(--text3);">Fork <code>airlinklabs/addons</code> on GitHub and create a new folder with your addon's unique ID (e.g. <code>my-cool-addon/</code>).</p>
+          </div>
+        </div>
+        <div class="addon-step">
+          <div class="addon-step-num">2</div>
+          <div class="addon-step-body">
+            <h4>Add <code>package.json</code></h4>
+            <div class="code-block"><code>{
+  "name": "My Addon",
+  "version": "1.0.0",
+  "description": "What it does",
+  "author": "yourname",
+  "status": "working",
+  "tags": ["Tag1"],
+  "icon": "https://example.com/icon.svg",
+  "features": ["Feature 1", "Feature 2"],
+  "github": "https://github.com/you/your-addon"
+}</code></div>
+          </div>
+        </div>
+        <div class="addon-step">
+          <div class="addon-step-num">3</div>
+          <div class="addon-step-body">
+            <h4>Add <code>install.json</code></h4>
+            <div class="code-block"><code>{
+  "note": "Optional tip shown after install steps",
+  "steps": [
+    {
+      "title": "Clone the addon",
+      "commands": ["git clone ... /var/www/panel/storage/addons/my-addon"]
+    },
+    {
+      "title": "Restart panel",
+      "commands": ["systemctl restart airlink-panel"]
+    }
+  ]
+}</code></div>
+          </div>
+        </div>
+        <div class="addon-step">
+          <div class="addon-step-num">4</div>
+          <div class="addon-step-body">
+            <h4>Open a Pull Request</h4>
+            <p style="font-size:13px;color:var(--text3);">Once merged, the registry auto-updates every 6 hours and your addon appears here.</p>
+          </div>
+        </div>
       </div>
-      <div id="docs-popup-list"></div>
+      <div style="display:flex;gap:9px;margin-top:22px;">
+        <a id="submit-pr-btn" href="#" class="btn btn-primary" target="_blank" rel="noopener" style="flex:1;justify-content:center;">
+          <span id="submit-pr-icon"></span> Open PR on GitHub
+        </a>
+        <button class="btn btn-ghost" id="submit-dismiss" style="flex:1;justify-content:center;">Maybe later</button>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Scripts -->
-<script src="public/js/main.js"></script>
-<script src="public/js/nav.js"></script>
-<script src="public/js/install.js"></script>
-<script src="public/js/commits.js"></script>
-<script src="public/js/contributors.js"></script>
-
+<script src="../public/js/main.js"></script>
+<script src="../public/js/nav.js"></script>
 <script>
 (function () {
   var cfg = window.SITE_CONFIG;
-  if (!cfg) return;
-  var site = cfg.site || {};
+  var site = cfg && cfg.site || {};
 
-  // favicon
   if (site.faviconUrl) document.getElementById('site-favicon').href = site.faviconUrl;
 
-  // title / version
   var rawTitle = site.title || 'AirLink';
-  document.title = rawTitle.toLowerCase().indexOf('panel') !== -1 ? rawTitle : rawTitle + ' Panel';
+  document.title = 'Marketplace — ' + rawTitle;
+
   var titleEl = document.getElementById('site-title');
-  var verEl = document.getElementById('site-version');
-  if (titleEl) titleEl.textContent = site.title || 'AirLink';
-  if (verEl) verEl.textContent = site.versionLabel || 'v1.0.0 beta';
-  var footerTitleEl = document.getElementById('footer-title');
-  if (footerTitleEl) footerTitleEl.textContent = rawTitle.toLowerCase().indexOf('panel') !== -1 ? rawTitle : rawTitle + ' Panel';
+  var verEl   = document.getElementById('site-version');
+  if (titleEl) titleEl.textContent = rawTitle;
+  if (verEl)   verEl.textContent   = site.versionLabel || 'v1.0.0 beta';
 
-  // icons in nav
-  document.getElementById('nav-github-icon').innerHTML = getIcon('github');
-  document.getElementById('announcements-icon').innerHTML = getIcon('fileText');
-  document.getElementById('docs-icon').innerHTML = getIcon('book');
+  // nav icons & links
+  document.getElementById('nav-github-icon').innerHTML  = getIcon('github');
+  document.getElementById('nav-discord-icon').innerHTML = getIcon('discord');
+  var navGh = document.getElementById('nav-github');
+  var navDc = document.getElementById('nav-discord');
+  if (navGh) navGh.href = site.githubPanel ? 'https://github.com/' + site.githubPanel : '#';
+  if (navDc) navDc.href = site.discordUrl || '#';
 
-  // hero
-  document.getElementById('eyebrow-icon').innerHTML = getIcon('bolt', 12);
-  document.getElementById('hero-discord-icon').innerHTML = getIcon('discord');
+  // ui icons
+  document.getElementById('mkt-search-icon').innerHTML  = getIcon('search');
+  document.getElementById('mkt-search-clear').innerHTML = getIcon('close', 11);
+  document.getElementById('mkt-empty-icon').innerHTML   = getIcon('search', 36);
+  document.getElementById('mkt-submit-icon').innerHTML  = getIcon('pullRequest');
+  document.getElementById('mkt-source-icon').innerHTML  = getIcon('github', 12);
+  document.getElementById('mp-close').innerHTML         = getIcon('close');
+  document.getElementById('mp-note-icon').innerHTML     = getIcon('info');
+  document.getElementById('mp-github-icon').innerHTML   = getIcon('github');
+  document.getElementById('mp-dl-icon').innerHTML       = getIcon('download');
+  document.getElementById('submit-close').innerHTML     = getIcon('close');
+  document.getElementById('submit-pr-icon').innerHTML   = getIcon('pullRequest');
 
-  // links
-  var panelUrl = site.githubPanel ? 'https://github.com/' + site.githubPanel : '#';
-  var daemonUrl = site.githubDaemon ? 'https://github.com/' + site.githubDaemon : '#';
-  var discordUrl = site.discordUrl || '#';
+  var ADDONS_REPO = 'airlinklabs/addons';
+  var addonsRepoUrl = 'https://github.com/' + ADDONS_REPO;
 
-  document.getElementById('nav-github').href = panelUrl;
-  document.getElementById('hero-discord').href = discordUrl;
-  document.getElementById('footer-discord').href = discordUrl;
-  document.getElementById('footer-github').href = panelUrl;
-  document.getElementById('footer-issues').href = panelUrl + '/issues';
-  document.getElementById('footer-license').href = panelUrl + '/blob/main/LICENSE';
+  // submit links
+  var submitBtn = document.getElementById('mkt-submit-btn');
+  var submitPrBtn = document.getElementById('submit-pr-btn');
+  if (submitBtn) submitBtn.href = addonsRepoUrl + '/pulls';
+  if (submitPrBtn) submitPrBtn.href = addonsRepoUrl + '/pulls';
 
-  // commit section
-  var panelLabel = document.getElementById('panel-repo-label');
-  var daemonLabel = document.getElementById('daemon-repo-label');
-  var btnPanel = document.getElementById('btn-view-panel');
-  var btnDaemon = document.getElementById('btn-view-daemon');
-  if (panelLabel) panelLabel.textContent = site.githubPanel || 'panel';
-  if (daemonLabel) daemonLabel.textContent = site.githubDaemon || 'daemon';
-  if (btnPanel) btnPanel.dataset.repo = site.githubPanel || '';
-  if (btnDaemon) btnDaemon.dataset.repo = site.githubDaemon || '';
+  // source badge
+  var sourceBadge = document.getElementById('mkt-source-badge');
+  var sourceText = document.getElementById('mkt-source-text');
+  var sourceLink = document.getElementById('mkt-source-link');
+  if (sourceText) sourceText.textContent = 'Loaded from airlinklabs/addons';
+  if (sourceLink) sourceLink.href = addonsRepoUrl;
 
-  // stars counter
-  var repoList = [site.githubPanel, site.githubDaemon].filter(Boolean);
-  Promise.all(repoList.map(function (r) {
-    return cachedFetch('repo-' + r, 'https://api.github.com/repos/' + r).catch(function () { return null; });
-  })).then(function (data) {
-    var total = data.reduce(function (s, d) { return s + (d ? (d.stargazers_count || 0) : 0); }, 0);
-    var starEl = document.getElementById('stat-stars');
-    var starTeamEl = document.getElementById('stat-stars-team');
-    if (starEl) starEl.textContent = total || '—';
-    if (starTeamEl) starTeamEl.textContent = total || '—';
-  });
+  // ---- state ----
+  var allAddons = [];
+  var filteredAddons = [];
+  var activeTag = 'all';
+  var activeStatus = 'all';
+  var searchQuery = '';
 
-  // ---- Features grid ----
-  function buildFeatures() {
-    var grid = document.getElementById('features-grid');
-    var features = cfg.features || [];
-    if (!grid || !features.length) return;
-    var delays = ['', 'fade-up-d1', 'fade-up-d2', 'fade-up-d3', 'fade-up-d4', 'fade-up-d5'];
-    features.forEach(function (f, i) {
-      var card = document.createElement('div');
-      card.className = 'feature-card fade-up ' + (delays[i % 6] || '');
-      card.dataset.featureId = f.id;
-      card.dataset.title = f.title;
-      card.dataset.desc = f.description;
-      card.dataset.longdesc = f.longDescription;
-      card.dataset.icon = f.icon || 'puzzle';
-      card.dataset.folder = f.imageFolder || '';
-      card.innerHTML =
-        '<div class="feature-icon">' + getIcon(f.icon || 'puzzle') + '</div>' +
-        '<h3>' + escHtml(f.title) + '</h3>' +
-        '<p>' + escHtml(f.description) + '</p>' +
-        '<div class="feature-card-hint">Click to see details ' + getIcon('arrowRight', 11) + '</div>';
-      grid.appendChild(card);
+  // ---- load registry ----
+  function loadRegistry() {
+    // try cached static file first
+    fetch('../public/api-cache/addons-registry.json')
+      .then(function (r) {
+        if (!r.ok) throw new Error('cache miss');
+        return r.json();
+      })
+      .then(function (data) {
+        allAddons = data.addons || [];
+        if (sourceBadge) sourceBadge.style.display = 'flex';
+        initFilters();
+        applyFilters();
+      })
+      .catch(function () {
+        // fallback: live GitHub API tree walk
+        fetchLiveRegistry();
+      });
+  }
+
+  function fetchLiveRegistry() {
+    fetch('https://api.github.com/repos/' + ADDONS_REPO + '/contents', {
+      headers: { 'Accept': 'application/vnd.github+json' }
+    })
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function (contents) {
+      var folders = contents.filter(function (i) { return i.type === 'dir' && !i.name.startsWith('.'); });
+      return Promise.all(folders.map(function (f) {
+        return fetchAddonFolder(f.name);
+      }));
+    })
+    .then(function (results) {
+      allAddons = results.filter(Boolean);
+      initFilters();
+      applyFilters();
+    })
+    .catch(function () {
+      // final fallback: read from config.json addons array
+      allAddons = (cfg && cfg.addons) ? cfg.addons.map(normalizeConfigAddon) : [];
+      initFilters();
+      applyFilters();
     });
-    initScrollAnimations();
   }
 
-  // ---- Install wizard ----
-  function buildInstall() {
-    var wrap = document.getElementById('install-wrap');
-    var inst = cfg.install || {};
-    if (!wrap) return;
-
-    var reqs = (inst.requirements || []).map(function (r) { return '<li>' + escHtml(r) + '</li>'; }).join('');
-    var reqsHtml = '<div class="requirements"><h4>Requirements</h4><ul>' + reqs + '</ul></div>';
-
-    var quickHtml =
-      '<div class="install-panel" data-panel="quick">' +
-        '<div class="install-panel-header">' +
-          '<button class="btn btn-ghost btn-back">' + getIcon('arrowLeft') + ' Back</button>' +
-          '<h3>Quick Install</h3>' +
-        '</div>' +
-        '<p style="font-size:14px;color:var(--text3);margin-bottom:14px;">Run as root. Handles everything — dependencies, addons, systemd setup.</p>' +
-        '<div class="code-block"><code>' + escHtml(inst.quickInstallCommand || '') + '</code></div>' +
-        '<p style="font-size:13px;color:var(--text3);margin:12px 0 6px;">After install, manage with systemd:</p>' +
-        '<div class="code-block">' + (inst.systemdCommands || []).map(function (c) { return '<code>' + escHtml(c) + '</code>'; }).join('') + '</div>' +
-        reqsHtml +
-      '</div>';
-
-    var stepsHtml = (inst.manualSteps || []).map(function (s, i) {
-      return '<div class="install-step">' +
-        '<div class="install-step-num">' + (i + 1) + '</div>' +
-        '<div class="install-step-body">' +
-          '<h4>' + escHtml(s.title) + '</h4>' +
-          '<div class="code-block">' + s.commands.map(function (c) { return '<code>' + escHtml(c) + '</code>'; }).join('') + '</div>' +
-        '</div>' +
-        '</div>';
-    }).join('');
-
-    var manualHtml =
-      '<div class="install-panel" data-panel="manual">' +
-        '<div class="install-panel-header">' +
-          '<button class="btn btn-ghost btn-back">' + getIcon('arrowLeft') + ' Back</button>' +
-          '<h3>Manual Install</h3>' +
-        '</div>' +
-        '<div class="install-steps">' + stepsHtml + '</div>' +
-        reqsHtml +
-      '</div>';
-
-    wrap.innerHTML =
-      '<div class="install-choice-grid">' +
-        '<button class="install-choice btn-quick">' +
-          '<div class="install-choice-icon">' + getIcon('bolt', 22) + '</div>' +
-          '<h3>Quick Install</h3>' +
-          '<p>One command. Handles everything including deps and systemd.</p>' +
-        '</button>' +
-        '<button class="install-choice btn-manual">' +
-          '<div class="install-choice-icon">' + getIcon('code', 22) + '</div>' +
-          '<h3>Manual Install</h3>' +
-          '<p>Step by step. Full control over every part of setup.</p>' +
-        '</button>' +
-      '</div>' +
-      quickHtml + manualHtml;
-
-    initInstallWizard();
-    initCopyButtons();
+  function fetchAddonFolder(id) {
+    var base = 'https://raw.githubusercontent.com/' + ADDONS_REPO + '/main/' + id;
+    return fetch(base + '/package.json')
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+      .then(function (pkg) {
+        return fetch(base + '/install.json')
+          .then(function (r) { return r.ok ? r.json() : {}; })
+          .catch(function () { return {}; })
+          .then(function (inst) {
+            return {
+              id: id,
+              name: pkg.name || id,
+              version: pkg.version || 'unknown',
+              description: pkg.description || '',
+              longDescription: pkg.longDescription || pkg.description || '',
+              author: pkg.author || '',
+              tags: pkg.tags || [],
+              status: pkg.status || 'working',
+              icon: pkg.icon || '',
+              iconType: pkg.iconType || 'url',
+              features: pkg.features || [],
+              github: pkg.github || ('https://github.com/' + ADDONS_REPO + '/tree/main/' + id),
+              installNote: inst.note || pkg.installNote || '',
+              installSteps: inst.steps || [],
+              screenshots: pkg.screenshots || []
+            };
+          });
+      })
+      .catch(function () { return null; });
   }
 
-  // ---- Addons grid ----
-  function buildAddons() {
-    var grid = document.getElementById('addons-grid');
-    var addons = cfg.addons || [];
-    if (!grid) return;
+  function normalizeConfigAddon(a) {
+    return {
+      id: a.id,
+      name: a.name,
+      version: a.version || '',
+      description: a.description || '',
+      longDescription: a.longDescription || a.description || '',
+      author: a.author || '',
+      tags: a.tags || [],
+      status: a.status || 'working',
+      icon: a.iconFile || '',
+      iconType: 'url',
+      features: a.features || [],
+      github: a.github || '#',
+      installNote: a.installNote || '',
+      installSteps: a.installSteps || [],
+      screenshots: []
+    };
+  }
 
-    addons.forEach(function (addon, i) {
-      var card = document.createElement('div');
-      card.className = 'addon-card fade-up';
-      card.dataset.addonId = addon.id;
+  // ---- filters ----
+  function initFilters() {
+    var allTags = [];
+    allAddons.forEach(function (a) {
+      (a.tags || []).forEach(function (t) {
+        if (allTags.indexOf(t) === -1) allTags.push(t);
+      });
+    });
+    var tagFilters = document.getElementById('tag-filters');
+    // clear existing except "All"
+    var allBtn = tagFilters.querySelector('[data-tag="all"]');
+    tagFilters.innerHTML = '';
+    tagFilters.appendChild(allBtn);
+    allTags.forEach(function (tag) {
+      var btn = document.createElement('button');
+      btn.className = 'mkt-tag-btn';
+      btn.dataset.tag = tag;
+      btn.textContent = tag;
+      tagFilters.appendChild(btn);
+    });
+  }
+
+  function applyFilters() {
+    var q = searchQuery.trim().toLowerCase();
+    filteredAddons = allAddons.filter(function (a) {
+      var matchTag    = activeTag === 'all' || (a.tags || []).indexOf(activeTag) !== -1;
+      var matchStatus = activeStatus === 'all' || (a.status || '').toLowerCase() === activeStatus;
+      var matchSearch = !q ||
+        (a.name || '').toLowerCase().indexOf(q) !== -1 ||
+        (a.description || '').toLowerCase().indexOf(q) !== -1 ||
+        (a.author || '').toLowerCase().indexOf(q) !== -1 ||
+        (a.tags || []).some(function (t) { return t.toLowerCase().indexOf(q) !== -1; });
+      return matchTag && matchStatus && matchSearch;
+    });
+    renderGrid();
+  }
+
+  function renderGrid() {
+    var grid    = document.getElementById('mkt-grid');
+    var empty   = document.getElementById('mkt-empty');
+    var count   = document.getElementById('mkt-count');
+    grid.innerHTML = '';
+    count.textContent = filteredAddons.length + ' addon' + (filteredAddons.length !== 1 ? 's' : '') + ' found';
+
+    if (!filteredAddons.length) {
+      empty.style.display = 'flex';
+      return;
+    }
+    empty.style.display = 'none';
+
+    filteredAddons.forEach(function (addon) {
       var tags = (addon.tags || []).map(function (t) { return '<span class="tag">' + escHtml(t) + '</span>'; }).join('');
+      var card = document.createElement('div');
+      card.className = 'mkt-card';
+      card.dataset.addonId = addon.id;
       card.innerHTML =
-        '<div class="addon-card-header">' +
-          '<div class="addon-icon">' +
-            (addon.iconFile
-              ? '<img src="' + escHtml(addon.iconFile) + '" alt="' + escHtml(addon.name) + '" onerror="this.parentElement.innerHTML=\'' + getIcon('puzzle', 22).replace(/'/g,"&#39;") + '\'">'
-              : getIcon('puzzle', 22)) +
-          '</div>' +
-          '<div class="addon-meta">' +
-            '<div class="addon-name">' + escHtml(addon.name) + '</div>' +
-            '<div class="addon-author">by ' + escHtml(addon.author || '') + '</div>' +
+        '<div class="mkt-card-top">' +
+          '<div class="addon-icon">' + renderIcon(addon) + '</div>' +
+          '<div class="mkt-card-meta">' +
+            '<div class="mkt-card-name">' + escHtml(addon.name) + '</div>' +
+            '<div class="mkt-card-author">by ' + escHtml(addon.author || '') + '</div>' +
           '</div>' +
           '<span class="badge badge-green">' + escHtml(addon.status || 'working') + '</span>' +
         '</div>' +
-        '<p class="addon-desc">' + escHtml(addon.description) + '</p>' +
-        '<div class="addon-tags">' + tags + '</div>' +
-        '<div class="addon-footer">' +
-          '<span>' + escHtml(addon.version || '') + '</span>' +
-          '<span class="addon-hint">Details ' + getIcon('arrowRight', 11) + '</span>' +
+        '<p class="mkt-card-desc">' + escHtml(addon.description) + '</p>' +
+        '<div class="mkt-card-footer">' +
+          '<div class="mkt-card-tags">' + tags + '</div>' +
+          '<span class="mkt-card-ver">' + escHtml(addon.version || '') + '</span>' +
         '</div>';
       grid.appendChild(card);
     });
-
-    // Community coming soon card - links to marketplace page
-    var comingCard = document.createElement('div');
-    comingCard.className = 'addon-card-coming fade-up';
-    comingCard.id = 'coming-soon-card';
-    comingCard.innerHTML =
-      '<div class="addon-card-coming-icon">' + getIcon('puzzle', 28) + '</div>' +
-      '<h3>Community Add-ons</h3>' +
-      '<p>Browse the full marketplace or submit your own</p>' +
-      '<span class="addon-coming-btn">Open Marketplace ' + getIcon('arrowRight', 12) + '</span>';
-    grid.appendChild(comingCard);
-
-    initScrollAnimations();
   }
 
-  // ---- Feature popup ----
-  var featOverlay = document.getElementById('feat-overlay');
-  var featSlideshow = document.getElementById('feat-slideshow');
-  var featTitle = document.getElementById('feat-title');
-  var featDesc = document.getElementById('feat-desc');
-
-  function closeFeat() {
-    featOverlay.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
-  featOverlay.addEventListener('click', function (e) { if (e.target === featOverlay) closeFeat(); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeFeat(); });
-
-  document.addEventListener('click', function (e) {
-    var card = e.target.closest('.feature-card');
-    if (!card) return;
-    var title = card.dataset.title || '';
-    var desc = card.dataset.desc || '';
-    var longDesc = card.dataset.longdesc || '';
-    var iconKey = card.dataset.icon || 'puzzle';
-    var folder = card.dataset.folder || '';
-
-    featTitle.textContent = title;
-    featDesc.innerHTML = '';
-    if (desc) { var p1 = document.createElement('p'); p1.textContent = desc; featDesc.appendChild(p1); }
-    if (longDesc) { var p2 = document.createElement('p'); p2.textContent = longDesc; featDesc.appendChild(p2); }
-
-    featSlideshow.innerHTML = '<div class="feat-slide-empty">' + getIcon('bolt', 28) + '</div>';
-    if (folder) {
-      loadImagesFromFolder(folder, function (images) {
-        makeSlideshow(featSlideshow, images, iconKey, {
-          closeBtn: closeFeat,
-          arrowClass: 'feat-slide-arrow',
-          imgClass: 'feat-slide-img',
-          dotClass: 'feat-dot',
-          emptyClass: 'feat-slide-empty'
-        });
-      });
-    } else {
-      makeSlideshow(featSlideshow, [], iconKey, { closeBtn: closeFeat, arrowClass: 'feat-slide-arrow', imgClass: 'feat-slide-img', dotClass: 'feat-dot', emptyClass: 'feat-slide-empty' });
+  function renderIcon(addon) {
+    if (addon.iconType === 'svg' && addon.icon) {
+      return addon.icon; // inline svg string
     }
+    if (addon.icon) {
+      return '<img src="' + escHtml(addon.icon) + '" alt="" onerror="this.parentElement.innerHTML=\'' + getIcon('puzzle', 22).replace(/'/g,"&#39;") + '\'">';
+    }
+    return getIcon('puzzle', 22);
+  }
 
-    featOverlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
+  // ---- tag/status filter clicks ----
+  document.addEventListener('click', function (e) {
+    var tagBtn = e.target.closest('.mkt-tag-btn');
+    if (tagBtn) {
+      document.querySelectorAll('.mkt-tag-btn').forEach(function (b) { b.classList.remove('active'); });
+      tagBtn.classList.add('active');
+      activeTag = tagBtn.dataset.tag;
+      applyFilters();
+      return;
+    }
+    var statusBtn = e.target.closest('.mkt-status-btn');
+    if (statusBtn) {
+      document.querySelectorAll('.mkt-status-btn').forEach(function (b) { b.classList.remove('active'); });
+      statusBtn.classList.add('active');
+      activeStatus = statusBtn.dataset.status;
+      applyFilters();
+    }
   });
 
-  // ---- Addon popup ----
+  // ---- search ----
+  var searchInput = document.getElementById('mkt-search');
+  var clearBtn    = document.getElementById('mkt-search-clear');
+  searchInput.addEventListener('input', function () {
+    searchQuery = searchInput.value;
+    clearBtn.style.display = searchQuery ? 'flex' : 'none';
+    applyFilters();
+  });
+  clearBtn.addEventListener('click', function () {
+    searchInput.value = '';
+    searchQuery = '';
+    clearBtn.style.display = 'none';
+    searchInput.focus();
+    applyFilters();
+  });
+  document.getElementById('mkt-reset').addEventListener('click', function () {
+    searchInput.value = '';
+    searchQuery = '';
+    activeTag = 'all';
+    activeStatus = 'all';
+    clearBtn.style.display = 'none';
+    document.querySelectorAll('.mkt-tag-btn').forEach(function (b) { b.classList.toggle('active', b.dataset.tag === 'all'); });
+    document.querySelectorAll('.mkt-status-btn').forEach(function (b) { b.classList.toggle('active', b.dataset.status === 'all'); });
+    applyFilters();
+  });
+
+  // ---- addon popup ----
   var addonOverlay = document.getElementById('addon-overlay');
-  var apClose = document.getElementById('ap-close');
-  document.getElementById('ap-github-icon').innerHTML = getIcon('github');
-  document.getElementById('ap-dl-icon').innerHTML = getIcon('download');
-  apClose.innerHTML = getIcon('close');
+  var mpClose = document.getElementById('mp-close');
 
   function closeAddon() {
     addonOverlay.classList.remove('active');
     document.body.style.overflow = '';
   }
-
+  mpClose.addEventListener('click', closeAddon);
   addonOverlay.addEventListener('click', function (e) { if (e.target === addonOverlay) closeAddon(); });
-  apClose.addEventListener('click', closeAddon);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && addonOverlay.classList.contains('active')) closeAddon(); });
 
+  // tabs
   addonOverlay.querySelectorAll('.addon-tab').forEach(function (tab) {
     tab.addEventListener('click', function () {
       addonOverlay.querySelectorAll('.addon-tab, .addon-panel').forEach(function (el) { el.classList.remove('active'); });
       tab.classList.add('active');
-      document.getElementById('ap-' + tab.dataset.tab).classList.add('active');
+      document.getElementById('mp-panel-' + tab.dataset.tab).classList.add('active');
     });
   });
 
-  document.getElementById('ap-install-btn').addEventListener('click', function () {
+  document.getElementById('mp-install-tab-btn').addEventListener('click', function () {
     addonOverlay.querySelectorAll('.addon-tab, .addon-panel').forEach(function (el) { el.classList.remove('active'); });
     addonOverlay.querySelector('[data-tab="install"]').classList.add('active');
-    document.getElementById('ap-install').classList.add('active');
+    document.getElementById('mp-panel-install').classList.add('active');
   });
 
-  function openAddonPopup(addon) {
-    // reset tabs
+  function openAddon(addon) {
+    // reset to overview tab
     addonOverlay.querySelectorAll('.addon-tab, .addon-panel').forEach(function (el) { el.classList.remove('active'); });
     addonOverlay.querySelector('[data-tab="overview"]').classList.add('active');
-    document.getElementById('ap-overview').classList.add('active');
+    document.getElementById('mp-panel-overview').classList.add('active');
 
     // icon
-    var iconEl = document.getElementById('ap-icon');
-    iconEl.innerHTML = addon.iconFile
-      ? '<img src="' + escHtml(addon.iconFile) + '" alt="' + escHtml(addon.name) + '" onerror="this.parentElement.innerHTML=\'' + getIcon('puzzle', 24).replace(/'/g,"&#39;") + '\'">'
-      : getIcon('puzzle', 24);
-
-    document.getElementById('ap-name').textContent = addon.name;
-    document.getElementById('ap-byline').textContent = 'by ' + (addon.author || 'Unknown') + ' · ' + (addon.version || '');
-    document.getElementById('ap-github-btn').href = addon.github || '#';
-    document.getElementById('ap-desc').textContent = addon.longDescription || addon.description;
+    document.getElementById('mp-icon').innerHTML = renderIcon(addon);
+    document.getElementById('mp-name').textContent    = addon.name;
+    document.getElementById('mp-byline').textContent  = 'by ' + (addon.author || 'Unknown') + ' · ' + (addon.version || '');
+    document.getElementById('mp-version').textContent = addon.version || '';
+    document.getElementById('mp-status').textContent  = addon.status || 'working';
+    document.getElementById('mp-github-btn').href     = addon.github || '#';
 
     // slideshow
-    var slideEl = document.getElementById('addon-slideshow');
+    var slideEl = document.getElementById('mp-slideshow');
     slideEl.style.display = 'none';
-    if (addon.imageFolder) {
-      loadImagesFromFolder(addon.imageFolder, function (images) {
-        if (images.length) {
-          slideEl.style.display = '';
-          makeSlideshow(slideEl, images, 'puzzle', {
-            arrowClass: 'feat-slide-arrow',
-            imgClass: 'addon-slide-img',
-            dotClass: 'feat-dot',
-            emptyClass: 'feat-slide-empty'
-          });
-        }
+    slideEl.innerHTML = '';
+    if (addon.screenshots && addon.screenshots.length) {
+      slideEl.style.display = '';
+      makeSlideshow(slideEl, addon.screenshots, 'puzzle', {
+        arrowClass: 'feat-slide-arrow',
+        imgClass: 'addon-slide-img',
+        dotClass: 'feat-dot',
+        emptyClass: 'feat-slide-empty'
       });
     }
 
-    // features
-    var featEl = document.getElementById('ap-features');
-    featEl.innerHTML = '';
+    // overview
+    document.getElementById('mp-desc').textContent = addon.longDescription || addon.description || '';
+    var featsEl = document.getElementById('mp-features');
+    featsEl.innerHTML = '';
     if (addon.features && addon.features.length) {
       var title = document.createElement('div');
       title.className = 'addon-feat-title';
       title.textContent = 'Features';
-      featEl.appendChild(title);
+      featsEl.appendChild(title);
       addon.features.forEach(function (f) {
-        var item = document.createElement('div');
-        item.className = 'addon-feat-item';
-        item.innerHTML = '<span class="addon-feat-check">' + getIcon('check', 13) + '</span>' + escHtml(f);
-        featEl.appendChild(item);
+        var div = document.createElement('div');
+        div.className = 'addon-feat-item';
+        div.innerHTML = '<span class="addon-feat-check">' + getIcon('check', 13) + '</span>' + escHtml(f);
+        featsEl.appendChild(div);
       });
     }
 
     // install steps
-    var stepsEl = document.getElementById('ap-steps');
+    var stepsEl = document.getElementById('mp-install-steps');
     stepsEl.innerHTML = '';
-    if (addon.installSteps) {
-      addon.installSteps.forEach(function (s, i) {
-        var step = document.createElement('div');
-        step.className = 'addon-step';
-        step.innerHTML =
-          '<div class="addon-step-num">' + (i + 1) + '</div>' +
-          '<div class="addon-step-body">' +
-            '<h4>' + escHtml(s.title) + '</h4>' +
-            '<div class="code-block">' + s.commands.map(function (c) { return '<code>' + escHtml(c) + '</code>'; }).join('') + '</div>' +
-          '</div>';
-        stepsEl.appendChild(step);
-      });
-    }
-    if (addon.installNote) {
-      var note = document.createElement('div');
-      note.className = 'addon-note';
-      note.innerHTML = getIcon('info') + ' ' + escHtml(addon.installNote);
-      stepsEl.appendChild(note);
-    }
+    (addon.installSteps || []).forEach(function (step, i) {
+      var div = document.createElement('div');
+      div.className = 'addon-step';
+      div.innerHTML =
+        '<div class="addon-step-num">' + (i + 1) + '</div>' +
+        '<div class="addon-step-body">' +
+          '<h4>' + escHtml(step.title || '') + '</h4>' +
+          '<div class="code-block">' +
+            (step.commands || []).map(function (c) { return '<code>' + escHtml(c) + '</code>'; }).join('') +
+          '</div>' +
+        '</div>';
+      stepsEl.appendChild(div);
+    });
     initCopyButtons();
+
+    // note
+    var noteEl   = document.getElementById('mp-note');
+    var noteText = document.getElementById('mp-note-text');
+    if (addon.installNote) {
+      noteText.textContent = addon.installNote;
+      noteEl.style.display = 'flex';
+    } else {
+      noteEl.style.display = 'none';
+    }
 
     addonOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
 
-  // addon card click delegation
-  document.addEventListener('click', function (e) {
-    var card = e.target.closest('.addon-card');
+  // card click
+  document.getElementById('mkt-grid').addEventListener('click', function (e) {
+    var card = e.target.closest('.mkt-card');
     if (!card) return;
     var id = card.dataset.addonId;
-    var addon = (cfg.addons || []).find(function (a) { return a.id === id; });
-    if (addon) openAddonPopup(addon);
+    var addon = allAddons.find(function (a) { return a.id === id; });
+    if (addon) openAddon(addon);
   });
 
-  // coming soon card
+  // ---- submit overlay ----
   var submitOverlay = document.getElementById('submit-overlay');
-  document.getElementById('submit-close').innerHTML = getIcon('close');
-  function closeSubmit() { submitOverlay.classList.remove('active'); document.body.style.overflow = ''; }
-  submitOverlay.addEventListener('click', function (e) { if (e.target === submitOverlay) closeSubmit(); });
-  document.getElementById('submit-close').addEventListener('click', closeSubmit);
-  document.getElementById('submit-dismiss').addEventListener('click', closeSubmit);
-
-  var submitPrBtn = document.getElementById('submit-pr-btn');
-  document.getElementById('submit-pr-icon').innerHTML = getIcon('pullRequest');
-  if (submitPrBtn) {
-    submitPrBtn.href = panelUrl ? panelUrl.replace('/panel', '/panel-docs') + '/pulls' : '#';
-  }
-
-  document.addEventListener('click', function (e) {
-    if (e.target.closest('#coming-soon-card')) {
-      window.location.href = 'marketplace/';
+  document.getElementById('submit-close').addEventListener('click', function () {
+    submitOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+  document.getElementById('submit-dismiss').addEventListener('click', function () {
+    submitOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+  submitOverlay.addEventListener('click', function (e) {
+    if (e.target === submitOverlay) {
+      submitOverlay.classList.remove('active');
+      document.body.style.overflow = '';
     }
   });
 
-  // ---- Docs popup ----
-  var docsOverlay = document.getElementById('docs-overlay');
-  var docsClose = document.getElementById('docs-popup-close');
-  document.getElementById('docs-popup-icon').innerHTML = getIcon('book');
-  docsClose.innerHTML = getIcon('close');
-  function closeDocs() { docsOverlay.classList.remove('active'); document.body.style.overflow = ''; }
-  docsOverlay.addEventListener('click', function (e) { if (e.target === docsOverlay) closeDocs(); });
-  docsClose.addEventListener('click', closeDocs);
-
-  function openDocs() {
-    var list = document.getElementById('docs-popup-list');
-    var manifest = (cfg.docs && cfg.docs.manifest) || [];
-    list.innerHTML = '';
-
-    // readme first
-    var readmeItem = document.createElement('a');
-    readmeItem.href = 'docs/readme/';
-    readmeItem.style.cssText = 'display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:9px;border:1px solid var(--border);margin-bottom:8px;text-decoration:none;color:inherit;transition:all 0.18s;';
-    readmeItem.onmouseenter = function () { this.style.background = 'var(--bg3)'; };
-    readmeItem.onmouseleave = function () { this.style.background = ''; };
-    readmeItem.innerHTML =
-      '<div style="width:32px;height:32px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;">' + getIcon('fileText') + '</div>' +
-      '<div><div style="font-size:14px;font-weight:500;color:var(--text);">Announcements</div><div style="font-size:12px;color:var(--text3);">Project announcements and updates</div></div>' +
-      '<span style="margin-left:auto;color:var(--text3);">' + getIcon('chevRight') + '</span>';
-    list.appendChild(readmeItem);
-
-    manifest.forEach(function (doc) {
-      var item = document.createElement('a');
-      item.href = 'docs/' + doc.slug + '/';
-      item.style.cssText = 'display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:9px;border:1px solid var(--border);margin-bottom:8px;text-decoration:none;color:inherit;transition:all 0.18s;';
-      item.onmouseenter = function () { this.style.background = 'var(--bg3)'; };
-      item.onmouseleave = function () { this.style.background = ''; };
-      item.innerHTML =
-        '<div style="width:32px;height:32px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;">' + getIcon('book') + '</div>' +
-        '<div><div style="font-size:14px;font-weight:500;color:var(--text);">' + escHtml(doc.title) + '</div><div style="font-size:12px;color:var(--text3);">' + escHtml(doc.description) + '</div></div>' +
-        '<span style="margin-left:auto;color:var(--text3);">' + getIcon('chevRight') + '</span>';
-      list.appendChild(item);
-    });
-
-    docsOverlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  document.getElementById('btn-docs').addEventListener('click', openDocs);
-  document.getElementById('btn-announcements').addEventListener('click', function () {
-    window.location.href = 'docs/readme/';
-  });
-
-  // build everything
-  buildFeatures();
-  buildInstall();
-  buildAddons();
+  // ---- start ----
+  loadRegistry();
+  initCopyButtons();
 })();
 </script>
 
