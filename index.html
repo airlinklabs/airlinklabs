@@ -32,6 +32,8 @@
       <li><a href="#team">Team</a></li>
       <li><a href="docs/readme/">Announcements</a></li>
       <li><a href="docs/quickstart/">Docs</a></li>
+      <li class="nav-mobile-only"><a id="nav-discord-mobile" href="#">Discord</a></li>
+      <li class="nav-mobile-only"><a id="nav-github-mobile" href="#" target="_blank" rel="noopener">GitHub</a></li>
     </ul>
 
     <div class="nav-actions">
@@ -154,7 +156,7 @@
         <h3 style="font-size:18px;margin-bottom:12px;">Basic Structure</h3>
         <div class="code-block">
           <code>my-addon/</code>
-          <code>├── package.json</code>
+          <code>├── info.json</code>  <!-- registry metadata -->
           <code>├── install.json</code>
           <code>├── index.ts</code>
           <code>├── views/</code>
@@ -377,6 +379,11 @@
   document.getElementById('nav-github').href   = panelUrl;
   document.getElementById('nav-discord').href  = discordUrl;
   document.getElementById('hero-discord').href = discordUrl;
+  // mobile drawer links
+  var mobileGh = document.getElementById('nav-github-mobile');
+  var mobileDc = document.getElementById('nav-discord-mobile');
+  if (mobileGh) mobileGh.href = panelUrl;
+  if (mobileDc) mobileDc.href = discordUrl;
   document.getElementById('footer-discord').href  = discordUrl;
   document.getElementById('footer-github').href   = panelUrl;
   document.getElementById('footer-issues').href   = panelUrl + '/issues';
@@ -579,7 +586,7 @@
     .then(function (contents) {
       var folders = contents.filter(function (i) { return i.type === 'dir' && !i.name.startsWith('.'); });
       return Promise.all(folders.slice(0, 6).map(function (f) {
-        return fetch('https://raw.githubusercontent.com/' + ADDONS_REPO + '/main/' + f.name + '/package.json')
+        return fetch('https://raw.githubusercontent.com/' + ADDONS_REPO + '/main/' + f.name + '/info.json')
           .then(function (r) { return r.ok ? r.json() : null; })
           .then(function (pkg) {
             if (!pkg) return null;
@@ -788,23 +795,37 @@
 
   /* ── Navbar desktop refinements ────── */
   @media (min-width: 821px) {
-    /* Slightly smaller nav links to prevent crowding */
     .nav-links a, .nav-links button.nav-link-btn {
       font-size: 13px;
       padding: 5px 9px;
     }
-    /* Hide the text label on discord btn to just show icon + keep compact */
-    .nav-discord-btn .nav-btn-label {
-      display: none;
+    .nav-discord-btn .nav-btn-label { display: none; }
+    .nav-actions .btn-primary { padding: 7px 14px; }
+  }
+
+  /* ── Mobile: hide Discord + GitHub buttons, only show theme + hamburger ── */
+  @media (max-width: 820px) {
+    #nav-discord,
+    #nav-github {
+      display: none !important;
     }
-    /* GitHub btn stays primary/solid */
-    .nav-actions .btn-primary {
-      padding: 7px 14px;
+    /* nav-links is hidden on mobile but still takes up space via flex:1 — remove that */
+    .nav-links {
+      flex: 0 !important;
     }
-    /* Limit nav-links from taking too much space on medium screens */
-    @media (max-width: 1080px) {
-      .nav-btn-label { display: none; }
+    /* push actions to the right with auto margin on brand instead */
+    .nav-brand {
+      margin-right: auto;
     }
+    .nav-actions {
+      gap: 6px;
+      margin-left: 0;
+    }
+  }
+
+  /* ── Hide mobile-only nav items on desktop ── */
+  @media (min-width: 821px) {
+    .nav-mobile-only { display: none !important; }
   }
 </style>
 
