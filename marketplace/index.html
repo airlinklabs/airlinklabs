@@ -8,8 +8,10 @@
   <link rel="stylesheet" href="../public/css/base.css">
   <link rel="stylesheet" href="../public/css/nav.css">
   <link rel="stylesheet" href="../public/css/marketplace.css">
+  <script src="../public/js/icons.js"></script>
+  <script src="../public/js/config.js"></script>
   <style>
-    /* Hide action buttons on mobile — links are in the drawer instead */
+    /* ── Mobile nav ── */
     @media (max-width: 820px) {
       #nav-discord, #nav-github { display: none !important; }
       .nav-links { flex: 0 !important; }
@@ -18,8 +20,9 @@
     }
     @media (min-width: 821px) {
       .nav-mobile-only { display: none !important; }
-      #nav-discord { padding: 7px 10px; } /* icon-only compact */
     }
+
+    /* ── Source badge ── */
     .mkt-source-badge {
       display: flex;
       align-items: center;
@@ -38,6 +41,8 @@
       text-decoration: underline;
       margin-left: auto;
     }
+
+    /* ── Skeleton loaders ── */
     .mkt-skeleton {
       background: var(--bg2);
       border: 1px solid var(--border);
@@ -49,9 +54,33 @@
       0%, 100% { opacity: 1; }
       50% { opacity: 0.4; }
     }
+
+    /* ── Popup button row: never overflow ── */
+    .addon-popup-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .addon-popup-btns .btn {
+      flex: 1 1 120px;
+      min-width: 0;
+      justify-content: center;
+    }
+
+    /* ── Addon icon: always constrained ── */
+    .addon-icon img {
+      width: 26px !important;
+      height: 26px !important;
+      object-fit: contain;
+      display: block;
+    }
+    .addon-popup-icon img {
+      width: 32px !important;
+      height: 32px !important;
+      object-fit: contain;
+      display: block;
+    }
   </style>
-  <script src="../public/js/icons.js"></script>
-  <script src="../public/js/config.js"></script>
 </head>
 <body>
 
@@ -87,7 +116,6 @@
 </nav>
 
 <div class="mkt-layout">
-  <!-- sidebar filters -->
   <aside class="mkt-sidebar">
     <div class="mkt-sidebar-section">
       <div class="mkt-sidebar-label">Filter by tag</div>
@@ -106,19 +134,18 @@
     </div>
     <div class="mkt-sidebar-section mkt-submit-box">
       <div class="mkt-sidebar-label">Submit an Addon</div>
-      <p class="mkt-submit-desc">Built something? Add it to the marketplace by opening a pull request to the addons repo.</p>
+      <p class="mkt-submit-desc">Built something? Add it by opening a pull request to the addons repo.</p>
       <a id="mkt-submit-btn" href="#" class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:10px;" target="_blank" rel="noopener">
         <span id="mkt-submit-icon"></span> Submit Addon
       </a>
     </div>
   </aside>
 
-  <!-- main -->
   <div class="mkt-main">
     <div class="mkt-header">
       <div class="mkt-header-text">
         <h1>Addon Marketplace</h1>
-        <p id="mkt-count">Loading addons from registry...</p>
+        <p id="mkt-count">Loading addons...</p>
       </div>
       <div class="mkt-search-wrap">
         <span class="mkt-search-icon" id="mkt-search-icon"></span>
@@ -127,7 +154,6 @@
       </div>
     </div>
 
-    <!-- source badge -->
     <div id="mkt-source-badge" class="mkt-source-badge" style="display:none;">
       <span id="mkt-source-icon"></span>
       <span id="mkt-source-text"></span>
@@ -164,7 +190,7 @@
         </div>
         <button class="addon-popup-close" id="mp-close"></button>
       </div>
-      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px;">
         <span class="tag" id="mp-version"></span>
         <span class="badge badge-green" id="mp-status"></span>
       </div>
@@ -206,65 +232,36 @@
     </div>
     <div style="padding:20px 28px 28px;">
       <p style="font-size:14px;color:var(--text3);margin-bottom:20px;">
-        Add your addon to the <code>airlinklabs/addons</code> repository by opening a pull request. Each addon gets its own folder.
+        Add your addon to the <code>airlinklabs/addons</code> repository by opening a pull request.
       </p>
       <div style="display:flex;flex-direction:column;gap:16px;">
         <div class="addon-step">
           <div class="addon-step-num">1</div>
           <div class="addon-step-body">
             <h4>Fork the addons repo</h4>
-            <p style="font-size:13px;color:var(--text3);">Fork <code>airlinklabs/addons</code> on GitHub and create a new folder with your addon's unique ID (e.g. <code>my-cool-addon/</code>).</p>
+            <p style="font-size:13px;color:var(--text3);">Create a folder with your addon's unique ID (e.g. <code>my-cool-addon/</code>).</p>
           </div>
         </div>
         <div class="addon-step">
           <div class="addon-step-num">2</div>
           <div class="addon-step-body">
-            <h4>Add <code>info.json</code></h4>
-            <div class="code-block"><code>{
-  "name": "My Addon",
-  "version": "1.0.0",
-  "description": "What it does",
-  "author": "yourname",
-  "status": "working",
-  "tags": ["Tag1"],
-  "icon": "https://example.com/icon.svg",
-  "features": ["Feature 1", "Feature 2"],
-  "github": "https://github.com/you/your-addon"
-}</code></div>
+            <h4>Add <code>info.json</code> &amp; <code>install.json</code></h4>
+            <p style="font-size:13px;color:var(--text3);">Metadata, icon, tags, features, and install steps.</p>
           </div>
         </div>
         <div class="addon-step">
           <div class="addon-step-num">3</div>
           <div class="addon-step-body">
-            <h4>Add <code>install.json</code></h4>
-            <div class="code-block"><code>{
-  "note": "Optional tip shown after install steps",
-  "steps": [
-    {
-      "title": "Clone the addon",
-      "commands": ["git clone ... /var/www/panel/storage/addons/my-addon"]
-    },
-    {
-      "title": "Restart panel",
-      "commands": ["systemctl restart airlink-panel"]
-    }
-  ]
-}</code></div>
-          </div>
-        </div>
-        <div class="addon-step">
-          <div class="addon-step-num">4</div>
-          <div class="addon-step-body">
             <h4>Open a Pull Request</h4>
-            <p style="font-size:13px;color:var(--text3);">Once merged, the registry auto-updates every 6 hours and your addon appears here.</p>
+            <p style="font-size:13px;color:var(--text3);">Once merged, the registry updates within 6 hours.</p>
           </div>
         </div>
       </div>
-      <div style="display:flex;gap:9px;margin-top:22px;">
-        <a id="submit-pr-btn" href="#" class="btn btn-primary" target="_blank" rel="noopener" style="flex:1;justify-content:center;">
-          <span id="submit-pr-icon"></span> Open PR on GitHub
+      <div style="display:flex;gap:9px;margin-top:22px;flex-wrap:wrap;">
+        <a id="submit-pr-btn" href="#" class="btn btn-primary" target="_blank" rel="noopener" style="flex:1 1 120px;justify-content:center;">
+          <span id="submit-pr-icon"></span> Open PR
         </a>
-        <button class="btn btn-ghost" id="submit-dismiss" style="flex:1;justify-content:center;">Maybe later</button>
+        <button class="btn btn-ghost" id="submit-dismiss" style="flex:1 1 120px;justify-content:center;">Maybe later</button>
       </div>
     </div>
   </div>
@@ -274,35 +271,31 @@
 <script src="../public/js/nav.js"></script>
 <script>
 (function () {
-  var cfg = window.SITE_CONFIG;
+  var cfg  = window.SITE_CONFIG;
   var site = cfg && cfg.site || {};
 
   if (site.faviconUrl) document.getElementById('site-favicon').href = site.faviconUrl;
-
-  var rawTitle = site.title || 'AirLink';
-  document.title = 'Marketplace — ' + rawTitle;
-
+  document.title = 'Marketplace — ' + (site.title || 'AirLink');
   var titleEl = document.getElementById('site-title');
   var verEl   = document.getElementById('site-version');
-  if (titleEl) titleEl.textContent = rawTitle;
+  if (titleEl) titleEl.textContent = site.title || 'AirLink';
   if (verEl)   verEl.textContent   = site.versionLabel || 'v1.0.0 beta';
 
-  // nav icons & links
+  // nav icons
   document.getElementById('nav-github-icon').innerHTML  = getIcon('github');
   document.getElementById('nav-discord-icon').innerHTML = getIcon('discord');
-  var navGh = document.getElementById('nav-github');
-  var navDc = document.getElementById('nav-discord');
-  var panelUrl   = site.githubPanel ? 'https://github.com/' + site.githubPanel : '#';
-  var discordUrl = site.discordUrl || '#';
-  if (navGh) navGh.href = panelUrl;
-  if (navDc) navDc.href = discordUrl;
-  // mobile drawer links
-  var mobileGh = document.getElementById('nav-github-mobile');
-  var mobileDc = document.getElementById('nav-discord-mobile');
-  if (mobileGh) mobileGh.href = panelUrl;
-  if (mobileDc) mobileDc.href = discordUrl;
 
-  // ui icons
+  var panelUrl   = site.githubPanel ? 'https://github.com/' + site.githubPanel : '#';
+  var discordUrl = site.discordUrl  || '#';
+
+  document.getElementById('nav-github').href = panelUrl;
+  document.getElementById('nav-discord').href = discordUrl;
+  var mGh = document.getElementById('nav-github-mobile');
+  var mDc = document.getElementById('nav-discord-mobile');
+  if (mGh) mGh.href = panelUrl;
+  if (mDc) mDc.href = discordUrl;
+
+  // other icons
   document.getElementById('mkt-search-icon').innerHTML  = getIcon('search');
   document.getElementById('mkt-search-clear').innerHTML = getIcon('close', 11);
   document.getElementById('mkt-empty-icon').innerHTML   = getIcon('search', 36);
@@ -315,47 +308,38 @@
   document.getElementById('submit-close').innerHTML     = getIcon('close');
   document.getElementById('submit-pr-icon').innerHTML   = getIcon('pullRequest');
 
-  var ADDONS_REPO = 'airlinklabs/addons';
+  var ADDONS_REPO   = 'airlinklabs/addons';
   var addonsRepoUrl = 'https://github.com/' + ADDONS_REPO;
 
-  // submit links
-  var submitBtn = document.getElementById('mkt-submit-btn');
+  var submitBtn   = document.getElementById('mkt-submit-btn');
   var submitPrBtn = document.getElementById('submit-pr-btn');
-  if (submitBtn) submitBtn.href = addonsRepoUrl + '/pulls';
+  if (submitBtn)   submitBtn.href   = addonsRepoUrl + '/pulls';
   if (submitPrBtn) submitPrBtn.href = addonsRepoUrl + '/pulls';
 
-  // source badge
   var sourceBadge = document.getElementById('mkt-source-badge');
-  var sourceText = document.getElementById('mkt-source-text');
-  var sourceLink = document.getElementById('mkt-source-link');
-  if (sourceText) sourceText.textContent = 'Loaded from airlinklabs/addons';
+  var sourceText  = document.getElementById('mkt-source-text');
+  var sourceLink  = document.getElementById('mkt-source-link');
+  if (sourceText) sourceText.textContent = 'airlinklabs/addons';
   if (sourceLink) sourceLink.href = addonsRepoUrl;
 
-  // ---- state ----
-  var allAddons = [];
+  // ── state ──
+  var allAddons      = [];
   var filteredAddons = [];
-  var activeTag = 'all';
-  var activeStatus = 'all';
-  var searchQuery = '';
+  var activeTag      = 'all';
+  var activeStatus   = 'all';
+  var searchQuery    = '';
 
-  // ---- load registry ----
+  // ── load registry ──
   function loadRegistry() {
-    // try cached static file first
     fetch('../public/api-cache/addons-registry.json')
-      .then(function (r) {
-        if (!r.ok) throw new Error('cache miss');
-        return r.json();
-      })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
       .then(function (data) {
         allAddons = data.addons || [];
         if (sourceBadge) sourceBadge.style.display = 'flex';
         initFilters();
         applyFilters();
       })
-      .catch(function () {
-        // fallback: live GitHub API tree walk
-        fetchLiveRegistry();
-      });
+      .catch(function () { fetchLiveRegistry(); });
   }
 
   function fetchLiveRegistry() {
@@ -365,9 +349,7 @@
     .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
     .then(function (contents) {
       var folders = contents.filter(function (i) { return i.type === 'dir' && !i.name.startsWith('.'); });
-      return Promise.all(folders.map(function (f) {
-        return fetchAddonFolder(f.name);
-      }));
+      return Promise.all(folders.map(function (f) { return fetchAddonFolder(f.name); }));
     })
     .then(function (results) {
       allAddons = results.filter(Boolean);
@@ -375,8 +357,7 @@
       applyFilters();
     })
     .catch(function () {
-      // final fallback: read from config.json addons array
-      allAddons = (cfg && cfg.addons) ? cfg.addons.map(normalizeConfigAddon) : [];
+      allAddons = (cfg && cfg.addons || []).map(normalizeConfigAddon);
       initFilters();
       applyFilters();
     });
@@ -386,27 +367,19 @@
     var base = 'https://raw.githubusercontent.com/' + ADDONS_REPO + '/main/' + id;
     return fetch(base + '/info.json')
       .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
-      .then(function (pkg) {
+      .then(function (info) {
         return fetch(base + '/install.json')
           .then(function (r) { return r.ok ? r.json() : {}; })
           .catch(function () { return {}; })
           .then(function (inst) {
             return {
-              id: id,
-              name: pkg.name || id,
-              version: pkg.version || 'unknown',
-              description: pkg.description || '',
-              longDescription: pkg.longDescription || pkg.description || '',
-              author: pkg.author || '',
-              tags: pkg.tags || [],
-              status: pkg.status || 'working',
-              icon: pkg.icon || '',
-              iconType: pkg.iconType || 'url',
-              features: pkg.features || [],
-              github: pkg.github || ('https://github.com/' + ADDONS_REPO + '/tree/main/' + id),
-              installNote: inst.note || pkg.installNote || '',
-              installSteps: inst.steps || [],
-              screenshots: pkg.screenshots || []
+              id: id, name: info.name || id, version: info.version || '',
+              description: info.description || '', longDescription: info.longDescription || info.description || '',
+              author: info.author || '', tags: info.tags || [], status: info.status || 'working',
+              icon: info.icon || '', features: info.features || [],
+              github: info.github || (addonsRepoUrl + '/tree/main/' + id),
+              installNote: inst.note || '', installSteps: inst.steps || [],
+              screenshots: info.screenshots || []
             };
           });
       })
@@ -415,34 +388,21 @@
 
   function normalizeConfigAddon(a) {
     return {
-      id: a.id,
-      name: a.name,
-      version: a.version || '',
-      description: a.description || '',
-      longDescription: a.longDescription || a.description || '',
-      author: a.author || '',
-      tags: a.tags || [],
-      status: a.status || 'working',
-      icon: a.iconFile || '',
-      iconType: 'url',
-      features: a.features || [],
-      github: a.github || '#',
-      installNote: a.installNote || '',
-      installSteps: a.installSteps || [],
+      id: a.id, name: a.name, version: a.version || '', description: a.description || '',
+      longDescription: a.longDescription || '', author: a.author || '', tags: a.tags || [],
+      status: a.status || 'working', icon: a.iconFile || '', features: a.features || [],
+      github: a.github || '#', installNote: a.installNote || '', installSteps: a.installSteps || [],
       screenshots: []
     };
   }
 
-  // ---- filters ----
+  // ── filters ──
   function initFilters() {
     var allTags = [];
     allAddons.forEach(function (a) {
-      (a.tags || []).forEach(function (t) {
-        if (allTags.indexOf(t) === -1) allTags.push(t);
-      });
+      (a.tags || []).forEach(function (t) { if (allTags.indexOf(t) === -1) allTags.push(t); });
     });
     var tagFilters = document.getElementById('tag-filters');
-    // clear existing except "All"
     var allBtn = tagFilters.querySelector('[data-tag="all"]');
     tagFilters.innerHTML = '';
     tagFilters.appendChild(allBtn);
@@ -471,26 +431,27 @@
   }
 
   function renderGrid() {
-    var grid    = document.getElementById('mkt-grid');
-    var empty   = document.getElementById('mkt-empty');
-    var count   = document.getElementById('mkt-count');
+    var grid  = document.getElementById('mkt-grid');
+    var empty = document.getElementById('mkt-empty');
+    var count = document.getElementById('mkt-count');
     grid.innerHTML = '';
     count.textContent = filteredAddons.length + ' addon' + (filteredAddons.length !== 1 ? 's' : '') + ' found';
 
-    if (!filteredAddons.length) {
-      empty.style.display = 'flex';
-      return;
-    }
+    if (!filteredAddons.length) { empty.style.display = 'flex'; return; }
     empty.style.display = 'none';
 
     filteredAddons.forEach(function (addon) {
-      var tags = (addon.tags || []).map(function (t) { return '<span class="tag">' + escHtml(t) + '</span>'; }).join('');
       var card = document.createElement('div');
       card.className = 'mkt-card';
       card.dataset.addonId = addon.id;
+
+      var tags = (addon.tags || []).map(function (t) {
+        return '<span class="tag">' + escHtml(t) + '</span>';
+      }).join('');
+
       card.innerHTML =
         '<div class="mkt-card-top">' +
-          '<div class="addon-icon">' + renderIcon(addon) + '</div>' +
+          '<div class="addon-icon-slot"></div>' +
           '<div class="mkt-card-meta">' +
             '<div class="mkt-card-name">' + escHtml(addon.name) + '</div>' +
             '<div class="mkt-card-author">by ' + escHtml(addon.author || '') + '</div>' +
@@ -502,21 +463,26 @@
           '<div class="mkt-card-tags">' + tags + '</div>' +
           '<span class="mkt-card-ver">' + escHtml(addon.version || '') + '</span>' +
         '</div>';
+
+      // inject icon into the slot
+      var slot = card.querySelector('.addon-icon-slot');
+      slot.className = 'addon-icon';
+      if (addon.icon) {
+        var img = new Image();
+        img.style.cssText = 'width:22px;height:22px;object-fit:contain;display:block;';
+        img.alt = '';
+        img.onerror = function () { slot.innerHTML = getIcon('puzzle', 22); };
+        img.src = addon.icon;
+        slot.appendChild(img);
+      } else {
+        slot.innerHTML = getIcon('puzzle', 22);
+      }
+
       grid.appendChild(card);
     });
   }
 
-  function renderIcon(addon) {
-    if (addon.iconType === 'svg' && addon.icon) {
-      return addon.icon; // inline svg string
-    }
-    if (addon.icon) {
-      return '<img src="' + escHtml(addon.icon) + '" alt="" onerror="this.parentElement.innerHTML=\'' + getIcon('puzzle', 22).replace(/'/g,"&#39;") + '\'">';
-    }
-    return getIcon('puzzle', 22);
-  }
-
-  // ---- tag/status filter clicks ----
+  // ── filter clicks ──
   document.addEventListener('click', function (e) {
     var tagBtn = e.target.closest('.mkt-tag-btn');
     if (tagBtn) {
@@ -535,7 +501,7 @@
     }
   });
 
-  // ---- search ----
+  // ── search ──
   var searchInput = document.getElementById('mkt-search');
   var clearBtn    = document.getElementById('mkt-search-clear');
   searchInput.addEventListener('input', function () {
@@ -544,36 +510,27 @@
     applyFilters();
   });
   clearBtn.addEventListener('click', function () {
-    searchInput.value = '';
-    searchQuery = '';
+    searchInput.value = ''; searchQuery = '';
     clearBtn.style.display = 'none';
-    searchInput.focus();
-    applyFilters();
+    searchInput.focus(); applyFilters();
   });
   document.getElementById('mkt-reset').addEventListener('click', function () {
-    searchInput.value = '';
-    searchQuery = '';
-    activeTag = 'all';
-    activeStatus = 'all';
+    searchInput.value = ''; searchQuery = ''; activeTag = 'all'; activeStatus = 'all';
     clearBtn.style.display = 'none';
     document.querySelectorAll('.mkt-tag-btn').forEach(function (b) { b.classList.toggle('active', b.dataset.tag === 'all'); });
     document.querySelectorAll('.mkt-status-btn').forEach(function (b) { b.classList.toggle('active', b.dataset.status === 'all'); });
     applyFilters();
   });
 
-  // ---- addon popup ----
+  // ── addon popup ──
   var addonOverlay = document.getElementById('addon-overlay');
-  var mpClose = document.getElementById('mp-close');
+  var mpClose      = document.getElementById('mp-close');
 
-  function closeAddon() {
-    addonOverlay.classList.remove('active');
-    document.body.style.overflow = '';
-  }
+  function closeAddon() { addonOverlay.classList.remove('active'); document.body.style.overflow = ''; }
   mpClose.addEventListener('click', closeAddon);
   addonOverlay.addEventListener('click', function (e) { if (e.target === addonOverlay) closeAddon(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && addonOverlay.classList.contains('active')) closeAddon(); });
 
-  // tabs
   addonOverlay.querySelectorAll('.addon-tab').forEach(function (tab) {
     tab.addEventListener('click', function () {
       addonOverlay.querySelectorAll('.addon-tab, .addon-panel').forEach(function (el) { el.classList.remove('active'); });
@@ -589,13 +546,24 @@
   });
 
   function openAddon(addon) {
-    // reset to overview tab
     addonOverlay.querySelectorAll('.addon-tab, .addon-panel').forEach(function (el) { el.classList.remove('active'); });
     addonOverlay.querySelector('[data-tab="overview"]').classList.add('active');
     document.getElementById('mp-panel-overview').classList.add('active');
 
-    // icon
-    document.getElementById('mp-icon').innerHTML = renderIcon(addon);
+    // icon — DOM approach, no quote issues
+    var iconEl = document.getElementById('mp-icon');
+    iconEl.innerHTML = '';
+    if (addon.icon) {
+      var img = new Image();
+      img.style.cssText = 'width:32px;height:32px;object-fit:contain;display:block;';
+      img.alt = '';
+      img.onerror = function () { iconEl.innerHTML = getIcon('puzzle', 24); };
+      img.src = addon.icon;
+      iconEl.appendChild(img);
+    } else {
+      iconEl.innerHTML = getIcon('puzzle', 24);
+    }
+
     document.getElementById('mp-name').textContent    = addon.name;
     document.getElementById('mp-byline').textContent  = 'by ' + (addon.author || 'Unknown') + ' · ' + (addon.version || '');
     document.getElementById('mp-version').textContent = addon.version || '';
@@ -609,10 +577,8 @@
     if (addon.screenshots && addon.screenshots.length) {
       slideEl.style.display = '';
       makeSlideshow(slideEl, addon.screenshots, 'puzzle', {
-        arrowClass: 'feat-slide-arrow',
-        imgClass: 'addon-slide-img',
-        dotClass: 'feat-dot',
-        emptyClass: 'feat-slide-empty'
+        arrowClass: 'feat-slide-arrow', imgClass: 'addon-slide-img',
+        dotClass: 'feat-dot', emptyClass: 'feat-slide-empty'
       });
     }
 
@@ -651,49 +617,32 @@
     });
     initCopyButtons();
 
-    // note
     var noteEl   = document.getElementById('mp-note');
     var noteText = document.getElementById('mp-note-text');
-    if (addon.installNote) {
-      noteText.textContent = addon.installNote;
-      noteEl.style.display = 'flex';
-    } else {
-      noteEl.style.display = 'none';
-    }
+    if (addon.installNote) { noteText.textContent = addon.installNote; noteEl.style.display = 'flex'; }
+    else { noteEl.style.display = 'none'; }
 
     addonOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
 
-  // card click
   document.getElementById('mkt-grid').addEventListener('click', function (e) {
     var card = e.target.closest('.mkt-card');
     if (!card) return;
-    var id = card.dataset.addonId;
-    var addon = allAddons.find(function (a) { return a.id === id; });
+    var addon = allAddons.find(function (a) { return a.id === card.dataset.addonId; });
     if (addon) openAddon(addon);
   });
 
-  // ---- submit overlay ----
+  // ── submit overlay ──
   var submitOverlay = document.getElementById('submit-overlay');
-  document.getElementById('submit-close').addEventListener('click', function () {
-    submitOverlay.classList.remove('active');
-    document.body.style.overflow = '';
-  });
-  document.getElementById('submit-dismiss').addEventListener('click', function () {
-    submitOverlay.classList.remove('active');
-    document.body.style.overflow = '';
-  });
-  submitOverlay.addEventListener('click', function (e) {
-    if (e.target === submitOverlay) {
-      submitOverlay.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  });
+  function closeSubmit() { submitOverlay.classList.remove('active'); document.body.style.overflow = ''; }
+  document.getElementById('submit-close').addEventListener('click', closeSubmit);
+  document.getElementById('submit-dismiss').addEventListener('click', closeSubmit);
+  submitOverlay.addEventListener('click', function (e) { if (e.target === submitOverlay) closeSubmit(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && submitOverlay.classList.contains('active')) closeSubmit(); });
 
-  // ---- start ----
+  // ── init ──
   loadRegistry();
-  initCopyButtons();
 })();
 </script>
 
