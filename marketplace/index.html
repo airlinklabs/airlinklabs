@@ -60,11 +60,45 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
+      margin-top: 14px;
+      width: 100%;
+      box-sizing: border-box;
     }
     .addon-popup-btns .btn {
-      flex: 1 1 120px;
+      flex: 1 1 100px;
       min-width: 0;
+      max-width: 100%;
       justify-content: center;
+      box-sizing: border-box;
+    }
+    /* Popup top row: icon + name block + close — keep close from pushing things off */
+    .addon-popup-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      width: 100%;
+      box-sizing: border-box;
+      min-width: 0;
+    }
+    .addon-popup-name-block {
+      flex: 1;
+      min-width: 0;
+    }
+    .addon-popup-close {
+      flex-shrink: 0;
+      margin-left: auto;
+    }
+    /* Popup itself: constrain to viewport */
+    .addon-popup {
+      max-width: min(640px, 96vw);
+      width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    @media (max-width: 480px) {
+      .addon-popup-btns .btn {
+        flex: 1 1 100%;
+      }
     }
 
     /* ── Addon icon: always constrained ── */
@@ -187,14 +221,14 @@
         <div class="addon-popup-name-block">
           <div class="addon-popup-name" id="mp-name"></div>
           <div class="addon-popup-byline" id="mp-byline"></div>
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px;">
+            <span class="tag" id="mp-version"></span>
+            <span class="badge badge-green" id="mp-status"></span>
+          </div>
         </div>
         <button class="addon-popup-close" id="mp-close"></button>
       </div>
-      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px;">
-        <span class="tag" id="mp-version"></span>
-        <span class="badge badge-green" id="mp-status"></span>
-      </div>
-      <div class="addon-popup-btns" style="margin-top:12px;">
+      <div class="addon-popup-btns">
         <a id="mp-github-btn" href="#" target="_blank" rel="noopener" class="btn btn-ghost">
           <span id="mp-github-icon"></span> GitHub
         </a>
@@ -273,6 +307,14 @@
 (function () {
   var cfg  = window.SITE_CONFIG;
   var site = cfg && cfg.site || {};
+
+  // Sanitize getIcon output — strip trailing '"> ' artifacts from malformed SVG strings
+  var _getIcon = getIcon;
+  getIcon = function (name, size) {
+    var s = _getIcon(name, size) || '';
+    s = s.replace(/\s*"\s*>\s*$/g, '').replace(/\/>\s*">/g, '/>');
+    return s;
+  };
 
   if (site.faviconUrl) document.getElementById('site-favicon').href = site.faviconUrl;
   document.title = 'Marketplace — ' + (site.title || 'AirLink');
