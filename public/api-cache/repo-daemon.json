@@ -73,7 +73,7 @@
   "clone_url": "https://github.com/airlinklabs/daemon.git",
   "svn_url": "https://github.com/airlinklabs/daemon",
   "homepage": "https://airlinklabs.github.io/home",
-  "size": 277,
+  "size": 278,
   "stargazers_count": 9,
   "watchers_count": 9,
   "language": "TypeScript",
