@@ -570,7 +570,7 @@
     return fetch(base + '/info.json')
       .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
       .then(function (info) {
-        return fetch(base + '/install.json')
+        return fetch(base + '/steps.json')
           .then(function (r) { return r.ok ? r.json() : {}; })
           .catch(function () { return {}; })
           .then(function (inst) {
