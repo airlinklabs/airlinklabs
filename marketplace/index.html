@@ -167,9 +167,8 @@
         </div>
       </div>
 
-      <!-- reviews panel stays in the DOM at all times so giscus can initialize -->
-      <div class="addon-popup-panel addon-popup-panel-reviews" id="mp-panel-reviews">
-        <div id="mp-giscus-wrap"></div>
+      <div class="addon-popup-panel" id="mp-panel-reviews">
+        <div id="mp-giscus-wrap" style="display:none;"></div>
       </div>
     </div>
 
@@ -255,16 +254,16 @@
   document.getElementById('mkt-submit-btn').href      = addonsUrl;
   document.getElementById('submit-pr-btn').href       = addonsUrl + '/compare';
 
-  document.getElementById('mkt-submit-icon').innerHTML = getIcon('gitPullRequest', 14);
-  document.getElementById('submit-pr-icon').innerHTML  = getIcon('gitPullRequest', 14);
-  document.getElementById('mp-github-icon').innerHTML  = getIcon('github', 14);
-  document.getElementById('mp-dl-icon').innerHTML      = getIcon('download', 14);
-  document.getElementById('mp-close').innerHTML        = getIcon('x', 14);
-  document.getElementById('submit-close').innerHTML    = getIcon('x', 14);
-  document.getElementById('mp-note-icon').innerHTML    = getIcon('info', 14);
-  document.getElementById('mkt-search-icon').innerHTML = getIcon('search', 14);
-  document.getElementById('mkt-search-clear').innerHTML = getIcon('x', 10);
-  document.getElementById('mkt-empty-icon').innerHTML  = getIcon('search', 28);
+  document.getElementById('mkt-submit-icon').innerHTML  = getIcon('pullRequest', 14);
+  document.getElementById('submit-pr-icon').innerHTML   = getIcon('pullRequest', 14);
+  document.getElementById('mp-github-icon').innerHTML   = getIcon('github', 14);
+  document.getElementById('mp-dl-icon').innerHTML       = getIcon('download', 14);
+  document.getElementById('mp-close').innerHTML         = getIcon('close', 13);
+  document.getElementById('submit-close').innerHTML     = getIcon('close', 13);
+  document.getElementById('mp-note-icon').innerHTML     = getIcon('info', 14);
+  document.getElementById('mkt-search-icon').innerHTML  = getIcon('search', 14);
+  document.getElementById('mkt-search-clear').innerHTML = getIcon('close', 10);
+  document.getElementById('mkt-empty-icon').innerHTML   = getIcon('search', 28);
 
   initTheme();
 
@@ -507,50 +506,50 @@
   addonOverlay.querySelectorAll('.addon-popup-tab').forEach(function (tab) {
     tab.addEventListener('click', function () {
       addonOverlay.querySelectorAll('.addon-popup-tab').forEach(function (t) { t.classList.remove('active'); });
-      addonOverlay.querySelectorAll('.addon-popup-panel:not(.addon-popup-panel-reviews)').forEach(function (p) { p.classList.remove('active'); });
-
+      addonOverlay.querySelectorAll('.addon-popup-panel').forEach(function (p) { p.classList.remove('active'); });
       tab.classList.add('active');
-      var panelId = 'mp-panel-' + tab.dataset.tab;
-      var panel   = document.getElementById(panelId);
-      if (panel) panel.classList.add('active');
+      document.getElementById('mp-panel-' + tab.dataset.tab).classList.add('active');
 
-      if (tab.dataset.tab === 'reviews' && !giscusLoaded && currentAddon) {
-        loadGiscus(currentAddon);
+      var giscusWrap = document.getElementById('mp-giscus-wrap');
+      if (tab.dataset.tab === 'reviews') {
+        giscusWrap.style.display = '';
+        if (!giscusLoaded && currentAddon) loadGiscus(currentAddon);
+      } else {
+        giscusWrap.style.display = 'none';
       }
     });
   });
 
   document.getElementById('mp-install-tab-btn').addEventListener('click', function () {
     addonOverlay.querySelectorAll('.addon-popup-tab').forEach(function (t) { t.classList.remove('active'); });
-    addonOverlay.querySelectorAll('.addon-popup-panel:not(.addon-popup-panel-reviews)').forEach(function (p) { p.classList.remove('active'); });
+    addonOverlay.querySelectorAll('.addon-popup-panel').forEach(function (p) { p.classList.remove('active'); });
     addonOverlay.querySelector('[data-tab="install"]').classList.add('active');
     document.getElementById('mp-panel-install').classList.add('active');
+    document.getElementById('mp-giscus-wrap').style.display = 'none';
   });
 
   function getGiscusTheme() {
-    return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark_dimmed';
+    return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
   }
 
   function loadGiscus(addon) {
     if (giscusLoaded) return;
     var wrap = document.getElementById('mp-giscus-wrap');
     wrap.innerHTML = '';
-    giscusLoaded = false;
 
     var script = document.createElement('script');
     script.src = 'https://giscus.app/client.js';
-    script.setAttribute('data-repo',            'airlinklabs/addons');
-    script.setAttribute('data-repo-id',         'R_kgDORWKyuA');
-    script.setAttribute('data-category',        'Addon Reviews');
-    script.setAttribute('data-category-id',     'DIC_kwDORWKyuM4C3Vev');
-    script.setAttribute('data-mapping',         'specific');
-    script.setAttribute('data-term',            'addon:' + addon.id);
-    script.setAttribute('data-strict',          '0');
+    script.setAttribute('data-repo',              'airlinklabs/addons');
+    script.setAttribute('data-repo-id',           'R_kgDORWIFjw');
+    script.setAttribute('data-category',          'General');
+    script.setAttribute('data-category-id',       'DIC_kwDORWIFj84C3VtZ');
+    script.setAttribute('data-mapping',           'pathname');
+    script.setAttribute('data-strict',            '0');
     script.setAttribute('data-reactions-enabled', '1');
-    script.setAttribute('data-emit-metadata',   '0');
-    script.setAttribute('data-input-position',  'top');
-    script.setAttribute('data-theme',           getGiscusTheme());
-    script.setAttribute('data-lang',            'en');
+    script.setAttribute('data-emit-metadata',     '0');
+    script.setAttribute('data-input-position',    'bottom');
+    script.setAttribute('data-theme',             getGiscusTheme());
+    script.setAttribute('data-lang',              'en');
     script.crossOrigin = 'anonymous';
     script.async = true;
     wrap.appendChild(script);
@@ -570,16 +569,15 @@
     currentAddon = addon;
     giscusLoaded = false;
 
-    // reset tabs — overview active, reviews panel stays in DOM
+    // reset tabs
     addonOverlay.querySelectorAll('.addon-popup-tab').forEach(function (t) { t.classList.remove('active'); });
-    addonOverlay.querySelectorAll('.addon-popup-panel:not(.addon-popup-panel-reviews)').forEach(function (p) { p.classList.remove('active'); });
+    addonOverlay.querySelectorAll('.addon-popup-panel').forEach(function (p) { p.classList.remove('active'); });
     addonOverlay.querySelector('[data-tab="overview"]').classList.add('active');
     document.getElementById('mp-panel-overview').classList.add('active');
-    // keep reviews panel visible in DOM but visually hidden via CSS
-    document.getElementById('mp-panel-reviews').classList.remove('active');
 
     // clear stale giscus
     document.getElementById('mp-giscus-wrap').innerHTML = '';
+    document.getElementById('mp-giscus-wrap').style.display = 'none';
 
     // icon
     var iconEl = document.getElementById('mp-icon');
@@ -659,11 +657,6 @@
 
     addonOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
-
-    // pre-load giscus after popup paints so it has a real DOM to attach to
-    setTimeout(function () {
-      if (currentAddon && currentAddon.id === addon.id) loadGiscus(addon);
-    }, 200);
   }
 
   document.getElementById('mkt-grid').addEventListener('click', function (e) {
