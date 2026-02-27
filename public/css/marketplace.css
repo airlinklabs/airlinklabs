@@ -500,22 +500,6 @@
 .addon-popup-panel { display: none; }
 .addon-popup-panel.active { display: block; }
 
-/* reviews panel stays rendered but visually hidden when inactive */
-.addon-popup-panel-reviews {
-  display: block !important;
-  visibility: hidden;
-  height: 0;
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
-}
-.addon-popup-panel-reviews.active {
-  visibility: visible;
-  height: auto;
-  overflow: visible;
-  padding: 0;
-}
-
 /* overview content */
 .addon-desc-text {
   font-size: 14px;
@@ -590,7 +574,12 @@
 
 /* giscus */
 .mp-giscus-wrap {
-  min-height: 120px;
+  min-height: 200px;
+}
+
+.mp-giscus-wrap .giscus,
+.mp-giscus-wrap .giscus-frame {
+  width: 100% !important;
 }
 
 /* ---- submit overlay ---- */
