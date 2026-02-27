@@ -20,252 +20,6 @@
     @media (min-width: 821px) {
       .nav-mobile-only { display: none !important; }
     }
-
-    .mkt-source-badge {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 11px;
-      font-family: var(--mono);
-      color: var(--text3);
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      padding: 6px 12px;
-      margin-bottom: 16px;
-    }
-    .mkt-source-badge a {
-      color: var(--accent2);
-      text-decoration: underline;
-      margin-left: auto;
-    }
-
-    .mkt-skeleton {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      height: 160px;
-      animation: skeleton-pulse 1.4s ease-in-out infinite;
-    }
-    @keyframes skeleton-pulse {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.4; }
-    }
-
-    /* ── Addon popup ── */
-    .addon-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      z-index: 2000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.18s ease;
-      box-sizing: border-box;
-    }
-    .addon-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .addon-popup {
-      position: relative;
-      background: var(--bg1, #111);
-      border: 1px solid var(--border, #2a2a2a);
-      border-radius: 14px;
-      width: 100%;
-      max-width: 620px;
-      max-height: 90vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
-      transform: translateY(10px) scale(0.98);
-      transition: transform 0.2s cubic-bezier(0.23,1,0.32,1);
-    }
-    .addon-overlay.active .addon-popup {
-      transform: translateY(0) scale(1);
-    }
-
-    /* Slideshow */
-    .addon-popup-slideshow {
-      flex-shrink: 0;
-      max-height: 220px;
-      overflow: hidden;
-      border-bottom: 1px solid var(--border, #2a2a2a);
-    }
-
-    /* Header — fixed, never scrolls */
-    .addon-popup-header {
-      flex-shrink: 0;
-      padding: 18px 18px 0;
-      box-sizing: border-box;
-    }
-
-    /* Top row: icon · name block · close button */
-    .addon-popup-top {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    .addon-popup-icon {
-      flex-shrink: 0;
-      width: 46px;
-      height: 46px;
-      border-radius: 10px;
-      background: var(--bg2, #1a1a1a);
-      border: 1px solid var(--border, #2a2a2a);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-    .addon-popup-icon img {
-      width: 30px;
-      height: 30px;
-      object-fit: contain;
-      display: block;
-    }
-
-    .addon-popup-name-block {
-      flex: 1 1 0%;
-      min-width: 0;
-    }
-    .addon-popup-name {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text, #fff);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .addon-popup-byline {
-      font-size: 12px;
-      color: var(--text3, #666);
-      margin-top: 2px;
-    }
-    .addon-popup-meta {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-top: 5px;
-    }
-
-    .addon-popup-close {
-      flex-shrink: 0;
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
-      background: var(--bg2, #1a1a1a);
-      border: 1px solid var(--border, #2a2a2a);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text3, #888);
-      padding: 0;
-      transition: background 0.15s, color 0.15s;
-    }
-    .addon-popup-close:hover {
-      background: var(--bg3, #222);
-      color: var(--text, #fff);
-    }
-
-    /* Action buttons */
-    .addon-popup-btns {
-      display: flex;
-      gap: 8px;
-      margin-top: 14px;
-      box-sizing: border-box;
-      width: 100%;
-    }
-    .addon-popup-btns .btn {
-      flex: 1 1 0%;
-      min-width: 0;
-      justify-content: center;
-      text-align: center;
-      box-sizing: border-box;
-      padding: 8px 12px;
-      font-size: 13px;
-    }
-    @media (max-width: 400px) {
-      .addon-popup-btns { flex-direction: column; }
-    }
-
-    /* Tab bar sits below buttons, inside header */
-    .addon-popup-tab-bar {
-      display: flex;
-      gap: 2px;
-      margin-top: 14px;
-      border-bottom: 1px solid var(--border, #2a2a2a);
-    }
-    .addon-popup-tab {
-      padding: 7px 14px;
-      border-radius: 7px 7px 0 0;
-      font-size: 13px;
-      font-weight: 500;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      color: var(--text3, #888);
-      transition: background 0.15s, color 0.15s;
-      position: relative;
-      bottom: -1px;
-      border-bottom: 2px solid transparent;
-    }
-    .addon-popup-tab:hover {
-      color: var(--text, #fff);
-    }
-    .addon-popup-tab.active {
-      color: var(--text, #fff);
-      border-bottom-color: var(--accent, #5865f2);
-      background: transparent;
-    }
-
-    /* Scrollable body */
-    .addon-popup-body {
-      flex: 1 1 auto;
-      overflow-y: auto;
-      padding: 18px;
-      box-sizing: border-box;
-    }
-    .addon-popup-panel { display: none; }
-    .addon-popup-panel.active { display: block; }
-
-    /* Addon icon on cards */
-    .addon-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      width: 26px;
-      height: 26px;
-    }
-    .addon-icon img {
-      width: 22px;
-      height: 22px;
-      object-fit: contain;
-      display: block;
-    }
-
-    /* Giscus reviews panel */
-    .mp-giscus-wrap {
-      min-height: 120px;
-    }
-    .mp-giscus-notice {
-      font-size: 13px;
-      color: var(--text3, #666);
-      text-align: center;
-      padding: 32px 0 16px;
-    }
   </style>
 </head>
 <body>
@@ -321,7 +75,7 @@
     <div class="mkt-sidebar-section mkt-submit-box">
       <div class="mkt-sidebar-label">Submit an Addon</div>
       <p class="mkt-submit-desc">Built something? Add it by opening a pull request to the addons repo.</p>
-      <a id="mkt-submit-btn" href="#" class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:10px;" target="_blank" rel="noopener">
+      <a id="mkt-submit-btn" href="#" class="btn btn-ghost mkt-submit-full" target="_blank" rel="noopener">
         <span id="mkt-submit-icon"></span> Submit Addon
       </a>
     </div>
@@ -367,10 +121,8 @@
 <div class="addon-overlay" id="addon-overlay">
   <div class="addon-popup">
 
-    <!-- optional slideshow above header -->
     <div class="addon-popup-slideshow" id="mp-slideshow" style="display:none;"></div>
 
-    <!-- fixed header: icon / name / close / buttons / tabs -->
     <div class="addon-popup-header">
       <div class="addon-popup-top">
         <div class="addon-popup-icon" id="mp-icon"></div>
@@ -385,11 +137,11 @@
         <button class="addon-popup-close" id="mp-close" aria-label="Close"></button>
       </div>
 
-      <div class="addon-popup-btns">
-        <a id="mp-github-btn" href="#" target="_blank" rel="noopener" class="btn btn-ghost">
+      <div class="addon-popup-actions">
+        <a id="mp-github-btn" href="#" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">
           <span id="mp-github-icon"></span> GitHub
         </a>
-        <button id="mp-install-tab-btn" class="btn btn-primary">
+        <button id="mp-install-tab-btn" class="btn btn-primary btn-sm">
           <span id="mp-dl-icon"></span> Install
         </button>
       </div>
@@ -401,7 +153,6 @@
       </div>
     </div>
 
-    <!-- scrollable body -->
     <div class="addon-popup-body">
       <div class="addon-popup-panel active" id="mp-panel-overview">
         <p class="addon-desc-text" id="mp-desc"></p>
@@ -416,10 +167,9 @@
         </div>
       </div>
 
-      <div class="addon-popup-panel" id="mp-panel-reviews">
-        <div class="mp-giscus-wrap" id="mp-giscus-wrap">
-          <p class="mp-giscus-notice">Loading discussion...</p>
-        </div>
+      <!-- reviews panel stays in the DOM at all times so giscus can initialize -->
+      <div class="addon-popup-panel addon-popup-panel-reviews" id="mp-panel-reviews">
+        <div id="mp-giscus-wrap"></div>
       </div>
     </div>
 
@@ -433,7 +183,7 @@
       <h2>Submit Your Addon</h2>
       <button class="submit-close" id="submit-close"></button>
     </div>
-    <div style="padding:20px 28px 28px;">
+    <div style="padding:0 28px 28px;">
       <p style="font-size:14px;color:var(--text3);margin-bottom:20px;">
         Add your addon to the <code>airlinklabs/addons</code> repository by opening a pull request.
       </p>
@@ -494,81 +244,84 @@
   document.getElementById('nav-github-icon').innerHTML  = getIcon('github');
   document.getElementById('nav-discord-icon').innerHTML = getIcon('discord');
 
-  var panelUrl   = site.githubPanel ? 'https://github.com/' + site.githubPanel : '#';
-  var discordUrl = site.discordUrl  || '#';
+  var panelUrl   = site.githubPanel   || 'https://github.com/airlinklabs/panel';
+  var addonsUrl  = site.githubAddons  || 'https://github.com/airlinklabs/addons';
+  var discordUrl = site.discordInvite || '#';
 
-  document.getElementById('nav-github').href  = panelUrl;
-  document.getElementById('nav-discord').href = discordUrl;
-  var mGh = document.getElementById('nav-github-mobile');
-  var mDc = document.getElementById('nav-discord-mobile');
-  if (mGh) mGh.href = panelUrl;
-  if (mDc) mDc.href = discordUrl;
+  document.getElementById('nav-github').href          = panelUrl;
+  document.getElementById('nav-github-mobile').href   = panelUrl;
+  document.getElementById('nav-discord').href         = discordUrl;
+  document.getElementById('nav-discord-mobile').href  = discordUrl;
+  document.getElementById('mkt-submit-btn').href      = addonsUrl;
+  document.getElementById('submit-pr-btn').href       = addonsUrl + '/compare';
 
-  document.getElementById('mkt-search-icon').innerHTML  = getIcon('search');
-  document.getElementById('mkt-search-clear').innerHTML = getIcon('close', 11);
-  document.getElementById('mkt-empty-icon').innerHTML   = getIcon('search', 36);
-  document.getElementById('mkt-submit-icon').innerHTML  = getIcon('pullRequest');
-  document.getElementById('mkt-source-icon').innerHTML  = getIcon('github', 12);
-  document.getElementById('mp-close').innerHTML         = getIcon('close');
-  document.getElementById('mp-note-icon').innerHTML     = getIcon('info');
-  document.getElementById('mp-github-icon').innerHTML   = getIcon('github');
-  document.getElementById('mp-dl-icon').innerHTML       = getIcon('download');
-  document.getElementById('submit-close').innerHTML     = getIcon('close');
-  document.getElementById('submit-pr-icon').innerHTML   = getIcon('pullRequest');
+  document.getElementById('mkt-submit-icon').innerHTML = getIcon('gitPullRequest', 14);
+  document.getElementById('submit-pr-icon').innerHTML  = getIcon('gitPullRequest', 14);
+  document.getElementById('mp-github-icon').innerHTML  = getIcon('github', 14);
+  document.getElementById('mp-dl-icon').innerHTML      = getIcon('download', 14);
+  document.getElementById('mp-close').innerHTML        = getIcon('x', 14);
+  document.getElementById('submit-close').innerHTML    = getIcon('x', 14);
+  document.getElementById('mp-note-icon').innerHTML    = getIcon('info', 14);
+  document.getElementById('mkt-search-icon').innerHTML = getIcon('search', 14);
+  document.getElementById('mkt-search-clear').innerHTML = getIcon('x', 10);
+  document.getElementById('mkt-empty-icon').innerHTML  = getIcon('search', 28);
+
+  initTheme();
 
   var ADDONS_REPO   = 'airlinklabs/addons';
   var addonsRepoUrl = 'https://github.com/' + ADDONS_REPO;
 
-  var submitBtn   = document.getElementById('mkt-submit-btn');
-  var submitPrBtn = document.getElementById('submit-pr-btn');
-  if (submitBtn)   submitBtn.href   = addonsRepoUrl + '/pulls';
-  if (submitPrBtn) submitPrBtn.href = addonsRepoUrl + '/pulls';
-
-  var sourceBadge = document.getElementById('mkt-source-badge');
-  var sourceText  = document.getElementById('mkt-source-text');
-  var sourceLink  = document.getElementById('mkt-source-link');
-  if (sourceText) sourceText.textContent = 'airlinklabs/addons';
-  if (sourceLink) sourceLink.href = addonsRepoUrl;
-
-  // ── state ──
   var allAddons      = [];
   var filteredAddons = [];
   var activeTag      = 'all';
   var activeStatus   = 'all';
   var searchQuery    = '';
 
-  // ── registry ──
+  function escHtml(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
   function loadRegistry() {
+    var badge    = document.getElementById('mkt-source-badge');
+    var srcIcon  = document.getElementById('mkt-source-icon');
+    var srcText  = document.getElementById('mkt-source-text');
+    var srcLink  = document.getElementById('mkt-source-link');
+
     fetch('../public/api-cache/addons-registry.json')
       .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
       .then(function (data) {
-        allAddons = data.addons || [];
-        if (sourceBadge) sourceBadge.style.display = 'flex';
+        allAddons = (data.addons || []).map(normalizeConfigAddon);
+        badge.style.display = 'flex';
+        srcIcon.innerHTML   = getIcon('database', 12);
+        srcText.textContent = 'Source: cached registry';
+        srcLink.href        = addonsRepoUrl;
         initFilters();
         applyFilters();
       })
-      .catch(function () { fetchLiveRegistry(); });
-  }
-
-  function fetchLiveRegistry() {
-    fetch('https://api.github.com/repos/' + ADDONS_REPO + '/contents', {
-      headers: { 'Accept': 'application/vnd.github+json' }
-    })
-    .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function (contents) {
-      var folders = contents.filter(function (i) { return i.type === 'dir' && !i.name.startsWith('.'); });
-      return Promise.all(folders.map(function (f) { return fetchAddonFolder(f.name); }));
-    })
-    .then(function (results) {
-      allAddons = results.filter(Boolean);
-      initFilters();
-      applyFilters();
-    })
-    .catch(function () {
-      allAddons = (cfg && cfg.addons || []).map(normalizeConfigAddon);
-      initFilters();
-      applyFilters();
-    });
+      .catch(function () {
+        return fetch('https://api.github.com/repos/' + ADDONS_REPO + '/contents', {
+          headers: { 'Accept': 'application/vnd.github+json' }
+        })
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+        .then(function (contents) {
+          var folders = contents.filter(function (i) { return i.type === 'dir' && !i.name.startsWith('.'); });
+          return Promise.all(folders.map(function (f) { return fetchAddonFolder(f.name); }));
+        })
+        .then(function (results) {
+          allAddons = results.filter(Boolean);
+          badge.style.display = 'flex';
+          srcIcon.innerHTML   = getIcon('github', 12);
+          srcText.textContent = 'Source: live GitHub API';
+          srcLink.href        = addonsRepoUrl;
+          initFilters();
+          applyFilters();
+        })
+        .catch(function () {
+          allAddons = (cfg && cfg.addons || []).map(normalizeConfigAddon);
+          initFilters();
+          applyFilters();
+        });
+      });
   }
 
   function fetchAddonFolder(id) {
@@ -606,12 +359,11 @@
       id: a.id, name: a.name, version: a.version || '',
       description: a.description || '', longDescription: a.longDescription || '',
       author: a.author || '', tags: a.tags || [], status: a.status || 'working',
-      icon: a.iconFile || '', features: a.features || [], github: a.github || '#',
+      icon: a.iconFile || a.icon || '', features: a.features || [], github: a.github || '#',
       installNote: a.installNote || '', installSteps: a.installSteps || [], screenshots: []
     };
   }
 
-  // ── filters ──
   function initFilters() {
     var allTags = [];
     allAddons.forEach(function (a) {
@@ -674,6 +426,12 @@
         return '<span class="tag">' + escHtml(t) + '</span>';
       }).join('');
 
+      var statusClass = {
+        working: 'badge-green',
+        beta: 'badge-yellow',
+        wip: 'badge-gray'
+      }[addon.status] || 'badge-green';
+
       card.innerHTML =
         '<div class="mkt-card-top">' +
           iconHtml +
@@ -681,6 +439,7 @@
             '<div class="mkt-card-name">' + escHtml(addon.name) + '</div>' +
             '<div class="mkt-card-author">by ' + escHtml(addon.author || 'Unknown') + '</div>' +
           '</div>' +
+          '<span class="badge ' + statusClass + '">' + escHtml(addon.status || 'working') + '</span>' +
         '</div>' +
         '<p class="mkt-card-desc">' + escHtml(addon.description || '') + '</p>' +
         '<div class="mkt-card-footer">' +
@@ -692,7 +451,7 @@
     });
   }
 
-  // ── filter events ──
+  // filter events
   document.getElementById('tag-filters').addEventListener('click', function (e) {
     var btn = e.target.closest('.mkt-tag-btn');
     if (!btn) return;
@@ -701,16 +460,6 @@
     applyFilters();
   });
 
-  document.querySelector('.mkt-tag-list + .mkt-sidebar-section .mkt-tag-list') &&
-  document.querySelectorAll('.mkt-status-btn').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      activeStatus = btn.dataset.status;
-      document.querySelectorAll('.mkt-status-btn').forEach(function (b) { b.classList.toggle('active', b === btn); });
-      applyFilters();
-    });
-  });
-
-  // status filter — use event delegation on sidebar
   document.querySelector('.mkt-sidebar').addEventListener('click', function (e) {
     var btn = e.target.closest('.mkt-status-btn');
     if (!btn) return;
@@ -739,11 +488,11 @@
     applyFilters();
   });
 
-  // ── addon popup ──
-  var addonOverlay  = document.getElementById('addon-overlay');
-  var mpClose       = document.getElementById('mp-close');
-  var currentAddon  = null;
-  var giscusLoaded  = false;
+  // addon popup
+  var addonOverlay = document.getElementById('addon-overlay');
+  var mpClose      = document.getElementById('mp-close');
+  var currentAddon = null;
+  var giscusLoaded = false;
 
   function closeAddon() {
     addonOverlay.classList.remove('active');
@@ -758,58 +507,56 @@
   addonOverlay.querySelectorAll('.addon-popup-tab').forEach(function (tab) {
     tab.addEventListener('click', function () {
       addonOverlay.querySelectorAll('.addon-popup-tab').forEach(function (t) { t.classList.remove('active'); });
-      addonOverlay.querySelectorAll('.addon-popup-panel').forEach(function (p) { p.classList.remove('active'); });
+      addonOverlay.querySelectorAll('.addon-popup-panel:not(.addon-popup-panel-reviews)').forEach(function (p) { p.classList.remove('active'); });
+
       tab.classList.add('active');
-      document.getElementById('mp-panel-' + tab.dataset.tab).classList.add('active');
-      if (tab.dataset.tab === 'reviews' && currentAddon) {
+      var panelId = 'mp-panel-' + tab.dataset.tab;
+      var panel   = document.getElementById(panelId);
+      if (panel) panel.classList.add('active');
+
+      if (tab.dataset.tab === 'reviews' && !giscusLoaded && currentAddon) {
         loadGiscus(currentAddon);
       }
     });
   });
 
-  // install button jumps to install tab
   document.getElementById('mp-install-tab-btn').addEventListener('click', function () {
     addonOverlay.querySelectorAll('.addon-popup-tab').forEach(function (t) { t.classList.remove('active'); });
-    addonOverlay.querySelectorAll('.addon-popup-panel').forEach(function (p) { p.classList.remove('active'); });
+    addonOverlay.querySelectorAll('.addon-popup-panel:not(.addon-popup-panel-reviews)').forEach(function (p) { p.classList.remove('active'); });
     addonOverlay.querySelector('[data-tab="install"]').classList.add('active');
     document.getElementById('mp-panel-install').classList.add('active');
   });
 
-  function loadGiscus(addon) {
-    var wrap = document.getElementById('mp-giscus-wrap');
+  function getGiscusTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark_dimmed';
+  }
 
-    // remove any previous giscus iframe / script
+  function loadGiscus(addon) {
+    if (giscusLoaded) return;
+    var wrap = document.getElementById('mp-giscus-wrap');
     wrap.innerHTML = '';
     giscusLoaded = false;
 
     var script = document.createElement('script');
     script.src = 'https://giscus.app/client.js';
-    script.setAttribute('data-repo', 'airlinklabs/addons');
-    script.setAttribute('data-repo-id', 'R_kgDORWKyuA');
-    script.setAttribute('data-category', 'Addon Reviews');
-    script.setAttribute('data-category-id', 'DIC_kwDORWKyuM4C3Vev');
-    script.setAttribute('data-mapping', 'specific');
-    script.setAttribute('data-term', 'addon:' + addon.id);
-    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-repo',            'airlinklabs/addons');
+    script.setAttribute('data-repo-id',         'R_kgDORWKyuA');
+    script.setAttribute('data-category',        'Addon Reviews');
+    script.setAttribute('data-category-id',     'DIC_kwDORWKyuM4C3Vev');
+    script.setAttribute('data-mapping',         'specific');
+    script.setAttribute('data-term',            'addon:' + addon.id);
+    script.setAttribute('data-strict',          '0');
     script.setAttribute('data-reactions-enabled', '1');
-    script.setAttribute('data-emit-metadata', '0');
-    script.setAttribute('data-input-position', 'top');
-    script.setAttribute('data-theme', getGiscusTheme());
-    script.setAttribute('data-lang', 'en');
-    script.setAttribute('data-loading', 'lazy');
+    script.setAttribute('data-emit-metadata',   '0');
+    script.setAttribute('data-input-position',  'top');
+    script.setAttribute('data-theme',           getGiscusTheme());
+    script.setAttribute('data-lang',            'en');
     script.crossOrigin = 'anonymous';
     script.async = true;
     wrap.appendChild(script);
     giscusLoaded = true;
   }
 
-  function getGiscusTheme() {
-    var theme = document.documentElement.getAttribute('data-theme');
-    if (theme === 'light') return 'light';
-    return 'dark_dimmed';
-  }
-
-  // keep giscus in sync with theme toggles
   document.addEventListener('themechange', function () {
     var iframe = document.querySelector('.giscus-frame');
     if (!iframe) return;
@@ -823,21 +570,23 @@
     currentAddon = addon;
     giscusLoaded = false;
 
-    // reset to overview tab
+    // reset tabs — overview active, reviews panel stays in DOM
     addonOverlay.querySelectorAll('.addon-popup-tab').forEach(function (t) { t.classList.remove('active'); });
-    addonOverlay.querySelectorAll('.addon-popup-panel').forEach(function (p) { p.classList.remove('active'); });
+    addonOverlay.querySelectorAll('.addon-popup-panel:not(.addon-popup-panel-reviews)').forEach(function (p) { p.classList.remove('active'); });
     addonOverlay.querySelector('[data-tab="overview"]').classList.add('active');
     document.getElementById('mp-panel-overview').classList.add('active');
+    // keep reviews panel visible in DOM but visually hidden via CSS
+    document.getElementById('mp-panel-reviews').classList.remove('active');
 
     // clear stale giscus
-    document.getElementById('mp-giscus-wrap').innerHTML = '<p class="mp-giscus-notice">Loading discussion...</p>';
+    document.getElementById('mp-giscus-wrap').innerHTML = '';
 
     // icon
     var iconEl = document.getElementById('mp-icon');
     iconEl.innerHTML = '';
     if (addon.icon) {
       var img = new Image();
-      img.style.cssText = 'width:30px;height:30px;object-fit:contain;display:block;';
+      img.style.cssText = 'width:32px;height:32px;object-fit:contain;display:block;';
       img.alt = '';
       img.onerror = function () { iconEl.innerHTML = getIcon('puzzle', 22); };
       img.src = addon.icon;
@@ -846,8 +595,8 @@
       iconEl.innerHTML = getIcon('puzzle', 22);
     }
 
-    document.getElementById('mp-name').textContent   = addon.name;
-    document.getElementById('mp-byline').textContent = 'by ' + (addon.author || 'Unknown') + ' \u00b7 ' + (addon.version || '');
+    document.getElementById('mp-name').textContent    = addon.name;
+    document.getElementById('mp-byline').textContent  = 'by ' + (addon.author || 'Unknown') + ' \u00b7 ' + (addon.version || '');
     document.getElementById('mp-version').textContent = addon.version || '';
     document.getElementById('mp-status').textContent  = addon.status || 'working';
     document.getElementById('mp-github-btn').href     = addon.github || '#';
@@ -910,6 +659,11 @@
 
     addonOverlay.classList.add('active');
     document.body.style.overflow = 'hidden';
+
+    // pre-load giscus after popup paints so it has a real DOM to attach to
+    setTimeout(function () {
+      if (currentAddon && currentAddon.id === addon.id) loadGiscus(addon);
+    }, 200);
   }
 
   document.getElementById('mkt-grid').addEventListener('click', function (e) {
@@ -919,7 +673,7 @@
     if (addon) openAddon(addon);
   });
 
-  // ── submit overlay ──
+  // submit overlay
   var submitOverlay = document.getElementById('submit-overlay');
   function closeSubmit() { submitOverlay.classList.remove('active'); document.body.style.overflow = ''; }
   document.getElementById('submit-close').addEventListener('click', closeSubmit);
@@ -927,7 +681,12 @@
   submitOverlay.addEventListener('click', function (e) { if (e.target === submitOverlay) closeSubmit(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && submitOverlay.classList.contains('active')) closeSubmit(); });
 
-  // ── init ──
+  document.getElementById('mkt-submit-btn').addEventListener('click', function (e) {
+    e.preventDefault();
+    submitOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+
   loadRegistry();
 })();
 </script>
