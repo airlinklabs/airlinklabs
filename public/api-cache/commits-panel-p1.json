@@ -1,5 +1,169 @@
 [
   {
+    "sha": "0ed075b3b78f5d92a0fa7a7bd04136056745db42",
+    "node_id": "C_kwDONJJQeNoAKDBlZDA3NWIzYjc4ZjVkOTJhMGZhN2E3YmQwNDEzNjA1Njc0NWRiNDI",
+    "commit": {
+      "author": {
+        "name": "G-flame",
+        "email": "thegreenflame1507@gmail.com",
+        "date": "2026-03-17T08:35:26Z"
+      },
+      "committer": {
+        "name": "G-flame",
+        "email": "thegreenflame1507@gmail.com",
+        "date": "2026-03-17T08:35:26Z"
+      },
+      "message": "remove unecessary files",
+      "tree": {
+        "sha": "63779412df0838accddbd6c940594e0b0041ee18",
+        "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/63779412df0838accddbd6c940594e0b0041ee18"
+      },
+      "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/0ed075b3b78f5d92a0fa7a7bd04136056745db42",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/airlinklabs/panel/commits/0ed075b3b78f5d92a0fa7a7bd04136056745db42",
+    "html_url": "https://github.com/airlinklabs/panel/commit/0ed075b3b78f5d92a0fa7a7bd04136056745db42",
+    "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/0ed075b3b78f5d92a0fa7a7bd04136056745db42/comments",
+    "author": {
+      "login": "g-flame",
+      "id": 190345519,
+      "node_id": "U_kgDOC1hxLw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/g-flame",
+      "html_url": "https://github.com/g-flame",
+      "followers_url": "https://api.github.com/users/g-flame/followers",
+      "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
+      "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
+      "organizations_url": "https://api.github.com/users/g-flame/orgs",
+      "repos_url": "https://api.github.com/users/g-flame/repos",
+      "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/g-flame/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "g-flame",
+      "id": 190345519,
+      "node_id": "U_kgDOC1hxLw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/g-flame",
+      "html_url": "https://github.com/g-flame",
+      "followers_url": "https://api.github.com/users/g-flame/followers",
+      "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
+      "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
+      "organizations_url": "https://api.github.com/users/g-flame/orgs",
+      "repos_url": "https://api.github.com/users/g-flame/repos",
+      "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/g-flame/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "cb5d9456f5a46413d68316ee4bba5841d414289f",
+        "url": "https://api.github.com/repos/airlinklabs/panel/commits/cb5d9456f5a46413d68316ee4bba5841d414289f",
+        "html_url": "https://github.com/airlinklabs/panel/commit/cb5d9456f5a46413d68316ee4bba5841d414289f"
+      }
+    ]
+  },
+  {
+    "sha": "cb5d9456f5a46413d68316ee4bba5841d414289f",
+    "node_id": "C_kwDONJJQeNoAKGNiNWQ5NDU2ZjVhNDY0MTNkNjgzMTZlZTRiYmE1ODQxZDQxNDI4OWY",
+    "commit": {
+      "author": {
+        "name": "G-flame",
+        "email": "thegreenflame1507@gmail.com",
+        "date": "2026-03-17T08:29:22Z"
+      },
+      "committer": {
+        "name": "G-flame",
+        "email": "thegreenflame1507@gmail.com",
+        "date": "2026-03-17T08:29:22Z"
+      },
+      "message": "remade ui for console fully and improved panel and fixed bugs",
+      "tree": {
+        "sha": "6ac544fd6fbdc6a7735c3c71f576e062955cc19f",
+        "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/6ac544fd6fbdc6a7735c3c71f576e062955cc19f"
+      },
+      "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/cb5d9456f5a46413d68316ee4bba5841d414289f",
+      "comment_count": 0,
+      "verification": {
+        "verified": false,
+        "reason": "unsigned",
+        "signature": null,
+        "payload": null,
+        "verified_at": null
+      }
+    },
+    "url": "https://api.github.com/repos/airlinklabs/panel/commits/cb5d9456f5a46413d68316ee4bba5841d414289f",
+    "html_url": "https://github.com/airlinklabs/panel/commit/cb5d9456f5a46413d68316ee4bba5841d414289f",
+    "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/cb5d9456f5a46413d68316ee4bba5841d414289f/comments",
+    "author": {
+      "login": "g-flame",
+      "id": 190345519,
+      "node_id": "U_kgDOC1hxLw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/g-flame",
+      "html_url": "https://github.com/g-flame",
+      "followers_url": "https://api.github.com/users/g-flame/followers",
+      "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
+      "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
+      "organizations_url": "https://api.github.com/users/g-flame/orgs",
+      "repos_url": "https://api.github.com/users/g-flame/repos",
+      "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/g-flame/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "committer": {
+      "login": "g-flame",
+      "id": 190345519,
+      "node_id": "U_kgDOC1hxLw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/g-flame",
+      "html_url": "https://github.com/g-flame",
+      "followers_url": "https://api.github.com/users/g-flame/followers",
+      "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
+      "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
+      "organizations_url": "https://api.github.com/users/g-flame/orgs",
+      "repos_url": "https://api.github.com/users/g-flame/repos",
+      "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/g-flame/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "e6a0e338b549a050b7f005eb07e94ce6e946a8d4",
+        "url": "https://api.github.com/repos/airlinklabs/panel/commits/e6a0e338b549a050b7f005eb07e94ce6e946a8d4",
+        "html_url": "https://github.com/airlinklabs/panel/commit/e6a0e338b549a050b7f005eb07e94ce6e946a8d4"
+      }
+    ]
+  },
+  {
     "sha": "e6a0e338b549a050b7f005eb07e94ce6e946a8d4",
     "node_id": "C_kwDONJJQeNoAKGU2YTBlMzM4YjU0OWEwNTBiN2YwMDVlYjA3ZTk0Y2U2ZTk0NmE4ZDQ",
     "commit": {
@@ -1072,170 +1236,6 @@
         "sha": "415d32f4b9e34caedb1e2926eaf202134c927a5f",
         "url": "https://api.github.com/repos/airlinklabs/panel/commits/415d32f4b9e34caedb1e2926eaf202134c927a5f",
         "html_url": "https://github.com/airlinklabs/panel/commit/415d32f4b9e34caedb1e2926eaf202134c927a5f"
-      }
-    ]
-  },
-  {
-    "sha": "c79252dd2bfd1c7fbb761f14821bb1a218cf2666",
-    "node_id": "C_kwDONJJQeNoAKGM3OTI1MmRkMmJmZDFjN2ZiYjc2MWYxNDgyMWJiMWEyMThjZjI2NjY",
-    "commit": {
-      "author": {
-        "name": "Pika4Manu",
-        "email": "pika4manu@gmail.com",
-        "date": "2026-03-15T13:24:38Z"
-      },
-      "committer": {
-        "name": "Pika4Manu",
-        "email": "pika4manu@gmail.com",
-        "date": "2026-03-15T13:24:38Z"
-      },
-      "message": "Added Server Admin Redirect Button in User Section",
-      "tree": {
-        "sha": "aaecf58e705e55ef0379956be2e5c041fe16343f",
-        "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/aaecf58e705e55ef0379956be2e5c041fe16343f"
-      },
-      "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/c79252dd2bfd1c7fbb761f14821bb1a218cf2666",
-      "comment_count": 0,
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "signature": null,
-        "payload": null,
-        "verified_at": null
-      }
-    },
-    "url": "https://api.github.com/repos/airlinklabs/panel/commits/c79252dd2bfd1c7fbb761f14821bb1a218cf2666",
-    "html_url": "https://github.com/airlinklabs/panel/commit/c79252dd2bfd1c7fbb761f14821bb1a218cf2666",
-    "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/c79252dd2bfd1c7fbb761f14821bb1a218cf2666/comments",
-    "author": {
-      "login": "pika4manu",
-      "id": 167890437,
-      "node_id": "U_kgDOCgHOBQ",
-      "avatar_url": "https://avatars.githubusercontent.com/u/167890437?v=4",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/pika4manu",
-      "html_url": "https://github.com/pika4manu",
-      "followers_url": "https://api.github.com/users/pika4manu/followers",
-      "following_url": "https://api.github.com/users/pika4manu/following{/other_user}",
-      "gists_url": "https://api.github.com/users/pika4manu/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/pika4manu/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/pika4manu/subscriptions",
-      "organizations_url": "https://api.github.com/users/pika4manu/orgs",
-      "repos_url": "https://api.github.com/users/pika4manu/repos",
-      "events_url": "https://api.github.com/users/pika4manu/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/pika4manu/received_events",
-      "type": "User",
-      "user_view_type": "public",
-      "site_admin": false
-    },
-    "committer": {
-      "login": "pika4manu",
-      "id": 167890437,
-      "node_id": "U_kgDOCgHOBQ",
-      "avatar_url": "https://avatars.githubusercontent.com/u/167890437?v=4",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/pika4manu",
-      "html_url": "https://github.com/pika4manu",
-      "followers_url": "https://api.github.com/users/pika4manu/followers",
-      "following_url": "https://api.github.com/users/pika4manu/following{/other_user}",
-      "gists_url": "https://api.github.com/users/pika4manu/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/pika4manu/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/pika4manu/subscriptions",
-      "organizations_url": "https://api.github.com/users/pika4manu/orgs",
-      "repos_url": "https://api.github.com/users/pika4manu/repos",
-      "events_url": "https://api.github.com/users/pika4manu/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/pika4manu/received_events",
-      "type": "User",
-      "user_view_type": "public",
-      "site_admin": false
-    },
-    "parents": [
-      {
-        "sha": "9c9014c494c8cb61497e5980de4e1b61fc3a5e7f",
-        "url": "https://api.github.com/repos/airlinklabs/panel/commits/9c9014c494c8cb61497e5980de4e1b61fc3a5e7f",
-        "html_url": "https://github.com/airlinklabs/panel/commit/9c9014c494c8cb61497e5980de4e1b61fc3a5e7f"
-      }
-    ]
-  },
-  {
-    "sha": "415d32f4b9e34caedb1e2926eaf202134c927a5f",
-    "node_id": "C_kwDONJJQeNoAKDQxNWQzMmY0YjllMzRjYWVkYjFlMjkyNmVhZjIwMjEzNGM5MjdhNWY",
-    "commit": {
-      "author": {
-        "name": "G-flame",
-        "email": "thegreenflame1507@gmail.com",
-        "date": "2026-03-15T12:19:23Z"
-      },
-      "committer": {
-        "name": "G-flame",
-        "email": "thegreenflame1507@gmail.com",
-        "date": "2026-03-15T12:19:23Z"
-      },
-      "message": "fix mobile radar",
-      "tree": {
-        "sha": "c7491cfaeb1da3933bdadd66c1166c5789896be8",
-        "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/c7491cfaeb1da3933bdadd66c1166c5789896be8"
-      },
-      "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/415d32f4b9e34caedb1e2926eaf202134c927a5f",
-      "comment_count": 0,
-      "verification": {
-        "verified": false,
-        "reason": "unsigned",
-        "signature": null,
-        "payload": null,
-        "verified_at": null
-      }
-    },
-    "url": "https://api.github.com/repos/airlinklabs/panel/commits/415d32f4b9e34caedb1e2926eaf202134c927a5f",
-    "html_url": "https://github.com/airlinklabs/panel/commit/415d32f4b9e34caedb1e2926eaf202134c927a5f",
-    "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/415d32f4b9e34caedb1e2926eaf202134c927a5f/comments",
-    "author": {
-      "login": "g-flame",
-      "id": 190345519,
-      "node_id": "U_kgDOC1hxLw",
-      "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/g-flame",
-      "html_url": "https://github.com/g-flame",
-      "followers_url": "https://api.github.com/users/g-flame/followers",
-      "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
-      "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
-      "organizations_url": "https://api.github.com/users/g-flame/orgs",
-      "repos_url": "https://api.github.com/users/g-flame/repos",
-      "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/g-flame/received_events",
-      "type": "User",
-      "user_view_type": "public",
-      "site_admin": false
-    },
-    "committer": {
-      "login": "g-flame",
-      "id": 190345519,
-      "node_id": "U_kgDOC1hxLw",
-      "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/g-flame",
-      "html_url": "https://github.com/g-flame",
-      "followers_url": "https://api.github.com/users/g-flame/followers",
-      "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
-      "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
-      "organizations_url": "https://api.github.com/users/g-flame/orgs",
-      "repos_url": "https://api.github.com/users/g-flame/repos",
-      "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/g-flame/received_events",
-      "type": "User",
-      "user_view_type": "public",
-      "site_admin": false
-    },
-    "parents": [
-      {
-        "sha": "86416d999f49ca9b07683907dd74016054a26161",
-        "url": "https://api.github.com/repos/airlinklabs/panel/commits/86416d999f49ca9b07683907dd74016054a26161",
-        "html_url": "https://github.com/airlinklabs/panel/commit/86416d999f49ca9b07683907dd74016054a26161"
       }
     ]
   }
