@@ -44,25 +44,9 @@ const pageDescription = site.description;
     #feat-list { grid-template-columns: 1fr 1fr 1fr; }
   }
 
-  /* Install grid */
-  #install-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: clamp(16px, 2vw, 24px);
-    align-items: start;
-  }
-  @media (min-width: 860px) {
-    #install-grid { grid-template-columns: 1fr 1fr; }
-  }
-
-  /* Install fields */
-  #install-fields {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-  @media (min-width: 480px) {
-    #install-fields { grid-template-columns: 1fr 1fr; }
+  /* Install wizard */
+  #install-wizard {
+    max-width: 480px;
   }
 
   /* Activity */
@@ -236,80 +220,57 @@ const pageDescription = site.description;
   <section id="spa-install" class="spa-section">
     <div class="spa-section-inner">
 
-      <div style="margin-bottom:clamp(16px,2vw,24px);">
+      <div style="margin-bottom:clamp(16px,2vw,28px);">
         <h2 style="font-size:clamp(18px,2.5vw,26px);font-weight:600;color:var(--color-text-1);letter-spacing:-0.03em;margin:0 0 4px;">Install</h2>
-        <p style="font-size:12px;color:var(--color-text-3);margin:0;">Configure and copy one command.</p>
+        <p style="font-size:12px;color:var(--color-text-3);margin:0;">Answer a few questions and copy the command.</p>
       </div>
 
-      <div id="install-grid">
-        <div>
-          <div id="install-fields" style="margin-bottom:10px;">
-            <% [
-              { id:'inst-name',   label:'Panel name',  type:'text',  val:'AirLink',               span:false },
-              { id:'inst-port',   label:'Port',        type:'number',val:'3000',                  span:false },
-              { id:'inst-domain', label:'Domain',      type:'text',  val:'',  ph:'panel.domain.com', span:true  },
-              { id:'inst-email',  label:'Admin email', type:'email', val:'',  ph:'admin@example.com',span:false },
-              { id:'inst-user',   label:'Admin user',  type:'text',  val:'admin',                 span:false },
-            ].forEach(function(f) { %>
-            <div style="<%= f.span ? 'grid-column:1/-1;' : '' %>">
-              <label style="display:block;font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;"><%= f.label %></label>
-              <input id="<%= f.id %>" type="<%= f.type %>" value="<%= f.val %>" placeholder="<%= f.ph || f.val %>"
-                style="width:100%;box-sizing:border-box;background:var(--color-bg-input);border:1px solid var(--color-border-input);border-radius:7px;padding:7px 10px;font-size:12px;font-family:var(--font-mono);color:var(--color-text-1);outline:none;"
-                onfocus="this.style.borderColor='var(--color-text-4)'" onblur="this.style.borderColor='var(--color-border-input)'">
-            </div>
-            <% }) %>
+      <div id="install-wizard">
 
-            <div style="display:flex;align-items:center;gap:10px;padding:3px 0;">
-              <button id="inst-daemon-toggle" type="button"
-                style="position:relative;width:32px;height:17px;border-radius:9px;border:1px solid var(--color-border);background:var(--color-text-2);cursor:pointer;padding:0;flex-shrink:0;"
-                aria-pressed="true">
-                <span id="inst-daemon-dot" style="position:absolute;top:2px;left:calc(100% - 15px);width:13px;height:13px;border-radius:50%;background:var(--color-bg);display:block;"></span>
-              </button>
-              <span style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-2);">Install daemon</span>
-            </div>
+        <!-- Progress dots -->
+        <div id="wiz-dots" style="display:flex;gap:6px;margin-bottom:20px;align-items:center;"></div>
+
+        <!-- Summary of previous answers -->
+        <div id="wiz-summary" style="display:none;margin-bottom:16px;padding:12px 14px;background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:10px;"></div>
+
+        <!-- Step card -->
+        <div id="wiz-card" style="background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:12px;overflow:hidden;">
+
+          <div id="wiz-step-header" style="padding:16px 18px;border-bottom:1px solid var(--color-border);">
+            <p id="wiz-step-label" style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.08em;margin:0 0 3px;"></p>
+            <h3 id="wiz-step-title" style="font-size:15px;font-weight:600;color:var(--color-text-1);letter-spacing:-0.01em;margin:0;"></h3>
           </div>
 
-          <% if (addons && addons.length) { %>
-          <div style="margin-bottom:10px;">
-            <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.08em;margin:0 0 7px;">Addons</p>
-            <div style="display:flex;flex-wrap:wrap;gap:6px;">
-              <% addons.forEach(function(addon){ %>
-              <label style="display:flex;align-items:center;gap:7px;font-size:11px;font-family:var(--font-mono);color:var(--color-text-2);border:1px solid var(--color-border);padding:5px 10px;border-radius:6px;cursor:pointer;user-select:none;"
-                onmouseover="this.style.borderColor='var(--color-border-input)'" onmouseout="this.style.borderColor='var(--color-border)'">
-                <span class="addon-cb-box" data-id="<%= addon.id %>" style="width:12px;height:12px;border-radius:3px;border:1.5px solid var(--color-text-4);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">
-                  <svg class="addon-cb-check" width="8" height="8" fill="none" stroke="var(--color-bg)" stroke-width="3" viewBox="0 0 24 24" style="display:none;"><polyline points="20 6 9 17 4 12"/></svg>
-                </span>
-                <%= addon.name %>
-              </label>
-              <% }) %>
-            </div>
-          </div>
-          <% } %>
+          <div id="wiz-step-body" style="padding:18px;"></div>
 
-          <div class="code-block" style="position:relative;background:var(--color-bg-input);border:1px solid var(--color-border);border-radius:9px;padding:12px 14px;padding-right:58px;">
-            <code id="inst-cmd" style="font-size:11px;color:var(--color-text-1);font-family:var(--font-mono);line-height:1.7;display:block;white-space:pre-wrap;word-break:break-all;"></code>
-            <button class="copy-btn" style="position:absolute;top:8px;right:8px;font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);background:var(--color-bg-2);border:1px solid var(--color-border);padding:3px 8px;border-radius:5px;display:flex;align-items:center;gap:4px;cursor:pointer;">
-              <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              Copy
+          <div style="padding:14px 18px;border-top:1px solid var(--color-border);display:flex;align-items:center;justify-content:space-between;gap:10px;">
+            <button id="wiz-back" type="button"
+              style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-3);background:transparent;border:1px solid var(--color-border);padding:8px 18px;border-radius:999px;cursor:pointer;display:none;"
+              onmouseover="this.style.color='var(--color-text-1)';this.style.borderColor='var(--color-border-input)'"
+              onmouseout="this.style.color='var(--color-text-3)';this.style.borderColor='var(--color-border)'">
+              Back
+            </button>
+            <div></div>
+            <button id="wiz-next" type="button"
+              style="font-size:12px;font-weight:500;font-family:var(--font-mono);color:var(--color-bg);background:var(--color-text-1);border:none;padding:8px 22px;border-radius:999px;cursor:pointer;"
+              onmouseover="this.style.opacity='0.82'" onmouseout="this.style.opacity='1'">
+              Next →
             </button>
           </div>
         </div>
 
-        <div style="border:1px solid var(--color-border);border-radius:12px;overflow:hidden;background:var(--color-bg-2);aspect-ratio:16/9;">
-          <% if (site.installVideoUrl) { %>
-            <% var videoId='';var ytMatch=site.installVideoUrl.match(/(?:v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);if(ytMatch)videoId=ytMatch[1]; %>
-            <% if (videoId) { %>
-            <iframe src="https://www.youtube.com/embed/<%= videoId %>" title="AirLink install guide" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="width:100%;height:100%;border:none;display:block;"></iframe>
-            <% } else { %>
-            <iframe src="<%= site.installVideoUrl %>" title="AirLink install guide" allowfullscreen style="width:100%;height:100%;border:none;display:block;"></iframe>
-            <% } %>
-          <% } else { %>
-          <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--color-text-3);font-family:var(--font-mono);font-size:12px;text-align:center;padding:24px;box-sizing:border-box;">
-            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="opacity:.35;"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16"/></svg>
-            Install walkthrough coming soon.
+        <!-- Final command block (shown on last step) -->
+        <div id="wiz-result" style="display:none;margin-top:16px;">
+          <div class="code-block" style="position:relative;background:var(--color-bg-input);border:1px solid var(--color-border);border-radius:9px;padding:14px 16px 14px 16px;">
+            <code id="inst-cmd" style="font-size:11px;color:var(--color-text-1);font-family:var(--font-mono);line-height:1.7;display:block;white-space:pre-wrap;word-break:break-all;padding-right:52px;"></code>
+            <button class="copy-btn" style="position:absolute;top:10px;right:10px;font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);background:var(--color-bg-2);border:1px solid var(--color-border);padding:5px 10px;border-radius:6px;display:flex;align-items:center;gap:4px;cursor:pointer;">
+              <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy
+            </button>
           </div>
-          <% } %>
+          <p style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);margin:10px 0 0;text-align:center;">Run this as root on your server.</p>
         </div>
+
       </div>
 
     </div>
@@ -526,71 +487,265 @@ const pageDescription = site.description;
 
 <script>
 (function() {
-  var daemonOn = true;
-  var cmd    = document.getElementById('inst-cmd');
-  if (!cmd) return;
-  var toggle = document.getElementById('inst-daemon-toggle');
-  var dot    = document.getElementById('inst-daemon-dot');
+  var dotsEl   = document.getElementById('wiz-dots');
+  var summaryEl = document.getElementById('wiz-summary');
+  var labelEl  = document.getElementById('wiz-step-label');
+  var titleEl  = document.getElementById('wiz-step-title');
+  var bodyEl   = document.getElementById('wiz-step-body');
+  var backBtn  = document.getElementById('wiz-back');
+  var nextBtn  = document.getElementById('wiz-next');
+  var resultEl = document.getElementById('wiz-result');
+  var cmdEl    = document.getElementById('inst-cmd');
 
-  function setDaemon(on) {
-    daemonOn = on;
-    toggle.style.background  = on ? 'var(--color-text-2)' : 'var(--color-bg-3)';
-    toggle.style.borderColor = on ? 'var(--color-border-input)' : 'var(--color-border)';
-    dot.style.left = on ? 'calc(100% - 15px)' : '2px';
-    buildCmd();
+  if (!dotsEl || !bodyEl || !cmdEl) return;
+
+  // Stored answers
+  var ans = {
+    mode:       'both',   // both | panel | daemon
+    name:       'Airlink',
+    port:       '3000',
+    email:      '',
+    user:       'admin',
+    pass:       '',
+    panelAddr:  '127.0.0.1',
+    daemonPort: '3002',
+    daemonKey:  '',
+    addons:     [],       // ['modrinth', 'parachute']
+  };
+
+  // Step definitions — filtered dynamically based on mode
+  function getSteps() {
+    var steps = [
+      { id: 'mode' },
+    ];
+    if (ans.mode !== 'daemon') {
+      steps.push({ id: 'panel-setup' });
+      steps.push({ id: 'admin' });
+    }
+    if (ans.mode !== 'panel') {
+      steps.push({ id: 'daemon-setup' });
+    }
+    steps.push({ id: 'addons' });
+    return steps;
   }
-  toggle.addEventListener('click', function() { setDaemon(!daemonOn); });
-  setDaemon(true);
 
-  document.querySelectorAll('.addon-cb-box').forEach(function(box) {
-    box.parentElement.addEventListener('click', function() {
-      var check  = box.querySelector('.addon-cb-check');
-      var active = check.style.display !== 'none';
-      check.style.display   = active ? 'none' : '';
-      box.style.background  = active ? '' : 'var(--color-text-1)';
-      box.style.borderColor = active ? 'var(--color-text-4)' : 'var(--color-text-1)';
-      buildCmd();
+  var currentStep = 0;
+
+  function inputStyle() {
+    return 'width:100%;box-sizing:border-box;background:var(--color-bg-input);border:1px solid var(--color-border-input);border-radius:8px;padding:10px 12px;font-size:14px;font-family:var(--font-mono);color:var(--color-text-1);outline:none;margin-top:6px;';
+  }
+
+  function labelStyle() {
+    return 'display:block;font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.08em;margin-top:12px;';
+  }
+
+  function field(labelText, inputHtml) {
+    return '<label style="' + labelStyle() + '">' + labelText + '</label>' + inputHtml;
+  }
+
+  function textInput(id, type, val, ph) {
+    return '<input id="' + id + '" type="' + type + '" value="' + val + '" placeholder="' + ph + '" style="' + inputStyle() + '" onfocus="this.style.borderColor=\'var(--color-text-4)\'" onblur="this.style.borderColor=\'var(--color-border-input)\'">';
+  }
+
+  function renderStep(stepId) {
+    var html = '';
+    if (stepId === 'mode') {
+      html = '<p style="font-size:13px;color:var(--color-text-2);line-height:1.6;margin:0 0 16px;">The installer sets up Node.js, Docker, the panel, and optionally the daemon on your Linux server.</p>';
+      html += '<div style="display:flex;flex-direction:column;gap:8px;">';
+      var opts = [
+        { val:'both',   label:'Panel + Daemon', desc:'Full setup — panel UI and the daemon that runs game containers.' },
+        { val:'panel',  label:'Panel only',      desc:'Install the web panel. Add the daemon separately later.'        },
+        { val:'daemon', label:'Daemon only',      desc:'Install the daemon on a node that already has a panel.'        },
+      ];
+      opts.forEach(function(o) {
+        var active = ans.mode === o.val;
+        html += '<label style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border:1px solid ' + (active ? 'var(--color-border-input)' : 'var(--color-border)') + ';border-radius:10px;background:' + (active ? 'var(--color-bg-hover)' : 'var(--color-bg)') + ';cursor:pointer;user-select:none;" onclick="document.querySelectorAll(\'[name=wiz-mode]\').forEach(function(r){r.checked=false});document.getElementById(\'wiz-mode-\'+\'' + o.val + '\').checked=true;wizModeChange(\'' + o.val + '\')">'
+          + '<div style="width:16px;height:16px;border-radius:50%;border:1.5px solid ' + (active ? 'var(--color-text-1)' : 'var(--color-text-4)') + ';display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;background:' + (active ? 'var(--color-text-1)' : 'transparent') + ';">'
+          + (active ? '<span style="width:6px;height:6px;border-radius:50%;background:var(--color-bg);display:block;"></span>' : '')
+          + '</div>'
+          + '<div><p style="font-size:13px;font-weight:600;color:var(--color-text-1);margin:0 0 2px;letter-spacing:-0.01em;">' + o.label + '</p>'
+          + '<p style="font-size:11px;color:var(--color-text-3);margin:0;line-height:1.5;">' + o.desc + '</p></div>'
+          + '</label>';
+      });
+      html += '</div>';
+    } else if (stepId === 'panel-setup') {
+      html += field('Panel name', textInput('wiz-name', 'text', ans.name, 'Airlink'));
+      html += field('Panel port', textInput('wiz-port', 'number', ans.port, '3000'));
+    } else if (stepId === 'admin') {
+      html += '<p style="font-size:12px;color:var(--color-text-3);margin:0 0 4px;line-height:1.6;">The first account created becomes the admin. Registration is disabled automatically after setup.</p>';
+      html += field('Admin email', textInput('wiz-email', 'email', ans.email, 'admin@example.com'));
+      html += field('Admin username', textInput('wiz-user', 'text', ans.user, 'admin'));
+      html += field('Admin password', textInput('wiz-pass', 'password', ans.pass, 'min 8 chars, one letter + one number'));
+    } else if (stepId === 'daemon-setup') {
+      html += '<p style="font-size:12px;color:var(--color-text-3);margin:0 0 4px;line-height:1.6;">The daemon runs on the same machine or a separate node. The auth key comes from the panel\'s node setup page after the panel is installed.</p>';
+      html += field('Panel address (for daemon to connect to)', textInput('wiz-panel-addr', 'text', ans.panelAddr, '127.0.0.1 or your panel domain'));
+      html += field('Daemon port', textInput('wiz-daemon-port', 'number', ans.daemonPort, '3002'));
+      html += field('Daemon auth key', textInput('wiz-daemon-key', 'text', ans.daemonKey, 'from panel → Nodes → create node'));
+    } else if (stepId === 'addons') {
+      html += '<p style="font-size:12px;color:var(--color-text-3);margin:0 0 16px;line-height:1.6;">Optional. These are installed into the panel after the main setup completes.</p>';
+      html += '<div style="display:flex;flex-direction:column;gap:8px;">';
+      var addonsOpts = [
+        { id:'modrinth',  name:'Modrinth Store', desc:'Browse and install Minecraft mods from Modrinth inside the panel.' },
+        { id:'parachute', name:'Parachute',       desc:'Google Drive backups for your servers via OAuth.'                  },
+      ];
+      addonsOpts.forEach(function(a) {
+        var on = ans.addons.indexOf(a.id) !== -1;
+        html += '<label style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border:1px solid ' + (on ? 'var(--color-border-input)' : 'var(--color-border)') + ';border-radius:10px;background:' + (on ? 'var(--color-bg-hover)' : 'var(--color-bg)') + ';cursor:pointer;user-select:none;" onclick="wizToggleAddon(\'' + a.id + '\')">'
+          + '<div style="width:14px;height:14px;border-radius:3px;border:1.5px solid ' + (on ? 'var(--color-text-1)' : 'var(--color-text-4)') + ';display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;background:' + (on ? 'var(--color-text-1)' : 'transparent') + ';">'
+          + (on ? '<svg width="8" height="8" fill="none" stroke="var(--color-bg)" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>' : '')
+          + '</div>'
+          + '<div><p style="font-size:13px;font-weight:600;color:var(--color-text-1);margin:0 0 2px;letter-spacing:-0.01em;">' + a.name + '</p>'
+          + '<p style="font-size:11px;color:var(--color-text-3);margin:0;line-height:1.5;">' + a.desc + '</p></div>'
+          + '</label>';
+      });
+      html += '</div>';
+    }
+    return html;
+  }
+
+  function collectStep(stepId) {
+    if (stepId === 'panel-setup') {
+      var n = document.getElementById('wiz-name'); if (n) ans.name = n.value.trim() || 'Airlink';
+      var p = document.getElementById('wiz-port'); if (p) ans.port = p.value.trim() || '3000';
+    } else if (stepId === 'admin') {
+      var e = document.getElementById('wiz-email'); if (e) ans.email = e.value.trim();
+      var u = document.getElementById('wiz-user');  if (u) ans.user  = u.value.trim() || 'admin';
+      var pw = document.getElementById('wiz-pass'); if (pw) ans.pass = pw.value.trim();
+    } else if (stepId === 'daemon-setup') {
+      var a = document.getElementById('wiz-panel-addr');  if (a)  ans.panelAddr  = a.value.trim()  || '127.0.0.1';
+      var dp = document.getElementById('wiz-daemon-port'); if (dp) ans.daemonPort = dp.value.trim() || '3002';
+      var dk = document.getElementById('wiz-daemon-key');  if (dk) ans.daemonKey  = dk.value.trim();
+    }
+  }
+
+  var stepTitles = {
+    'mode':         ['Step',  'What do you want to install?'],
+    'panel-setup':  ['Panel', 'Name and port'],
+    'admin':        ['Panel', 'Admin account'],
+    'daemon-setup': ['Daemon','Connection settings'],
+    'addons':       ['Addons','Any addons to include?'],
+  };
+
+  function summaryLine(label, val) {
+    return '<span style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);">' + label + '</span>'
+         + '<span style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-1);margin-left:8px;">' + (val || '—') + '</span>';
+  }
+
+  function renderSummary(steps, upToIndex) {
+    if (upToIndex <= 0) { summaryEl.style.display = 'none'; return; }
+    var lines = [];
+    for (var i = 0; i < upToIndex; i++) {
+      var sid = steps[i].id;
+      if (sid === 'mode')         lines.push(summaryLine('Install', ans.mode === 'both' ? 'Panel + Daemon' : ans.mode === 'panel' ? 'Panel only' : 'Daemon only'));
+      if (sid === 'panel-setup')  lines.push(summaryLine('Panel', ans.name + '  :' + ans.port));
+      if (sid === 'admin')        lines.push(summaryLine('Admin', ans.email || ans.user));
+      if (sid === 'daemon-setup') lines.push(summaryLine('Daemon', ans.panelAddr + '  :' + ans.daemonPort));
+      if (sid === 'addons')       lines.push(summaryLine('Addons', ans.addons.length ? ans.addons.join(', ') : 'none'));
+    }
+    summaryEl.innerHTML = lines.join('<span style="color:var(--color-text-4);padding:0 10px;">·</span>');
+    summaryEl.style.display = 'block';
+  }
+
+  function renderDots(steps, current) {
+    dotsEl.innerHTML = '';
+    steps.forEach(function(s, i) {
+      var dot = document.createElement('span');
+      dot.style.cssText = 'width:' + (i === current ? '20px' : '6px') + ';height:6px;border-radius:999px;background:' + (i <= current ? 'var(--color-text-1)' : 'var(--color-border-input)') + ';transition:all 200ms;display:inline-block;';
+      dotsEl.appendChild(dot);
     });
+  }
+
+  function buildCommand() {
+    var url   = 'https://airlinklabs.github.io/home/installer.sh';
+    var parts = ['bash <(curl -s ' + url + ')'];
+    if (ans.mode === 'panel')  parts.push('  --panel-only');
+    if (ans.mode === 'daemon') parts.push('  --daemon-only');
+    if (ans.mode !== 'daemon') {
+      if (ans.name  && ans.name  !== 'Airlink') parts.push('  --name "' + ans.name + '"');
+      if (ans.port  && ans.port  !== '3000')    parts.push('  --port ' + ans.port);
+      if (ans.email)                             parts.push('  --admin-email "' + ans.email + '"');
+      if (ans.user  && ans.user  !== 'admin')    parts.push('  --admin-user "' + ans.user + '"');
+      if (ans.pass)                              parts.push('  --admin-pass "' + ans.pass + '"');
+    }
+    if (ans.mode !== 'panel') {
+      if (ans.panelAddr  && ans.panelAddr  !== '127.0.0.1') parts.push('  --panel-addr "' + ans.panelAddr + '"');
+      if (ans.daemonPort && ans.daemonPort !== '3002')       parts.push('  --daemon-port ' + ans.daemonPort);
+      if (ans.daemonKey)                                     parts.push('  --daemon-key "' + ans.daemonKey + '"');
+    }
+    if (ans.addons.length) parts.push('  --addons "' + ans.addons.join(',') + '"');
+    cmdEl.textContent = parts.join(' \\\n');
+  }
+
+  function render() {
+    var steps = getSteps();
+    var stepId = steps[currentStep].id;
+    var meta = stepTitles[stepId];
+
+    renderDots(steps, currentStep);
+    renderSummary(steps, currentStep);
+    labelEl.textContent = meta[0];
+    titleEl.textContent = meta[1];
+    bodyEl.innerHTML = renderStep(stepId);
+
+    var isLast = currentStep === steps.length - 1;
+    backBtn.style.display = currentStep > 0 ? '' : 'none';
+    nextBtn.textContent   = isLast ? 'Get command →' : 'Next →';
+
+    // Focus first input in body
+    var firstInput = bodyEl.querySelector('input');
+    if (firstInput) setTimeout(function() { firstInput.focus(); }, 50);
+
+    if (isLast) {
+      buildCommand();
+      resultEl.style.display = 'block';
+    } else {
+      resultEl.style.display = 'none';
+    }
+  }
+
+  // Expose for inline onclick
+  window.wizModeChange = function(val) {
+    ans.mode = val;
+    bodyEl.innerHTML = renderStep('mode');
+    buildCommand();
+  };
+
+  window.wizToggleAddon = function(id) {
+    var idx = ans.addons.indexOf(id);
+    if (idx === -1) ans.addons.push(id); else ans.addons.splice(idx, 1);
+    bodyEl.innerHTML = renderStep('addons');
+    buildCommand();
+  };
+
+  nextBtn.addEventListener('click', function() {
+    var steps  = getSteps();
+    var stepId = steps[currentStep].id;
+    collectStep(stepId);
+
+    if (currentStep < steps.length - 1) {
+      currentStep++;
+      render();
+    } else {
+      buildCommand();
+    }
   });
 
-  function get(id) {
-    var el = document.getElementById(id);
-    return el ? el.value.trim() : '';
-  }
-
-  function buildCmd() {
-    var parts  = ['bash <(curl -s https://airlinklabs.github.io/home/installer.sh)'];
-    var name   = get('inst-name');
-    var port   = get('inst-port');
-    var domain = get('inst-domain');
-    var email  = get('inst-email');
-    var user   = get('inst-user');
-
-    if (name && name !== 'AirLink') parts.push('  --name "' + name + '"');
-    if (domain)                      parts.push('  --domain "' + domain + '"');
-    if (port && port !== '3000')     parts.push('  --port ' + port);
-    if (email)                       parts.push('  --admin-email "' + email + '"');
-    if (user && user !== 'admin')    parts.push('  --admin-user "' + user + '"');
-    if (daemonOn)                    parts.push('  --daemon');
-
-    var chosen = [];
-    document.querySelectorAll('.addon-cb-check').forEach(function(check) {
-      if (check.style.display !== 'none') {
-        var box = check.parentElement;
-        if (box && box.dataset.id) chosen.push(box.dataset.id);
-      }
-    });
-    if (chosen.length) parts.push('  --addons "' + chosen.join(',') + '"');
-
-    cmd.textContent = parts.join(' \\\n');
-  }
-
-  ['inst-name','inst-port','inst-domain','inst-email','inst-user'].forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) el.addEventListener('input', buildCmd);
+  backBtn.addEventListener('click', function() {
+    var steps  = getSteps();
+    var stepId = steps[currentStep].id;
+    collectStep(stepId);
+    if (currentStep > 0) { currentStep--; render(); }
   });
 
-  buildCmd();
+  // Enter key advances wizard
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && document.getElementById('wiz-card') && bodyEl.contains(document.activeElement)) {
+      e.preventDefault();
+      nextBtn.click();
+    }
+  });
+
+  render();
 })();
 </script>
 

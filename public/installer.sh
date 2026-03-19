@@ -17,58 +17,6 @@
 
 set -euo pipefail
 
-# ============================================================================
-# ARGUMENT PARSING
-# All named args are optional. Missing required values fall back to interactive.
-# ============================================================================
-ARG_NAME=""
-ARG_DOMAIN=""
-ARG_PORT=""
-ARG_DB=""
-ARG_ADMIN_EMAIL=""
-ARG_ADMIN_USER=""
-ARG_DAEMON=false
-ARG_ADDONS=""
-
-show_help() {
-  cat << EOF
-Airlink Installer
-
-Usage: bash <(curl -s https://airlinklabs.github.io/home/installer.sh) [OPTIONS]
-
-Options:
-  --name        Panel display name          (default: "AirLink")
-  --domain      Domain or IP for the panel  (default: "localhost")
-  --port        Port number                 (default: 3000)
-  --db          Database type: sqlite | mysql | postgres (default: sqlite)
-  --admin-email Admin account email
-  --admin-user  Admin account username      (default: "admin")
-  --daemon      Also install the daemon
-  --addons      Comma-separated addon IDs   (e.g. "modrinth-store,parachute")
-  --help        Show this help and exit
-
-If an option is not provided and has no default, the installer prompts interactively.
-Running with no arguments is equivalent to fully interactive mode.
-EOF
-  exit 0
-}
-
-while [[ $# -gt 0 ]]; do
-  case "$1" in
-    --name)        ARG_NAME="$2";        shift 2 ;;
-    --domain)      ARG_DOMAIN="$2";      shift 2 ;;
-    --port)        ARG_PORT="$2";        shift 2 ;;
-    --db)          ARG_DB="$2";          shift 2 ;;
-    --admin-email) ARG_ADMIN_EMAIL="$2"; shift 2 ;;
-    --admin-user)  ARG_ADMIN_USER="$2";  shift 2 ;;
-    --daemon)      ARG_DAEMON=true;      shift   ;;
-    --addons)      ARG_ADDONS="$2";      shift 2 ;;
-    --help|-h)     show_help ;;
-    *) echo "Unknown option: $1. Run with --help for usage."; exit 1 ;;
-  esac
-done
-# ============================================================================
-
 # Configuration
 readonly VERSION="3.0.6-Stable"
 readonly LOG="/tmp/airlink.log"
@@ -181,6 +129,62 @@ pkg_install() {
     esac
     ok "Packages installed: $*"
 }
+
+# ============================================================================
+# CLI ARG PARSING — values set here override interactive prompts
+# ============================================================================
+CLI_MODE=""          # "both" | "panel" | "daemon"
+CLI_NAME=""
+CLI_PORT=""
+CLI_ADMIN_EMAIL=""
+CLI_ADMIN_USER=""
+CLI_ADMIN_PASS=""
+CLI_PANEL_ADDR=""
+CLI_DAEMON_PORT=""
+CLI_DAEMON_KEY=""
+CLI_ADDONS=""        # comma-separated: "modrinth,parachute"
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --panel-only)   CLI_MODE="panel";  shift;;
+        --daemon-only)  CLI_MODE="daemon"; shift;;
+        --name)         CLI_NAME="$2";     shift 2;;
+        --port)         CLI_PORT="$2";     shift 2;;
+        --admin-email)  CLI_ADMIN_EMAIL="$2"; shift 2;;
+        --admin-user)   CLI_ADMIN_USER="$2";  shift 2;;
+        --admin-pass)   CLI_ADMIN_PASS="$2";  shift 2;;
+        --panel-addr)   CLI_PANEL_ADDR="$2";  shift 2;;
+        --daemon-port)  CLI_DAEMON_PORT="$2"; shift 2;;
+        --daemon-key)   CLI_DAEMON_KEY="$2";  shift 2;;
+        --addons)       CLI_ADDONS="$2";  shift 2;;
+        --help)
+            echo "AirLink Installer v${VERSION}"
+            echo ""
+            echo "Usage: bash <(curl -s ...) [options]"
+            echo ""
+            echo "Options:"
+            echo "  --panel-only          Install panel only"
+            echo "  --daemon-only         Install daemon only"
+            echo "  (default: install both)"
+            echo ""
+            echo "  --name NAME           Panel display name (default: Airlink)"
+            echo "  --port PORT           Panel port (default: 3000)"
+            echo "  --admin-email EMAIL   Admin account email"
+            echo "  --admin-user USER     Admin username (default: admin)"
+            echo "  --admin-pass PASS     Admin password"
+            echo ""
+            echo "  --panel-addr ADDR     Panel address for daemon (default: 127.0.0.1)"
+            echo "  --daemon-port PORT    Daemon port (default: 3002)"
+            echo "  --daemon-key KEY      Daemon auth key"
+            echo ""
+            echo "  --addons LIST         Comma-separated addons: modrinth,parachute"
+            echo ""
+            echo "Running with no args opens the interactive menu."
+            exit 0;;
+        *) shift;;
+    esac
+done
+# ============================================================================
 
 # Check root
 [[ $EUID -eq 0 ]] || { dialog --msgbox "Run as root/sudo" 6 30 2>/dev/null || echo "Run as root"; exit 1; }
@@ -310,66 +314,42 @@ select_addons_for_install() {
 # Collect all configuration upfront
 collect_all_config() {
     info "Collecting configuration for all components..."
-
-    # Panel configuration — use arg if provided, otherwise prompt
-    if [[ -n "$ARG_NAME" ]]; then
-        PANEL_NAME="$ARG_NAME"
-    else
-        PANEL_NAME=$(dialog --inputbox "Panel name" 8 40 "Airlink" 3>&1 1>&2 2>&3) || PANEL_NAME="Airlink"
-    fi
-
-    if [[ -n "$ARG_PORT" ]]; then
-        PANEL_PORT="$ARG_PORT"
-    else
-        PANEL_PORT=$(dialog --inputbox "Panel Port" 8 40 "3000" 3>&1 1>&2 2>&3) || PANEL_PORT=3000
-    fi
-
+    
+    # Panel configuration
+    PANEL_NAME=$(dialog --inputbox "Panel name" 8 40 "Airlink" 3>&1 1>&2 2>&3) || PANEL_NAME="Airlink"
+    PANEL_PORT=$(dialog --inputbox "Panel Port" 8 40 "3000" 3>&1 1>&2 2>&3) || PANEL_PORT=3000
+    
     # Daemon configuration
-    if [[ -n "$ARG_DOMAIN" ]]; then
-        PANEL_ADDRESS="$ARG_DOMAIN"
-    else
-        PANEL_ADDRESS=$(dialog --inputbox "Panel ip/hostname" 8 40 "127.0.0.1" 3>&1 1>&2 2>&3) || PANEL_ADDRESS="127.0.0.1"
-    fi
-
+    PANEL_ADDRESS=$(dialog --inputbox "Panel ip/hostname" 8 40 "127.0.0.1" 3>&1 1>&2 2>&3) || PANEL_ADDRESS="127.0.0.1"
     DAEMON_PORT=$(dialog --inputbox "Daemon Port" 8 40 "3002" 3>&1 1>&2 2>&3) || DAEMON_PORT=3002
     DAEMON_KEY=$(dialog --inputbox "Daemon Auth Key" 8 40 3>&1 1>&2 2>&3) || DAEMON_KEY="get from panel's node setup page"
-
+    
     # Admin user configuration
-    if [[ -n "$ARG_ADMIN_EMAIL" ]]; then
-        ADMIN_EMAIL="$ARG_ADMIN_EMAIL"
-    else
-        ADMIN_EMAIL=$(dialog --inputbox "Admin Email:" 8 50 "admin@example.com" 3>&1 1>&2 2>&3) || ADMIN_EMAIL="admin@example.com"
-    fi
-
-    if [[ -n "$ARG_ADMIN_USER" ]]; then
-        ADMIN_USERNAME="$ARG_ADMIN_USER"
-    else
-        ADMIN_USERNAME=$(dialog --inputbox "Admin Username (3-20 chars, letters/numbers only):" 8 60 "admin" 3>&1 1>&2 2>&3) || ADMIN_USERNAME="admin"
-    fi
-
-    # Password — always prompt interactively (no --admin-pass arg by design)
+    ADMIN_EMAIL=$(dialog --inputbox "Admin Email:" 8 50 "admin@example.com" 3>&1 1>&2 2>&3) || ADMIN_EMAIL="admin@example.com"
+    ADMIN_USERNAME=$(dialog --inputbox "Admin Username (3-20 chars, letters/numbers only):" 8 60 "admin" 3>&1 1>&2 2>&3) || ADMIN_USERNAME="admin"
+    
+    # Password with validation
     while true; do
         ADMIN_PASSWORD=$(dialog --inputbox "Admin Password (min 8 chars, must have letter & number):" 8 70 3>&1 1>&2 2>&3)
+        
+        # Validate password
         if [[ ${#ADMIN_PASSWORD} -ge 8 ]] && [[ "$ADMIN_PASSWORD" =~ [A-Za-z] ]] && [[ "$ADMIN_PASSWORD" =~ [0-9] ]]; then
             break
         else
             dialog --msgbox "Password must be at least 8 characters with at least one letter and one number. Please try again." 8 60
         fi
     done
-
+    
     # Validate username
     if [[ ! "$ADMIN_USERNAME" =~ ^[A-Za-z0-9]{3,20}$ ]]; then
         warn "Invalid username format. Using default: admin"
         ADMIN_USERNAME="admin"
     fi
-
-    # Addon selection — skip dialog if --addons was provided
-    if [[ -n "$ARG_ADDONS" ]]; then
-        ADDON_CHOICES_RAW="$ARG_ADDONS"
-    else
-        select_addons_for_install
-    fi
-
+    
+    # Addon selection
+    select_addons_for_install
+    
+     
     ok "Configuration collected"
 }
 
@@ -497,52 +477,35 @@ install_panel() {
     
     # Get ALL configuration upfront if not already collected
     if [ "$skip_config" = false ]; then
-        if [[ -n "$ARG_NAME" ]]; then
-            PANEL_NAME="$ARG_NAME"
-        else
-            PANEL_NAME=$(dialog --inputbox "Panel name" 8 40 "Airlink" 3>&1 1>&2 2>&3) || PANEL_NAME="Airlink"
-        fi
-
-        if [[ -n "$ARG_PORT" ]]; then
-            PANEL_PORT="$ARG_PORT"
-        else
-            PANEL_PORT=$(dialog --inputbox "Panel Port" 8 40 "3000" 3>&1 1>&2 2>&3) || PANEL_PORT=3000
-        fi
-
-        if [[ -n "$ARG_ADMIN_EMAIL" ]]; then
-            ADMIN_EMAIL="$ARG_ADMIN_EMAIL"
-        else
-            ADMIN_EMAIL=$(dialog --inputbox "Admin Email:" 8 50 "admin@example.com" 3>&1 1>&2 2>&3) || ADMIN_EMAIL="admin@example.com"
-        fi
-
-        if [[ -n "$ARG_ADMIN_USER" ]]; then
-            ADMIN_USERNAME="$ARG_ADMIN_USER"
-        else
-            ADMIN_USERNAME=$(dialog --inputbox "Admin Username (3-20 chars, letters/numbers only):" 8 60 "admin" 3>&1 1>&2 2>&3) || ADMIN_USERNAME="admin"
-        fi
-
-        # Password always prompted — no arg for this by design
+        PANEL_NAME=$(dialog --inputbox "Panel name" 8 40 "Airlink" 3>&1 1>&2 2>&3) || PANEL_NAME="Airlink"
+        PANEL_PORT=$(dialog --inputbox "Panel Port" 8 40 "3000" 3>&1 1>&2 2>&3) || PANEL_PORT=3000
+        
+        # Collect admin user info upfront
+        ADMIN_EMAIL=$(dialog --inputbox "Admin Email:" 8 50 "admin@example.com" 3>&1 1>&2 2>&3) || ADMIN_EMAIL="admin@example.com"
+        ADMIN_USERNAME=$(dialog --inputbox "Admin Username (3-20 chars, letters/numbers only):" 8 60 "admin" 3>&1 1>&2 2>&3) || ADMIN_USERNAME="admin"
+        
+        # Password with validation
         while true; do
             ADMIN_PASSWORD=$(dialog --inputbox "Admin Password (min 8 chars, must have letter & number):" 8 70 3>&1 1>&2 2>&3)
+            
+            # Validate password
             if [[ ${#ADMIN_PASSWORD} -ge 8 ]] && [[ "$ADMIN_PASSWORD" =~ [A-Za-z] ]] && [[ "$ADMIN_PASSWORD" =~ [0-9] ]]; then
                 break
             else
                 dialog --msgbox "Password must be at least 8 characters with at least one letter and one number. Please try again." 8 60
             fi
         done
-
+        
         # Validate username
         if [[ ! "$ADMIN_USERNAME" =~ ^[A-Za-z0-9]{3,20}$ ]]; then
             warn "Invalid username format. Using default: admin"
             ADMIN_USERNAME="admin"
         fi
-
-        # Addon selection
-        if [[ -n "$ARG_ADDONS" ]]; then
-            ADDON_CHOICES_RAW="$ARG_ADDONS"
-        else
-            select_addons_for_install
-        fi
+        
+        # Select addons upfront
+        select_addons_for_install
+        
+         
     fi
     
     # Clone and setup
@@ -763,13 +726,10 @@ install_daemon() {
     
     # Get configuration if not already collected
     if [ "$skip_config" = false ]; then
-        if [[ -n "$ARG_DOMAIN" ]]; then
-            PANEL_ADDRESS="$ARG_DOMAIN"
-        else
-            PANEL_ADDRESS=$(dialog --inputbox "Panel ip/hostname" 8 40 "127.0.0.1" 3>&1 1>&2 2>&3) || PANEL_ADDRESS="127.0.0.1"
-        fi
+        PANEL_ADDRESS=$(dialog --inputbox "Panel ip/hostname" 8 40 "127.0.0.1" 3>&1 1>&2 2>&3) || PANEL_ADDRESS="127.0.0.1"
         DAEMON_PORT=$(dialog --inputbox "Daemon Port" 8 40 "3002" 3>&1 1>&2 2>&3) || DAEMON_PORT=3002
         DAEMON_KEY=$(dialog --inputbox "Daemon Auth Key" 8 40 3>&1 1>&2 2>&3) || DAEMON_KEY="get from panel's node setup page"
+         
     fi
     
     info "Preparing directories..."
@@ -920,23 +880,7 @@ remove_deps() {
 
 # Process previously selected addons
 process_addon_selections() {
-    # Handle --addons raw list (comma-separated IDs from CLI arg)
-    if [[ -n "${ADDON_CHOICES_RAW:-}" ]]; then
-        IFS=',' read -ra requested_ids <<< "$ADDON_CHOICES_RAW"
-        for req_id in "${requested_ids[@]}"; do
-            req_id="${req_id// /}"  # trim spaces
-            for addon in "${ADDONS[@]}"; do
-                local dir_name=$(get_addon_field "$addon" 4)
-                if [[ "$dir_name" == "$req_id" ]]; then
-                    install_single_addon "$addon"
-                    break
-                fi
-            done
-        done
-        return
-    fi
-
-    if [ -z "${ADDON_CHOICES:-}" ]; then
+    if [ -z "$ADDON_CHOICES" ]; then
         info "No addons selected, skipping..."
         return
     fi
@@ -1096,28 +1040,59 @@ info "Starting Airlink Installer v${VERSION}..."
 touch "$LOG"
 log "=== Airlink Installer v${VERSION} started ==="
 
-printf '%s\n' \
-  '                                              ' \
-  '  /$$$$$$ /$$         /$$/$$         /$$      ' \
-  ' /$$__  $|__/        | $|__/        | $$      ' \
-  '| $$  \ $$/$$ /$$$$$$| $$/$$/$$$$$$$| $$   /$$' \
-  '| $$$$$$$| $$/$$__  $| $| $| $$__  $| $$  /$$/' \
-  '| $$__  $| $| $$  \__| $| $| $$  \ $| $$$$$$/ ' \
-  '| $$  | $| $| $$     | $| $| $$  | $| $$_  $$ ' \
-  '| $$  | $| $| $$     | $| $| $$  | $| $$ \  $$' \
-  '|__/  |__|__|__/     |__|__|__/  |__|__/  \__/' \
-  '                                              '
+# If CLI args were passed, run non-interactively
+if [[ -n "$CLI_MODE" || -n "$CLI_NAME" || -n "$CLI_PORT" || -n "$CLI_ADMIN_EMAIL" || \
+      -n "$CLI_ADMIN_USER" || -n "$CLI_ADMIN_PASS" || -n "$CLI_PANEL_ADDR" || \
+      -n "$CLI_DAEMON_PORT" || -n "$CLI_DAEMON_KEY" || -n "$CLI_ADDONS" ]]; then
 
-# If any named args were provided, go straight to the appropriate install path
-# without the interactive main menu. --daemon causes both components to install.
-if [[ -n "$ARG_NAME" || -n "$ARG_PORT" || -n "$ARG_DOMAIN" || -n "$ARG_ADMIN_EMAIL" || -n "$ARG_ADMIN_USER" || -n "$ARG_ADDONS" || "$ARG_DAEMON" == "true" ]]; then
+    info "Running in non-interactive mode..."
+
+    # Apply CLI values to the variables the install functions read
+    [[ -n "$CLI_NAME" ]]        && PANEL_NAME="$CLI_NAME"        || PANEL_NAME="Airlink"
+    [[ -n "$CLI_PORT" ]]        && PANEL_PORT="$CLI_PORT"        || PANEL_PORT=3000
+    [[ -n "$CLI_ADMIN_EMAIL" ]] && ADMIN_EMAIL="$CLI_ADMIN_EMAIL" || ADMIN_EMAIL="admin@example.com"
+    [[ -n "$CLI_ADMIN_USER" ]]  && ADMIN_USERNAME="$CLI_ADMIN_USER" || ADMIN_USERNAME="admin"
+    [[ -n "$CLI_ADMIN_PASS" ]]  && ADMIN_PASSWORD="$CLI_ADMIN_PASS" || ADMIN_PASSWORD=""
+    [[ -n "$CLI_PANEL_ADDR" ]]  && PANEL_ADDRESS="$CLI_PANEL_ADDR" || PANEL_ADDRESS="127.0.0.1"
+    [[ -n "$CLI_DAEMON_PORT" ]] && DAEMON_PORT="$CLI_DAEMON_PORT" || DAEMON_PORT=3002
+    [[ -n "$CLI_DAEMON_KEY" ]]  && DAEMON_KEY="$CLI_DAEMON_KEY"   || DAEMON_KEY=""
+
+    # Map --addons CSV to ADDON_CHOICES understood by process_addon_selections
+    if [[ -n "$CLI_ADDONS" ]]; then
+        # Check if both addons requested
+        if echo "$CLI_ADDONS" | grep -q "modrinth" && echo "$CLI_ADDONS" | grep -q "parachute"; then
+            ADDON_CHOICES=$((${#ADDONS[@]} + 1))  # "Install All" index
+        elif echo "$CLI_ADDONS" | grep -q "modrinth"; then
+            ADDON_CHOICES=1
+        elif echo "$CLI_ADDONS" | grep -q "parachute"; then
+            ADDON_CHOICES=2
+        else
+            ADDON_CHOICES=$((${#ADDONS[@]} + 2))  # "Skip" index
+        fi
+    else
+        ADDON_CHOICES=$((${#ADDONS[@]} + 2))  # Skip
+    fi
+
+    # Validate password if provided
+    if [[ -n "$ADMIN_PASSWORD" ]]; then
+        if ! ([[ ${#ADMIN_PASSWORD} -ge 8 ]] && [[ "$ADMIN_PASSWORD" =~ [A-Za-z] ]] && [[ "$ADMIN_PASSWORD" =~ [0-9] ]]); then
+            err "Password must be at least 8 characters with at least one letter and one number."
+        fi
+    fi
+
     setup_node
     setup_docker
-    if [[ "$ARG_DAEMON" == "true" ]]; then
-        install_all
-    else
-        install_panel false
-    fi
+
+    case "${CLI_MODE:-both}" in
+        panel)  install_panel  true;;
+        daemon) install_daemon true;;
+        both|*) install_panel  true; install_daemon true;;
+    esac
+
+    SERVER_IP=$(hostname -I | awk '{print $1}')
+    ok "Installation complete."
+    info "Panel:  http://${SERVER_IP}:${PANEL_PORT}"
+    [[ "${CLI_MODE:-both}" != "panel" ]] && info "Daemon: running on port ${DAEMON_PORT}"
 else
     main_menu
 fi
