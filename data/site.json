@@ -1,0 +1,272 @@
+{
+  "features": [
+    {
+      "id": "server-management",
+      "icon": "server",
+      "title": "Server Management",
+      "description": "Deploy game servers, monitor resources, and control state from one place.",
+      "longDescription": "Create servers with defined CPU, RAM, and disk limits. Start, stop, restart, and kill containers in real time. The admin view shows every server across every node with its owner and live status. One-click creation from any configured image.",
+      "imageFolder": "assets/features/server-management",
+      "primary": true
+    },
+    {
+      "id": "console",
+      "icon": "terminal",
+      "title": "Live Console",
+      "description": "WebSocket terminal connected directly to the server process.",
+      "longDescription": "Send commands and read output in real time over a persistent WebSocket. CPU, RAM, and disk usage sit at the top of the console. Start, stop, and restart buttons live here. The daemon streams container output directly — no polling.",
+      "imageFolder": "assets/features/console",
+      "primary": true
+    },
+    {
+      "id": "file-manager",
+      "icon": "folder",
+      "title": "File Manager",
+      "description": "Browse, edit, upload, and download server files in the browser.",
+      "longDescription": "Full filesystem access for each server through the panel UI. Open text files in a browser-based editor. Upload by drag and drop. Download, rename, move, and delete. Powered by the daemon's filesystem API — no FTP or SSH needed for routine file work.",
+      "imageFolder": "assets/features/file-manager",
+      "primary": true
+    },
+    {
+      "id": "nodes",
+      "icon": "network",
+      "title": "Node Management",
+      "description": "Connect multiple machines. Each runs the daemon, panel handles them all.",
+      "longDescription": "Nodes are the machines that actually run game servers. Each node runs the AirLink daemon. The panel communicates over HTTP with HMAC-signed requests. Add as many nodes as you need — the admin overview shows connection status, instance count, and resource density for each one.",
+      "imageFolder": "assets/features/nodes"
+    },
+    {
+      "id": "users",
+      "icon": "users",
+      "title": "User System",
+      "description": "Accounts, admin roles, subusers, and 2FA out of the box.",
+      "longDescription": "Every user gets an account with username, email, and password. Admins have full panel access. Server owners can invite subusers by email and grant specific permissions — console, files, settings, or full access. Two-factor authentication via any TOTP app is available on every account.",
+      "imageFolder": "assets/features/users"
+    },
+    {
+      "id": "addons",
+      "icon": "puzzle",
+      "title": "Addon System",
+      "description": "Extend the panel without modifying core files.",
+      "longDescription": "Addons live in storage/addons/ and load at startup. Each addon gets an Express router, Prisma access, the logger, and the UI registration API. Addons can add sidebar entries, server menu items, routes, and database tables. The built-in marketplace clones, builds, and installs addons in one click.",
+      "imageFolder": "assets/features/addons"
+    },
+    {
+      "id": "api",
+      "icon": "plug",
+      "title": "REST API",
+      "description": "Scoped API keys with per-resource permissions.",
+      "longDescription": "Every panel action is available through the REST API. Create API keys with granular permissions across servers, users, nodes, and settings. Keys show once at creation. All responses are consistent JSON. Build your own clients, automate deployments, or integrate with external tools.",
+      "imageFolder": "assets/features/api"
+    },
+    {
+      "id": "sftp",
+      "icon": "transfer",
+      "title": "SFTP Access",
+      "description": "On-demand SFTP sessions per server, no permanent server running.",
+      "longDescription": "The daemon creates an isolated atmoz/sftp container for each session with a randomly assigned port and short-lived credentials. Sessions expire automatically. Connect with any standard SFTP client — FileZilla, WinSCP, or the command line.",
+      "imageFolder": "assets/features/file-manager"
+    },
+    {
+      "id": "migrations",
+      "icon": "database",
+      "title": "Database Migrations",
+      "description": "Addons manage their own schema. Migrations run once, tracked forever.",
+      "longDescription": "Define migrations in your addon's package.json under the migrations array. Each entry has a unique name and a SQL string. They run in order when the addon is first enabled and are tracked so they never run twice. Supports SQLite, MySQL, and PostgreSQL.",
+      "imageFolder": "assets/features/migrations"
+    },
+    {
+      "id": "pterodactyl-eggs",
+      "icon": "egg",
+      "title": "Pterodactyl Egg Support",
+      "description": "Every official Pterodactyl egg works out of the box.",
+      "longDescription": "The image store ships with full support for all eggs from the official Pterodactyl GitHub repository. Minecraft, Rust, CS2, Terraria, ARK, and dozens more — all available when creating a server, no manual configuration needed.",
+      "imageFolder": "assets/features/pterodactyl-eggs",
+      "primary": false
+    }
+  ],
+
+  "install": {
+    "requirements": [
+      "Node.js v18 or higher",
+      "npm v9 or higher",
+      "Docker (required for the daemon)",
+      "PostgreSQL, MySQL, or SQLite",
+      "Git"
+    ],
+    "quickInstallCommand": "bash <(curl -s https://raw.githubusercontent.com/airlinklabs/panel/refs/heads/main/installer.sh)",
+    "systemdCommands": [
+      "systemctl start airlink-panel",
+      "systemctl stop airlink-panel",
+      "systemctl status airlink-panel"
+    ],
+    "manualSteps": [
+      {
+        "title": "Clone the repository",
+        "commands": [
+          "cd /var/www/",
+          "git clone https://github.com/AirlinkLabs/panel.git",
+          "cd panel"
+        ]
+      },
+      {
+        "title": "Set permissions and configure environment",
+        "commands": [
+          "sudo chown -R www-data:www-data /var/www/panel",
+          "sudo chmod -R 755 /var/www/panel",
+          "cp example.env .env"
+        ]
+      },
+      {
+        "title": "Install dependencies and build",
+        "commands": [
+          "npm install -g typescript",
+          "npm install --omit=dev",
+          "npm run build"
+        ]
+      },
+      {
+        "title": "Run database migrations",
+        "commands": [
+          "npm run migrate:deploy"
+        ]
+      },
+      {
+        "title": "Start with pm2",
+        "commands": [
+          "npm install pm2 -g",
+          "pm2 start dist/app.js --name \"airlink-panel\"",
+          "pm2 save && pm2 startup"
+        ]
+      }
+    ],
+    "daemonSteps": [
+      {
+        "title": "Clone the daemon",
+        "commands": [
+          "cd /var/www/",
+          "git clone https://github.com/AirlinkLabs/daemon.git",
+          "cd daemon"
+        ]
+      },
+      {
+        "title": "Configure environment",
+        "commands": [
+          "cp example.env .env"
+        ]
+      },
+      {
+        "title": "Install dependencies and build",
+        "commands": [
+          "npm install",
+          "npm run build"
+        ]
+      },
+      {
+        "title": "Start with pm2",
+        "commands": [
+          "pm2 start dist/app.js --name \"airlink-daemon\"",
+          "pm2 save"
+        ]
+      }
+    ]
+  },
+
+  "addons": [
+    {
+      "id": "modrinth-store",
+      "name": "Modrinth Store",
+      "author": "g-flame",
+      "version": "v1.6.23",
+      "status": "working",
+      "description": "Browse and install Minecraft mods and modpacks from Modrinth directly inside the panel.",
+      "longDescription": "Integrates the full Modrinth API into your AirLink admin panel. Search the mod database, preview details, and install with one click. Download progress streams back to the browser in real time.",
+      "tags": ["Minecraft", "Mods", "Modrinth"],
+      "icon": "https://raw.githubusercontent.com/modrinth/knossos/refs/heads/master/assets/images/logo.svg",
+      "github": "https://github.com/g-flame-oss/airlink-addons/tree/modrinth-addon",
+      "features": [
+        "Search the full Modrinth mod database",
+        "One-click mod and modpack installation",
+        "Real-time download progress bars",
+        "Admin panel sidebar integration"
+      ],
+      "installSteps": [
+        {
+          "title": "Navigate to addons folder",
+          "commands": ["cd /var/www/panel/storage/addons/"]
+        },
+        {
+          "title": "Clone the addon",
+          "commands": ["git clone --branch modrinth-addon https://github.com/g-flame-oss/airlink-addons.git modrinth-store"]
+        },
+        {
+          "title": "Install and build",
+          "commands": [
+            "cd modrinth-store",
+            "npm install",
+            "npm run build"
+          ]
+        },
+        {
+          "title": "Restart the panel",
+          "commands": ["systemctl restart airlink-panel"]
+        }
+      ],
+      "installNote": "Enable the addon from Admin > Addons after restarting."
+    },
+    {
+      "id": "parachute",
+      "name": "Parachute",
+      "author": "g-flame",
+      "version": "v1.0.0",
+      "status": "working",
+      "description": "Google Drive backups for your servers. Upload, download, and restore with OAuth.",
+      "longDescription": "Connects each server to Google Drive via OAuth. Upload backups, download them, or restore with one click. Handles token storage and per-server isolation using server UUIDs. Optional file encryption.",
+      "tags": ["Backups", "Google Drive", "OAuth"],
+      "icon": "https://www.svgrepo.com/show/510106/parachute.svg",
+      "github": "https://github.com/g-flame-oss/airlink-addons/tree/parachute",
+      "features": [
+        "OAuth connection to Google Drive per server",
+        "Upload and download backup files",
+        "One-click restore",
+        "Optional encryption",
+        "Per-server backup isolation via UUID"
+      ],
+      "installSteps": [
+        {
+          "title": "Navigate to addons folder",
+          "commands": ["cd /var/www/panel/storage/addons/"]
+        },
+        {
+          "title": "Clone the addon",
+          "commands": ["git clone --branch parachute https://github.com/g-flame-oss/airlink-addons.git parachute"]
+        },
+        {
+          "title": "Install and build",
+          "commands": [
+            "cd parachute",
+            "npm install",
+            "npm run build"
+          ]
+        },
+        {
+          "title": "Add environment variables to panel .env",
+          "commands": [
+            "APP_URL=https://yourpanel.com",
+            "GOOGLE_CLIENT_ID=your_client_id",
+            "GOOGLE_CLIENT_SECRET=your_client_secret"
+          ]
+        },
+        {
+          "title": "Restart the panel",
+          "commands": ["systemctl restart airlink-panel"]
+        }
+      ],
+      "installNote": "Create a Google OAuth app at console.cloud.google.com first. Set APP_URL, GOOGLE_CLIENT_ID, and GOOGLE_CLIENT_SECRET in your panel .env before restarting."
+    }
+  ],
+
+  "team": {
+    "repos": ["AirlinkLabs/panel", "AirlinkLabs/daemon"]
+  }
+}

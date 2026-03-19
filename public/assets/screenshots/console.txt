@@ -1,0 +1,1 @@
+Live console — WebSocket terminal output. CPU/RAM/disk bar at top. Start/stop/restart buttons.

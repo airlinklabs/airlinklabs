@@ -1,0 +1,61 @@
+<footer style="border-top:1px solid var(--color-border);background:var(--color-nav-bg);">
+  <div style="max-width:1160px;margin:0 auto;padding:clamp(32px,5vw,64px) clamp(20px,4vw,48px);">
+
+    <style>
+      @media(min-width:640px) { #footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr !important; } }
+    </style>
+    <div id="footer-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,40px);margin-bottom:clamp(24px,4vw,40px);">
+
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+          <img src="<%= rootPrefix %>public/assets/plane.png" alt="AirLink" style="width:18px;height:18px;border-radius:4px;" onerror="this.style.display='none'">
+          <span style="font-size:13px;font-weight:600;color:var(--color-text-1);letter-spacing:-0.01em;"><%= site.title %></span>
+        </div>
+        <p style="font-size:12px;color:var(--color-text-3);line-height:1.65;margin:0;max-width:220px;">Open-source game server panel. MIT licensed.</p>
+      </div>
+
+      <div>
+        <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 12px;">Product</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <% [
+            { href: rootPrefix + 'index.html',          label: 'Home'     },
+            { href: rootPrefix + 'registry/index.html', label: 'Registry' },
+            { href: rootPrefix + 'blog/index.html',     label: 'Blog'     },
+          ].forEach(function(l) { %>
+          <a href="<%= l.href %>" style="font-size:12px;color:var(--color-text-3);text-decoration:none;transition:color 160ms;" onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'"><%= l.label %></a>
+          <% }) %>
+        </div>
+      </div>
+
+      <div>
+        <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 12px;">Docs</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <% docPages.forEach(function(doc) { %>
+          <a href="<%= rootPrefix %>docs/<%= doc.slug %>/index.html" style="font-size:12px;color:var(--color-text-3);text-decoration:none;transition:color 160ms;" onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'"><%= doc.title %></a>
+          <% }) %>
+        </div>
+      </div>
+
+      <div>
+        <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 12px;">Links</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <% [
+            { href: site.discordUrl,                                     label: 'Discord' },
+            { href: 'https://github.com/' + site.githubPanel,            label: 'Panel'   },
+            { href: 'https://github.com/' + site.githubDaemon,           label: 'Daemon'  },
+            { href: 'https://github.com/' + site.githubPanel + '/issues',label: 'Issues'  },
+          ].forEach(function(l) { %>
+          <a href="<%= l.href %>" target="_blank" rel="noopener" style="font-size:12px;color:var(--color-text-3);text-decoration:none;transition:color 160ms;" onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'"><%= l.label %></a>
+          <% }) %>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="border-top:1px solid var(--color-border);padding-top:20px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;">
+      <p style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);margin:0;">MIT License · AirlinkLabs</p>
+      <p style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);margin:0;"><%= site.versionLabel %></p>
+    </div>
+
+  </div>
+</footer>

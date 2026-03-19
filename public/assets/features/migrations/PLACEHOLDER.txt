@@ -1,0 +1,1 @@
+Any addon page backed by a migrated database table.

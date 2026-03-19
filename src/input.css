@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'General Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Fira Code', monospace;
+
+  /* Dark mode (default) */
+  --color-bg:           #0f0f0f;
+  --color-bg-2:         #1a1a1a;
+  --color-bg-3:         #222222;
+  --color-bg-hover:     #252525;
+  --color-bg-input:     #141414;
+  --color-nav-bg:       #111111;
+
+  --color-border:       #2a2a2a;
+  --color-border-sub:   rgba(255,255,255,0.05);
+  --color-border-input: #333333;
+
+  --color-text-1:       #f0f0f0;
+  --color-text-2:       #a3a3a3;
+  --color-text-3:       #666666;
+  --color-text-4:       #444444;
+
+  --color-success:      #22c55e;
+  --color-success-bg:   rgba(34,197,94,0.10);
+  --color-warning:      #f59e0b;
+  --color-warning-bg:   rgba(245,158,11,0.10);
+  --color-danger:       #ef4444;
+  --color-danger-bg:    rgba(239,68,68,0.10);
+
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+}
+
+/* Light mode — softened, not pure white */
+.light {
+  --color-bg:           #f7f7f5;
+  --color-bg-2:         #efefec;
+  --color-bg-3:         #e6e6e2;
+  --color-bg-hover:     #e8e8e4;
+  --color-bg-input:     #ebebea;
+  --color-nav-bg:       #f0f0ed;
+
+  --color-border:       #d8d8d4;
+  --color-border-sub:   rgba(0,0,0,0.06);
+  --color-border-input: #c8c8c4;
+
+  --color-text-1:       #1a1a1a;
+  --color-text-2:       #4a4a4a;
+  --color-text-3:       #888888;
+  --color-text-4:       #b0b0b0;
+
+  --color-success:      #16a34a;
+  --color-success-bg:   rgba(22,163,74,0.08);
+  --color-warning:      #d97706;
+  --color-warning-bg:   rgba(217,119,6,0.08);
+  --color-danger:       #dc2626;
+  --color-danger-bg:    rgba(220,38,38,0.08);
+}
+
+/* Base */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Hide all scrollbars */
+* { scrollbar-width: none; -ms-overflow-style: none; }
+*::-webkit-scrollbar { display: none; }
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-2);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+button { cursor: pointer; font-family: inherit; }
+code, pre { font-family: var(--font-mono); }
+
+/* Global element transitions — everything physical moves, nothing snaps */
+a, button, input, select, textarea, img {
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Layout transitions — grid/flex children animate their position changes */
+* {
+  transition-property: background-color, border-color, color, opacity, box-shadow, outline-color;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Elements that physically move or resize should do so visibly */
+img, .spa-section, [id^="hero-"], [id^="feat-"], [id^="install-"], [id^="team-"] {
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              width 300ms cubic-bezier(0.4, 0, 0.2, 1),
+              height 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Floating nav drawer */
+.nav-drawer {
+  opacity: 0;
+  transform: translateY(8px) scale(0.97);
+  pointer-events: none;
+  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1),
+              transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: bottom right;
+}
+.nav-drawer.drawer-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* SPA section transitions */
+#spa-root {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+.spa-section {
+  position: absolute;
+  inset: 0;
+  overflow: hidden auto;
+}
+
+/* Fade-up scroll animation (non-SPA pages) */
+.fade-up {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Docs + blog prose */
+.prose h1 { font-size: 1.5rem; font-weight: 600; color: var(--color-text-1); letter-spacing: -0.025em; margin-bottom: 0.5rem; }
+.prose h2 { font-size: 1.125rem; font-weight: 600; color: var(--color-text-1); letter-spacing: -0.02em; margin: 2rem 0 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); }
+.prose h3 { font-size: 1rem; font-weight: 600; color: var(--color-text-1); margin: 1.5rem 0 0.5rem; }
+.prose p  { font-size: 0.875rem; color: var(--color-text-2); line-height: 1.75; margin-bottom: 1rem; }
+.prose ul { list-style: disc; padding-left: 1.25rem; margin-bottom: 1rem; }
+.prose ul li { font-size: 0.875rem; color: var(--color-text-2); line-height: 1.75; margin-bottom: 0.25rem; }
+.prose a  { color: var(--color-text-1); text-decoration: underline; text-underline-offset: 3px; }
+.prose hr { border: none; border-top: 1px solid var(--color-border); margin: 2rem 0; }
+.prose pre {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+.light .prose pre { background: var(--color-bg-3); }
+.prose pre code { font-size: 0.75rem; color: var(--color-text-1); background: none; padding: 0; border: none; border-radius: 0; }
+.prose code {
+  font-size: 0.75rem;
+  color: var(--color-text-1);
+  background: var(--color-bg-3);
+  border: 1px solid var(--color-border);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* -_- scrolling team background */
+.team-bg canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}

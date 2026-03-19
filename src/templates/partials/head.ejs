@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= pageTitle ? pageTitle + ' — ' + site.title : site.title + ' — ' + site.description.split('.')[0] %></title>
+  <meta name="description" content="<%= pageDescription || site.description %>">
+  <link rel="icon" href="<%= rootPrefix %>public/assets/favicon.ico" type="image/x-icon">
+
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="<%= rootPrefix %>public/css/styles.css">
+
+  <!-- Apply saved theme before first paint to prevent flash -->
+  <script>
+    (function() {
+      var t = 'dark';
+      try { t = localStorage.getItem('theme') || 'dark'; } catch(e) {}
+      document.documentElement.className = t;
+    })();
+  </script>
+
+  <% if (underConstruction && underConstruction.enabled) { %>
+  <style>
+    .uc-bar {
+      background: var(--color-warning);
+      color: #000;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      text-align: center;
+      padding: 6px 16px;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 9999;
+    }
+  </style>
+  <% } %>
+</head>
+<body style="background:var(--color-bg);color:var(--color-text-2);min-height:100vh;overflow-x:hidden;">
+
+<% if (underConstruction && underConstruction.enabled) { %>
+<div class="uc-bar"><%= underConstruction.badge %>: <%= underConstruction.message %></div>
+<% } %>
+
+<!-- Loading screen — shown on every page, hidden by main.js after load -->
+<div id="loading-screen" style="position:fixed;inset:0;z-index:9000;background:var(--color-bg);display:flex;align-items:center;justify-content:center;gap:12px;">
+  <img src="<%= rootPrefix %>public/assets/icon.png" alt="" width="28" height="28"
+    style="border-radius:7px;opacity:0.9;"
+    onerror="this.style.display='none'">
+  <span style="font-size:16px;font-weight:600;color:var(--color-text-1);letter-spacing:-0.03em;">AirLink</span>
+</div>
+
+<script src="<%= rootPrefix %>public/js/sounds.js"></script>

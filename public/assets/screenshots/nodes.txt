@@ -1,0 +1,1 @@
+Nodes admin — list of connected nodes, green/red status dot, instance count per node.
