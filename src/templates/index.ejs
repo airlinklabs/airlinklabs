@@ -1,0 +1,666 @@
+<%
+const rootPrefix = '';
+const pageTitle = null;
+const pageDescription = site.description;
+%>
+<%- include('./partials/head', { site, underConstruction, rootPrefix, pageTitle, pageDescription }) %>
+<%- include('./partials/nav', { site, underConstruction, rootPrefix, docPages, pageTitle }) %>
+
+<style>
+  /* On desktop the right strip is 52px. On mobile it's hidden (nav.ejs handles this).
+     SPA sections need right padding to clear the strip on desktop. */
+  .spa-section-inner {
+    width: 100%;
+    max-width: 1060px;
+  }
+
+  /* Hero layout */
+  #hero-grid {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(28px, 4vw, 56px);
+    width: 100%;
+  }
+  @media (min-width: 860px) {
+    #hero-grid    { flex-direction: row; align-items: center; }
+    #hero-left    { flex: 1; }
+    #hero-mockup  { flex: 1; min-width: 0; }
+  }
+
+  /* Features */
+  #feat-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  @media (min-width: 560px) {
+    #feat-list { grid-template-columns: 1fr 1fr; }
+  }
+  @media (min-width: 900px) {
+    #feat-list { grid-template-columns: 1fr 1fr 1fr; }
+  }
+
+  /* Install grid */
+  #install-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(16px, 2vw, 24px);
+    align-items: start;
+  }
+  @media (min-width: 860px) {
+    #install-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* Install fields */
+  #install-fields {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  @media (min-width: 480px) {
+    #install-fields { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* Activity */
+  #activity-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(10px, 1.5vw, 14px);
+    height: clamp(300px, 42vh, 420px);
+  }
+  @media (min-width: 700px) {
+    #activity-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* Team */
+  #team-featured {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  @media (min-width: 540px) {
+    #team-featured { grid-template-columns: repeat(3, 1fr); }
+  }
+  #team-others {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  @media (min-width: 480px)  { #team-others { grid-template-columns: repeat(5, 1fr); } }
+  @media (min-width: 700px)  { #team-others { grid-template-columns: repeat(7, 1fr); } }
+  @media (min-width: 1000px) { #team-others { grid-template-columns: repeat(9, 1fr); } }
+
+  /* SPA section base padding — desktop gets right clearance for floating pill nav (~60px) */
+  .spa-section {
+    padding: clamp(24px, 4vw, 52px) calc(60px + clamp(20px, 3vw, 48px)) clamp(24px, 4vw, 52px) clamp(20px, 3vw, 48px);
+  }
+</style>
+
+<div id="spa-root" style="position:fixed;inset:0;overflow:hidden;background:var(--color-bg);">
+
+  <!-- ── 1: Hero ──────────────────────────────────────────────────── -->
+  <section id="spa-hero" class="spa-section">
+    <div class="spa-section-inner">
+
+      <div id="hero-grid">
+        <div id="hero-left">
+
+          <div style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);border:1px solid var(--color-border);background:var(--color-bg-2);padding:3px 11px;border-radius:999px;margin-bottom:clamp(16px,2.5vw,28px);">
+            <span style="width:5px;height:5px;border-radius:50%;background:var(--color-success);flex-shrink:0;"></span>
+            Open source &bull; MIT &bull; <%= site.versionLabel %>
+          </div>
+
+          <h1 style="font-size:clamp(28px,5vw,56px);font-weight:600;color:var(--color-text-1);line-height:1.06;letter-spacing:-0.04em;margin:0 0 clamp(12px,2vw,20px);">
+            AirLink.
+          </h1>
+
+          <p style="font-size:clamp(13px,1.3vw,14px);color:var(--color-text-2);line-height:1.75;margin:0 0 clamp(18px,2.5vw,28px);max-width:400px;">
+            Open-source game server panel built with TypeScript. Deploy across multiple nodes, control access with granular permissions, and extend everything through addons.
+          </p>
+
+          <div style="display:flex;flex-wrap:wrap;gap:9px;margin-bottom:clamp(14px,2vw,22px);">
+            <a href="#spa-install" style="display:inline-flex;align-items:center;font-size:12px;font-weight:500;background:var(--color-text-1);color:var(--color-bg);padding:8px 20px;border-radius:999px;text-decoration:none;" onmouseover="this.style.opacity='.82'" onmouseout="this.style.opacity='1'">Get started</a>
+            <a href="https://github.com/<%= site.githubPanel %>" target="_blank" rel="noopener"
+              style="display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:500;color:var(--color-text-2);border:1px solid var(--color-border);padding:8px 20px;border-radius:999px;text-decoration:none;"
+              onmouseover="this.style.background='var(--color-bg-hover)';this.style.color='var(--color-text-1)';this.style.borderColor='var(--color-border-input)'"
+              onmouseout="this.style.background='';this.style.color='var(--color-text-2)';this.style.borderColor='var(--color-border)'">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+              Panel
+            </a>
+            <a href="https://github.com/<%= site.githubDaemon %>" target="_blank" rel="noopener"
+              style="display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:500;color:var(--color-text-2);border:1px solid var(--color-border);padding:8px 20px;border-radius:999px;text-decoration:none;"
+              onmouseover="this.style.background='var(--color-bg-hover)';this.style.color='var(--color-text-1)';this.style.borderColor='var(--color-border-input)'"
+              onmouseout="this.style.background='';this.style.color='var(--color-text-2)';this.style.borderColor='var(--color-border)'">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+              Daemon
+            </a>
+          </div>
+
+          <!-- Stat pills with SVG icons -->
+          <div style="display:flex;flex-wrap:wrap;gap:8px;padding-top:clamp(14px,2vw,22px);border-top:1px solid var(--color-border);">
+
+            <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg-2);border-radius:999px;padding:6px 14px 6px 10px;">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-warning);flex-shrink:0;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span style="font-size:12px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);letter-spacing:-0.02em;"><%= (githubCache.stats&&githubCache.stats.totalStars) ? githubCache.stats.totalStars : '—' %></span>
+              <span style="font-size:10px;color:var(--color-text-3);font-family:var(--font-mono);">stars</span>
+            </div>
+
+            <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg-2);border-radius:999px;padding:6px 14px 6px 10px;">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-success);flex-shrink:0;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <span style="font-size:12px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);letter-spacing:-0.02em;"><%= (githubCache.stats&&githubCache.stats.contributors) ? githubCache.stats.contributors : '—' %></span>
+              <span style="font-size:10px;color:var(--color-text-3);font-family:var(--font-mono);">contributors</span>
+            </div>
+
+            <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg-2);border-radius:999px;padding:6px 14px 6px 10px;">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-text-3);flex-shrink:0;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              <span style="font-size:12px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);letter-spacing:-0.02em;">2</span>
+              <span style="font-size:10px;color:var(--color-text-3);font-family:var(--font-mono);">repos</span>
+            </div>
+
+          </div>
+        </div>
+
+        <div id="hero-mockup"
+          style="border-radius:12px;overflow:hidden;border:1px solid var(--color-border);background:var(--color-bg-2);aspect-ratio:16/10;"
+          onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,0.18)'"
+          onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
+          <div style="background:var(--color-bg-3);border-bottom:1px solid var(--color-border);padding:9px 12px;display:flex;align-items:center;gap:5px;">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--color-danger);opacity:.55;"></span>
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--color-warning);opacity:.55;"></span>
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--color-success);opacity:.55;"></span>
+            <div style="flex:1;height:14px;background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:4px;margin-left:6px;"></div>
+          </div>
+          <div style="position:relative;width:100%;height:calc(100% - 39px);">
+            <img id="dashboard-img-dark"  src="<%= rootPrefix %>public/assets/screenshots/dashboard-dark.gif"  alt="AirLink dashboard" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;">
+            <img id="dashboard-img-light" src="<%= rootPrefix %>public/assets/screenshots/dashboard-light.gif" alt="AirLink dashboard" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:none;">
+            <div id="dashboard-ph" style="position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--color-text-4);font-size:11px;font-family:var(--font-mono);text-align:center;">
+              <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="opacity:.3;"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+              dashboard-dark.gif / dashboard-light.gif
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── 2: Features ──────────────────────────────────────────────── -->
+  <section id="spa-features" class="spa-section" style="background:var(--color-bg-2);">
+    <div class="spa-section-inner">
+
+      <div style="margin-bottom:clamp(16px,2vw,28px);">
+        <h2 style="font-size:clamp(18px,2.5vw,26px);font-weight:600;color:var(--color-text-1);letter-spacing:-0.03em;margin:0 0 4px;">Features</h2>
+        <p style="font-size:12px;color:var(--color-text-3);margin:0;">Everything the panel and daemon ship with.</p>
+      </div>
+
+      <div id="feat-list">
+        <% features.forEach(function(f) { %>
+        <div
+          data-feature-id="<%= f.id %>"
+          data-feature-title="<%= f.title %>"
+          data-feature-desc="<%= f.description %>"
+          data-feature-long="<%= f.longDescription %>"
+          data-feature-icon="<%= f.icon %>"
+          style="display:flex;align-items:flex-start;gap:12px;padding:16px 18px;background:var(--color-bg-2);cursor:pointer;"
+          onmouseover="this.style.background='var(--color-bg-hover)'"
+          onmouseout="this.style.background='var(--color-bg-2)'">
+          <div style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:1px solid var(--color-border);border-radius:7px;background:var(--color-bg-3);color:var(--color-text-2);flex-shrink:0;margin-top:1px;">
+            <%- featureIcon(f.icon) %>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
+              <h3 style="font-size:12px;font-weight:600;color:var(--color-text-1);margin:0;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><%= f.title %></h3>
+              <% if (f.primary) { %>
+              <span style="font-size:9px;font-family:var(--font-mono);color:var(--color-text-3);background:var(--color-bg-3);border:1px solid var(--color-border);padding:1px 5px;border-radius:4px;flex-shrink:0;">core</span>
+              <% } %>
+            </div>
+            <p style="font-size:11px;color:var(--color-text-3);line-height:1.5;margin:0;"><%= f.description %></p>
+          </div>
+          <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--color-text-4);flex-shrink:0;margin-top:3px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+        <% }) %>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── 3: Install ───────────────────────────────────────────────── -->
+  <section id="spa-install" class="spa-section">
+    <div class="spa-section-inner">
+
+      <div style="margin-bottom:clamp(16px,2vw,24px);">
+        <h2 style="font-size:clamp(18px,2.5vw,26px);font-weight:600;color:var(--color-text-1);letter-spacing:-0.03em;margin:0 0 4px;">Install</h2>
+        <p style="font-size:12px;color:var(--color-text-3);margin:0;">Configure and copy one command.</p>
+      </div>
+
+      <div id="install-grid">
+        <div>
+          <div id="install-fields" style="margin-bottom:10px;">
+            <% [
+              { id:'inst-name',   label:'Panel name',  type:'text',  val:'AirLink',               span:false },
+              { id:'inst-port',   label:'Port',        type:'number',val:'3000',                  span:false },
+              { id:'inst-domain', label:'Domain',      type:'text',  val:'',  ph:'panel.domain.com', span:true  },
+              { id:'inst-email',  label:'Admin email', type:'email', val:'',  ph:'admin@example.com',span:false },
+              { id:'inst-user',   label:'Admin user',  type:'text',  val:'admin',                 span:false },
+            ].forEach(function(f) { %>
+            <div style="<%= f.span ? 'grid-column:1/-1;' : '' %>">
+              <label style="display:block;font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;"><%= f.label %></label>
+              <input id="<%= f.id %>" type="<%= f.type %>" value="<%= f.val %>" placeholder="<%= f.ph || f.val %>"
+                style="width:100%;box-sizing:border-box;background:var(--color-bg-input);border:1px solid var(--color-border-input);border-radius:7px;padding:7px 10px;font-size:12px;font-family:var(--font-mono);color:var(--color-text-1);outline:none;"
+                onfocus="this.style.borderColor='var(--color-text-4)'" onblur="this.style.borderColor='var(--color-border-input)'">
+            </div>
+            <% }) %>
+
+            <div style="display:flex;align-items:center;gap:10px;padding:3px 0;">
+              <button id="inst-daemon-toggle" type="button"
+                style="position:relative;width:32px;height:17px;border-radius:9px;border:1px solid var(--color-border);background:var(--color-text-2);cursor:pointer;padding:0;flex-shrink:0;"
+                aria-pressed="true">
+                <span id="inst-daemon-dot" style="position:absolute;top:2px;left:calc(100% - 15px);width:13px;height:13px;border-radius:50%;background:var(--color-bg);display:block;"></span>
+              </button>
+              <span style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-2);">Install daemon</span>
+            </div>
+          </div>
+
+          <% if (addons && addons.length) { %>
+          <div style="margin-bottom:10px;">
+            <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.08em;margin:0 0 7px;">Addons</p>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+              <% addons.forEach(function(addon){ %>
+              <label style="display:flex;align-items:center;gap:7px;font-size:11px;font-family:var(--font-mono);color:var(--color-text-2);border:1px solid var(--color-border);padding:5px 10px;border-radius:6px;cursor:pointer;user-select:none;"
+                onmouseover="this.style.borderColor='var(--color-border-input)'" onmouseout="this.style.borderColor='var(--color-border)'">
+                <span class="addon-cb-box" data-id="<%= addon.id %>" style="width:12px;height:12px;border-radius:3px;border:1.5px solid var(--color-text-4);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg class="addon-cb-check" width="8" height="8" fill="none" stroke="var(--color-bg)" stroke-width="3" viewBox="0 0 24 24" style="display:none;"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <%= addon.name %>
+              </label>
+              <% }) %>
+            </div>
+          </div>
+          <% } %>
+
+          <div class="code-block" style="position:relative;background:var(--color-bg-input);border:1px solid var(--color-border);border-radius:9px;padding:12px 14px;padding-right:58px;">
+            <code id="inst-cmd" style="font-size:11px;color:var(--color-text-1);font-family:var(--font-mono);line-height:1.7;display:block;white-space:pre-wrap;word-break:break-all;"></code>
+            <button class="copy-btn" style="position:absolute;top:8px;right:8px;font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);background:var(--color-bg-2);border:1px solid var(--color-border);padding:3px 8px;border-radius:5px;display:flex;align-items:center;gap:4px;cursor:pointer;">
+              <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy
+            </button>
+          </div>
+        </div>
+
+        <div style="border:1px solid var(--color-border);border-radius:12px;overflow:hidden;background:var(--color-bg-2);aspect-ratio:16/9;">
+          <% if (site.installVideoUrl) { %>
+            <% var videoId='';var ytMatch=site.installVideoUrl.match(/(?:v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);if(ytMatch)videoId=ytMatch[1]; %>
+            <% if (videoId) { %>
+            <iframe src="https://www.youtube.com/embed/<%= videoId %>" title="AirLink install guide" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="width:100%;height:100%;border:none;display:block;"></iframe>
+            <% } else { %>
+            <iframe src="<%= site.installVideoUrl %>" title="AirLink install guide" allowfullscreen style="width:100%;height:100%;border:none;display:block;"></iframe>
+            <% } %>
+          <% } else { %>
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--color-text-3);font-family:var(--font-mono);font-size:12px;text-align:center;padding:24px;box-sizing:border-box;">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="opacity:.35;"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16"/></svg>
+            Install walkthrough coming soon.
+          </div>
+          <% } %>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── 4: Activity ──────────────────────────────────────────────── -->
+  <section id="spa-activity" class="spa-section" style="background:var(--color-bg-2);">
+    <div class="spa-section-inner">
+
+      <div style="margin-bottom:clamp(16px,2vw,24px);">
+        <h2 style="font-size:clamp(18px,2.5vw,26px);font-weight:600;color:var(--color-text-1);letter-spacing:-0.03em;margin:0 0 4px;">Activity</h2>
+        <p style="font-size:12px;color:var(--color-text-3);margin:0;">Recent commits and contributors across both repos.</p>
+      </div>
+
+      <div id="activity-grid">
+
+        <div style="border:1px solid var(--color-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="padding:10px 14px;border-bottom:1px solid var(--color-border);background:var(--color-bg-3);flex-shrink:0;">
+            <span style="font-size:11px;font-family:var(--font-mono);font-weight:500;color:var(--color-text-2);">Recent commits</span>
+          </div>
+          <div style="flex:1;overflow-y:auto;background:var(--color-bg-2);">
+            <%
+              var allCommits = [];
+              if(githubCache.panelCommits&&githubCache.panelCommits.length)  githubCache.panelCommits.slice(0,10).forEach(function(c){allCommits.push(Object.assign({},c,{_repo:'panel'}));});
+              if(githubCache.daemonCommits&&githubCache.daemonCommits.length) githubCache.daemonCommits.slice(0,10).forEach(function(c){allCommits.push(Object.assign({},c,{_repo:'daemon'}));});
+              allCommits.sort(function(a,b){ return new Date(b.commit.author.date) - new Date(a.commit.author.date); });
+            %>
+            <% if(allCommits.length){ %>
+              <% allCommits.slice(0,12).forEach(function(commit){ %>
+              <div style="display:flex;align-items:flex-start;gap:9px;padding:8px 14px;border-bottom:1px solid var(--color-border);" onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background=''">
+                <img src="<%= commit.author ? commit.author.avatar_url : '' %>" alt="" style="width:17px;height:17px;border-radius:50%;flex-shrink:0;background:var(--color-bg-3);margin-top:1px;" onerror="this.style.display='none'">
+                <div style="flex:1;min-width:0;">
+                  <p style="font-size:11px;color:var(--color-text-1);margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.4;"><%= commit.commit.message.split('\n')[0].slice(0,72) %></p>
+                  <p style="font-size:9px;color:var(--color-text-3);font-family:var(--font-mono);margin:2px 0 0;"><%= commit.commit.author.name %> <span style="padding:0 4px;border:1px solid var(--color-border);border-radius:3px;"><%= commit._repo %></span></p>
+                </div>
+                <a href="<%= commit.html_url %>" target="_blank" rel="noopener" style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);flex-shrink:0;text-decoration:none;" onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'"><%= commit.sha.slice(0,7) %></a>
+              </div>
+              <% }) %>
+            <% } else { %>
+            <div style="padding:24px;text-align:center;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);">No data. Run <code style="background:var(--color-bg-3);padding:1px 5px;border-radius:3px;">npm run cache</code></div>
+            <% } %>
+          </div>
+        </div>
+
+        <div style="border:1px solid var(--color-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="padding:10px 14px;border-bottom:1px solid var(--color-border);background:var(--color-bg-3);flex-shrink:0;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:11px;font-family:var(--font-mono);font-weight:500;color:var(--color-text-2);">Contributors</span>
+            <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);"><%= (githubCache.stats&&githubCache.stats.contributors) ? githubCache.stats.contributors : '0' %> total</span>
+          </div>
+          <div style="flex:1;overflow-y:auto;background:var(--color-bg-2);">
+            <% if(githubCache.contributors&&githubCache.contributors.length){ %>
+              <% githubCache.contributors.forEach(function(c,i){ %>
+              <a href="<%= c.html_url %>" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:9px;padding:7px 14px;border-bottom:1px solid var(--color-border);text-decoration:none;" onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background=''">
+                <img src="<%= c.avatar_url %>" alt="<%= c.login %>" style="width:<%= i===0?'22px':'17px' %>;height:<%= i===0?'22px':'17px' %>;border-radius:5px;border:1px solid var(--color-border);background:var(--color-bg-3);flex-shrink:0;">
+                <span style="flex:1;font-size:12px;font-weight:500;color:var(--color-text-1);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><%= c.name||c.login %></span>
+                <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);flex-shrink:0;"><%= c.contributions %></span>
+              </a>
+              <% }) %>
+            <% } else { %>
+            <div style="padding:24px;text-align:center;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);">No data. Run <code style="background:var(--color-bg-3);padding:1px 5px;border-radius:3px;">npm run cache</code></div>
+            <% } %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 5: Team ──────────────────────────────────────────────────── -->
+  <section id="spa-team" class="spa-section" style="position:relative;overflow:hidden;">
+    <canvas id="team-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;" aria-hidden="true"></canvas>
+    <div class="spa-section-inner" style="position:relative;z-index:1;">
+
+      <div style="margin-bottom:clamp(16px,2vw,24px);">
+        <h2 style="font-size:clamp(18px,2.5vw,26px);font-weight:600;color:var(--color-text-1);letter-spacing:-0.03em;margin:0 0 4px;">The team</h2>
+        <p style="font-size:12px;color:var(--color-text-3);margin:0;">Everyone who contributed to the panel and daemon.</p>
+      </div>
+
+      <%
+        var featuredMembers = [
+          { login:'privt00',   role:'Lead'          },
+          { login:'thavanish', role:'Maintainer'     },
+          { login:'achul123',  role:'Core Developer' },
+        ];
+      %>
+
+      <div id="team-featured">
+        <% featuredMembers.forEach(function(m){ %>
+        <a href="https://github.com/<%= m.login %>" target="_blank" rel="noopener"
+          style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:clamp(14px,2vw,22px);border:1px solid var(--color-border);border-radius:12px;background:var(--color-bg-2);text-decoration:none;"
+          onmouseover="this.style.background='var(--color-bg-hover)';this.style.borderColor='var(--color-border-input)';this.style.transform='translateY(-2px)'"
+          onmouseout="this.style.background='var(--color-bg-2)';this.style.borderColor='var(--color-border)';this.style.transform=''">
+          <img src="https://github.com/<%= m.login %>.png" alt="<%= m.login %>" style="width:clamp(40px,5vw,52px);height:clamp(40px,5vw,52px);border-radius:10px;border:1px solid var(--color-border);background:var(--color-bg-3);" onerror="this.style.background='var(--color-bg-3)'">
+          <div style="text-align:center;">
+            <p style="font-size:13px;font-weight:600;color:var(--color-text-1);margin:0 0 2px;letter-spacing:-0.01em;"><%= m.login %></p>
+            <p style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);margin:0;"><%= m.role %></p>
+          </div>
+        </a>
+        <% }) %>
+      </div>
+
+      <% if(githubCache.contributors&&githubCache.contributors.length){ %>
+        <% var fLogins = featuredMembers.map(function(f){ return f.login.toLowerCase(); }); %>
+        <% var otherContributors = githubCache.contributors.filter(function(c){ return fLogins.indexOf(c.login.toLowerCase()) === -1; }); %>
+        <% if(otherContributors.length){ %>
+        <div id="team-others">
+          <% otherContributors.forEach(function(c){ %>
+          <a href="<%= c.html_url %>" target="_blank" rel="noopener"
+            style="display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 6px;background:var(--color-bg-2);text-decoration:none;"
+            onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background='var(--color-bg-2)'">
+            <img src="<%= c.avatar_url %>" alt="<%= c.login %>" style="width:28px;height:28px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-3);">
+            <p style="font-size:9px;font-family:var(--font-mono);color:var(--color-text-3);margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-align:center;"><%= c.login %></p>
+          </a>
+          <% }) %>
+        </div>
+        <% } %>
+      <% } %>
+
+    </div>
+  </section>
+
+</div>
+
+<!-- Feature detail modal -->
+<div id="feat-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;">
+  <div id="feat-modal" style="background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:14px;max-width:620px;width:100%;max-height:85vh;overflow-y:auto;transform:translateY(14px);">
+
+    <!-- GIF preview -->
+    <div id="feat-modal-media" style="aspect-ratio:16/9;background:var(--color-bg-3);border-radius:14px 14px 0 0;overflow:hidden;position:relative;border-bottom:1px solid var(--color-border);">
+      <img id="feat-modal-gif" src="" alt="" style="width:100%;height:100%;object-fit:cover;object-position:top;display:none;">
+      <div id="feat-modal-gif-ph" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--color-text-4);font-size:11px;font-family:var(--font-mono);">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="opacity:.3;"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        <span id="feat-modal-gif-label" style="opacity:.4;"></span>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--color-border);">
+      <div style="display:flex;align-items:center;gap:9px;">
+        <div id="feat-modal-icon" style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;border:1px solid var(--color-border);border-radius:8px;background:var(--color-bg-3);color:var(--color-text-2);flex-shrink:0;"></div>
+        <h3 id="feat-modal-title" style="font-size:14px;font-weight:600;color:var(--color-text-1);letter-spacing:-0.01em;margin:0;"></h3>
+      </div>
+      <button id="feat-modal-close" style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;border:1px solid var(--color-border);border-radius:8px;color:var(--color-text-3);background:transparent;cursor:pointer;flex-shrink:0;" onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background=''">
+        <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div style="padding:16px 18px;">
+      <p id="feat-modal-desc" style="font-size:13px;color:var(--color-text-2);line-height:1.7;margin:0 0 8px;"></p>
+      <p id="feat-modal-long" style="font-size:12px;color:var(--color-text-3);line-height:1.7;margin:0;"></p>
+    </div>
+  </div>
+</div>
+
+<script src="<%= rootPrefix %>public/js/main.js"></script>
+<script src="<%= rootPrefix %>public/js/spa.js"></script>
+
+<script>
+(function() {
+  var overlay   = document.getElementById('feat-overlay');
+  var modal     = document.getElementById('feat-modal');
+  var iconEl    = document.getElementById('feat-modal-icon');
+  var titleEl   = document.getElementById('feat-modal-title');
+  var descEl    = document.getElementById('feat-modal-desc');
+  var longEl    = document.getElementById('feat-modal-long');
+  var closeBtn  = document.getElementById('feat-modal-close');
+  var gifImg    = document.getElementById('feat-modal-gif');
+  var gifPh     = document.getElementById('feat-modal-gif-ph');
+  var gifLabel  = document.getElementById('feat-modal-gif-label');
+  var EASE      = 'cubic-bezier(0.4,0,0.2,1)';
+
+  var iconMap = {};
+  <% features.forEach(function(f) { %>iconMap['<%= f.id %>'] = '<%- featureIcon(f.icon).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'') %>';<% }) %>
+
+  function openModal(card) {
+    var id = card.dataset.featureId || '';
+    iconEl.innerHTML    = iconMap[id] || '';
+    titleEl.textContent = card.dataset.featureTitle || '';
+    descEl.textContent  = card.dataset.featureDesc  || '';
+    longEl.textContent  = card.dataset.featureLong  || '';
+
+    // Load theme-aware GIF
+    var theme  = document.documentElement.className === 'light' ? 'light' : 'dark';
+    var gifSrc = 'public/assets/features/' + id + '/' + id + '-' + theme + '.gif';
+    gifImg.style.display = 'none';
+    gifPh.style.display  = 'flex';
+    if (gifLabel) gifLabel.textContent = id + '-' + theme + '.gif';
+    gifImg.onerror = function() { gifImg.style.display = 'none'; gifPh.style.display = 'flex'; };
+    gifImg.onload  = function() { gifImg.style.display = 'block'; gifPh.style.display = 'none'; };
+    gifImg.src = gifSrc;
+
+    overlay.style.transition    = 'opacity 220ms ' + EASE;
+    overlay.style.opacity       = '1';
+    overlay.style.pointerEvents = 'auto';
+    modal.style.transition      = 'transform 220ms ' + EASE;
+    modal.style.transform       = 'translateY(0)';
+  }
+
+  function closeModal() {
+    overlay.style.opacity       = '0';
+    overlay.style.pointerEvents = 'none';
+    modal.style.transform       = 'translateY(14px)';
+  }
+
+  document.querySelectorAll('[data-feature-id]').forEach(function(card) {
+    card.addEventListener('click', function() { openModal(card); });
+  });
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+})();
+</script>
+
+<script>
+(function() {
+  var daemonOn = true;
+  var cmd    = document.getElementById('inst-cmd');
+  if (!cmd) return;
+  var toggle = document.getElementById('inst-daemon-toggle');
+  var dot    = document.getElementById('inst-daemon-dot');
+
+  function setDaemon(on) {
+    daemonOn = on;
+    toggle.style.background  = on ? 'var(--color-text-2)' : 'var(--color-bg-3)';
+    toggle.style.borderColor = on ? 'var(--color-border-input)' : 'var(--color-border)';
+    dot.style.left = on ? 'calc(100% - 15px)' : '2px';
+    buildCmd();
+  }
+  toggle.addEventListener('click', function() { setDaemon(!daemonOn); });
+  setDaemon(true);
+
+  document.querySelectorAll('.addon-cb-box').forEach(function(box) {
+    box.parentElement.addEventListener('click', function() {
+      var check  = box.querySelector('.addon-cb-check');
+      var active = check.style.display !== 'none';
+      check.style.display   = active ? 'none' : '';
+      box.style.background  = active ? '' : 'var(--color-text-1)';
+      box.style.borderColor = active ? 'var(--color-text-4)' : 'var(--color-text-1)';
+      buildCmd();
+    });
+  });
+
+  function get(id) {
+    var el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  function buildCmd() {
+    var parts  = ['bash <(curl -s https://airlinklabs.github.io/home/installer.sh)'];
+    var name   = get('inst-name');
+    var port   = get('inst-port');
+    var domain = get('inst-domain');
+    var email  = get('inst-email');
+    var user   = get('inst-user');
+
+    if (name && name !== 'AirLink') parts.push('  --name "' + name + '"');
+    if (domain)                      parts.push('  --domain "' + domain + '"');
+    if (port && port !== '3000')     parts.push('  --port ' + port);
+    if (email)                       parts.push('  --admin-email "' + email + '"');
+    if (user && user !== 'admin')    parts.push('  --admin-user "' + user + '"');
+    if (daemonOn)                    parts.push('  --daemon');
+
+    var chosen = [];
+    document.querySelectorAll('.addon-cb-check').forEach(function(check) {
+      if (check.style.display !== 'none') {
+        var box = check.parentElement;
+        if (box && box.dataset.id) chosen.push(box.dataset.id);
+      }
+    });
+    if (chosen.length) parts.push('  --addons "' + chosen.join(',') + '"');
+
+    cmd.textContent = parts.join(' \\\n');
+  }
+
+  ['inst-name','inst-port','inst-domain','inst-email','inst-user'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('input', buildCmd);
+  });
+
+  buildCmd();
+})();
+</script>
+
+<script>
+// Dashboard GIF — swap between dark and light variant when theme changes
+(function() {
+  var dark  = document.getElementById('dashboard-img-dark');
+  var light = document.getElementById('dashboard-img-light');
+  if (!dark || !light) return;
+
+  function syncDashboard() {
+    var isDark = document.documentElement.className !== 'light';
+    dark.style.display  = isDark ? '' : 'none';
+    light.style.display = isDark ? 'none' : '';
+  }
+
+  syncDashboard();
+
+  // Watch for class changes on <html> (theme toggles)
+  var obs = new MutationObserver(syncDashboard);
+  obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+})();
+</script>
+
+<script>
+// Team section — -_- scrolling background
+(function() {
+  var canvas = document.getElementById('team-canvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var TILE  = '-_-  ';
+  var ANGLE = -12 * Math.PI / 180;
+  var SPEED = 28;
+  var FSZ   = 16;
+  var LH    = Math.round(FSZ * 2.6);
+  var off   = 0;
+  var last  = null;
+
+  function isDark() { return document.documentElement.className !== 'light'; }
+
+  function resize() {
+    canvas.width  = canvas.parentElement.offsetWidth  || window.innerWidth;
+    canvas.height = canvas.parentElement.offsetHeight || window.innerHeight;
+  }
+
+  function draw(ts) {
+    requestAnimationFrame(draw);
+    if (last !== null) off += SPEED * (ts - last) / 1000;
+    last = ts;
+    var wrap = off % LH;
+    var W = canvas.width;
+    var H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+    ctx.save();
+    ctx.translate(W / 2, H / 2);
+    ctx.rotate(ANGLE);
+    var D = Math.ceil(Math.sqrt(W * W + H * H));
+    ctx.font = 'bold ' + FSZ + 'px monospace';
+    ctx.fillStyle = isDark() ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
+    var tw  = ctx.measureText(TILE).width;
+    var row = TILE.repeat(Math.ceil((D * 2) / tw) + 2);
+    for (var y = -D - LH + wrap; y < D + LH; y += LH) ctx.fillText(row, -D, y);
+    ctx.restore();
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  requestAnimationFrame(draw);
+})();
+</script>
+
+</body>
+</html>

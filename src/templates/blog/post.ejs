@@ -1,0 +1,50 @@
+<%
+const rootPrefix = '../../';
+const pageTitle = post.title;
+const pageDescription = post.title + ' — AirLink announcement.';
+%>
+<%- include('./partials/head', { site, underConstruction, rootPrefix, pageTitle, pageDescription }) %>
+<%- include('./partials/nav', { site, underConstruction, rootPrefix, docPages, pageTitle }) %>
+
+<div id="page-content" style="min-height:100vh;padding:clamp(32px,5vw,72px) clamp(72px,8vw,96px) clamp(32px,5vw,72px) clamp(20px,3vw,56px);box-sizing:border-box;">
+  <div style="max-width:700px;">
+
+  <div style="padding:clamp(40px,7vw,96px) 0 clamp(24px,3vw,48px);border-bottom:1px solid var(--color-border);margin-bottom:clamp(24px,3vw,48px);">
+    <a href="<%= rootPrefix %>blog/index.html"
+      style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);text-decoration:none;margin-bottom:24px;transition:color 150ms;"
+      onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'">
+      <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Blog
+    </a>
+    <h1 style="font-size:clamp(22px,3.5vw,36px);font-weight:600;color:var(--color-text-1);letter-spacing:-0.03em;margin:0 0 16px;"><%= post.title %></h1>
+    <div style="display:flex;align-items:center;gap:10px;font-size:12px;font-family:var(--font-mono);color:var(--color-text-3);">
+      <% if (post.authorGithub) { %>
+      <img src="https://github.com/<%= post.authorGithub %>.png?size=32" alt="" style="width:20px;height:20px;border-radius:50%;background:var(--color-bg-3);" onerror="this.style.display='none'">
+      <% } %>
+      <span><%= post.author || 'AirlinkLabs' %></span>
+      <% if (post.date) { %>
+      <span style="color:var(--color-text-4);">·</span>
+      <span><%= post.date %></span>
+      <% } %>
+    </div>
+  </div>
+
+  <article class="prose">
+    <%- post.content %>
+  </article>
+
+  <div style="margin-top:48px;padding-top:24px;border-top:1px solid var(--color-border);">
+    <a href="<%= rootPrefix %>blog/index.html"
+      style="display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--color-text-3);text-decoration:none;transition:color 150ms;"
+      onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'">
+      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      All announcements
+    </a>
+  </div>
+
+  </div>
+</div>
+
+<script src="<%= rootPrefix %>public/js/main.js"></script>
+</body>
+</html>

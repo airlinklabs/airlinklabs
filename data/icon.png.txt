@@ -1,0 +1,1 @@
+Place a square PNG here (min 64x64). Used in the loading screen on every page.

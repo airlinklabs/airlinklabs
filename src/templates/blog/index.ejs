@@ -1,0 +1,89 @@
+<%
+const rootPrefix = '../';
+const pageTitle = 'Blog';
+const pageDescription = 'Announcements and release notes from AirLink.';
+%>
+<%- include('./partials/head', { site, underConstruction, rootPrefix, pageTitle, pageDescription }) %>
+<%- include('./partials/nav', { site, underConstruction, rootPrefix, docPages, pageTitle }) %>
+
+<div id="page-content" style="min-height:100vh;padding:clamp(32px,5vw,72px) clamp(72px,8vw,96px) clamp(32px,5vw,72px) clamp(20px,3vw,56px);box-sizing:border-box;">
+  <div style="max-width:760px;">
+
+  <div style="padding:clamp(40px,7vw,96px) 0 clamp(24px,3vw,48px);border-bottom:1px solid var(--color-border);margin-bottom:clamp(24px,3vw,48px);">
+    <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 10px;">Announcements</p>
+    <h1 style="font-size:clamp(28px,4vw,48px);font-weight:600;color:var(--color-text-1);letter-spacing:-0.035em;margin:0;">Blog</h1>
+  </div>
+
+  <% if (announcements && announcements.length) { %>
+
+  <%
+    var pinnedPosts = announcements.filter(function(p) { return p.pinned; });
+    var regularPosts = announcements.filter(function(p) { return !p.pinned; });
+  %>
+
+  <!-- Pinned posts — card grid -->
+  <% if (pinnedPosts.length) { %>
+  <div style="margin-bottom:clamp(24px,3vw,48px);">
+    <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 14px;display:flex;align-items:center;gap:8px;">
+      <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Pinned
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;">
+      <% pinnedPosts.forEach(function(post) { %>
+      <a href="<%= rootPrefix %>blog/<%= post.slug %>/index.html"
+        style="display:flex;flex-direction:column;padding:20px;border:1px solid var(--color-border);border-radius:12px;background:var(--color-bg-2);text-decoration:none;transition:background 150ms,border-color 150ms;"
+        onmouseover="this.style.background='var(--color-bg-hover)';this.style.borderColor='var(--color-border-input)'"
+        onmouseout="this.style.background='var(--color-bg-2)';this.style.borderColor='var(--color-border)'">
+        <h2 style="font-size:15px;font-weight:600;color:var(--color-text-1);letter-spacing:-0.015em;margin:0 0 10px;"><%= post.title %></h2>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:auto;">
+          <% if (post.authorGithub) { %>
+          <img src="https://github.com/<%= post.authorGithub %>.png?size=20" alt="" style="width:16px;height:16px;border-radius:50%;background:var(--color-bg-3);" onerror="this.style.display='none'">
+          <% } %>
+          <span style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);"><%= post.author || 'AirlinkLabs' %></span>
+          <% if (post.date) { %>
+          <span style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-4);">· <%= post.date %></span>
+          <% } %>
+        </div>
+      </a>
+      <% }) %>
+    </div>
+  </div>
+  <% } %>
+
+  <!-- Regular posts — list -->
+  <% if (regularPosts.length) { %>
+  <div>
+    <% regularPosts.forEach(function(post) { %>
+    <a href="<%= rootPrefix %>blog/<%= post.slug %>/index.html"
+      style="display:flex;align-items:flex-start;justify-content:space-between;gap:24px;padding:20px 0;border-bottom:1px solid var(--color-border);text-decoration:none;transition:padding-left 150ms;"
+      onmouseover="this.style.paddingLeft='8px'" onmouseout="this.style.paddingLeft='0'">
+      <div style="flex:1;min-width:0;">
+        <h2 style="font-size:15px;font-weight:600;color:var(--color-text-1);letter-spacing:-0.015em;margin:0 0 6px;"><%= post.title %></h2>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <% if (post.authorGithub) { %>
+          <img src="https://github.com/<%= post.authorGithub %>.png?size=20" alt="" style="width:14px;height:14px;border-radius:50%;background:var(--color-bg-3);" onerror="this.style.display='none'">
+          <% } %>
+          <span style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);"><%= post.author || 'AirlinkLabs' %></span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;flex-shrink:0;">
+        <% if (post.date) { %>
+        <span style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);"><%= post.date %></span>
+        <% } %>
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--color-text-4);"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+    <% }) %>
+  </div>
+  <% } %>
+
+  <% } else { %>
+  <p style="font-size:13px;font-family:var(--font-mono);color:var(--color-text-3);">No announcements yet.</p>
+  <% } %>
+
+  </div>
+</div>
+
+<script src="<%= rootPrefix %>public/js/main.js"></script>
+</body>
+</html>
