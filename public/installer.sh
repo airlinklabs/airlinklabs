@@ -95,15 +95,15 @@ step_add() { STEP_LABELS+=("$1"); STEP_STATUS+=("wait"); }
 step_set() {
     local idx=$1 status=$2
     STEP_STATUS[$idx]="$status"
-    $USE_TUI && tui_draw_steps
+    [[ "$USE_TUI" == "true" ]] && tui_draw_steps || true
 }
 
 # Row where step list starts
 TUI_STEP_ROW=11
 # Row for status text
-TUI_STATUS_ROW=22
+TUI_STATUS_ROW=23
 # Row for last log output
-TUI_LOG_ROW=23
+TUI_LOG_ROW=24
 
 # Current step index
 CURRENT_STEP=-1
@@ -114,38 +114,44 @@ tui_draw() {
     HIDE
 
     local w=$COLS
-    local pad=$(( (w - 48) / 2 ))
+    local pad=$(( (w - 50) / 2 ))
     [[ $pad -lt 0 ]] && pad=0
-    local sp
+    local sp divider
     sp=$(printf '%*s' "$pad" '')
+    divider=$(printf '%*s' "$w" '' | tr ' ' '─')
 
-    # ASCII art — centered
+    # Row 1: top divider
+    printf "${DIM}%s${N}\n" "$divider"
+
+    # Rows 2-9: ASCII art centered — exact art from panel startup
     printf "${BOLD}${C}"
-    printf "%s   /$$$$$$ /$$         /$$/$$         /$$      \n" "$sp"
-    printf "%s  /$$__  \$|__/        | \$|__/        | \$\$      \n" "$sp"
-    printf "%s | \$\$  \\ \$\$/$$ /\$\$\$\$\$\$| \$\$/\$\$/$$$$$$$| \$\$   /\$\$\n" "$sp"
-    printf "%s | \$\$\$\$\$\$\$| \$\$/\$\$__  \$| \$| \$| \$\$__  \$| \$\$  /\$\$/\n" "$sp"
-    printf "%s | \$\$__  \$| \$| \$\$  \\__| \$| \$| \$\$  \\ \$| \$\$\$\$\$\$/ \n" "$sp"
-    printf "%s | \$\$  | \$| \$| \$\$     | \$| \$| \$\$  | \$| \$\$_  \$\$ \n" "$sp"
-    printf "%s | \$\$  | \$| \$| \$\$     | \$| \$| \$\$  | \$| \$\$ \\  \$\$\n" "$sp"
-    printf "%s |__/  |__|__|__/     |__|__|__/  |__|__/  \\__/\n" "$sp"
+    printf "%s                                              \n" "$sp"
+    printf "%s  /$$$$$$ /\$\$         /\$\$/\$\$         /\$\$      \n" "$sp"
+    printf "%s /\$\$__  \$\$|__/        | \$\$|__/        | \$\$      \n" "$sp"
+    printf "%s| \$\$  \ \$\$/$$ /\$\$\$\$\$\$\$\$| \$\$/\$\$/\$\$\$\$\$\$\$| \$\$   /\$\$\n" "$sp"
+    printf "%s| \$\$\$\$\$\$\$| \$\$| \$\$__  \$\$| \$\$| \$\$| \$\$__  \$\$| \$\$  /\$\$/\n" "$sp"
+    printf "%s| \$\$__  \$\$| \$\$| \$\$  \__| \$\$| \$\$| \$\$  \ \$\$| \$\$\$\$\$\$/\n" "$sp"
+    printf "%s| \$\$  | \$\$| \$\$| \$\$     | \$\$| \$\$| \$\$  | \$\$| \$\$_  \$\$\n" "$sp"
+    printf "%s| \$\$  | \$\$| \$\$| \$\$     | \$\$| \$\$| \$\$  | \$\$| \$\$ \  \$\$\n" "$sp"
+    printf "%s|__/  |__|__|__/     |__|__|__/  |__|__/  \__/\n" "$sp"
     printf "${N}"
 
-    # Subtitle
+    # Row 10: subtitle
     local subtitle="  Installing ${MODE_LABEL}  ·  v2.0.0-rc1  "
     local sub_pad=$(( (w - ${#subtitle}) / 2 ))
     [[ $sub_pad -lt 0 ]] && sub_pad=0
-    CUP 10 1
     printf "${DIM}%*s%s${N}\n" "$sub_pad" '' "$subtitle"
 
-    # Dividers
-    CUP 11 1;  printf "${DIM}%${w}s${N}\n" '' | tr ' ' '─'
-    CUP 21 1;  printf "${DIM}%${w}s${N}\n" '' | tr ' ' '─'
+    # Row 11: divider
+    printf "${DIM}%s${N}\n" "$divider"
 
-    # Step list
+    # Rows 12-21: step list
     tui_draw_steps
 
-    # Empty status rows
+    # Row 22: divider
+    CUP 22 1; printf "${DIM}%s${N}\n" "$divider"
+
+    # Empty status + log rows
     CUP $TUI_STATUS_ROW 1; printf "%${w}s" ''
     CUP $TUI_LOG_ROW    1; printf "%${w}s" ''
 }
@@ -175,7 +181,7 @@ tui_draw_steps() {
 
 # Update the status line (current high-level action)
 tui_status() {
-    [[ "$USE_TUI" == "true" ]] || return
+    [[ "$USE_TUI" == "true" ]] || return 0
     CUP $TUI_STATUS_ROW 1
     local msg="  ${BOLD}${C}»${N} $*"
     printf "%-${COLS}s" "$msg"
@@ -184,7 +190,7 @@ tui_status() {
 
 # Update the log line (last raw output snippet)
 tui_log() {
-    [[ "$USE_TUI" == "true" ]] || return
+    [[ "$USE_TUI" == "true" ]] || return 0
     CUP $TUI_LOG_ROW 1
     # Strip ANSI codes and truncate to terminal width
     local clean
@@ -195,10 +201,10 @@ tui_log() {
 # Called on exit — restore terminal regardless of how we exit
 tui_cleanup() {
     if [[ "$USE_TUI" == "true" ]]; then
-        # Move past the TUI and restore cursor
-        CUP 25 1
+        CUP 26 1
         SHOW
     fi
+    return 0
 }
 trap tui_cleanup EXIT
 
@@ -300,8 +306,11 @@ run_cmd() {
 
 wait_job() {
     local pid=$1 label=$2 idx=${3:-}
-    wait "$pid" || { [[ -n "$idx" ]] && step_set "$idx" "fail"; die "$label failed — check $LOG"; }
-    [[ -n "$idx" ]] && step_set "$idx" "done"
+    if ! wait "$pid"; then
+        [[ -n "$idx" ]] && step_set "$idx" "fail" || true
+        die "$label failed — check $LOG"
+    fi
+    [[ -n "$idx" ]] && step_set "$idx" "done" || true
 }
 
 # ── Clean up leftovers from prior runs ────────────────────────────────────────
@@ -385,14 +394,16 @@ apt_safe_update() {
 }
 
 pkg_install() {
+    local rc
     case "$PKG" in
         apt)
             apt_safe_update
-            apt-get install -y "$@" 2>&1 | tee_output
+            apt-get install -y "$@" 2>&1 | tee_output; rc=${PIPESTATUS[0]}
             ;;
-        dnf|yum) $PKG install -y "$@" 2>&1 | tee_output ;;
-        pacman)  pacman -Sy --noconfirm "$@" 2>&1 | tee_output ;;
+        dnf|yum) $PKG install -y "$@" 2>&1 | tee_output; rc=${PIPESTATUS[0]} ;;
+        pacman)  pacman -Sy --noconfirm "$@" 2>&1 | tee_output; rc=${PIPESTATUS[0]} ;;
     esac
+    [[ $rc -eq 0 ]] || die "Package install failed (exit $rc) — check $LOG"
 }
 
 install_deps() {
@@ -400,21 +411,28 @@ install_deps() {
     for tool in curl git openssl; do
         command -v "$tool" &>/dev/null || missing+=("$tool")
     done
-    [[ ${#missing[@]} -eq 0 ]] && return
+    [[ ${#missing[@]} -eq 0 ]] && return 0 || true
     pkg_install "${missing[@]}"
 }
 
 install_build_tools() {
     if command -v g++ &>/dev/null && command -v make &>/dev/null; then
-        return
+        return 0
     fi
     case "$PKG" in
         apt)
             apt_safe_update
             apt-get install -y build-essential python3 make g++ 2>&1 | tee_output
+            [[ ${PIPESTATUS[0]} -eq 0 ]] || die "Build tools install failed — check $LOG"
             ;;
-        dnf|yum) $PKG install -y gcc-c++ make python3 2>&1 | tee_output ;;
-        pacman)  pacman -Sy --noconfirm base-devel python 2>&1 | tee_output ;;
+        dnf|yum)
+            $PKG install -y gcc-c++ make python3 2>&1 | tee_output
+            [[ ${PIPESTATUS[0]} -eq 0 ]] || die "Build tools install failed — check $LOG"
+            ;;
+        pacman)
+            pacman -Sy --noconfirm base-devel python 2>&1 | tee_output
+            [[ ${PIPESTATUS[0]} -eq 0 ]] || die "Build tools install failed — check $LOG"
+            ;;
     esac
 }
 
@@ -437,6 +455,7 @@ setup_node() {
                ! find /etc/apt/sources.list.d/ -name "*.list" \
                  -exec grep -l "nodesource" {} \; 2>/dev/null | grep -q .; then
                 curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - 2>&1 | tee_output
+                [[ ${PIPESTATUS[0]} -eq 0 && ${PIPESTATUS[1]} -eq 0 ]] || die "NodeSource setup failed — check $LOG"
             else
                 apt_safe_update
             fi
@@ -447,6 +466,7 @@ setup_node() {
         redhat)
             if [[ ! -f /etc/yum.repos.d/nodesource*.repo ]]; then
                 curl -fsSL https://rpm.nodesource.com/setup_lts.x | bash - 2>&1 | tee_output
+                [[ ${PIPESTATUS[0]} -eq 0 && ${PIPESTATUS[1]} -eq 0 ]] || die "NodeSource setup failed — check $LOG"
             fi
             $PKG install -y nodejs 2>&1 | tee_output
             ;;
@@ -509,9 +529,12 @@ ENVEOF
     step_done $S_BUILD "Panel built"
 
     step_start $S_SEED "Seeding game images..."
-    echo "y" | npx ts-node src/handlers/cmd/seed.ts 2>&1 | tee_output || \
+    echo "y" | npx ts-node src/handlers/cmd/seed.ts 2>&1 | tee_output
+    if [[ ${PIPESTATUS[1]} -ne 0 ]]; then
         step_warn $S_SEED "Seed failed — add images manually from admin panel"
-    [[ "${STEP_STATUS[$S_SEED]}" != "warn" ]] && step_done $S_SEED "Images seeded"
+    else
+        step_done $S_SEED "Images seeded"
+    fi
 
     step_start $S_ACCOUNT "Creating admin account..."
     npm install -g pm2 2>&1 | tee_output
@@ -701,9 +724,12 @@ ENVEOF
     cd "$PANEL_DIR"
 
     step_start $S_SEED "Seeding game images..."
-    echo "y" | npx ts-node src/handlers/cmd/seed.ts 2>&1 | tee_output || \
+    echo "y" | npx ts-node src/handlers/cmd/seed.ts 2>&1 | tee_output
+    if [[ ${PIPESTATUS[1]} -ne 0 ]]; then
         step_warn $S_SEED "Seed failed — add images manually"
-    [[ "${STEP_STATUS[$S_SEED]}" != "warn" ]] && step_done $S_SEED "Images seeded"
+    else
+        step_done $S_SEED "Images seeded"
+    fi
 
     step_start $S_ACCOUNT "Creating admin account..."
     npm install -g pm2 2>&1 | tee_output
@@ -781,7 +807,7 @@ SVCEOF
 
 install_addons() {
     [[ -n "$ADDONS_ARG" ]] || return
-    [[ "$MODE" == "daemon" ]] && { warn "Addons require the panel — skipping"; return; }
+    if [[ "$MODE" == "daemon" ]]; then warn "Addons require the panel — skipping"; return 0; fi
 
     local addon_dir="${PANEL_DIR}/storage/addons"
     mkdir -p "$addon_dir"
@@ -797,7 +823,7 @@ install_addons() {
            echo "$ADDONS_ARG" | tr ',' '\n' | grep -qiF "$display"; then
             info "Installing addon: $display"
             cd "$addon_dir"
-            [[ -d "$folder" ]] && rm -rf "$folder"
+            [[ -d "$folder" ]] && rm -rf "$folder" || true
             git clone --branch "$branch" "$repo" "$folder" 2>&1 | tee_output
             cd "$folder"
             npm install   2>&1 | tee_output
@@ -854,25 +880,26 @@ esac
 
 # Draw the initial TUI frame (no-op in fallback mode)
 if [[ "$USE_TUI" == "true" ]]; then
-    tui_draw
+    tui_draw || true
 else
     # Plain mode: show ASCII art + header once at the top
-    printf "%s" "${C}${BOLD}"
+    printf "${DIM}──────────────────────────────────────────────────${N}\n"
+    printf "${BOLD}${C}"
     printf '                                              \n'
-    printf '  /$$$$$$  /$$         /$$/$$         /$$      \n'
+    printf '  /$$$$$$ /$$         /$$/$$ /$$      \n'
     printf ' /$$__  $$|__/        | $$|__/        | $$      \n'
     printf '| $$  \ $$/$$ /$$$$$$$$| $$/$$/$$$$$$$| $$   /$$\n'
-    printf '| $$$$$$$| $$/$$__  $$| $$| $$| $$__  $$| $$  /$$/\n'
-    printf '| $$__  $$| $$| $$  \__| $$| $$| $$  \ $$| $$$$$$/  \n'
-    printf '| $$  | $$| $$| $$     | $$| $$| $$  | $$| $$_  $$  \n'
+    printf '| $$$$$$$| $$| $$__  $$| $$| $$| $$__  $$| $$  /$$/\n'
+    printf '| $$__  $$| $$| $$  \__| $$| $$| $$  \ $$| $$$$$$/\n'
+    printf '| $$  | $$| $$| $$     | $$| $$| $$  | $$| $$_  $$\n'
     printf '| $$  | $$| $$| $$     | $$| $$| $$  | $$| $$ \  $$\n'
     printf '|__/  |__|__|__/     |__|__|__/  |__|__/  \__/\n'
     printf '                                              \n'
-    printf "%s" "${N}"
-    printf "  %s  ·  v2.0.0-rc1\n" "${MODE_LABEL}"
+    printf "${N}"
+    printf "${DIM}──────────────────────────────────────────────────${N}\n"
+    printf "  ${BOLD}%s${N}  ${DIM}·  v2.0.0-rc1${N}\n" "${MODE_LABEL}"
     printf "\n"
 fi
-
 # Step 0: OS + system checks
 step_start 0 "Checking system..."
 check_root
@@ -932,8 +959,8 @@ echo ""
 echo -e "${G}${BOLD}  Installation complete${N}"
 echo ""
 SERVER_IP=$(hostname -I | awk '{print $1}')
-[[ "$MODE" != "daemon" ]] && echo -e "  ${C}Panel:${N}  http://${SERVER_IP}:${PANEL_PORT}"
-[[ "$MODE" != "panel"  ]] && echo -e "  ${C}Daemon:${N} port ${DAEMON_PORT}"
-[[ "$MODE" != "daemon" ]] && echo -e "  ${C}Login:${N}  ${ADMIN_EMAIL}"
+[[ "$MODE" != "daemon" ]] && echo -e "  ${C}Panel:${N}  http://${SERVER_IP}:${PANEL_PORT}" || true
+[[ "$MODE" != "panel"  ]] && echo -e "  ${C}Daemon:${N} port ${DAEMON_PORT}" || true
+[[ "$MODE" != "daemon" ]] && echo -e "  ${C}Login:${N}  ${ADMIN_EMAIL}" || true
 echo -e "  ${DIM}Log:    ${LOG}${N}"
 echo ""
