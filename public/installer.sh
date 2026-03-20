@@ -49,14 +49,14 @@ fi
 
 # ── Colors (ANSI — safe on any modern terminal) ───────────────────────────────
 
-R='\033[0;31m'   # red
-G='\033[0;32m'   # green
-Y='\033[1;33m'   # yellow
-C='\033[0;36m'   # cyan
-B='\033[0;34m'   # blue
-DIM='\033[2m'    # dim
-BOLD='\033[1m'   # bold
-N='\033[0m'      # reset
+R=$(printf '\033[0;31m')   # red
+G=$(printf '\033[0;32m')   # green
+Y=$(printf '\033[1;33m')   # yellow
+C=$(printf '\033[0;36m')   # cyan
+B=$(printf '\033[0;34m')   # blue
+DIM=$(printf '\033[2m')    # dim
+BOLD=$(printf '\033[1m')   # bold
+N=$(printf '\033[0m')      # reset
 
 # ANSI cursor/screen controls
 ESC='\033'
@@ -275,8 +275,9 @@ step_skip() {
     fi
 }
 
-# Pipe command output to TUI log line or plain stdout
+# Pipe command output to TUI log line or plain stdout.
 # Usage: some_cmd 2>&1 | tee_output
+# Note: always exits 0 — check ${PIPESTATUS[0]} for command exit code if needed.
 tee_output() {
     while IFS= read -r line; do
         echo "$line" >> "$LOG"
@@ -286,6 +287,15 @@ tee_output() {
             echo "$line"
         fi
     done
+}
+
+# Run a command, pipe output through tee_output, and die on failure.
+# Usage: run_cmd "label" cmd args...
+run_cmd() {
+    local label=$1; shift
+    "$@" 2>&1 | tee_output
+    local rc=${PIPESTATUS[0]}
+    [[ $rc -eq 0 ]] || die "$label failed (exit $rc) — check $LOG"
 }
 
 wait_job() {
@@ -471,7 +481,7 @@ install_panel() {
     step_start $S_CLONE "Cloning panel..."
     mkdir -p /var/www && cd /var/www
     [[ -d panel ]] && { warn "Existing /var/www/panel found — removing"; rm -rf panel; }
-    git clone "$PANEL_REPO" panel 2>&1 | tee_output
+    run_cmd "git clone panel" git clone "$PANEL_REPO" panel
     cd panel
     chmod -R 755 "$PANEL_DIR"
     git config --global --add safe.directory '*'
@@ -486,16 +496,16 @@ ENVEOF
     step_done $S_CLONE "Panel cloned"
 
     step_start $S_DEPS "Installing panel dependencies..."
-    npm install 2>&1 | tee_output
+    run_cmd "npm install" npm install
     step_done $S_DEPS "Dependencies installed"
 
     step_start $S_DB "Setting up database..."
-    npx prisma migrate deploy 2>&1 | tee_output
-    npx prisma generate        2>&1 | tee_output
+    run_cmd "prisma migrate" npx prisma migrate deploy
+    run_cmd "prisma generate" npx prisma generate
     step_done $S_DB "Database ready"
 
     step_start $S_BUILD "Building panel..."
-    npm run build 2>&1 | tee_output
+    run_cmd "npm run build" npm run build
     step_done $S_BUILD "Panel built"
 
     step_start $S_SEED "Seeding game images..."
@@ -568,7 +578,7 @@ install_daemon() {
     step_start $S_CLONE "Cloning daemon..."
     cd /etc
     [[ -d daemon ]] && { warn "Existing /etc/daemon found — removing"; rm -rf daemon; }
-    git clone "$DAEMON_REPO" daemon 2>&1 | tee_output
+    run_cmd "git clone daemon" git clone "$DAEMON_REPO" daemon
     cd daemon
     cat > .env <<ENVEOF
 remote=${PANEL_ADDR}
@@ -582,18 +592,18 @@ ENVEOF
     step_done $S_CLONE "Daemon cloned"
 
     step_start $S_DEPS "Installing daemon dependencies..."
-    npm install 2>&1 | tee_output
+    run_cmd "npm install" npm install
     step_done $S_DEPS "Dependencies installed"
 
     step_start $S_NATIVE "Compiling native modules..."
     cd libs
-    npm install 2>&1 | tee_output
-    npm rebuild  2>&1 | tee_output
+    run_cmd "libs npm install" npm install
+    run_cmd "libs npm rebuild" npm rebuild
     cd ..
     step_done $S_NATIVE "Native modules compiled"
 
     step_start $S_BUILD "Building daemon..."
-    npm run build 2>&1 | tee_output
+    run_cmd "npm run build" npm run build
     step_done $S_BUILD "Daemon built"
 
     step_start $S_SERVICE "Starting daemon service..."
@@ -629,9 +639,9 @@ install_both() {
     mkdir -p /var/www
     [[ -d "$PANEL_DIR" ]]  && { warn "Removing existing /var/www/panel";  rm -rf "$PANEL_DIR"; }
     [[ -d "$DAEMON_DIR" ]] && { warn "Removing existing /etc/daemon";     rm -rf "$DAEMON_DIR"; }
-    git clone "$PANEL_REPO"  "$PANEL_DIR"  2>&1 | tee_output &
+    git clone "$PANEL_REPO"  "$PANEL_DIR"  >> "$LOG" 2>&1 &
     local pid_pc=$!
-    git clone "$DAEMON_REPO" "$DAEMON_DIR" 2>&1 | tee_output &
+    git clone "$DAEMON_REPO" "$DAEMON_DIR" >> "$LOG" 2>&1 &
     local pid_dc=$!
     wait_job "$pid_pc" "Clone panel"
     wait_job "$pid_dc" "Clone daemon"
@@ -659,9 +669,9 @@ ENVEOF
 
     # Phase 2: npm install in parallel
     step_start $S_DEPS "Installing dependencies..."
-    ( cd "$PANEL_DIR"  && npm install 2>&1 | tee_output ) &
+    ( cd "$PANEL_DIR"  && npm install >> "$LOG" 2>&1 ) &
     local pid_pn=$!
-    ( cd "$DAEMON_DIR" && npm install 2>&1 | tee_output ) &
+    ( cd "$DAEMON_DIR" && npm install >> "$LOG" 2>&1 ) &
     local pid_dn=$!
     wait_job "$pid_pn" "Panel npm install"
     wait_job "$pid_dn" "Daemon npm install"
@@ -669,9 +679,9 @@ ENVEOF
 
     # Phase 3: prisma setup + daemon native libs in parallel
     step_start $S_DB "Database setup + native modules..."
-    ( cd "$PANEL_DIR" && npx prisma migrate deploy 2>&1 | tee_output && npx prisma generate 2>&1 | tee_output ) &
+    ( cd "$PANEL_DIR" && npx prisma migrate deploy >> "$LOG" 2>&1 && npx prisma generate >> "$LOG" 2>&1 ) &
     local pid_pr=$!
-    ( cd "$DAEMON_DIR/libs" && npm install 2>&1 | tee_output && npm rebuild 2>&1 | tee_output ) &
+    ( cd "$DAEMON_DIR/libs" && npm install >> "$LOG" 2>&1 && npm rebuild >> "$LOG" 2>&1 ) &
     local pid_li=$!
     wait_job "$pid_pr" "Database migrations"
     wait_job "$pid_li" "Native modules"
@@ -679,9 +689,9 @@ ENVEOF
 
     # Phase 4: build in parallel
     step_start $S_BUILD "Building panel and daemon..."
-    ( cd "$PANEL_DIR"  && npm run build 2>&1 | tee_output ) &
+    ( cd "$PANEL_DIR"  && npm run build >> "$LOG" 2>&1 ) &
     local pid_pb=$!
-    ( cd "$DAEMON_DIR" && npm run build 2>&1 | tee_output ) &
+    ( cd "$DAEMON_DIR" && npm run build >> "$LOG" 2>&1 ) &
     local pid_db=$!
     wait_job "$pid_pb" "Panel build"
     wait_job "$pid_db" "Daemon build"
@@ -847,18 +857,20 @@ if [[ "$USE_TUI" == "true" ]]; then
     tui_draw
 else
     # Plain mode: show ASCII art + header once at the top
-    echo -e "${C}${BOLD}"
-    echo '   /$$$$$$  /$$           /$$  /$$          /$$      '
-    echo '  /$$__  $$|__/          | $$ |__/         | $$      '
-    echo ' | $$  \ $$ /$$ /$$$$$$$ | $$ /$$ /$$$$$$$ | $$   /$$'
-    echo ' | $$$$$$$| $$| $$__  $$| $$| $$| $$__  $$| $$  /$$/  '
-    echo ' | $$__  $$| $$| $$  \ $$| $$| $$| $$  \ $$| $$$$$$/  '
-    echo ' | $$  | $$| $$| $$  | $$| $$| $$| $$  | $$| $$_  $$  '
-    echo ' | $$  | $$| $$| $$  | $$| $$| $$| $$  | $$| $$ \  $$ '
-    echo ' |__/  |__/|__/|__/  |__/|__/|__/|__/  |__/|__/  \__/ '
-    echo -e "${N}"
-    echo -e "${DIM}  Installing ${MODE_LABEL}${N}"
-    echo ""
+    printf "%s" "${C}${BOLD}"
+    printf '                                              \n'
+    printf '  /$$$$$$  /$$         /$$/$$         /$$      \n'
+    printf ' /$$__  $$|__/        | $$|__/        | $$      \n'
+    printf '| $$  \ $$/$$ /$$$$$$$$| $$/$$/$$$$$$$| $$   /$$\n'
+    printf '| $$$$$$$| $$/$$__  $$| $$| $$| $$__  $$| $$  /$$/\n'
+    printf '| $$__  $$| $$| $$  \__| $$| $$| $$  \ $$| $$$$$$/  \n'
+    printf '| $$  | $$| $$| $$     | $$| $$| $$  | $$| $$_  $$  \n'
+    printf '| $$  | $$| $$| $$     | $$| $$| $$  | $$| $$ \  $$\n'
+    printf '|__/  |__|__|__/     |__|__|__/  |__|__/  \__/\n'
+    printf '                                              \n'
+    printf "%s" "${N}"
+    printf "  %s  ·  v2.0.0-rc1\n" "${MODE_LABEL}"
+    printf "\n"
 fi
 
 # Step 0: OS + system checks
