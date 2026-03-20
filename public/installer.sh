@@ -55,12 +55,18 @@ spinner() {
 run() {
     local msg=$1; shift
     info "$msg"
-    "$@" &>/dev/null &
+    "$@" >> "$LOG" 2>&1 &
     local pid=$!
     spinner "$pid" "$msg"
     wait "$pid" || die "$msg failed — check $LOG"
     ok "$msg"
 }
+
+# ── Clean up any leftover tmp files from previous runs ───────────────────────
+
+rm -f /tmp/al-cookies.txt
+rm -f "$LOG"
+touch "$LOG"
 
 # ── Arg parsing ───────────────────────────────────────────────────────────────
 
@@ -89,7 +95,7 @@ while [[ $# -gt 0 ]]; do
         --daemon-key)  DAEMON_KEY="$2";    shift 2 ;;
         --addons)      ADDONS_ARG="$2";    shift 2 ;;
         --help)
-            grep '^#' "$0" | grep -A100 'Usage:' | sed 's/^# \?//'
+            sed -n '/^# Usage:/,/^[^#]/{ /^#/p }' "$0" | sed 's/^# \?//'
             exit 0 ;;
         *) warn "Unknown argument: $1"; shift ;;
     esac
@@ -98,11 +104,11 @@ done
 # ── Validation ────────────────────────────────────────────────────────────────
 
 if [[ "$MODE" != "daemon" ]]; then
-    [[ -n "$ADMIN_PASS" ]] || die "--admin-pass is required for panel installation"
-    [[ ${#ADMIN_PASS} -ge 8 ]] || die "Password must be at least 8 characters"
-    [[ "$ADMIN_PASS" =~ [A-Za-z] ]] || die "Password must contain at least one letter"
-    [[ "$ADMIN_PASS" =~ [0-9] ]]    || die "Password must contain at least one number"
-    [[ "$ADMIN_USER" =~ ^[A-Za-z0-9]{3,20}$ ]] || die "Username must be 3-20 alphanumeric characters"
+    [[ -n "$ADMIN_PASS" ]]                           || die "--admin-pass is required for panel installation"
+    [[ ${#ADMIN_PASS} -ge 8 ]]                       || die "Password must be at least 8 characters"
+    [[ "$ADMIN_PASS" =~ [A-Za-z] ]]                  || die "Password must contain at least one letter"
+    [[ "$ADMIN_PASS" =~ [0-9] ]]                     || die "Password must contain at least one number"
+    [[ "$ADMIN_USER" =~ ^[A-Za-z0-9]{3,20}$ ]]       || die "Username must be 3-20 alphanumeric characters"
 fi
 
 # ── OS detection ──────────────────────────────────────────────────────────────
@@ -123,11 +129,23 @@ detect_os() {
 check_root()    { [[ $EUID -eq 0 ]] || die "Run as root. Try: sudo bash"; }
 check_systemd() { command -v systemctl &>/dev/null || die "systemd is required but not found"; }
 
+# apt-get update that tolerates broken third-party repos (yarn GPG, etc).
+# We only care that our own packages can be fetched — other repo errors are logged but not fatal.
+apt_update() {
+    apt-get update -qq 2>> "$LOG" || {
+        warn "apt-get update had errors (likely a third-party repo) — continuing"
+        log "apt update errors above are non-fatal if NodeSource repo is intact"
+    }
+}
+
 pkg_install() {
     case "$PKG" in
-        apt)     apt-get update -qq && apt-get install -y -qq "$@" ;;
-        dnf|yum) $PKG install -y -q "$@" ;;
-        pacman)  pacman -Sy --noconfirm --quiet "$@" ;;
+        apt)
+            apt_update
+            apt-get install -y -qq "$@" >> "$LOG" 2>&1
+            ;;
+        dnf|yum) $PKG install -y -q "$@" >> "$LOG" 2>&1 ;;
+        pacman)  pacman -Sy --noconfirm --quiet "$@" >> "$LOG" 2>&1 ;;
     esac
 }
 
@@ -152,13 +170,30 @@ setup_node() {
             return
         fi
         warn "Node.js v$v found, need v$NODE_VER — reinstalling"
+
+        # Remove the existing node package before re-adding the source
+        apt-get remove -y -qq nodejs 2>/dev/null || true
     fi
+
     case "$FAM" in
-        debian) run "Adding NodeSource repo" bash -c "curl -fsSL https://deb.nodesource.com/setup_${NODE_VER}.x | bash -"; pkg_install nodejs ;;
-        redhat) run "Adding NodeSource repo" bash -c "curl -fsSL https://rpm.nodesource.com/setup_${NODE_VER}.x | bash -"; pkg_install nodejs ;;
-        arch)   pkg_install nodejs npm ;;
+        debian)
+            # Run NodeSource setup (adds the apt source + key)
+            run "Adding NodeSource repo" bash -c "curl -fsSL https://deb.nodesource.com/setup_${NODE_VER}.x | bash - >> '$LOG' 2>&1"
+            # Install using only the NodeSource source to avoid being blocked by broken repos
+            apt-get install -y -qq nodejs >> "$LOG" 2>&1 || \
+                apt-get install -y --fix-missing -qq nodejs >> "$LOG" 2>&1 || \
+                die "Node.js install failed — check $LOG"
+            ;;
+        redhat)
+            run "Adding NodeSource repo" bash -c "curl -fsSL https://rpm.nodesource.com/setup_${NODE_VER}.x | bash - >> '$LOG' 2>&1"
+            pkg_install nodejs
+            ;;
+        arch)
+            pkg_install nodejs npm
+            ;;
     esac
-    command -v node &>/dev/null || die "Node.js installation failed"
+
+    command -v node &>/dev/null || die "Node.js installation failed — check $LOG"
     ok "Node.js $(node -v)"
 }
 
@@ -170,11 +205,11 @@ setup_docker() {
         return
     fi
     case "$FAM" in
-        debian|redhat) run "Installing Docker" bash -c "curl -fsSL https://get.docker.com | sh" ;;
+        debian|redhat) run "Installing Docker" bash -c "curl -fsSL https://get.docker.com | sh >> '$LOG' 2>&1" ;;
         arch)          pkg_install docker ;;
     esac
-    systemctl enable --now docker &>/dev/null
-    command -v docker &>/dev/null || die "Docker installation failed"
+    systemctl enable --now docker >> "$LOG" 2>&1
+    command -v docker &>/dev/null || die "Docker installation failed — check $LOG"
     ok "Docker ready"
 }
 
@@ -205,9 +240,9 @@ DATABASE_URL=file:./dev.db
 SESSION_SECRET=$(openssl rand -hex 32)
 ENVEOF
 
-    run "Installing dependencies" npm install --omit=dev
-    run "Installing Prisma" npm install "prisma@${PRISMA_VER}" "@prisma/client@${PRISMA_VER}"
-    run "Running migrations" bash -c "CI=true npm run migrate:dev"
+    run "Installing dependencies"      npm install --omit=dev
+    run "Installing Prisma"            npm install "prisma@${PRISMA_VER}" "@prisma/client@${PRISMA_VER}"
+    run "Running database migrations"  bash -c "CI=true npm run migrate:dev"
 
     info "Building panel..."
     npm run build >> "$LOG" 2>&1 || die "Panel build failed — check $LOG"
@@ -215,33 +250,43 @@ ENVEOF
 
     run "Seeding database" npm run seed
 
-    # Enable registration so we can create the first admin account
-    node - <<'JSEOF'
+    # Enable registration temporarily so we can POST to /register
+    node - >> "$LOG" 2>&1 <<'JSEOF'
 const { PrismaClient } = require('@prisma/client');
 const p = new PrismaClient();
 (async () => {
     const s = await p.settings.findFirst();
-    const data = { allowRegistration: true, title: process.env.PANEL_NAME || 'Airlink',
+    const data = {
+        allowRegistration: true,
+        title: process.env.PANEL_NAME || 'Airlink',
         description: 'AirLink — open-source game server panel',
-        logo: '../assets/logo.png', favicon: '../assets/favicon.ico', theme: 'default', language: 'en' };
+        logo: '../assets/logo.png',
+        favicon: '../assets/favicon.ico',
+        theme: 'default',
+        language: 'en',
+    };
     s ? await p.settings.update({ where: { id: s.id }, data }) : await p.settings.create({ data });
     await p.$disconnect();
 })().catch(e => { console.error(e.message); process.exit(1); });
 JSEOF
 
-    npm install -g pm2 &>/dev/null || die "pm2 install failed"
-    pm2 start npm --name "airlink-tmp" -- run start &>/dev/null
+    npm install -g pm2 >> "$LOG" 2>&1 || die "pm2 install failed"
+    pm2 start npm --name "airlink-tmp" -- run start >> "$LOG" 2>&1
     ok "Panel started temporarily for account creation"
 
     info "Waiting for panel to respond..."
     local waited=0
-    until curl -sf "http://localhost:${PANEL_PORT}" &>/dev/null || [[ $waited -ge 40 ]]; do
+    until curl -sf "http://localhost:${PANEL_PORT}" &>/dev/null || [[ $waited -ge 60 ]]; do
         sleep 2; waited=$((waited + 2))
     done
+    [[ $waited -lt 60 ]] || warn "Panel took over 60s to respond — attempting registration anyway"
 
-    local csrf
+    # Fetch CSRF token
+    local csrf=""
     csrf=$(curl -sL -c /tmp/al-cookies.txt "http://localhost:${PANEL_PORT}/register" \
-        | grep -o 'name="_csrf" value="[^"]*"' | cut -d'"' -f4 | head -n1 || echo "")
+        | grep -o 'name="_csrf" value="[^"]*"' \
+        | cut -d'"' -f4 \
+        | head -n1 || echo "")
 
     local code
     code=$(curl -s -o /dev/null -w "%{http_code}" \
@@ -251,7 +296,8 @@ JSEOF
         --data-urlencode "username=${ADMIN_USER}" \
         --data-urlencode "email=${ADMIN_EMAIL}" \
         --data-urlencode "password=${ADMIN_PASS}" \
-        --data-urlencode "_csrf=${csrf}" -L)
+        --data-urlencode "_csrf=${csrf}" \
+        -L)
     rm -f /tmp/al-cookies.txt
 
     if [[ "$code" == "200" || "$code" == "302" ]]; then
@@ -261,7 +307,7 @@ JSEOF
     fi
 
     # Disable public registration
-    node - <<'JSEOF'
+    node - >> "$LOG" 2>&1 <<'JSEOF'
 const { PrismaClient } = require('@prisma/client');
 const p = new PrismaClient();
 (async () => {
@@ -271,8 +317,8 @@ const p = new PrismaClient();
 })().catch(e => { console.error(e.message); process.exit(1); });
 JSEOF
 
-    pm2 delete airlink-tmp &>/dev/null || true
-    pm2 save --force &>/dev/null || true
+    pm2 delete airlink-tmp >> "$LOG" 2>&1 || true
+    pm2 save --force       >> "$LOG" 2>&1 || true
 
     cat > /etc/systemd/system/airlink-panel.service <<SVCEOF
 [Unit]
@@ -292,7 +338,7 @@ WantedBy=multi-user.target
 SVCEOF
 
     systemctl daemon-reload
-    systemctl enable --now airlink-panel &>/dev/null
+    systemctl enable --now airlink-panel >> "$LOG" 2>&1
     ok "Panel service running on port ${PANEL_PORT}"
 }
 
@@ -322,7 +368,7 @@ STATS_INTERVAL=10000
 ENVEOF
 
     run "Installing dependencies" npm install --omit=dev
-    run "Installing express" npm install express
+    run "Installing express"      npm install express
 
     info "Building daemon..."
     npm run build >> "$LOG" 2>&1 || die "Daemon build failed — check $LOG"
@@ -331,7 +377,7 @@ ENVEOF
     if [[ -d libs ]]; then
         cd libs
         run "Installing lib dependencies" npm install
-        run "Rebuilding native modules" npm rebuild
+        run "Rebuilding native modules"   npm rebuild
         cd ..
     fi
 
@@ -355,7 +401,7 @@ WantedBy=multi-user.target
 SVCEOF
 
     systemctl daemon-reload
-    systemctl enable --now airlink-daemon &>/dev/null
+    systemctl enable --now airlink-daemon >> "$LOG" 2>&1
     ok "Daemon service running on port ${DAEMON_PORT}"
 }
 
@@ -370,11 +416,10 @@ install_addons() {
     for entry in "${ADDONS[@]}"; do
         local display repo branch folder
         display=$(echo "$entry" | cut -d'|' -f1)
-        repo=$(echo "$entry" | cut -d'|' -f2)
-        branch=$(echo "$entry" | cut -d'|' -f3)
-        folder=$(echo "$entry" | cut -d'|' -f4)
+        repo=$(echo "$entry"    | cut -d'|' -f2)
+        branch=$(echo "$entry"  | cut -d'|' -f3)
+        folder=$(echo "$entry"  | cut -d'|' -f4)
 
-        # Match by folder name or display name (case-insensitive)
         if echo "$ADDONS_ARG" | tr ',' '\n' | grep -qiF "$folder" || \
            echo "$ADDONS_ARG" | tr ',' '\n' | grep -qiF "$display"; then
 
@@ -382,10 +427,10 @@ install_addons() {
             cd "$addon_dir"
             [[ -d "$folder" ]] && rm -rf "$folder"
 
-            run "Cloning $display" git clone --branch "$branch" "$repo" "$folder"
+            run "Cloning $display"              git clone --branch "$branch" "$repo" "$folder"
             cd "$folder"
-            run "Installing $display dependencies" npm install
-            npm run build >> "$LOG" 2>&1 || die "$display build failed"
+            run "Installing $display deps"      npm install
+            npm run build >> "$LOG" 2>&1        || die "$display build failed — check $LOG"
 
             if [[ -f "${PANEL_DIR}/public/tw.css" ]]; then
                 cd "$PANEL_DIR"
@@ -397,9 +442,8 @@ install_addons() {
     done
 }
 
-# ── Run ───────────────────────────────────────────────────────────────────────
+# ── Main ──────────────────────────────────────────────────────────────────────
 
-touch "$LOG"
 log "=== AirLink Installer v${VERSION} ==="
 info "AirLink Installer v${VERSION}"
 
