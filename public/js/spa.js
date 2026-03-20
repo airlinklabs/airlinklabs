@@ -74,10 +74,35 @@
     if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  { e.preventDefault(); show(current - 1); }
   });
 
-  // Touch
+  // Touch — non-passive so we can preventDefault on the root element,
+  // which stops the browser's pull-to-refresh from firing on swipe-down.
+  var touchMoveY = 0;
   document.addEventListener('touchstart', function(e) {
-    touchStartY = e.touches[0].clientY; touchStartTime = Date.now();
+    touchStartY = e.touches[0].clientY;
+    touchMoveY  = e.touches[0].clientY;
+    touchStartTime = Date.now();
   }, { passive: true });
+
+  // Prevent the browser pull-to-refresh gesture on the spa root.
+  // Only block vertical movement on the spa-root itself (not scrollable children).
+  var spaRoot = document.getElementById('spa-root');
+  if (spaRoot) {
+    spaRoot.addEventListener('touchmove', function(e) {
+      // Allow scroll inside sections that overflow (e.g. activity lists).
+      // Walk up from the touch target; if we hit a scrollable element before
+      // the spaRoot, let the event through.
+      var target = e.target;
+      while (target && target !== spaRoot) {
+        var overflow = window.getComputedStyle(target).overflowY;
+        if ((overflow === 'auto' || overflow === 'scroll') && target.scrollHeight > target.clientHeight) {
+          return;
+        }
+        target = target.parentElement;
+      }
+      e.preventDefault();
+    }, { passive: false });
+  }
+
   document.addEventListener('touchend', function(e) {
     var dy = touchStartY - e.changedTouches[0].clientY;
     if (Math.abs(dy) > 40 && Date.now() - touchStartTime < 600) {

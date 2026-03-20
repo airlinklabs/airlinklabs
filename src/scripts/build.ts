@@ -140,6 +140,14 @@ async function build() {
   // copy public assets into dist/public so paths like public/js/main.js work from root
   await fs.copy(PUBLIC, path.join(DIST, 'public'));
 
+  // also copy installer.sh to the dist root — GitHub Pages serves dist/ as the site root,
+  // so this makes the script available at airlinklabs.github.io/home/installer.sh
+  const installerSrc = path.join(PUBLIC, 'installer.sh');
+  if (await fs.pathExists(installerSrc)) {
+    await fs.copy(installerSrc, path.join(DIST, 'installer.sh'));
+    console.log('  installer.sh -> dist root');
+  }
+
   const pkg = await loadJson<PackageJson>(path.join(ROOT, 'package.json'), {
     site: {},
     underConstruction: { enabled: false, message: '', badge: '' },

@@ -1,1100 +1,427 @@
 #!/bin/bash
-############################################################################
-# Copyright [2026] [thavanish]
+# AirLink Installer v3.0.6
+# Copyright 2026 thavanish — Apache License 2.0
 #
-#   Licensed under the Apache License, Version 2.0 (the "License");
-#   you may not use this file except in compliance with the License.
-#   You may obtain a copy of the License at
+# Usage:
+#   curl -sL https://airlinklabs.github.io/home/installer.sh | bash -s -- [options]
 #
-#       http://www.apache.org/licenses/LICENSE-2.0
-#
-#   Unless required by applicable law or agreed to in writing, software
-#   distributed under the License is distributed on an "AS IS" BASIS,
-#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#   See the License for the specific language governing permissions and
-#   limitations under the License.
-############################################################################ 
+# Options:
+#   --panel-only            Install panel only (default: install both)
+#   --daemon-only           Install daemon only
+#   --name NAME             Panel display name (default: Airlink)
+#   --port PORT             Panel port (default: 3000)
+#   --admin-email EMAIL     Admin account email (default: admin@example.com)
+#   --admin-user USER       Admin username (default: admin)
+#   --admin-pass PASS       Admin password (required for panel install)
+#   --panel-addr ADDR       Panel address for daemon (default: 127.0.0.1)
+#   --daemon-port PORT      Daemon port (default: 3002)
+#   --daemon-key KEY        Daemon auth key (from panel after install)
+#   --addons LIST           Comma-separated: modrinth,parachute
 
 set -euo pipefail
 
-# Configuration
-readonly VERSION="3.0.6-Stable"
-readonly LOG="/tmp/airlink.log"
+readonly VERSION="3.0.6"
+readonly LOG="/tmp/airlink-install.log"
 readonly NODE_VER="20"
-readonly TEMP="/tmp/airlink-tmp"
-readonly PRISMA_VER="6.19.1"
+readonly PRISMA_VER="6.1.0"
+readonly PANEL_DIR="/var/www/panel"
+readonly DAEMON_DIR="/etc/daemon"
 readonly PANEL_REPO="https://github.com/airlinklabs/panel.git"
 readonly DAEMON_REPO="https://github.com/airlinklabs/daemon.git"
 
-# ============================================================================
-# ADDON CONFIGURATION - Add new addons here
-# Format: "display_name|repo_url|branch|directory_name"
-# ============================================================================
-declare -a ADDONS=(
-    "Modrinth|https://github.com/airlinklabs/addons.git|modrinth|modrinth"
+ADDONS=(
+    "Modrinth Store|https://github.com/airlinklabs/addons.git|modrinth|modrinth"
     "Parachute|https://github.com/airlinklabs/addons.git|parachute|parachute"
-    # Add more addons below following the same format:
-    # "Display Name|https://github.com/user/repo.git|branch-name|folder-name"
 )
-# ============================================================================
 
-# Colors
 R='\033[0;31m' G='\033[0;32m' Y='\033[1;33m' C='\033[0;36m' N='\033[0m'
 
-# Logging
-log() { echo "[$(date '+%H:%M:%S')] $*" >> "$LOG"; }
+log()  { echo "[$(date '+%H:%M:%S')] $*" >> "$LOG"; }
 info() { echo -e "${C}[INFO]${N} $*"; log "INFO: $*"; }
-ok() { echo -e "${G}[OK]${N} $*"; log "OK: $*"; }
+ok()   { echo -e "${G}[ OK ]${N} $*"; log "OK:   $*"; }
 warn() { echo -e "${Y}[WARN]${N} $*"; log "WARN: $*"; }
-err() { echo -e "${R}[ERROR]${N} $*"; log "ERROR: $*"; exit 1; }
+die()  { echo -e "${R}[ERR ]${N} $*" >&2; log "ERR:  $*"; exit 1; }
 
-# Loading spinner
-show_loading() {
-    local pid=$1
-    local spin='-\|/'
-    local i=0
-    while kill -0 $pid 2>/dev/null; do
-        i=$(( (i+1) %4 ))
-        printf "\r${spin:$i:1}"
-        sleep .1
+spinner() {
+    local pid=$1 msg=$2 chars='|/-\' i=0
+    while kill -0 "$pid" 2>/dev/null; do
+        printf "\r  %s  %s" "${chars:$((i % 4)):1}" "$msg"
+        i=$((i + 1))
+        sleep 0.1
     done
     printf "\r"
 }
 
-# Run command with loading indicator
-run_with_loading() {
-    local message=$1
-    shift
-    info "$message"
+run() {
+    local msg=$1; shift
+    info "$msg"
     "$@" &>/dev/null &
     local pid=$!
-    show_loading $pid
-    wait $pid
-    local status=$?
-    if [ $status -eq 0 ]; then
-        ok "$message completed"
-    else
-        err "$message failed"
-    fi
+    spinner "$pid" "$msg"
+    wait "$pid" || die "$msg failed — check $LOG"
+    ok "$msg"
 }
 
-# Parse addon configuration
-get_addon_field() {
-    local addon_string=$1
-    local field=$2
-    echo "$addon_string" | cut -d'|' -f"$field"
-}
+# ── Arg parsing ───────────────────────────────────────────────────────────────
 
-# Detect OS
-detect_os() {
-    info "Detecting operating system..."
-    if [[ -f /etc/os-release ]]; then
-        # Read os-release without sourcing VERSION variable
-        OS=$(grep '^ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
-        VER=$(grep '^VERSION_ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
-    else
-        err "Cannot detect OS"
-    fi
-    
-    case "$OS" in
-        ubuntu|debian|linuxmint|pop) FAM="debian"; PKG="apt";;
-        fedora|centos|rhel|rocky|almalinux) FAM="redhat"; PKG=$(command -v dnf &>/dev/null && echo "dnf" || echo "yum");;
-        arch|manjaro) FAM="arch"; PKG="pacman";;
-        alpine) 
-            FAM="alpine"; PKG="apk"
-            warn "Alpine Linux detected - systemd services are required but Alpine uses OpenRC"
-            warn "Installation may fail. Consider using a systemd-based distribution."
-            dialog --yesno "Alpine Linux is not fully supported (requires systemd). Continue anyway?" 8 60 || exit 1
-            ;;
-        *) err "Unsupported OS: $OS";;
-    esac
-    ok "Detected: $OS ($FAM)"
-}
-
-# Check if systemd is available
-check_systemd() {
-    if ! command -v systemctl &>/dev/null; then
-        err "systemd is required but not found. This installer requires a systemd-based distribution."
-    fi
-}
-
-# Package installation
-pkg_install() {
-    info "Installing packages: $*"
-    case "$PKG" in
-        apt) apt-get update -qq && apt-get install -y -qq "$@";;
-        dnf|yum) $PKG install -y -q "$@";;
-        pacman) pacman -Sy --noconfirm --quiet "$@";;
-        apk) apk add --no-cache -q "$@";;
-    esac
-    ok "Packages installed: $*"
-}
-
-# ============================================================================
-# CLI ARG PARSING — values set here override interactive prompts
-# ============================================================================
-CLI_MODE=""          # "both" | "panel" | "daemon"
-CLI_NAME=""
-CLI_PORT=""
-CLI_ADMIN_EMAIL=""
-CLI_ADMIN_USER=""
-CLI_ADMIN_PASS=""
-CLI_PANEL_ADDR=""
-CLI_DAEMON_PORT=""
-CLI_DAEMON_KEY=""
-CLI_ADDONS=""        # comma-separated: "modrinth,parachute"
+MODE="both"
+PANEL_NAME="Airlink"
+PANEL_PORT="3000"
+ADMIN_EMAIL="admin@example.com"
+ADMIN_USER="admin"
+ADMIN_PASS=""
+PANEL_ADDR="127.0.0.1"
+DAEMON_PORT="3002"
+DAEMON_KEY=""
+ADDONS_ARG=""
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        --panel-only)   CLI_MODE="panel";  shift;;
-        --daemon-only)  CLI_MODE="daemon"; shift;;
-        --name)         CLI_NAME="$2";     shift 2;;
-        --port)         CLI_PORT="$2";     shift 2;;
-        --admin-email)  CLI_ADMIN_EMAIL="$2"; shift 2;;
-        --admin-user)   CLI_ADMIN_USER="$2";  shift 2;;
-        --admin-pass)   CLI_ADMIN_PASS="$2";  shift 2;;
-        --panel-addr)   CLI_PANEL_ADDR="$2";  shift 2;;
-        --daemon-port)  CLI_DAEMON_PORT="$2"; shift 2;;
-        --daemon-key)   CLI_DAEMON_KEY="$2";  shift 2;;
-        --addons)       CLI_ADDONS="$2";  shift 2;;
+        --panel-only)  MODE="panel";       shift ;;
+        --daemon-only) MODE="daemon";      shift ;;
+        --name)        PANEL_NAME="$2";    shift 2 ;;
+        --port)        PANEL_PORT="$2";    shift 2 ;;
+        --admin-email) ADMIN_EMAIL="$2";   shift 2 ;;
+        --admin-user)  ADMIN_USER="$2";    shift 2 ;;
+        --admin-pass)  ADMIN_PASS="$2";    shift 2 ;;
+        --panel-addr)  PANEL_ADDR="$2";    shift 2 ;;
+        --daemon-port) DAEMON_PORT="$2";   shift 2 ;;
+        --daemon-key)  DAEMON_KEY="$2";    shift 2 ;;
+        --addons)      ADDONS_ARG="$2";    shift 2 ;;
         --help)
-            echo "AirLink Installer v${VERSION}"
-            echo ""
-            echo "Usage: bash <(curl -s ...) [options]"
-            echo ""
-            echo "Options:"
-            echo "  --panel-only          Install panel only"
-            echo "  --daemon-only         Install daemon only"
-            echo "  (default: install both)"
-            echo ""
-            echo "  --name NAME           Panel display name (default: Airlink)"
-            echo "  --port PORT           Panel port (default: 3000)"
-            echo "  --admin-email EMAIL   Admin account email"
-            echo "  --admin-user USER     Admin username (default: admin)"
-            echo "  --admin-pass PASS     Admin password"
-            echo ""
-            echo "  --panel-addr ADDR     Panel address for daemon (default: 127.0.0.1)"
-            echo "  --daemon-port PORT    Daemon port (default: 3002)"
-            echo "  --daemon-key KEY      Daemon auth key"
-            echo ""
-            echo "  --addons LIST         Comma-separated addons: modrinth,parachute"
-            echo ""
-            echo "Running with no args opens the interactive menu."
-            exit 0;;
-        *) shift;;
+            grep '^#' "$0" | grep -A100 'Usage:' | sed 's/^# \?//'
+            exit 0 ;;
+        *) warn "Unknown argument: $1"; shift ;;
     esac
 done
-# ============================================================================
 
-# Check root
-[[ $EUID -eq 0 ]] || { dialog --msgbox "Run as root/sudo" 6 30 2>/dev/null || echo "Run as root"; exit 1; }
- 
+# ── Validation ────────────────────────────────────────────────────────────────
 
-# Detect system
-detect_os
-
-# Check for systemd (required for services)
-check_systemd
-
-# Install dependencies
-info "Checking dependencies..."
-deps=(curl wget dialog git jq openssl)
-missing=()
-for d in "${deps[@]}"; do command -v "$d" &>/dev/null || missing+=("$d"); done
-if [[ ${#missing[@]} -gt 0 ]]; then
-    info "Installing missing dependencies: ${missing[*]}"
-    pkg_install "${missing[@]}"
-else
-    ok "All dependencies already installed"
+if [[ "$MODE" != "daemon" ]]; then
+    [[ -n "$ADMIN_PASS" ]] || die "--admin-pass is required for panel installation"
+    [[ ${#ADMIN_PASS} -ge 8 ]] || die "Password must be at least 8 characters"
+    [[ "$ADMIN_PASS" =~ [A-Za-z] ]] || die "Password must contain at least one letter"
+    [[ "$ADMIN_PASS" =~ [0-9] ]]    || die "Password must contain at least one number"
+    [[ "$ADMIN_USER" =~ ^[A-Za-z0-9]{3,20}$ ]] || die "Username must be 3-20 alphanumeric characters"
 fi
 
-# Node.js setup
-setup_node() {
-    info "Setting up Node.js..."
-    if command -v node &>/dev/null; then
-        INSTALLED_VER=$(node -v | sed 's/v//' | cut -d. -f1)
-        if [ "$INSTALLED_VER" = "$NODE_VER" ]; then
-            ok "Node.js $NODE_VER already installed, skipping"
-            return
-        else
-            warn "Node.js version mismatch (found $(node -v)), reinstalling $NODE_VER"
-        fi
-    else
-        info "Node.js not found, installing $NODE_VER"
-    fi
-    
-    case "$FAM" in
-        debian)
-            run_with_loading "Adding NodeSource repository" bash -c "curl -fsSL 'https://deb.nodesource.com/setup_${NODE_VER}.x' | bash -"
-            pkg_install nodejs
-            ;;
-        redhat)
-            run_with_loading "Adding NodeSource repository" bash -c "curl -fsSL 'https://rpm.nodesource.com/setup_${NODE_VER}.x' | bash -"
-            pkg_install nodejs
-            ;;
-        arch) pkg_install nodejs npm ;;
-        alpine) pkg_install nodejs npm ;;
+# ── OS detection ──────────────────────────────────────────────────────────────
+
+detect_os() {
+    [[ -f /etc/os-release ]] || die "Cannot detect OS — /etc/os-release missing"
+    OS=$(grep '^ID=' /etc/os-release | cut -d= -f2 | tr -d '"')
+    VER=$(grep '^VERSION_ID=' /etc/os-release 2>/dev/null | cut -d= -f2 | tr -d '"' || echo "")
+    case "$OS" in
+        ubuntu|debian|linuxmint|pop)        FAM="debian"; PKG="apt" ;;
+        fedora|centos|rhel|rocky|almalinux) FAM="redhat"; PKG=$(command -v dnf &>/dev/null && echo "dnf" || echo "yum") ;;
+        arch|manjaro)                       FAM="arch";   PKG="pacman" ;;
+        *) die "Unsupported OS: $OS. Supported: Ubuntu, Debian, Fedora, CentOS, RHEL, Rocky, AlmaLinux, Arch, Manjaro" ;;
     esac
-    
-    if command -v node &>/dev/null; then
-        ok "Node.js $(node -v) installed"
-    else
-        err "Node.js install failed"
-    fi
-    
-    info "Checking TypeScript..."
-    if npm list -g typescript &>/dev/null; then
-        ok "TypeScript already installed"
-    else
-        run_with_loading "Installing TypeScript globally" npm install -g typescript
-    fi
+    ok "OS: $OS $VER"
 }
 
-# Docker setup
+check_root()    { [[ $EUID -eq 0 ]] || die "Run as root. Try: sudo bash"; }
+check_systemd() { command -v systemctl &>/dev/null || die "systemd is required but not found"; }
+
+pkg_install() {
+    case "$PKG" in
+        apt)     apt-get update -qq && apt-get install -y -qq "$@" ;;
+        dnf|yum) $PKG install -y -q "$@" ;;
+        pacman)  pacman -Sy --noconfirm --quiet "$@" ;;
+    esac
+}
+
+install_deps() {
+    local missing=()
+    for tool in curl git openssl; do
+        command -v "$tool" &>/dev/null || missing+=("$tool")
+    done
+    [[ ${#missing[@]} -eq 0 ]] && return
+    info "Installing: ${missing[*]}"
+    pkg_install "${missing[@]}"
+}
+
+# ── Node.js ───────────────────────────────────────────────────────────────────
+
+setup_node() {
+    if command -v node &>/dev/null; then
+        local v
+        v=$(node -v | sed 's/v//' | cut -d. -f1)
+        if [[ "$v" == "$NODE_VER" ]]; then
+            ok "Node.js $NODE_VER already installed"
+            return
+        fi
+        warn "Node.js v$v found, need v$NODE_VER — reinstalling"
+    fi
+    case "$FAM" in
+        debian) run "Adding NodeSource repo" bash -c "curl -fsSL https://deb.nodesource.com/setup_${NODE_VER}.x | bash -"; pkg_install nodejs ;;
+        redhat) run "Adding NodeSource repo" bash -c "curl -fsSL https://rpm.nodesource.com/setup_${NODE_VER}.x | bash -"; pkg_install nodejs ;;
+        arch)   pkg_install nodejs npm ;;
+    esac
+    command -v node &>/dev/null || die "Node.js installation failed"
+    ok "Node.js $(node -v)"
+}
+
+# ── Docker ────────────────────────────────────────────────────────────────────
+
 setup_docker() {
-    info "Checking for Docker..."
     if command -v docker &>/dev/null; then
         ok "Docker already installed"
-        return 0
+        return
     fi
-    
-    info "Installing Docker..."
     case "$FAM" in
-        debian|redhat) 
-            run_with_loading "Downloading and installing Docker" bash -c "curl -fsSL https://get.docker.com | sh";;
-            
-        arch) pkg_install docker;;
-        
-        alpine) 
-            pkg_install docker
-            info "Adding Docker to boot..."
-            rc-update add docker boot &>/dev/null
-            ;;
+        debian|redhat) run "Installing Docker" bash -c "curl -fsSL https://get.docker.com | sh" ;;
+        arch)          pkg_install docker ;;
     esac
-    
-    info "Enabling Docker service..."
     systemctl enable --now docker &>/dev/null
-    
-    if command -v docker &>/dev/null; then
-        ok "Docker installed successfully"
-    else
-        err "Docker install failed"
-    fi
+    command -v docker &>/dev/null || die "Docker installation failed"
+    ok "Docker ready"
 }
 
-# Select addons for installation (stores selection, doesn't install)
-select_addons_for_install() {
-    # Build dynamic menu items
-    local menu_items=()
-    local idx=1
-    
-    # Add individual addon options
-    for addon in "${ADDONS[@]}"; do
-        local display_name=$(get_addon_field "$addon" 1)
-        menu_items+=("$idx" "Install $display_name")
-        ((idx++))
-    done
-    
-    # Add "Install All" option
-    menu_items+=("$idx" "Install All Addons")
-    local install_all_idx=$idx
-    ((idx++))
-    
-    # Add skip option
-    menu_items+=("$idx" "Skip Addons")
-    local skip_idx=$idx
-    
-    # Show menu
-    ADDON_CHOICES=$(dialog --title "Select Addon to Install" \
-        --menu "Choose which addon to install:" \
-        $((15 + ${#ADDONS[@]})) 70 $((${#ADDONS[@]} + 2)) \
-        "${menu_items[@]}" 3>&1 1>&2 2>&3) || ADDON_CHOICES="$skip_idx"
-}
+# ── Panel ─────────────────────────────────────────────────────────────────────
 
-# Collect all configuration upfront
-collect_all_config() {
-    info "Collecting configuration for all components..."
-    
-    # Panel configuration
-    PANEL_NAME=$(dialog --inputbox "Panel name" 8 40 "Airlink" 3>&1 1>&2 2>&3) || PANEL_NAME="Airlink"
-    PANEL_PORT=$(dialog --inputbox "Panel Port" 8 40 "3000" 3>&1 1>&2 2>&3) || PANEL_PORT=3000
-    
-    # Daemon configuration
-    PANEL_ADDRESS=$(dialog --inputbox "Panel ip/hostname" 8 40 "127.0.0.1" 3>&1 1>&2 2>&3) || PANEL_ADDRESS="127.0.0.1"
-    DAEMON_PORT=$(dialog --inputbox "Daemon Port" 8 40 "3002" 3>&1 1>&2 2>&3) || DAEMON_PORT=3002
-    DAEMON_KEY=$(dialog --inputbox "Daemon Auth Key" 8 40 3>&1 1>&2 2>&3) || DAEMON_KEY="get from panel's node setup page"
-    
-    # Admin user configuration
-    ADMIN_EMAIL=$(dialog --inputbox "Admin Email:" 8 50 "admin@example.com" 3>&1 1>&2 2>&3) || ADMIN_EMAIL="admin@example.com"
-    ADMIN_USERNAME=$(dialog --inputbox "Admin Username (3-20 chars, letters/numbers only):" 8 60 "admin" 3>&1 1>&2 2>&3) || ADMIN_USERNAME="admin"
-    
-    # Password with validation
-    while true; do
-        ADMIN_PASSWORD=$(dialog --inputbox "Admin Password (min 8 chars, must have letter & number):" 8 70 3>&1 1>&2 2>&3)
-        
-        # Validate password
-        if [[ ${#ADMIN_PASSWORD} -ge 8 ]] && [[ "$ADMIN_PASSWORD" =~ [A-Za-z] ]] && [[ "$ADMIN_PASSWORD" =~ [0-9] ]]; then
-            break
-        else
-            dialog --msgbox "Password must be at least 8 characters with at least one letter and one number. Please try again." 8 60
-        fi
-    done
-    
-    # Validate username
-    if [[ ! "$ADMIN_USERNAME" =~ ^[A-Za-z0-9]{3,20}$ ]]; then
-        warn "Invalid username format. Using default: admin"
-        ADMIN_USERNAME="admin"
-    fi
-    
-    # Addon selection
-    select_addons_for_install
-    
-     
-    ok "Configuration collected"
-}
-
-# Create admin user using the panel's registration API
-create_admin_user() {
-    local use_collected=${1:-false}
-    
-    info "Creating admin user via registration API..."
-    
-    # Get user details via dialog only if not already collected
-    if [ "$use_collected" = false ]; then
-        ADMIN_EMAIL=$(dialog --inputbox "Admin Email:" 8 50 "admin@example.com" 3>&1 1>&2 2>&3) || ADMIN_EMAIL="admin@example.com"
-        ADMIN_USERNAME=$(dialog --inputbox "Admin Username (3-20 chars, letters/numbers only):" 8 60 "admin" 3>&1 1>&2 2>&3) || ADMIN_USERNAME="admin"
-        
-        # Password with validation
-        while true; do
-            ADMIN_PASSWORD=$(dialog --inputbox "Admin Password (min 8 chars, must have letter & number):" 8 70 3>&1 1>&2 2>&3)
-            
-            # Validate password
-            if [[ ${#ADMIN_PASSWORD} -ge 8 ]] && [[ "$ADMIN_PASSWORD" =~ [A-Za-z] ]] && [[ "$ADMIN_PASSWORD" =~ [0-9] ]]; then
-                break
-            else
-                dialog --msgbox "Password must be at least 8 characters with at least one letter and one number. Please try again." 8 60
-            fi
-        done
-        
-         
-        
-        # Validate username
-        if [[ ! "$ADMIN_USERNAME" =~ ^[A-Za-z0-9]{3,20}$ ]]; then
-            warn "Invalid username format. Using default: admin"
-            ADMIN_USERNAME="admin"
-        fi
-    else
-        # Using pre-collected variables, just validate username
-        if [[ ! "$ADMIN_USERNAME" =~ ^[A-Za-z0-9]{3,20}$ ]]; then
-            warn "Invalid username format. Using default: admin"
-            ADMIN_USERNAME="admin"
-        fi
-    fi
-    
-    # Wait for panel to be fully running
-    info "Waiting for panel to start..."
-    local max_wait=30
-    local waited=0
-    while [ $waited -lt $max_wait ]; do
-        if curl -s "http://localhost:${PANEL_PORT}" > /dev/null 2>&1; then
-            ok "Panel is responding on port ${PANEL_PORT}"
-            break
-        fi
-        sleep 2
-        waited=$((waited + 2))
-    done
-    
-    if [ $waited -ge $max_wait ]; then
-        warn "Panel took longer than expected to start, continuing anyway..."
-    fi
-    
-    # Get CSRF token first
-    info "Getting CSRF token..."
-    CSRF_TOKEN=$(curl -s -c /tmp/cookies.txt "http://localhost:${PANEL_PORT}/register" | sed -n 's/.*name="_csrf" value="\([^"]*\)".*/\1/p' | head -n1)
-    
-    if [ -z "$CSRF_TOKEN" ]; then
-        warn "Could not get CSRF token, trying without it..."
-    else
-        info "CSRF token obtained"
-    fi
-    
-    # Make registration request
-    info "Registering admin user..."
-    RESPONSE=$(curl -s -b /tmp/cookies.txt -c /tmp/cookies.txt \
-        -X POST "http://localhost:${PANEL_PORT}/register" \
-        -H "Content-Type: application/x-www-form-urlencoded" \
-        --data-urlencode "username=${ADMIN_USERNAME}" \
-        --data-urlencode "email=${ADMIN_EMAIL}" \
-        --data-urlencode "password=${ADMIN_PASSWORD}" \
-        --data-urlencode "_csrf=${CSRF_TOKEN}" \
-        -w "\n%{http_code}" \
-        -L)
-    
-    HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
-    BODY=$(echo "$RESPONSE" | head -n-1)
-    
-    # Clean up cookies
-    rm -f /tmp/cookies.txt
-    
-    # Check response
-    if [[ "$HTTP_CODE" == "302" ]] || [[ "$HTTP_CODE" == "200" ]]; then
-        # Check if redirected to error
-        if echo "$BODY" | grep -q "err="; then
-            ERROR_TYPE=$(echo "$BODY" | sed -n 's/.*err=\([^&"]*\).*/\1/p' | head -n1)
-            case "$ERROR_TYPE" in
-                "user_already_exists")
-                    warn "User already exists with this email/username"
-                    ;;
-                "invalid_username")
-                    err "Invalid username format"
-                    ;;
-                "weak_password")
-                    err "Password does not meet security requirements"
-                    ;;
-                *)
-                    info "Registration completed (status: $ERROR_TYPE)"
-                    ;;
-            esac
-            ok "moving forward"
-        else
-            ok "Admin user created successfully!"
-            info "Login credentials:"
-            echo -e "  ${C}Username:${N} ${ADMIN_USERNAME}"
-            echo -e "  ${C}Email:${N} ${ADMIN_EMAIL}"
-            sleep 3
-            return 0
-        fi
-    else
-    ok "moving forward..."
-    fi
-}
-
-# Panel installation
 install_panel() {
-    local skip_config=${1:-false}
-    
-    info "Starting Panel installation..."
-    
-    # Get ALL configuration upfront if not already collected
-    if [ "$skip_config" = false ]; then
-        PANEL_NAME=$(dialog --inputbox "Panel name" 8 40 "Airlink" 3>&1 1>&2 2>&3) || PANEL_NAME="Airlink"
-        PANEL_PORT=$(dialog --inputbox "Panel Port" 8 40 "3000" 3>&1 1>&2 2>&3) || PANEL_PORT=3000
-        
-        # Collect admin user info upfront
-        ADMIN_EMAIL=$(dialog --inputbox "Admin Email:" 8 50 "admin@example.com" 3>&1 1>&2 2>&3) || ADMIN_EMAIL="admin@example.com"
-        ADMIN_USERNAME=$(dialog --inputbox "Admin Username (3-20 chars, letters/numbers only):" 8 60 "admin" 3>&1 1>&2 2>&3) || ADMIN_USERNAME="admin"
-        
-        # Password with validation
-        while true; do
-            ADMIN_PASSWORD=$(dialog --inputbox "Admin Password (min 8 chars, must have letter & number):" 8 70 3>&1 1>&2 2>&3)
-            
-            # Validate password
-            if [[ ${#ADMIN_PASSWORD} -ge 8 ]] && [[ "$ADMIN_PASSWORD" =~ [A-Za-z] ]] && [[ "$ADMIN_PASSWORD" =~ [0-9] ]]; then
-                break
-            else
-                dialog --msgbox "Password must be at least 8 characters with at least one letter and one number. Please try again." 8 60
-            fi
-        done
-        
-        # Validate username
-        if [[ ! "$ADMIN_USERNAME" =~ ^[A-Za-z0-9]{3,20}$ ]]; then
-            warn "Invalid username format. Using default: admin"
-            ADMIN_USERNAME="admin"
-        fi
-        
-        # Select addons upfront
-        select_addons_for_install
-        
-         
+    info "Installing panel..."
+
+    mkdir -p /var/www && cd /var/www
+
+    if [[ -d panel ]]; then
+        warn "Existing /var/www/panel found — removing"
+        rm -rf panel
     fi
-    
-    # Clone and setup
-    info "Preparing directories..."
-    [ -d /var/www ] || mkdir -p /var/www
-    cd /var/www || err "Cannot access /var/www"
-    
-    info "Deleting old panel folder if it exists (last warning)..."
-    for i in {5..1}; do
-        echo -ne "\rWaiting: $i seconds remaining..."
-        sleep 1
-    done
-    echo -e "\rProceeding...                    "
-    
-    rm -rf panel
-    run_with_loading "Cloning Panel repository" git clone ${PANEL_REPO}
-    
+
+    run "Cloning panel" git clone "$PANEL_REPO" panel
     cd panel
 
-    # Set permissions
-    info "Setting permissions..."
-    chown -R www-data:www-data /var/www/panel
-    chmod -R 755 /var/www/panel
-    ok "Permissions set"
-    
-    # Create .env
-    info "Creating .env file..."
-    cat > .env << EOF
+    chown -R www-data:www-data "$PANEL_DIR"
+    chmod -R 755 "$PANEL_DIR"
+
+    cat > .env <<ENVEOF
 NAME=${PANEL_NAME}
-NODE_ENV="development"
-URL="http://localhost:${PANEL_PORT}"
+NODE_ENV=production
+URL=http://localhost:${PANEL_PORT}
 PORT=${PANEL_PORT}
-DATABASE_URL="file:./dev.db" 
+DATABASE_URL=file:./dev.db
 SESSION_SECRET=$(openssl rand -hex 32)
-EOF
-    ok ".env file created"
-    
-    # Install dependencies
-    run_with_loading "Installing npm dependencies" npm install --omit=dev
-    
-    # Install bcrypt for password hashing
-    info "Installing bcrypt..."
-    npm install bcrypt &>/dev/null || warn "Bcrypt install warning"
-    
-    # Install Prisma
-    info "Checking Prisma installation..."
-    if command -v prisma &>/dev/null; then
-        INSTALLED_VER=$(prisma -v | grep "prisma" | head -n1 | awk '{print $2}')
-        if [ "$INSTALLED_VER" = "$PRISMA_VER" ]; then
-            ok "Prisma $PRISMA_VER already installed"
-        else
-            warn "Prisma version mismatch (found $INSTALLED_VER), reinstalling $PRISMA_VER"
-            info "Uninstalling old Prisma..."
-            npm uninstall -g prisma &>/dev/null
-            npm uninstall prisma @prisma/client &>/dev/null
-            npm cache clean --force &>/dev/null
-            run_with_loading "Installing Prisma $PRISMA_VER" npm install prisma@$PRISMA_VER @prisma/client@$PRISMA_VER
-        fi
-    else
-        run_with_loading "Installing Prisma $PRISMA_VER" npm install prisma@$PRISMA_VER @prisma/client@$PRISMA_VER
-    fi
+ENVEOF
 
-    run_with_loading "Running database migrations" bash -c "CI=true npm run migrate:dev"
-    
-    info "Building Panel (this will show build output)..."
-    npm run build || err "Build failed"
-    ok "Panel build completed"
-    
-    run_with_loading "Seeding database with images" npm run seed
+    run "Installing dependencies" npm install --omit=dev
+    run "Installing Prisma" npm install "prisma@${PRISMA_VER}" "@prisma/client@${PRISMA_VER}"
+    run "Running migrations" bash -c "CI=true npm run migrate:dev"
 
-    # Enable registration temporarily - FIXED VERSION
-    info "Enabling registration for first admin user..."
-    cat > enable-reg.js << 'EOFJS'
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
-const panelName = process.env.PANEL_NAME || "Airlink";
+    info "Building panel..."
+    npm run build >> "$LOG" 2>&1 || die "Panel build failed — check $LOG"
+    ok "Panel built"
 
-async function enableRegistration() {
-    try {
-        let settings = await prisma.settings.findFirst();
-        
-        if (!settings) {
-            await prisma.settings.create({
-                data: {
-                    allowRegistration: true,
-                    title: panelName,
-                    description: 'AirLink is a free and open source project by AirlinkLabs',
-                    logo: '../assets/logo.png',
-                    favicon: '../assets/favicon.ico',
-                    theme: 'default',
-                    language: 'en'
-                }
-            });
-            console.log("Settings created with registration enabled");
-        } else {
-            await prisma.settings.update({
-                where: { id: settings.id },
-                data: { allowRegistration: true }
-            });
-            console.log("Registration enabled");
-        }
-        await prisma.$disconnect();
-        process.exit(0);
-    } catch (error) {
-        console.error("Error:", error.message);
-        await prisma.$disconnect();
-        process.exit(1);
-    }
-}
+    run "Seeding database" npm run seed
 
-enableRegistration();
-EOFJS
-
-    PANEL_NAME="${PANEL_NAME}" node enable-reg.js
-    rm -f enable-reg.js
-    ok "Registration enabled"
-
-    # Install and start PM2 temporarily for user creation
-    info "Installing PM2..."
-    npm install -g pm2 &>/dev/null || err "PM2 install failed"
-
-    info "Starting panel temporarily with PM2..."
-    cd /var/www/panel
-    pm2 start npm --name "airlink-panel-temp" -- run start &>/dev/null
-    ok "Panel started temporarily"
-
-    # Create admin user via API (skip prompt if called from install_all)
-    if [ "$skip_config" = false ]; then
-        # Always use pre-collected variables (true) since we now collect them at the start
-        create_admin_user true
-            #warn "Admin user creation encountered an issue"
-            #SERVER_IP=$(hostname -I | awk '{print $1}')
-            #info "You can create it manually at: http://${SERVER_IP}:${PANEL_PORT}/register"
-        
-    else
-        # When skip_config is true (from install_all), create user automatically without prompting
-         
-        create_admin_user true
-            #warn "Admin user creation encountered an issue"
-            #SERVER_IP=$(hostname -I | awk '{print $1}')
-            #info "You can create it manually at: http://${SERVER_IP}:${PANEL_PORT}/register"
-    
-    fi
-
-    # Disable registration after first user
-    info "Disabling public registration..."
-    cat > disable-reg.js << 'EOFJS'
+    # Enable registration so we can create the first admin account
+    node - <<'JSEOF'
 const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+const p = new PrismaClient();
+(async () => {
+    const s = await p.settings.findFirst();
+    const data = { allowRegistration: true, title: process.env.PANEL_NAME || 'Airlink',
+        description: 'AirLink — open-source game server panel',
+        logo: '../assets/logo.png', favicon: '../assets/favicon.ico', theme: 'default', language: 'en' };
+    s ? await p.settings.update({ where: { id: s.id }, data }) : await p.settings.create({ data });
+    await p.$disconnect();
+})().catch(e => { console.error(e.message); process.exit(1); });
+JSEOF
 
-async function disableRegistration() {
-    try {
-        const settings = await prisma.settings.findFirst();
-        if (settings) {
-            await prisma.settings.update({
-                where: { id: settings.id },
-                data: { allowRegistration: false }
-            });
-            console.log("Registration disabled");
-        }
-        await prisma.$disconnect();
-        process.exit(0);
-    } catch (error) {
-        console.error("Error:", error.message);
-        await prisma.$disconnect();
-        process.exit(1);
-    }
-}
+    npm install -g pm2 &>/dev/null || die "pm2 install failed"
+    pm2 start npm --name "airlink-tmp" -- run start &>/dev/null
+    ok "Panel started temporarily for account creation"
 
-disableRegistration();
-EOFJS
+    info "Waiting for panel to respond..."
+    local waited=0
+    until curl -sf "http://localhost:${PANEL_PORT}" &>/dev/null || [[ $waited -ge 40 ]]; do
+        sleep 2; waited=$((waited + 2))
+    done
 
-    node disable-reg.js
-    rm -f disable-reg.js
-    ok "Registration disabled"
+    local csrf
+    csrf=$(curl -sL -c /tmp/al-cookies.txt "http://localhost:${PANEL_PORT}/register" \
+        | grep -o 'name="_csrf" value="[^"]*"' | cut -d'"' -f4 | head -n1 || echo "")
 
-    # Stop temporary PM2 process
-    info "Stopping temporary panel..."
-    pm2 delete airlink-panel-temp &>/dev/null
-    pm2 save --force &>/dev/null
-    ok "Temporary panel stopped"
-    
-    # Create systemd service
-    info "Creating systemd service..."
-    cat > /etc/systemd/system/airlink-panel.service << EOF
+    local code
+    code=$(curl -s -o /dev/null -w "%{http_code}" \
+        -b /tmp/al-cookies.txt -c /tmp/al-cookies.txt \
+        -X POST "http://localhost:${PANEL_PORT}/register" \
+        -H "Content-Type: application/x-www-form-urlencoded" \
+        --data-urlencode "username=${ADMIN_USER}" \
+        --data-urlencode "email=${ADMIN_EMAIL}" \
+        --data-urlencode "password=${ADMIN_PASS}" \
+        --data-urlencode "_csrf=${csrf}" -L)
+    rm -f /tmp/al-cookies.txt
+
+    if [[ "$code" == "200" || "$code" == "302" ]]; then
+        ok "Admin account created — login: $ADMIN_EMAIL"
+    else
+        warn "Registration returned HTTP $code — create the account manually at http://YOUR_IP:${PANEL_PORT}/register"
+    fi
+
+    # Disable public registration
+    node - <<'JSEOF'
+const { PrismaClient } = require('@prisma/client');
+const p = new PrismaClient();
+(async () => {
+    const s = await p.settings.findFirst();
+    if (s) await p.settings.update({ where: { id: s.id }, data: { allowRegistration: false } });
+    await p.$disconnect();
+})().catch(e => { console.error(e.message); process.exit(1); });
+JSEOF
+
+    pm2 delete airlink-tmp &>/dev/null || true
+    pm2 save --force &>/dev/null || true
+
+    cat > /etc/systemd/system/airlink-panel.service <<SVCEOF
 [Unit]
-Description=Airlink Panel
+Description=AirLink Panel
 After=network.target
 
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/var/www/panel
+WorkingDirectory=${PANEL_DIR}
 ExecStart=/usr/bin/npm run start
-Restart=always
+Restart=on-failure
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
-EOF
-    ok "Systemd service created"
-    
-    info "Starting Panel service..."
+SVCEOF
+
     systemctl daemon-reload
     systemctl enable --now airlink-panel &>/dev/null
-    ok "Panel service started"
-
-    # Process addon selections (installs the addons that were selected at the start)
-    process_addon_selections
-    
-    ok "Panel installation completed on port ${PANEL_PORT}"
+    ok "Panel service running on port ${PANEL_PORT}"
 }
 
-# Daemon installation
+# ── Daemon ────────────────────────────────────────────────────────────────────
+
 install_daemon() {
-    local skip_config=${1:-false}
-    
-    info "Starting Daemon installation..."
-    
-    # Get configuration if not already collected
-    if [ "$skip_config" = false ]; then
-        PANEL_ADDRESS=$(dialog --inputbox "Panel ip/hostname" 8 40 "127.0.0.1" 3>&1 1>&2 2>&3) || PANEL_ADDRESS="127.0.0.1"
-        DAEMON_PORT=$(dialog --inputbox "Daemon Port" 8 40 "3002" 3>&1 1>&2 2>&3) || DAEMON_PORT=3002
-        DAEMON_KEY=$(dialog --inputbox "Daemon Auth Key" 8 40 3>&1 1>&2 2>&3) || DAEMON_KEY="get from panel's node setup page"
-         
+    info "Installing daemon..."
+
+    cd /etc
+
+    if [[ -d daemon ]]; then
+        warn "Existing /etc/daemon found — removing"
+        rm -rf daemon
     fi
-    
-    info "Preparing directories..."
-    cd /etc || err "Cannot access /etc"
-    
-    info "Deleting old daemon folder if it exists (last warning)..."
-    for i in {5..1}; do
-        echo -ne "\rWaiting: $i seconds remaining..."
-        sleep 1
-    done
-    echo -e "\rProceeding...                    "
-    
-    rm -rf daemon
-    run_with_loading "Cloning Daemon repository" git clone ${DAEMON_REPO}
-    
+
+    run "Cloning daemon" git clone "$DAEMON_REPO" daemon
     cd daemon
-    
-    # Create .env
-    info "Creating .env file..."
-    cat > .env << EOF
-remote="${PANEL_ADDRESS}"
-key="${DAEMON_KEY}"
+
+    cat > .env <<ENVEOF
+remote=${PANEL_ADDR}
+key=${DAEMON_KEY}
 port=${DAEMON_PORT}
 DEBUG=false
 version=1.0.0
-environment=development
+environment=production
 STATS_INTERVAL=10000
-EOF
-    ok ".env file created"
-    
-    run_with_loading "Installing npm dependencies" npm install --omit=dev
-    run_with_loading "Installing express" npm install express
-    
-    info "Building Daemon (this will show build output)..."
-    npm run build || err "Build failed"
-    ok "Daemon build completed"
-    
-    info "Building libs..."
-    cd libs
-    run_with_loading "Installing libs dependencies" npm install
-    run_with_loading "Rebuilding native modules" npm rebuild
-    cd ..
-    
-    info "Setting permissions..."
-    chown -R www-data:www-data /etc/daemon
-    ok "Permissions set"
-    
-    # Create systemd service
-    info "Creating systemd service..."
-    cat > /etc/systemd/system/airlink-daemon.service << EOF
+ENVEOF
+
+    run "Installing dependencies" npm install --omit=dev
+    run "Installing express" npm install express
+
+    info "Building daemon..."
+    npm run build >> "$LOG" 2>&1 || die "Daemon build failed — check $LOG"
+    ok "Daemon built"
+
+    if [[ -d libs ]]; then
+        cd libs
+        run "Installing lib dependencies" npm install
+        run "Rebuilding native modules" npm rebuild
+        cd ..
+    fi
+
+    chown -R www-data:www-data "$DAEMON_DIR"
+
+    cat > /etc/systemd/system/airlink-daemon.service <<SVCEOF
 [Unit]
-Description=Airlink Daemon
+Description=AirLink Daemon
 After=network.target docker.service
 
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/etc/daemon
+WorkingDirectory=${DAEMON_DIR}
 ExecStart=/usr/bin/npm run start
-Restart=always
+Restart=on-failure
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
-EOF
-    ok "Systemd service created"
-    
-    info "Starting Daemon service..."
+SVCEOF
+
     systemctl daemon-reload
     systemctl enable --now airlink-daemon &>/dev/null
-    ok "Daemon service started"
-    
-    ok "Daemon installation completed on port ${DAEMON_PORT}"
+    ok "Daemon service running on port ${DAEMON_PORT}"
 }
 
-# Install both
-install_all() {
-    info "Starting full installation (Node.js, Docker, Panel, Daemon)..."
-    
-    # Collect all configuration upfront
-    collect_all_config
-    
-    # Setup dependencies
-    setup_node
-    setup_docker
-    
-    # Install components with skip_config flag
-    install_panel true
-    install_daemon true
-    
-    dialog --msgbox "Installation Complete!\n\nPanel: http://$(hostname -I | awk '{print $1}'):${PANEL_PORT}\nDaemon: Running on port ${DAEMON_PORT}\n\nCheck logs: journalctl -u airlink-panel -f" 14 60
-     
-    ok "Full installation completed successfully"
-}
+# ── Addons ────────────────────────────────────────────────────────────────────
 
-# Uninstall functions
-remove_panel() {
-    info "Removing Panel..."
-    info "Stopping Panel service..."
-    systemctl stop airlink-panel &>/dev/null || true
-    info "Disabling Panel service..."
-    systemctl disable airlink-panel &>/dev/null || true
-    info "Removing service file..."
-    rm -f /etc/systemd/system/airlink-panel.service
-    info "Removing Panel directory..."
-    rm -rf /var/www/panel
-    info "Reloading systemd..."
-    systemctl daemon-reload
-    ok "Panel removed successfully"
-}
-
-remove_daemon() {
-    info "Removing Daemon..."
-    info "Stopping Daemon service..."
-    systemctl stop airlink-daemon &>/dev/null || true
-    info "Disabling Daemon service..."
-    systemctl disable airlink-daemon &>/dev/null || true
-    info "Removing service file..."
-    rm -f /etc/systemd/system/airlink-daemon.service
-    info "Removing Daemon directory..."
-    rm -rf /etc/daemon
-    info "Reloading systemd..."
-    systemctl daemon-reload
-    ok "Daemon removed successfully"
-}
-
-remove_deps() {
-    info "Removing dependencies..."
-    case "$FAM" in
-        debian) 
-            info "Removing Node.js, npm, and Docker..."
-            apt-get remove -y nodejs npm docker.io &>/dev/null
-            ;;
-        redhat) 
-            info "Removing Node.js, npm, and Docker..."
-            $PKG remove -y nodejs npm docker &>/dev/null
-            ;;
-        arch) 
-            info "Removing Node.js, npm, and Docker..."
-            pacman -R --noconfirm nodejs npm docker &>/dev/null
-            ;;
-        alpine) 
-            info "Removing Node.js, npm, and Docker..."
-            apk del nodejs npm docker &>/dev/null
-            ;;
-    esac
-    ok "Dependencies removed successfully"
-}
-
-# Process previously selected addons
-process_addon_selections() {
-    if [ -z "$ADDON_CHOICES" ]; then
-        info "No addons selected, skipping..."
-        return
-    fi
-    
-    info "Processing addon selection..."
-    
-    local install_all_idx=$((${#ADDONS[@]} + 1))
-    local skip_idx=$((${#ADDONS[@]} + 2))
-    
-    # Check if "Install All" was selected
-    if [ "$ADDON_CHOICES" = "$install_all_idx" ]; then
-        for addon in "${ADDONS[@]}"; do
-            install_single_addon "$addon"
-        done
-        return
-    fi
-    
-    # Check if "Skip" was selected
-    if [ "$ADDON_CHOICES" = "$skip_idx" ]; then
-        info "Skipping addon installation"
-        return
-    fi
-    
-    # Install the selected addon
-    if [ "$ADDON_CHOICES" -le "${#ADDONS[@]}" ]; then
-        install_single_addon "${ADDONS[$((ADDON_CHOICES-1))]}"
-    fi
-}
-
-# Generic addon installer
-install_single_addon() {
-    local addon_config=$1
-    local display_name=$(get_addon_field "$addon_config" 1)
-    local repo_url=$(get_addon_field "$addon_config" 2)
-    local branch=$(get_addon_field "$addon_config" 3)
-    local dir_name=$(get_addon_field "$addon_config" 4)
-    
-    info "Installing $display_name addon..."
-    cd /var/www/panel/storage/addons/
-    
-    run_with_loading "Cloning $display_name repository" git clone --branch "$branch" "$repo_url" "$dir_name"
-    
-    cd "/var/www/panel/storage/addons/$dir_name/"
-    run_with_loading "Installing dependencies" npm install
-    
-    info "Building $display_name addon (this will show build output)..."
-    npm run build
-    
-    cd /var/www/panel/
-    npx tailwindcss -i ./public/tw.css -o ./public/styles.css
-    ok "$display_name addon installed successfully"
-}
-
-# Install addons
 install_addons() {
-    local from_install=${1:-false}
-    
-    # Build dynamic menu items
-    local menu_items=()
-    local idx=1
-    
-    # Add individual addon options
-    for addon in "${ADDONS[@]}"; do
-        local display_name=$(get_addon_field "$addon" 1)
-        local repo_url=$(get_addon_field "$addon" 2)
-        menu_items+=("$idx" "Install $display_name ($repo_url)")
-        ((idx++))
-    done
-    
-    # Add "Install All" option
-    menu_items+=("$idx" "Install All Addons")
-    local install_all_idx=$idx
-    ((idx++))
-    
-    if [ "$from_install" = true ]; then
-        # Add skip option for installation context
-        menu_items+=("$idx" "Skip")
-        local skip_idx=$idx
-        
-        choice=$(dialog --title "Install Panel Addons?" --menu "Choose action:" $((12 + ${#ADDONS[@]})) 70 $((${#ADDONS[@]} + 2)) \
-            "${menu_items[@]}" 3>&1 1>&2 2>&3) || return
-        
-        if [ "$choice" -eq "$skip_idx" ]; then
-            return
-        elif [ "$choice" -eq "$install_all_idx" ]; then
-            for addon in "${ADDONS[@]}"; do
-                install_single_addon "$addon"
-            done
-        else
-            install_single_addon "${ADDONS[$((choice-1))]}"
-        fi
-    else
-        # Full menu when called from main menu
-        menu_items+=("0" "Exit")
-        
-        while true; do
-            choice=$(dialog --title "Install Panel Addons?" --menu "Choose action:" $((15 + ${#ADDONS[@]})) 70 $((${#ADDONS[@]} + 2)) \
-                "${menu_items[@]}" 3>&1 1>&2 2>&3) || break
-            
-            if [ "$choice" -eq 0 ]; then
-                 
-                break
-            elif [ "$choice" -eq "$install_all_idx" ]; then
-                for addon in "${ADDONS[@]}"; do
-                    install_single_addon "$addon"
-                done
-            else
-                install_single_addon "${ADDONS[$((choice-1))]}"
+    [[ -n "$ADDONS_ARG" ]] || return
+
+    local addon_dir="${PANEL_DIR}/storage/addons"
+    mkdir -p "$addon_dir"
+
+    for entry in "${ADDONS[@]}"; do
+        local display repo branch folder
+        display=$(echo "$entry" | cut -d'|' -f1)
+        repo=$(echo "$entry" | cut -d'|' -f2)
+        branch=$(echo "$entry" | cut -d'|' -f3)
+        folder=$(echo "$entry" | cut -d'|' -f4)
+
+        # Match by folder name or display name (case-insensitive)
+        if echo "$ADDONS_ARG" | tr ',' '\n' | grep -qiF "$folder" || \
+           echo "$ADDONS_ARG" | tr ',' '\n' | grep -qiF "$display"; then
+
+            info "Installing addon: $display"
+            cd "$addon_dir"
+            [[ -d "$folder" ]] && rm -rf "$folder"
+
+            run "Cloning $display" git clone --branch "$branch" "$repo" "$folder"
+            cd "$folder"
+            run "Installing $display dependencies" npm install
+            npm run build >> "$LOG" 2>&1 || die "$display build failed"
+
+            if [[ -f "${PANEL_DIR}/public/tw.css" ]]; then
+                cd "$PANEL_DIR"
+                run "Rebuilding panel CSS" npx tailwindcss -i ./public/tw.css -o ./public/styles.css
             fi
-        done
-    fi
-     
-}
 
-# Main menu
-main_menu() {
-    while true; do
-        choice=$(dialog --title "Airlink Installer v${VERSION}" --menu "Choose action:" 20 60 11 \
-            1 "Install Both" \
-            2 "Install Panel" \
-            3 "Install Daemon" \
-            4 "Install Addons" \
-            5 "Setup Dependencies Only" \
-            6 "Remove Panel" \
-            7 "Remove Daemon" \
-            8 "Remove Dependencies" \
-            9 "Remove Everything" \
-            10 "View Logs" \
-            0 "Exit" 3>&1 1>&2 2>&3) || break
-        
-        case $choice in
-            1) install_all;;
-            2) setup_node; setup_docker; install_panel false;;
-            3) setup_node; setup_docker; install_daemon false;;
-            4) install_addons false;;
-            5) setup_node; setup_docker;;
-            6) dialog --yesno "Remove Panel?" 6 30 && remove_panel;;
-            7) dialog --yesno "Remove Daemon?" 6 30 && remove_daemon;;
-            8) dialog --yesno "Remove Dependencies?" 6 30 && remove_deps;;
-            9) dialog --yesno "Remove EVERYTHING?" 7 40 && {
-                    remove_panel
-                    remove_daemon
-                    remove_deps
-                };;
-            10) [[ -f "$LOG" ]] && dialog --textbox "$LOG" 20 80 || dialog --msgbox "No logs found" 6 30;;
-            0)  echo -e "${G}Thanks for using Airlink Installer!${N}"; exit 0;;
-        esac
+            ok "$display installed"
+        fi
     done
-     
 }
 
-# Cleanup on exit
-trap 'rm -rf "$TEMP" /var/www/panel/enable-reg.js /var/www/panel/disable-reg.js /tmp/cookies.txt' EXIT
+# ── Run ───────────────────────────────────────────────────────────────────────
 
-# Start
-info "Starting Airlink Installer v${VERSION}..."
 touch "$LOG"
-log "=== Airlink Installer v${VERSION} started ==="
+log "=== AirLink Installer v${VERSION} ==="
+info "AirLink Installer v${VERSION}"
 
-# If CLI args were passed, run non-interactively
-if [[ -n "$CLI_MODE" || -n "$CLI_NAME" || -n "$CLI_PORT" || -n "$CLI_ADMIN_EMAIL" || \
-      -n "$CLI_ADMIN_USER" || -n "$CLI_ADMIN_PASS" || -n "$CLI_PANEL_ADDR" || \
-      -n "$CLI_DAEMON_PORT" || -n "$CLI_DAEMON_KEY" || -n "$CLI_ADDONS" ]]; then
+check_root
+detect_os
+check_systemd
+install_deps
+setup_node
+[[ "$MODE" != "panel" ]] && setup_docker
 
-    info "Running in non-interactive mode..."
+case "$MODE" in
+    panel)  install_panel ;;
+    daemon) install_daemon ;;
+    both)   install_panel; install_daemon ;;
+esac
 
-    # Apply CLI values to the variables the install functions read
-    [[ -n "$CLI_NAME" ]]        && PANEL_NAME="$CLI_NAME"        || PANEL_NAME="Airlink"
-    [[ -n "$CLI_PORT" ]]        && PANEL_PORT="$CLI_PORT"        || PANEL_PORT=3000
-    [[ -n "$CLI_ADMIN_EMAIL" ]] && ADMIN_EMAIL="$CLI_ADMIN_EMAIL" || ADMIN_EMAIL="admin@example.com"
-    [[ -n "$CLI_ADMIN_USER" ]]  && ADMIN_USERNAME="$CLI_ADMIN_USER" || ADMIN_USERNAME="admin"
-    [[ -n "$CLI_ADMIN_PASS" ]]  && ADMIN_PASSWORD="$CLI_ADMIN_PASS" || ADMIN_PASSWORD=""
-    [[ -n "$CLI_PANEL_ADDR" ]]  && PANEL_ADDRESS="$CLI_PANEL_ADDR" || PANEL_ADDRESS="127.0.0.1"
-    [[ -n "$CLI_DAEMON_PORT" ]] && DAEMON_PORT="$CLI_DAEMON_PORT" || DAEMON_PORT=3002
-    [[ -n "$CLI_DAEMON_KEY" ]]  && DAEMON_KEY="$CLI_DAEMON_KEY"   || DAEMON_KEY=""
+install_addons
 
-    # Map --addons CSV to ADDON_CHOICES understood by process_addon_selections
-    if [[ -n "$CLI_ADDONS" ]]; then
-        # Check if both addons requested
-        if echo "$CLI_ADDONS" | grep -q "modrinth" && echo "$CLI_ADDONS" | grep -q "parachute"; then
-            ADDON_CHOICES=$((${#ADDONS[@]} + 1))  # "Install All" index
-        elif echo "$CLI_ADDONS" | grep -q "modrinth"; then
-            ADDON_CHOICES=1
-        elif echo "$CLI_ADDONS" | grep -q "parachute"; then
-            ADDON_CHOICES=2
-        else
-            ADDON_CHOICES=$((${#ADDONS[@]} + 2))  # "Skip" index
-        fi
-    else
-        ADDON_CHOICES=$((${#ADDONS[@]} + 2))  # Skip
-    fi
-
-    # Validate password if provided
-    if [[ -n "$ADMIN_PASSWORD" ]]; then
-        if ! ([[ ${#ADMIN_PASSWORD} -ge 8 ]] && [[ "$ADMIN_PASSWORD" =~ [A-Za-z] ]] && [[ "$ADMIN_PASSWORD" =~ [0-9] ]]); then
-            err "Password must be at least 8 characters with at least one letter and one number."
-        fi
-    fi
-
-    setup_node
-    setup_docker
-
-    case "${CLI_MODE:-both}" in
-        panel)  install_panel  true;;
-        daemon) install_daemon true;;
-        both|*) install_panel  true; install_daemon true;;
-    esac
-
-    SERVER_IP=$(hostname -I | awk '{print $1}')
-    ok "Installation complete."
-    info "Panel:  http://${SERVER_IP}:${PANEL_PORT}"
-    [[ "${CLI_MODE:-both}" != "panel" ]] && info "Daemon: running on port ${DAEMON_PORT}"
-else
-    main_menu
-fi
-
-# Heya there! what are you doing here?
+echo
+ok "Done"
+SERVER_IP=$(hostname -I | awk '{print $1}')
+[[ "$MODE" != "daemon" ]] && info "Panel:  http://${SERVER_IP}:${PANEL_PORT}"
+[[ "$MODE" != "panel"  ]] && info "Daemon: port ${DAEMON_PORT}"
+[[ "$MODE" != "daemon" ]] && info "Login:  $ADMIN_EMAIL"
+info "Log:    $LOG"

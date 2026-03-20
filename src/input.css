@@ -66,6 +66,7 @@ html {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overscroll-behavior: none;
 }
 
 /* Hide all scrollbars */
@@ -77,6 +78,7 @@ body {
   color: var(--color-text-2);
   min-height: 100vh;
   overflow-x: hidden;
+  overscroll-behavior: none;
 }
 
 a { text-decoration: none; color: inherit; }
