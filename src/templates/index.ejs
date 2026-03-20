@@ -27,7 +27,7 @@ const pageDescription = site.description;
     #hero-mockup  { flex: 1; min-width: 0; }
   }
 
-  /* Features */
+  /* Features — desktop grid */
   #feat-list {
     display: grid;
     grid-template-columns: 1fr;
@@ -43,10 +43,34 @@ const pageDescription = site.description;
   @media (min-width: 900px) {
     #feat-list { grid-template-columns: 1fr 1fr 1fr; }
   }
+  @media (max-width: 559px) {
+    #feat-list > div { padding: 10px 12px; gap: 9px; }
+    #feat-list > div h3 { font-size: 11px; }
+    #feat-list > div p  { font-size: 10px; }
+    #feat-list > div > div:first-child { width: 24px; height: 24px; }
+  }
 
   /* Install wizard */
+  #install-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
   #install-wizard {
-    max-width: 480px;
+    flex: 1;
+    min-width: 0;
+  }
+  #install-video-col {
+    flex: 1;
+    min-width: 0;
+  }
+  @media (min-width: 860px) {
+    #install-layout {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+    #install-wizard   { max-width: 480px; }
+    #install-video-col { position: sticky; top: 0; }
   }
 
   /* Activity */
@@ -88,7 +112,7 @@ const pageDescription = site.description;
   }
 </style>
 
-<div id="spa-root" style="position:fixed;inset:0;overflow:hidden;background:var(--color-bg);">
+<div id="spa-root" style="position:fixed;inset:0;overflow:hidden;background:var(--color-bg);overscroll-behavior:none;">
 
   <!-- ── 1: Hero ──────────────────────────────────────────────────── -->
   <section id="spa-hero" class="spa-section">
@@ -185,6 +209,7 @@ const pageDescription = site.description;
         <p style="font-size:12px;color:var(--color-text-3);margin:0;">Everything the panel and daemon ship with.</p>
       </div>
 
+      <!-- Desktop: grid -->
       <div id="feat-list">
         <% features.forEach(function(f) { %>
         <div
@@ -225,50 +250,71 @@ const pageDescription = site.description;
         <p style="font-size:12px;color:var(--color-text-3);margin:0;">Answer a few questions and copy the command.</p>
       </div>
 
-      <div id="install-wizard">
+      <div id="install-layout">
 
-        <!-- Progress dots -->
-        <div id="wiz-dots" style="display:flex;gap:6px;margin-bottom:20px;align-items:center;"></div>
+        <!-- Left / top: wizard -->
+        <div id="install-wizard">
 
-        <!-- Summary of previous answers -->
-        <div id="wiz-summary" style="display:none;margin-bottom:16px;padding:12px 14px;background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:10px;"></div>
+          <!-- Progress dots -->
+          <div id="wiz-dots" style="display:flex;gap:6px;margin-bottom:20px;align-items:center;"></div>
 
-        <!-- Step card -->
-        <div id="wiz-card" style="background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:12px;overflow:hidden;">
+          <!-- Summary of previous answers -->
+          <div id="wiz-summary" style="display:none;margin-bottom:16px;padding:12px 14px;background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:10px;"></div>
 
-          <div id="wiz-step-header" style="padding:16px 18px;border-bottom:1px solid var(--color-border);">
-            <p id="wiz-step-label" style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.08em;margin:0 0 3px;"></p>
-            <h3 id="wiz-step-title" style="font-size:15px;font-weight:600;color:var(--color-text-1);letter-spacing:-0.01em;margin:0;"></h3>
+          <!-- Step card -->
+          <div id="wiz-card" style="background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:12px;overflow:hidden;">
+
+            <div id="wiz-step-header" style="padding:16px 18px;border-bottom:1px solid var(--color-border);">
+              <p id="wiz-step-label" style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.08em;margin:0 0 3px;"></p>
+              <h3 id="wiz-step-title" style="font-size:15px;font-weight:600;color:var(--color-text-1);letter-spacing:-0.01em;margin:0;"></h3>
+            </div>
+
+            <div id="wiz-step-body" style="padding:18px;"></div>
+
+            <div style="padding:14px 18px;border-top:1px solid var(--color-border);display:flex;align-items:center;justify-content:space-between;gap:10px;">
+              <button id="wiz-back" type="button"
+                style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-3);background:transparent;border:1px solid var(--color-border);padding:8px 18px;border-radius:999px;cursor:pointer;display:none;"
+                onmouseover="this.style.color='var(--color-text-1)';this.style.borderColor='var(--color-border-input)'"
+                onmouseout="this.style.color='var(--color-text-3)';this.style.borderColor='var(--color-border)'">
+                Back
+              </button>
+              <div></div>
+              <button id="wiz-next" type="button"
+                style="font-size:12px;font-weight:500;font-family:var(--font-mono);color:var(--color-bg);background:var(--color-text-1);border:none;padding:8px 22px;border-radius:999px;cursor:pointer;"
+                onmouseover="this.style.opacity='0.82'" onmouseout="this.style.opacity='1'">
+                Next →
+              </button>
+            </div>
           </div>
 
-          <div id="wiz-step-body" style="padding:18px;"></div>
-
-          <div style="padding:14px 18px;border-top:1px solid var(--color-border);display:flex;align-items:center;justify-content:space-between;gap:10px;">
-            <button id="wiz-back" type="button"
-              style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-3);background:transparent;border:1px solid var(--color-border);padding:8px 18px;border-radius:999px;cursor:pointer;display:none;"
-              onmouseover="this.style.color='var(--color-text-1)';this.style.borderColor='var(--color-border-input)'"
-              onmouseout="this.style.color='var(--color-text-3)';this.style.borderColor='var(--color-border)'">
-              Back
-            </button>
-            <div></div>
-            <button id="wiz-next" type="button"
-              style="font-size:12px;font-weight:500;font-family:var(--font-mono);color:var(--color-bg);background:var(--color-text-1);border:none;padding:8px 22px;border-radius:999px;cursor:pointer;"
-              onmouseover="this.style.opacity='0.82'" onmouseout="this.style.opacity='1'">
-              Next →
-            </button>
+          <!-- Final command block -->
+          <div id="wiz-result" style="display:none;margin-top:16px;">
+            <div class="code-block" style="position:relative;background:var(--color-bg-input);border:1px solid var(--color-border);border-radius:9px;padding:14px 16px;">
+              <code id="inst-cmd" style="font-size:11px;color:var(--color-text-1);font-family:var(--font-mono);line-height:1.7;display:block;white-space:pre-wrap;word-break:break-all;padding-right:52px;"></code>
+              <button class="copy-btn" style="position:absolute;top:10px;right:10px;font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);background:var(--color-bg-2);border:1px solid var(--color-border);padding:5px 10px;border-radius:6px;display:flex;align-items:center;gap:4px;cursor:pointer;">
+                <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy
+              </button>
+            </div>
+            <p style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);margin:10px 0 0;text-align:center;">Run this as root on your server.</p>
           </div>
+
         </div>
 
-        <!-- Final command block (shown on last step) -->
-        <div id="wiz-result" style="display:none;margin-top:16px;">
-          <div class="code-block" style="position:relative;background:var(--color-bg-input);border:1px solid var(--color-border);border-radius:9px;padding:14px 16px 14px 16px;">
-            <code id="inst-cmd" style="font-size:11px;color:var(--color-text-1);font-family:var(--font-mono);line-height:1.7;display:block;white-space:pre-wrap;word-break:break-all;padding-right:52px;"></code>
-            <button class="copy-btn" style="position:absolute;top:10px;right:10px;font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);background:var(--color-bg-2);border:1px solid var(--color-border);padding:5px 10px;border-radius:6px;display:flex;align-items:center;gap:4px;cursor:pointer;">
-              <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              Copy
-            </button>
+        <!-- Right / bottom: video walkthrough -->
+        <div id="install-video-col">
+          <button id="video-toggle"
+            style="display:flex;align-items:center;gap:8px;width:100%;background:transparent;border:1px solid var(--color-border);border-radius:10px;padding:11px 14px;cursor:pointer;text-align:left;"
+            onmouseover="this.style.background='var(--color-bg-hover)';this.style.borderColor='var(--color-border-input)'"
+            onmouseout="this.style.background='transparent';this.style.borderColor='var(--color-border)'">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" style="color:var(--color-text-3);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+            <span style="font-size:12px;font-weight:500;color:var(--color-text-2);flex:1;">Watch the install walkthrough</span>
+            <svg id="video-chevron" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--color-text-4);flex-shrink:0;transition:transform 200ms;"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+
+          <div id="video-body" style="display:none;margin-top:8px;border-radius:10px;overflow:hidden;border:1px solid var(--color-border);aspect-ratio:16/9;background:var(--color-bg-3);">
+            <!-- iframe injected by JS on open -->
           </div>
-          <p style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);margin:10px 0 0;text-align:center;">Run this as root on your server.</p>
         </div>
 
       </div>
@@ -515,9 +561,7 @@ const pageDescription = site.description;
 
   // Step definitions — filtered dynamically based on mode
   function getSteps() {
-    var steps = [
-      { id: 'mode' },
-    ];
+    var steps = [ { id: 'mode' } ];
     if (ans.mode !== 'daemon') {
       steps.push({ id: 'panel-setup' });
       steps.push({ id: 'admin' });
@@ -525,7 +569,10 @@ const pageDescription = site.description;
     if (ans.mode !== 'panel') {
       steps.push({ id: 'daemon-setup' });
     }
-    steps.push({ id: 'addons' });
+    // Addons only make sense when the panel is being installed
+    if (ans.mode !== 'daemon') {
+      steps.push({ id: 'addons' });
+    }
     return steps;
   }
 
@@ -559,13 +606,13 @@ const pageDescription = site.description;
       ];
       opts.forEach(function(o) {
         var active = ans.mode === o.val;
-        html += '<label style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border:1px solid ' + (active ? 'var(--color-border-input)' : 'var(--color-border)') + ';border-radius:10px;background:' + (active ? 'var(--color-bg-hover)' : 'var(--color-bg)') + ';cursor:pointer;user-select:none;" onclick="document.querySelectorAll(\'[name=wiz-mode]\').forEach(function(r){r.checked=false});document.getElementById(\'wiz-mode-\'+\'' + o.val + '\').checked=true;wizModeChange(\'' + o.val + '\')">'
+        html += '<div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border:1px solid ' + (active ? 'var(--color-border-input)' : 'var(--color-border)') + ';border-radius:10px;background:' + (active ? 'var(--color-bg-hover)' : 'var(--color-bg)') + ';cursor:pointer;user-select:none;" onclick="wizModeChange(\'' + o.val + '\')">'
           + '<div style="width:16px;height:16px;border-radius:50%;border:1.5px solid ' + (active ? 'var(--color-text-1)' : 'var(--color-text-4)') + ';display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;background:' + (active ? 'var(--color-text-1)' : 'transparent') + ';">'
           + (active ? '<span style="width:6px;height:6px;border-radius:50%;background:var(--color-bg);display:block;"></span>' : '')
           + '</div>'
           + '<div><p style="font-size:13px;font-weight:600;color:var(--color-text-1);margin:0 0 2px;letter-spacing:-0.01em;">' + o.label + '</p>'
           + '<p style="font-size:11px;color:var(--color-text-3);margin:0;line-height:1.5;">' + o.desc + '</p></div>'
-          + '</label>';
+          + '</div>';
       });
       html += '</div>';
     } else if (stepId === 'panel-setup') {
@@ -656,30 +703,39 @@ const pageDescription = site.description;
   }
 
   function buildCommand() {
-    var url   = 'https://airlinklabs.github.io/home/installer.sh';
-    var parts = ['bash <(curl -s ' + url + ')'];
-    if (ans.mode === 'panel')  parts.push('  --panel-only');
-    if (ans.mode === 'daemon') parts.push('  --daemon-only');
+    // curl -sL ... | bash -s -- works universally and passes args correctly.
+    // bash <(curl ...) --args breaks on GitHub Pages (returns HTML, not the script)
+    // and also fails to pass positional args in many shells.
+    var url  = 'https://airlinklabs.github.io/home/installer.sh';
+    var args = [];
+    if (ans.mode === 'panel')  args.push('--panel-only');
+    if (ans.mode === 'daemon') args.push('--daemon-only');
     if (ans.mode !== 'daemon') {
-      if (ans.name  && ans.name  !== 'Airlink') parts.push('  --name "' + ans.name + '"');
-      if (ans.port  && ans.port  !== '3000')    parts.push('  --port ' + ans.port);
-      if (ans.email)                             parts.push('  --admin-email "' + ans.email + '"');
-      if (ans.user  && ans.user  !== 'admin')    parts.push('  --admin-user "' + ans.user + '"');
-      if (ans.pass)                              parts.push('  --admin-pass "' + ans.pass + '"');
+      if (ans.name  && ans.name  !== 'Airlink') args.push('--name "' + ans.name + '"');
+      if (ans.port  && ans.port  !== '3000')    args.push('--port ' + ans.port);
+      if (ans.email)                             args.push('--admin-email "' + ans.email + '"');
+      if (ans.user  && ans.user  !== 'admin')    args.push('--admin-user "' + ans.user + '"');
+      if (ans.pass)                              args.push('--admin-pass "' + ans.pass + '"');
     }
     if (ans.mode !== 'panel') {
-      if (ans.panelAddr  && ans.panelAddr  !== '127.0.0.1') parts.push('  --panel-addr "' + ans.panelAddr + '"');
-      if (ans.daemonPort && ans.daemonPort !== '3002')       parts.push('  --daemon-port ' + ans.daemonPort);
-      if (ans.daemonKey)                                     parts.push('  --daemon-key "' + ans.daemonKey + '"');
+      if (ans.panelAddr  && ans.panelAddr  !== '127.0.0.1') args.push('--panel-addr "' + ans.panelAddr + '"');
+      if (ans.daemonPort && ans.daemonPort !== '3002')       args.push('--daemon-port ' + ans.daemonPort);
+      if (ans.daemonKey)                                     args.push('--daemon-key "' + ans.daemonKey + '"');
     }
-    if (ans.addons.length) parts.push('  --addons "' + ans.addons.join(',') + '"');
-    cmdEl.textContent = parts.join(' \\\n');
+    if (ans.addons.length) args.push('--addons "' + ans.addons.join(',') + '"');
+
+    var cmd = 'curl -sL ' + url + ' | bash -s --';
+    if (args.length) cmd += ' \\\n  ' + args.join(' \\\n  ');
+    cmdEl.textContent = cmd;
   }
 
   function render() {
     var steps = getSteps();
     var stepId = steps[currentStep].id;
     var meta = stepTitles[stepId];
+
+    // On mobile, if the video is open, collapse it when the wizard becomes active
+    if (typeof window.wizVideoCollapse === 'function') window.wizVideoCollapse();
 
     renderDots(steps, currentStep);
     renderSummary(steps, currentStep);
@@ -691,30 +747,27 @@ const pageDescription = site.description;
     backBtn.style.display = currentStep > 0 ? '' : 'none';
     nextBtn.textContent   = isLast ? 'Get command →' : 'Next →';
 
-    // Focus first input in body
+    // Hide the command box whenever we re-render — it only appears after
+    // the user explicitly clicks "Get command" on the last step.
+    resultEl.style.display = 'none';
+
     var firstInput = bodyEl.querySelector('input');
     if (firstInput) setTimeout(function() { firstInput.focus(); }, 50);
-
-    if (isLast) {
-      buildCommand();
-      resultEl.style.display = 'block';
-    } else {
-      resultEl.style.display = 'none';
-    }
   }
 
   // Expose for inline onclick
   window.wizModeChange = function(val) {
     ans.mode = val;
     bodyEl.innerHTML = renderStep('mode');
-    buildCommand();
+    // If the command is already visible (user went back after getting it), refresh it
+    if (resultEl.style.display !== 'none') buildCommand();
   };
 
   window.wizToggleAddon = function(id) {
     var idx = ans.addons.indexOf(id);
     if (idx === -1) ans.addons.push(id); else ans.addons.splice(idx, 1);
     bodyEl.innerHTML = renderStep('addons');
-    buildCommand();
+    if (resultEl.style.display !== 'none') buildCommand();
   };
 
   nextBtn.addEventListener('click', function() {
@@ -726,7 +779,9 @@ const pageDescription = site.description;
       currentStep++;
       render();
     } else {
+      // Last step — build and reveal the command box
       buildCommand();
+      resultEl.style.display = 'block';
     }
   });
 
@@ -767,6 +822,75 @@ const pageDescription = site.description;
   // Watch for class changes on <html> (theme toggles)
   var obs = new MutationObserver(syncDashboard);
   obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+})();
+</script>
+
+<script>
+// Video walkthrough toggle
+// On desktop: independent collapsible in the right column.
+// On mobile: opening the video collapses the wizard, and vice versa.
+(function() {
+  var toggle  = document.getElementById('video-toggle');
+  var body    = document.getElementById('video-body');
+  var chevron = document.getElementById('video-chevron');
+  var wizCard = document.getElementById('wiz-card');
+  var wizDots = document.getElementById('wiz-dots');
+  var wizSummary = document.getElementById('wiz-summary');
+  var wizResult  = document.getElementById('wiz-result');
+  if (!toggle || !body || !chevron) return;
+
+  var VIDEO_ID = 'dQw4w9WgXcQ'; // replace with real video ID
+  var loaded   = false;
+  var open     = false;
+
+  function isMobile() {
+    return window.innerWidth <= 600;
+  }
+
+  // Hide the wizard card (and related elements) on mobile when video opens
+  function setWizardVisible(visible) {
+    if (!isMobile()) return;
+    var display = visible ? '' : 'none';
+    if (wizCard)    wizCard.style.display    = display;
+    if (wizDots)    wizDots.style.display    = display;
+    if (wizSummary && wizSummary.style.display !== 'none') {
+      wizSummary.style.display = display;
+    }
+    if (wizResult && wizResult.style.display !== 'none') {
+      wizResult.style.display = display;
+    }
+  }
+
+  // Called from the wizard's render() to restore wizard visibility when needed
+  window.wizVideoCollapse = function() {
+    if (!isMobile() || !open) return;
+    open = false;
+    body.style.display = 'none';
+    chevron.style.transform = '';
+  };
+
+  toggle.addEventListener('click', function() {
+    open = !open;
+
+    if (open) {
+      body.style.display = 'block';
+      chevron.style.transform = 'rotate(180deg)';
+      setWizardVisible(false);
+      if (!loaded) {
+        loaded = true;
+        var iframe = document.createElement('iframe');
+        iframe.src = 'https://www.youtube.com/embed/' + VIDEO_ID + '?autoplay=1&rel=0';
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        iframe.allowFullscreen = true;
+        iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;';
+        body.appendChild(iframe);
+      }
+    } else {
+      body.style.display = 'none';
+      chevron.style.transform = '';
+      setWizardVisible(true);
+    }
+  });
 })();
 </script>
 

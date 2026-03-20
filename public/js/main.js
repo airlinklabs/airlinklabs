@@ -1,4 +1,24 @@
-// ── Theme ────────────────────────────────────────────────────────────────────
+// ── Mobile detection ─────────────────────────────────────────────────────────
+// Runs once on first load and stores the result. Subsequent loads read the
+// stored value so it doesn't re-evaluate on resize or re-visit.
+(function() {
+  var stored = null;
+  try { stored = localStorage.getItem('isMobile'); } catch(e) {}
+
+  if (stored === null) {
+    var mobile = (
+      /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+      window.innerWidth <= 768
+    );
+    var val = mobile ? '1' : '0';
+    try { localStorage.setItem('isMobile', val); } catch(e) {}
+    document.documentElement.setAttribute('data-mobile', val);
+  } else {
+    document.documentElement.setAttribute('data-mobile', stored);
+  }
+})();
+
+
 (function() {
   function setTheme(t) {
     document.documentElement.className = t;
@@ -77,7 +97,7 @@ document.addEventListener('click', function(e) {
 // ── Click sounds ─────────────────────────────────────────────────────────────
 document.addEventListener('click', function(e) {
   if (typeof sounds === 'undefined') return;
-  var el = e.target.closest('a[href], button');
+  var el = e.target.closest('a[href], button, [data-feature-id]');
   if (!el) return;
   if (el.closest('[data-theme-toggle]')) return;
   if (el.closest('.copy-btn')) return;
