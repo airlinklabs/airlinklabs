@@ -248,8 +248,6 @@ ENVEOF
     npm run build >> "$LOG" 2>&1 || die "Panel build failed — check $LOG"
     ok "Panel built"
 
-    run "Seeding database" npm run seed
-
     # Enable registration temporarily so we can POST to /register
     node - >> "$LOG" 2>&1 <<'JSEOF'
 const { PrismaClient } = require('@prisma/client');
