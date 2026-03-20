@@ -1,92 +1,94 @@
-// ── Mobile detection ─────────────────────────────────────────────────────────
-// Runs once on first load and stores the result. Subsequent loads read the
-// stored value so it doesn't re-evaluate on resize or re-visit.
-(function() {
+// ── Mobile detection — runs once, stores result ──────────────────────────────
+(function () {
   var stored = null;
-  try { stored = localStorage.getItem('isMobile'); } catch(e) {}
-
+  try { stored = localStorage.getItem('isMobile'); } catch (e) {}
   if (stored === null) {
-    var mobile = (
+    var isMobile = (
       /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
       window.innerWidth <= 768
     );
-    var val = mobile ? '1' : '0';
-    try { localStorage.setItem('isMobile', val); } catch(e) {}
+    var val = isMobile ? '1' : '0';
+    try { localStorage.setItem('isMobile', val); } catch (e) {}
     document.documentElement.setAttribute('data-mobile', val);
   } else {
     document.documentElement.setAttribute('data-mobile', stored);
   }
 })();
 
-
-(function() {
-  function setTheme(t) {
+// ── Theme ─────────────────────────────────────────────────────────────────────
+(function () {
+  function applyTheme(t) {
     document.documentElement.className = t;
-    try { localStorage.setItem('theme', t); } catch(e) {}
-    document.querySelectorAll('.theme-icon-sun').forEach(function(el) {
+    try { localStorage.setItem('theme', t); } catch (e) {}
+    document.querySelectorAll('.theme-icon-sun').forEach(function (el) {
       el.style.display = t === 'light' ? '' : 'none';
     });
-    document.querySelectorAll('.theme-icon-moon').forEach(function(el) {
+    document.querySelectorAll('.theme-icon-moon').forEach(function (el) {
       el.style.display = t !== 'light' ? '' : 'none';
     });
   }
 
   var saved = 'dark';
-  try { saved = localStorage.getItem('theme') || 'dark'; } catch(e) {}
-  setTheme(saved);
+  try { saved = localStorage.getItem('theme') || 'dark'; } catch (e) {}
+  applyTheme(saved);
 
-  document.addEventListener('click', function(e) {
-    var btn = e.target.closest('[data-theme-toggle]');
-    if (!btn) return;
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('[data-theme-toggle]')) return;
     var next = document.documentElement.className === 'light' ? 'dark' : 'light';
-    setTheme(next);
+    applyTheme(next);
     if (typeof sounds !== 'undefined') sounds.play('themeToggle');
   });
 })();
 
-// ── Mute button sync ─────────────────────────────────────────────────────────
-(function() {
-  function syncMuteButtons() {
+// ── Mute button sync ──────────────────────────────────────────────────────────
+(function () {
+  function syncMute() {
     var muted = typeof sounds !== 'undefined' && sounds.isMuted();
-    document.querySelectorAll('.mute-state-on').forEach(function(el) {
-      el.style.display = muted ? 'none' : '';
-    });
-    document.querySelectorAll('.mute-state-off').forEach(function(el) {
-      el.style.display = muted ? '' : 'none';
-    });
+    document.querySelectorAll('.mute-state-on').forEach(function (el)  { el.style.display = muted ? 'none' : ''; });
+    document.querySelectorAll('.mute-state-off').forEach(function (el) { el.style.display = muted ? '' : 'none'; });
     var btn = document.getElementById('mute-btn');
     if (btn) btn.style.color = muted ? 'var(--color-text-4)' : 'var(--color-text-3)';
   }
 
-  syncMuteButtons();
+  syncMute();
 
-  // Desktop mute button
   var muteBtn = document.getElementById('mute-btn');
   if (muteBtn) {
-    muteBtn.addEventListener('click', function() {
+    muteBtn.addEventListener('click', function () {
       if (typeof sounds !== 'undefined') sounds.toggle();
-      syncMuteButtons();
+      syncMute();
+    });
+  }
+
+  var muteBtnMobile = document.getElementById('mute-btn-mobile');
+  if (muteBtnMobile) {
+    muteBtnMobile.addEventListener('click', function () {
+      if (typeof sounds !== 'undefined') sounds.toggle();
+      syncMute();
     });
   }
 })();
 
-// ── Copy buttons ─────────────────────────────────────────────────────────────
-document.addEventListener('click', function(e) {
+// ── Copy buttons ──────────────────────────────────────────────────────────────
+document.addEventListener('click', function (e) {
   var btn = e.target.closest('.copy-btn');
   if (!btn) return;
   e.stopPropagation();
+
   var block = btn.closest('.code-block');
   if (!block) return;
+
   var text = Array.from(block.querySelectorAll('code'))
-    .map(function(c) { return c.textContent; })
+    .map(function (c) { return c.textContent; })
     .join('\n');
-  navigator.clipboard.writeText(text).then(function() {
+
+  navigator.clipboard.writeText(text).then(function () {
     if (typeof sounds !== 'undefined') sounds.play('copy');
     var orig = btn.innerHTML;
     btn.innerHTML = '<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Copied';
     btn.style.color       = 'var(--color-success)';
     btn.style.borderColor = 'var(--color-success)';
-    setTimeout(function() {
+    setTimeout(function () {
       btn.innerHTML         = orig;
       btn.style.color       = '';
       btn.style.borderColor = '';
@@ -94,10 +96,10 @@ document.addEventListener('click', function(e) {
   });
 });
 
-// ── Click sounds ─────────────────────────────────────────────────────────────
-document.addEventListener('click', function(e) {
+// ── Click sounds ──────────────────────────────────────────────────────────────
+document.addEventListener('click', function (e) {
   if (typeof sounds === 'undefined') return;
-  var el = e.target.closest('a[href], button, [data-feature-id]');
+  var el = e.target.closest('a[href], button, [data-feature-id], [data-clickable]');
   if (!el) return;
   if (el.closest('[data-theme-toggle]')) return;
   if (el.closest('.copy-btn')) return;
@@ -105,75 +107,94 @@ document.addEventListener('click', function(e) {
   sounds.play('click');
 });
 
-// ── Loading screen + page transitions ────────────────────────────────────────
-// Flow:
-//   Page load  → loading screen visible → fades out → page-content fades up
-//   Navigation → page-content fades out → navigate → (repeat above on new page)
-(function() {
-  var EASE   = 'cubic-bezier(0.4,0,0.2,1)';
-  var screen = document.getElementById('loading-screen');
+// ── Loading screen + staggered hero reveal ────────────────────────────────────
+(function () {
+  var EASE   = 'cubic-bezier(0.4, 0, 0.2, 1)';
+  var SPRING = 'cubic-bezier(0.34, 1.12, 0.64, 1)';
+  var screen  = document.getElementById('loading-screen');
   var content = document.getElementById('page-content');
 
-  // Hide loading screen and fade content in
-  function revealPage() {
+  function staggerIn(els, baseDelay) {
+    els.forEach(function (el, i) {
+      if (!el) return;
+      el.style.opacity    = '0';
+      el.style.transform  = 'translateY(18px)';
+      el.style.transition = 'none';
+      setTimeout(function () {
+        el.style.transition = 'opacity 400ms ' + EASE + ', transform 400ms ' + SPRING;
+        el.style.opacity    = '1';
+        el.style.transform  = 'translateY(0)';
+      }, baseDelay + i * 70);
+    });
+  }
+
+  function reveal() {
     if (screen) {
-      screen.style.transition = 'opacity 340ms ' + EASE;
+      screen.style.transition = 'opacity 280ms ' + EASE;
       screen.style.opacity    = '0';
-      setTimeout(function() {
-        screen.style.display = 'none';
-      }, 360);
+      setTimeout(function () { screen.style.display = 'none'; }, 300);
     }
 
+    var delay = screen ? 240 : 0;
+
+    // Non-SPA pages — fade up page-content as one block
     if (content) {
       content.style.opacity    = '0';
-      content.style.transform  = 'translateY(16px)';
+      content.style.transform  = 'translateY(14px)';
       content.style.transition = 'none';
-      // small delay so transition doesn't start before opacity:0 is painted
-      setTimeout(function() {
-        content.style.transition = 'opacity 400ms ' + EASE + ', transform 400ms ' + EASE;
+      setTimeout(function () {
+        content.style.transition = 'opacity 380ms ' + EASE + ', transform 380ms ' + SPRING;
         content.style.opacity    = '1';
         content.style.transform  = 'translateY(0)';
-      }, screen ? 300 : 30);
+      }, delay);
+      return;
     }
+
+    // SPA home page — stagger hero elements
+    staggerIn([
+      document.querySelector('#hero-left > div:first-child'),
+      document.querySelector('#hero-left h1'),
+      document.querySelector('#hero-left > p'),
+      document.querySelector('#hero-left > div:nth-child(4)'),
+      document.querySelector('#hero-left > div:last-child'),
+      document.getElementById('hero-mockup'),
+    ], delay);
   }
 
   if (document.readyState === 'complete') {
-    setTimeout(revealPage, 60);
+    setTimeout(reveal, 40);
   } else {
-    window.addEventListener('load', function() { setTimeout(revealPage, 60); });
+    window.addEventListener('load', function () { setTimeout(reveal, 40); });
   }
 
-  // Fade content out, show loading screen, then navigate
-  document.addEventListener('click', function(e) {
+  // Outgoing navigation — fade out, show loading screen, navigate
+  document.addEventListener('click', function (e) {
     var a = e.target.closest('a[href]');
     if (!a) return;
     var href = a.getAttribute('href');
     if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto')) return;
     if (a.target === '_blank') return;
-
     e.preventDefault();
 
-    function doNavigate() {
-      window.location.href = href;
+    if (content) {
+      content.style.transition = 'opacity 180ms ' + EASE + ', transform 180ms ' + EASE;
+      content.style.opacity    = '0';
+      content.style.transform  = 'translateY(-8px)';
     }
 
-    if (content) {
-      content.style.transition = 'opacity 220ms ' + EASE + ', transform 220ms ' + EASE;
-      content.style.opacity    = '0';
-      content.style.transform  = 'translateY(-10px)';
-    }
+    function go() { window.location.href = href; }
 
     if (screen) {
-      setTimeout(function() {
+      setTimeout(function () {
         screen.style.display    = 'flex';
         screen.style.opacity    = '0';
-        screen.style.transition = 'opacity 200ms ' + EASE;
+        screen.style.transition = 'opacity 160ms ' + EASE;
         void screen.offsetHeight;
-        screen.style.opacity = '1';
-        setTimeout(doNavigate, 250);
-      }, content ? 200 : 0);
+        screen.style.opacity    = '1';
+        setTimeout(go, 200);
+      }, content ? 160 : 0);
     } else {
-      setTimeout(doNavigate, content ? 240 : 0);
+      setTimeout(go, content ? 200 : 0);
     }
   });
 })();

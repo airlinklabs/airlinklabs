@@ -1,121 +1,74 @@
 <%
-var _navPage    = (pageTitle) ? String(pageTitle).toLowerCase() : 'home';
-var _isHome     = (!pageTitle || _navPage === 'home' || _navPage === 'airlink');
-var _activePage = _isHome ? 'home' : _navPage;
+var _page    = (pageTitle) ? String(pageTitle).toLowerCase() : 'home';
+var _isHome  = (!pageTitle || _page === 'home' || _page === 'airlink');
+var _active  = _isHome ? 'home' : _page;
 
-var _navLinks = [
+var _links = [
   { key: 'home',     href: rootPrefix + 'index.html',          label: 'Home',     icon: 'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10' },
-  { key: 'docs',     href: rootPrefix + 'docs/index.html',     label: 'Docs',     icon: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8' },
+  { key: 'docs',     href: rootPrefix + 'docs/index.html',     label: 'Docs',     icon: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8 M10 9H8' },
   { key: 'registry', href: rootPrefix + 'registry/index.html', label: 'Registry', icon: 'M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z M3.27 6.96L12 12.01l8.73-5.05 M12 22.08V12' },
   { key: 'blog',     href: rootPrefix + 'blog/index.html',     label: 'Blog',     icon: 'M12 20h9 M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z' },
 ];
 %>
 
-<style>
-  /* Desktop: right pill strip. Mobile: bottom bar. */
-  #right-strip { display: flex; }
-  #mobile-bar  { display: none; }
-
-  @media (max-width: 600px) {
-    #right-strip { display: none !important; }
-    #mobile-bar  { display: flex; }
-
-    /* Sections need bottom clearance for the 56px bar */
-    .spa-section {
-      padding-bottom: 72px !important;
-      padding-right: clamp(16px, 4vw, 28px) !important;
-      padding-left:  clamp(16px, 4vw, 28px) !important;
-    }
-    #page-content { padding-bottom: 72px !important; }
-  }
-</style>
-
-<!-- Desktop: right pill strip -->
-<div id="right-strip"
-  style="position:fixed;right:10px;top:50%;transform:translateY(-50%);z-index:50;display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--color-nav-bg);border:1px solid var(--color-border);border-radius:16px;padding:8px 0;box-shadow:0 4px 24px rgba(0,0,0,0.12);">
-
-  <% _navLinks.forEach(function(link) { %>
-  <% var isActive = link.key === _activePage; %>
-  <a href="<%= link.href %>"
-    title="<%= link.label %>"
-    style="display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;text-decoration:none;color:<%= isActive ? 'var(--color-text-1)' : 'var(--color-text-3)' %>;background:<%= isActive ? 'var(--color-bg-hover)' : 'transparent' %>;"
-    onmouseover="this.style.color='var(--color-text-1)';this.style.background='var(--color-bg-hover)'"
-    onmouseout="this.style.color='<%= isActive ? 'var(--color-text-1)' : 'var(--color-text-3)' %>';this.style.background='<%= isActive ? 'var(--color-bg-hover)' : 'transparent' %>'">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="<%= isActive ? '2.2' : '1.7' %>" viewBox="0 0 24 24">
+<!-- Desktop: right pill strip (hidden on mobile via CSS) -->
+<nav id="right-strip" aria-label="Site navigation">
+  <% _links.forEach(function (link) { var on = link.key === _active; %>
+  <a href="<%= link.href %>" title="<%= link.label %>"
+    class="nav-strip-item <%= on ? 'nav-strip-item--active' : '' %>">
+    <svg width="16" height="16" fill="none" stroke="currentColor"
+      stroke-width="<%= on ? '2.2' : '1.7' %>" viewBox="0 0 24 24">
       <path d="<%= link.icon %>"/>
     </svg>
   </a>
-  <% }) %>
+  <% }); %>
 
-  <div style="width:20px;height:1px;background:var(--color-border);margin:4px 0;flex-shrink:0;"></div>
+  <div class="nav-divider"></div>
 
-  <button data-theme-toggle title="Toggle theme"
-    style="display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;background:transparent;border:none;cursor:pointer;color:var(--color-text-3);"
-    onmouseover="this.style.color='var(--color-text-1)';this.style.background='var(--color-bg-hover)'"
-    onmouseout="this.style.color='var(--color-text-3)';this.style.background='transparent'">
+  <button data-theme-toggle title="Toggle theme" class="nav-strip-item">
     <svg class="theme-icon-sun"  width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="display:none;"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
     <svg class="theme-icon-moon" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="display:none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
   </button>
 
-  <button id="mute-btn" title="Toggle sound"
-    style="display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;background:transparent;border:none;cursor:pointer;color:var(--color-text-3);"
-    onmouseover="this.style.color='var(--color-text-1)';this.style.background='var(--color-bg-hover)'"
-    onmouseout="this.style.color='var(--color-text-3)';this.style.background='transparent'">
+  <button id="mute-btn" title="Toggle sound" class="nav-strip-item">
     <svg class="mute-state-on"  width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
     <svg class="mute-state-off" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
   </button>
-</div>
+</nav>
 
-<!-- Mobile: bottom bar -->
-<div id="mobile-bar"
-  style="position:fixed;bottom:0;left:0;right:0;z-index:50;height:56px;background:var(--color-nav-bg);border-top:1px solid var(--color-border);align-items:stretch;">
-
-  <% _navLinks.forEach(function(link) { %>
-  <% var isActive = link.key === _activePage; %>
-  <a href="<%= link.href %>"
-    style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex:1;text-decoration:none;color:<%= isActive ? 'var(--color-text-1)' : 'var(--color-text-3)' %>;">
-    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="<%= isActive ? '2.2' : '1.7' %>" viewBox="0 0 24 24"><path d="<%= link.icon %>"/></svg>
-    <span style="font-size:9px;font-family:var(--font-mono);font-weight:<%= isActive ? '600' : '400' %>;"><%= link.label %></span>
+<!-- Mobile: frosted glass pill (hidden on desktop via CSS) -->
+<nav id="mobile-bar" aria-label="Site navigation">
+  <% _links.forEach(function (link) { var on = link.key === _active; %>
+  <a href="<%= link.href %>" class="mob-item <%= on ? 'mob-item--active' : '' %>">
+    <svg width="18" height="18" fill="none" stroke="currentColor"
+      stroke-width="<%= on ? '2.2' : '1.7' %>" viewBox="0 0 24 24">
+      <path d="<%= link.icon %>"/>
+    </svg>
+    <span><%= link.label %></span>
   </a>
-  <% }) %>
+  <% }); %>
 
-  <div style="width:1px;background:var(--color-border);flex-shrink:0;margin:10px 0;"></div>
+  <div class="mob-divider"></div>
 
-  <button data-theme-toggle
-    style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex:1;background:transparent;border:none;cursor:pointer;color:var(--color-text-3);">
+  <button data-theme-toggle class="mob-item">
     <svg class="theme-icon-sun"  width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="display:none;"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
     <svg class="theme-icon-moon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="display:none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-    <span style="font-size:9px;font-family:var(--font-mono);">Theme</span>
+    <span>Theme</span>
   </button>
 
-  <button id="mute-btn-mobile"
-    style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex:1;background:transparent;border:none;cursor:pointer;color:var(--color-text-3);">
+  <button id="mute-btn-mobile" class="mob-item">
     <svg class="mute-state-on"  width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
     <svg class="mute-state-off" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
-    <span style="font-size:9px;font-family:var(--font-mono);">Sound</span>
+    <span>Sound</span>
   </button>
-</div>
+</nav>
 
 <% if (_isHome) { %>
-<div id="credit-line" style="position:fixed;bottom:18px;left:20px;z-index:40;display:flex;align-items:center;gap:7px;">
-  <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-4);">MIT</span>
-  <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-4);">·</span>
-  <a href="https://github.com/thavanish" target="_blank" rel="noopener" style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-decoration:none;" onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'">Thavanish</a>
-  <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-4);">·</span>
-  <a href="https://github.com/<%= site.githubOrg %>" target="_blank" rel="noopener" style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-decoration:none;" onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'">AirlinkLabs</a>
+<div id="credit-line">
+  <span>MIT</span>
+  <span class="credit-dot">·</span>
+  <a href="https://github.com/thavanish" target="_blank" rel="noopener">Thavanish</a>
+  <span class="credit-dot">·</span>
+  <a href="https://github.com/<%= site.githubOrg %>" target="_blank" rel="noopener">AirlinkLabs</a>
 </div>
-<style>@media(max-width:600px){#credit-line{display:none;}}</style>
 <% } %>
-
-<script>
-(function() {
-  var muteBtn = document.getElementById('mute-btn-mobile');
-  if (!muteBtn) return;
-  muteBtn.addEventListener('click', function() {
-    if (typeof sounds !== 'undefined') sounds.toggle();
-    var muted = typeof sounds !== 'undefined' && sounds.isMuted();
-    document.querySelectorAll('.mute-state-on').forEach(function(el)  { el.style.display = muted ? 'none' : ''; });
-    document.querySelectorAll('.mute-state-off').forEach(function(el) { el.style.display = muted ? '' : 'none'; });
-  });
-})();
-</script>
