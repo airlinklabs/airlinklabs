@@ -1,0 +1,1 @@
+File manager — directory listing with edit and upload controls.
