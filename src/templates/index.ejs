@@ -969,7 +969,7 @@ const pageDescription = site.description;
   }
 
   function buildCommand() {
-    var url  = 'https://airlinklabs.github.io/home/installer.sh';
+    var url  = 'https://raw.githubusercontent.com/airlinklabs/panel/refs/heads/main/installer.sh';
     var args = [];
     if (ans.mode === 'panel')  args.push('--panel-only');
     if (ans.mode === 'daemon') args.push('--daemon-only');
