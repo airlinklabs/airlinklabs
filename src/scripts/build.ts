@@ -48,6 +48,123 @@ async function loadJson<T>(filePath: string, fallback: T): Promise<T> {
   }
 }
 
+// Pull the text content of the first matching element inside a parent node string.
+// This is a minimal XML reader — it only handles the flat structure we write ourselves.
+function xmlText(xml: string, tag: string): string {
+  const m = xml.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`));
+  return m ? unescapeXml(m[1].trim()) : '';
+}
+
+// Return every occurrence of <tag>…</tag> as raw inner strings
+function xmlAll(xml: string, tag: string): string[] {
+  const re = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, 'g');
+  const out: string[] = [];
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(xml)) !== null) out.push(m[1].trim());
+  return out;
+}
+
+function unescapeXml(s: string): string {
+  return s
+    .replace(/&amp;/g,  '&')
+    .replace(/&lt;/g,   '<')
+    .replace(/&gt;/g,   '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'");
+}
+
+function parseStats(xml: string): Record<string, number> {
+  const block = xmlText(xml, 'stats') ? xml.match(/<stats>([\s\S]*?)<\/stats>/)![1] : '';
+  const stats: Record<string, number> = {};
+  const re = /<(\w+)>(\d+)<\/\1>/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(block)) !== null) stats[m[1]] = parseInt(m[2], 10);
+  return stats;
+}
+
+function parseVersions(xml: string): Record<string, string> {
+  const block = xml.match(/<versions>([\s\S]*?)<\/versions>/)?.[1] ?? '';
+  const versions: Record<string, string> = {};
+  const re = /<(\w+)>([\s\S]*?)<\/\1>/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(block)) !== null) versions[m[1]] = unescapeXml(m[2].trim());
+  return versions;
+}
+
+function parseContributors(xml: string) {
+  return xmlAll(xml, 'contributor').map(block => ({
+    login:         xmlText(block, 'login'),
+    name:          xmlText(block, 'n'),
+    bio:           xmlText(block, 'bio'),
+    company:       xmlText(block, 'company'),
+    avatar_url:    xmlText(block, 'avatarUrl'),
+    html_url:      xmlText(block, 'htmlUrl'),
+    contributions: parseInt(xmlText(block, 'contributions') || '0', 10),
+  }));
+}
+
+function parseCommits(xml: string, tag: string) {
+  const block = xml.match(new RegExp(`<${tag}>([\\s\\S]*?)<\\/${tag}>`))?.[1] ?? '';
+  return xmlAll(block, 'commit').map(c => {
+    const authorBlock = c.match(/<author>([\s\S]*?)<\/author>/)?.[1] ?? '';
+    return {
+      sha:      xmlText(c, 'sha'),
+      html_url: xmlText(c, 'htmlUrl'),
+      // match the shape templates expect: commit.message, commit.author.{name,date}, author.avatar_url
+      commit: {
+        message: xmlText(c, 'message'),
+        author: {
+          name: xmlText(authorBlock, 'n'),
+          date: xmlText(authorBlock, 'date'),
+        },
+      },
+      author: {
+        avatar_url: xmlText(authorBlock, 'avatarUrl'),
+      },
+    };
+  });
+}
+
+function parseAddons(xml: string) {
+  return xmlAll(xml, 'addon').map(block => ({
+    id:              xmlText(block, 'id'),
+    name:            xmlText(block, 'n'),
+    version:         xmlText(block, 'version'),
+    author:          xmlText(block, 'author'),
+    status:          xmlText(block, 'status'),
+    description:     xmlText(block, 'description'),
+    longDescription: xmlText(block, 'longDescription'),
+    icon:            xmlText(block, 'icon'),
+    github:          xmlText(block, 'github'),
+    installNote:     xmlText(block, 'installNote'),
+    tags:            xmlAll(block.match(/<tags>([\s\S]*?)<\/tags>/)?.[1] ?? '', 'tag'),
+    features:        xmlAll(block.match(/<features>([\s\S]*?)<\/features>/)?.[1] ?? '', 'feature'),
+    installSteps: xmlAll(
+      block.match(/<installSteps>([\s\S]*?)<\/installSteps>/)?.[1] ?? '', 'step'
+    ).map(s => ({
+      title:    xmlText(s, 'title'),
+      commands: xmlAll(s.match(/<commands>([\s\S]*?)<\/commands>/)?.[1] ?? '', 'command'),
+    })),
+  }));
+}
+
+async function loadXmlCache(filePath: string): Promise<GithubCache> {
+  try {
+    const xml = await fs.readFile(filePath, 'utf-8');
+    return {
+      generatedAt:  xmlText(xml, 'generatedAt'),
+      stats:        parseStats(xml),
+      versions:     parseVersions(xml),
+      contributors: parseContributors(xml),
+      panelCommits: parseCommits(xml, 'panelCommits'),
+      daemonCommits:parseCommits(xml, 'daemonCommits'),
+      addons:       parseAddons(xml),
+    };
+  } catch {
+    return {};
+  }
+}
+
 // Small SVG icons used in templates via featureIcon()
 const ICONS: Record<string, string> = {
   server:   '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>',
@@ -154,7 +271,7 @@ async function build() {
   });
 
   const siteData    = await loadJson<Record<string, unknown>>(path.join(DATA, 'site.json'), {});
-  const githubCache = await loadJson<GithubCache>(path.join(DATA, 'github-cache', 'cache.json'), {});
+  const githubCache = await loadXmlCache(path.join(DATA, 'github-cache', 'cache.xml'));
   const docPages        = await loadDocPages();
   const announcements   = await loadAnnouncements();
 

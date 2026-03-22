@@ -28,11 +28,12 @@
     "title": "AirLink",
     "description": "Open-source game server management panel. Built with TypeScript, runs on your hardware.",
     "versionLabel": "v2.0.0-rc1",
+    "siteUrl": "https://airlinklabs.github.io/home",
     "githubOrg": "AirlinkLabs",
     "githubPanel": "AirlinkLabs/panel",
     "githubDaemon": "AirlinkLabs/daemon",
     "discordUrl": "https://discord.gg/D8YbT9rDqz",
-    "installVideoUrl": "https://youtu.be/-rGvbc1sVlI?si=D6v7M1eVNNPvSvsy"
+    "installVideoUrl": "https://youtu.be/-rGvbc1sVlI?si=MKfYOisLjJJKPMhe"
   },
   "underConstruction": {
     "enabled": false,

@@ -72,3 +72,16 @@ var _links = [
   <a href="https://github.com/<%= site.githubOrg %>" target="_blank" rel="noopener">AirlinkLabs</a>
 </div>
 <% } %>
+
+<!-- Redirect confirmation modal — shared across all pages -->
+<div id="redirect-overlay" role="dialog" aria-modal="true" aria-labelledby="redirect-heading">
+  <div id="redirect-modal">
+    <div id="redirect-domain"></div>
+    <h4 id="redirect-heading">Leaving this site</h4>
+    <p>You're about to open an external link. Continue?</p>
+    <div class="redirect-actions">
+      <button id="redirect-cancel" type="button">Cancel</button>
+      <button id="redirect-confirm" type="button">Continue</button>
+    </div>
+  </div>
+</div>

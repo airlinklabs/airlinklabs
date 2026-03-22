@@ -210,18 +210,54 @@ button:active, a:active {
   position: fixed;
   inset: 0;
   z-index: 9000;
-  background: rgba(0, 0, 0, 0.18);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px;
+  /* Dark base layer so the glass panel is always visible */
+  background: #0a0a0a;
+}
+
+/* The frosted panel sits behind the content — a layered pseudo-element
+   gives the translucent + textured look independent of what's painted below. */
+#loading-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+}
+
+/* Subsequent navigations — real frosted glass now that the page is painted */
+#loading-screen.glass {
+  background: transparent;
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+}
+
+#loading-screen.glass::before {
+  background:
+    rgba(15, 15, 15, 0.68),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  background-size: auto, 200px 200px;
 }
 
 .light #loading-screen {
-  background: rgba(255, 255, 255, 0.22);
+  background: #f0f0ed;
+}
+
+.light #loading-screen.glass {
+  background: transparent;
+}
+
+.light #loading-screen.glass::before {
+  background:
+    rgba(247, 247, 245, 0.76),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: auto, 200px 200px;
 }
 
 #loading-inner {
@@ -276,11 +312,19 @@ button:active, a:active {
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  background: var(--color-nav-bg);
-  border: 1px solid var(--color-border);
+  background: rgba(17, 17, 17, 0.82);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 16px;
   padding: 8px 0;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.28);
+}
+
+.light #right-strip {
+  background: rgba(240, 240, 237, 0.88);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
 }
 
 .nav-strip-item {
@@ -402,6 +446,17 @@ button:active, a:active {
   max-width: 1060px;
 }
 
+/* ── Non-SPA page content wrapper ───────────────────────────────────────────── */
+/* All non-SPA pages (blog, docs, registry) use #page-content.
+   Each page sets its own max-width on the inner wrapper; this handles
+   the outer padding, min-height, and box-sizing in one place. */
+#page-content {
+  min-height: 100vh;
+  padding: clamp(32px,5vw,72px) calc(60px + clamp(20px,4vw,56px)) clamp(32px,5vw,72px) clamp(20px,3vw,48px);
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
 /* ── Code blocks ─────────────────────────────────────────────────────────────── */
 .code-block {
   position: relative;
@@ -479,4 +534,262 @@ button:active, a:active {
   #page-content > * {
     max-width: 100% !important;
   }
+}
+
+/* ── Redirect confirm modal ──────────────────────────────────────────────────── */
+#redirect-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.52);
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.light #redirect-overlay {
+  background: rgba(0, 0, 0, 0.34);
+}
+
+#redirect-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#redirect-modal {
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 360px;
+  padding: 20px;
+  transform: translateY(10px) scale(0.97);
+  transition: transform 200ms cubic-bezier(0.34, 1.1, 0.64, 1);
+}
+
+#redirect-overlay.open #redirect-modal {
+  transform: translateY(0) scale(1);
+}
+
+#redirect-domain {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--color-text-3);
+  background: var(--color-bg-3);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  display: inline-block;
+  margin-bottom: 14px;
+  word-break: break-all;
+}
+
+#redirect-modal h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-1);
+  letter-spacing: -0.01em;
+  margin: 0 0 6px;
+}
+
+#redirect-modal p {
+  font-size: 12px;
+  color: var(--color-text-3);
+  line-height: 1.6;
+  margin: 0 0 18px;
+}
+
+.redirect-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+#redirect-cancel {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--color-text-3);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  padding: 7px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 140ms, border-color 140ms;
+}
+
+#redirect-cancel:hover {
+  color: var(--color-text-1);
+  border-color: var(--color-border-input);
+}
+
+#redirect-confirm {
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  color: var(--color-bg);
+  background: var(--color-text-1);
+  border: none;
+  padding: 7px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: opacity 140ms;
+}
+
+#redirect-confirm:hover { opacity: 0.82; }
+#redirect-confirm:active { transform: scale(0.96); }
+
+/* ── Blog page ───────────────────────────────────────────────────────────────── */
+#blog-header {
+  padding: clamp(32px, 5vw, 72px) 0 clamp(20px, 3vw, 36px);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: clamp(20px, 3vw, 36px);
+}
+
+#blog-header .eyebrow {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--color-text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 8px;
+}
+
+#blog-header h1 {
+  font-size: clamp(24px, 4vw, 42px);
+  font-weight: 600;
+  color: var(--color-text-1);
+  letter-spacing: -0.035em;
+  margin: 0;
+}
+
+.blog-post-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-border);
+  text-decoration: none;
+  transition: padding-left 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 0;
+}
+
+.blog-post-row:hover {
+  padding-left: 6px;
+}
+
+.blog-post-row .post-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-1);
+  letter-spacing: -0.015em;
+  margin: 0 0 5px;
+  /* wrap cleanly on mobile */
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.blog-post-row .post-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.blog-post-row .post-meta span {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--color-text-3);
+}
+
+.blog-post-row .post-date {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--color-text-4);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-bg-2);
+  text-decoration: none;
+  transition: background 150ms, border-color 150ms, transform 180ms cubic-bezier(0.34, 1.1, 0.64, 1);
+}
+
+.blog-card:hover {
+  background: var(--color-bg-hover);
+  border-color: var(--color-border-input);
+  transform: translateY(-1px);
+}
+
+.blog-card .post-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-1);
+  letter-spacing: -0.015em;
+  margin: 0 0 10px;
+  flex: 1;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* ── Blog post reading layout ────────────────────────────────────────────────── */
+.post-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--color-text-3);
+  text-decoration: none;
+  margin-bottom: 24px;
+  transition: color 140ms;
+}
+
+.post-back-link:hover { color: var(--color-text-1); }
+
+
+/* ── Image loading fade-in ───────────────────────────────────────────────────── */
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--color-bg-3);
+}
+
+img[loading="lazy"].img-loaded {
+  opacity: 1;
+}
+
+@keyframes img-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+img[loading="lazy"]:not(.img-loaded) {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-3)   0%,
+    var(--color-bg-hover) 50%,
+    var(--color-bg-3)   100%
+  );
+  background-size: 200% 100%;
+  animation: img-shimmer 0.9s ease-in-out infinite;
+}
+
+img[loading="lazy"][style*="display:none"] {
+  animation: none;
+  background: transparent;
+  opacity: 1;
 }

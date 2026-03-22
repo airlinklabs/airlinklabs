@@ -69,6 +69,7 @@ const pageDescription = 'Community addons for AirLink Panel.';
           <div class="addon-icon">
             <% if (addon.icon) { %>
             <img src="<%= addon.icon %>" alt=""
+              loading="lazy"
               onerror="this.parentElement.innerHTML='<svg width=16 height=16 fill=none stroke=currentColor stroke-width=1.75 viewBox=&quot;0 0 24 24&quot; style=&quot;color:var(--color-text-3)&quot;><path d=&quot;M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z&quot;/></svg>'">
             <% } else { %>
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" style="color:var(--color-text-3)"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg>
@@ -167,13 +168,6 @@ const pageDescription = 'Community addons for AirLink Panel.';
 
 <style>
 /* ── Registry page layout ─────────────────────────────────────────────── */
-#page-content {
-  min-height: 100vh;
-  padding: clamp(32px,5vw,72px) clamp(60px,8vw,96px) clamp(32px,5vw,72px) clamp(20px,3vw,56px);
-  box-sizing: border-box;
-  overflow-x: hidden;
-}
-
 .reg-wrap { max-width: 760px; }
 
 .reg-header {

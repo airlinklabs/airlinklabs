@@ -63,9 +63,23 @@
     s.style.boxSizing      = 'border-box';
   });
 
+  // Returns true if any overlay/modal is currently open — wheel and arrow keys should not fire then
+  function anyModalOpen() {
+    var ids = ['redirect-overlay', 'feat-overlay', 'addon-overlay', 'commit-overlay', 'contrib-overlay'];
+    for (var i = 0; i < ids.length; i++) {
+      var el = document.getElementById(ids[i]);
+      if (!el) continue;
+      var op = parseFloat(el.style.opacity);
+      if (op > 0) return true;
+      if (el.classList.contains('open')) return true;
+    }
+    return false;
+  }
+
   // Mouse wheel
   var wheelCooldown = false;
   window.addEventListener('wheel', function (e) {
+    if (anyModalOpen()) return;
     e.preventDefault();
     if (wheelCooldown) return;
     wheelCooldown = true;
@@ -75,6 +89,7 @@
 
   // Keyboard arrows
   document.addEventListener('keydown', function (e) {
+    if (anyModalOpen()) return;
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); show(current + 1); }
     if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  { e.preventDefault(); show(current - 1); }
   });

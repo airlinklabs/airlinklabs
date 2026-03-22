@@ -172,8 +172,15 @@ const pageDescription = site.description;
       flex-direction: row;
       align-items: flex-start;
     }
-    #install-wizard   { max-width: 480px; }
+    #install-wizard    { max-width: 480px; }
     #install-video-col { position: sticky; top: 0; }
+    /* Desktop: toggle button never shown, video body always shown */
+    #video-toggle { display: none !important; }
+    #video-body   { display: block !important; }
+  }
+  @media (max-width: 859px) {
+    /* Mobile: show the toggle button */
+    #video-toggle { display: flex !important; }
   }
 
   /* Activity */
@@ -349,10 +356,12 @@ const pageDescription = site.description;
             <img class="feat-gif-dark"
               src="public/assets/features/<%= f.id %>/<%= f.id %>-dark.png"
               alt=""
+              loading="lazy"
               onerror="this.dataset.failed='true'; featGifError(this)">
             <img class="feat-gif-light"
               src="public/assets/features/<%= f.id %>/<%= f.id %>-light.png"
               alt=""
+              loading="lazy"
               style="display:none;"
               onerror="this.dataset.failed='true'; featGifError(this)">
             <div class="feat-gif-ph" style="display:none;">
@@ -467,22 +476,24 @@ const pageDescription = site.description;
 
         <!-- Right / bottom: video walkthrough -->
         <div id="install-video-col">
+
+          <!-- Mobile-only toggle — hidden on desktop via CSS -->
           <button id="video-toggle"
-            style="display:flex;align-items:center;gap:8px;width:100%;background:transparent;border:1px solid var(--color-border);border-radius:10px;padding:11px 14px;cursor:pointer;text-align:left;"
+            style="display:none;align-items:center;gap:8px;width:100%;background:transparent;border:1px solid var(--color-border);border-radius:10px;padding:11px 14px;cursor:pointer;text-align:left;margin-bottom:8px;"
             onmouseover="this.style.background='var(--color-bg-hover)';this.style.borderColor='var(--color-border-input)'"
             onmouseout="this.style.background='transparent';this.style.borderColor='var(--color-border)'">
             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" style="color:var(--color-text-3);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
-            <span style="font-size:12px;font-weight:500;color:var(--color-text-2);flex:1;">Watch the install walkthrough</span>
-            <svg id="video-chevron" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--color-text-4);flex-shrink:0;transition:transform 200ms;"><polyline points="6 9 12 15 18 9"/></svg>
+            <span id="video-toggle-label" style="font-size:12px;font-weight:500;color:var(--color-text-2);flex:1;">Watch the install walkthrough</span>
+            <svg id="video-chevron" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--color-text-4);flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
 
+          <!-- Video body — always visible on desktop, toggled on mobile -->
           <div id="video-body" style="border-radius:10px;overflow:hidden;border:1px solid var(--color-border);aspect-ratio:16/9;background:var(--color-bg-3);">
-            <!-- iframe injected by JS on open -->
+            <!-- iframe injected by JS -->
           </div>
         </div>
 
       </div>
-
     </div>
   </section>
 
@@ -492,31 +503,127 @@ const pageDescription = site.description;
 
       <div style="margin-bottom:clamp(16px,2vw,24px);">
         <h2 style="font-size:clamp(18px,2.5vw,26px);font-weight:600;color:var(--color-text-1);letter-spacing:-0.03em;margin:0 0 4px;">Activity</h2>
-        <p style="font-size:12px;color:var(--color-text-3);margin:0;">Recent commits and contributors across both repos.</p>
+        <p style="font-size:12px;color:var(--color-text-3);margin:0;">Recent commits and contributor breakdown across both repos.</p>
+      </div>
+
+      <%
+        var _stats = githubCache.stats || {};
+        var _versions = githubCache.versions || {};
+      %>
+
+      <!-- Stats bar -->
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:clamp(14px,2vw,20px);">
+        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg);border-radius:10px;padding:8px 14px;">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-warning);flex-shrink:0;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span style="font-size:13px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);"><%- _stats.totalStars || '—' %></span>
+          <span style="font-size:10px;color:var(--color-text-3);">stars</span>
+        </div>
+        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg);border-radius:10px;padding:8px 14px;">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-text-3);flex-shrink:0;"><path d="M7 18v-1a5 5 0 0 1 5-5 5 5 0 0 1 5 5v1"/><circle cx="12" cy="8" r="4"/><path d="M3 18v-1a3 3 0 0 1 3-3"/><circle cx="6" cy="10" r="2.5"/><path d="M21 18v-1a3 3 0 0 0-3-3"/><circle cx="18" cy="10" r="2.5"/></svg>
+          <span style="font-size:13px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);"><%- _stats.contributors || '—' %></span>
+          <span style="font-size:10px;color:var(--color-text-3);">contributors</span>
+        </div>
+        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg);border-radius:10px;padding:8px 14px;">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-text-3);flex-shrink:0;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          <span style="font-size:13px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);"><%- _stats.totalForks || '—' %></span>
+          <span style="font-size:10px;color:var(--color-text-3);">forks</span>
+        </div>
+        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg);border-radius:10px;padding:8px 14px;">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-danger);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span style="font-size:13px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);"><%- _stats.openIssues || '—' %></span>
+          <span style="font-size:10px;color:var(--color-text-3);">open issues</span>
+        </div>
+        <% if (_versions.panelRelease) { %>
+        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg);border-radius:10px;padding:8px 14px;">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-success);flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
+          <span style="font-size:13px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);"><%- _versions.panelRelease %></span>
+          <span style="font-size:10px;color:var(--color-text-3);">latest</span>
+        </div>
+        <% } %>
+      </div>
+
+      <%
+        var allCommits = [];
+        if (githubCache.panelCommits  && githubCache.panelCommits.length)  githubCache.panelCommits.slice(0,15).forEach(function(c)  { allCommits.push(Object.assign({},c,{_repo:'panel'})); });
+        if (githubCache.daemonCommits && githubCache.daemonCommits.length) githubCache.daemonCommits.slice(0,15).forEach(function(c) { allCommits.push(Object.assign({},c,{_repo:'daemon'})); });
+        allCommits.sort(function(a,b) { return new Date(b.commit.author.date) - new Date(a.commit.author.date); });
+
+        // Build commit frequency data (commits per day, last 14 days)
+        var freqMap = {};
+        allCommits.forEach(function(c) {
+          var d = c.commit.author.date.slice(0,10);
+          freqMap[d] = (freqMap[d] || 0) + 1;
+        });
+        var freqDays = [];
+        for (var i = 13; i >= 0; i--) {
+          var dt = new Date(Date.now() - i * 86400000);
+          var key = dt.toISOString().slice(0,10);
+          freqDays.push({ date: key, count: freqMap[key] || 0 });
+        }
+        var freqMax = Math.max.apply(null, freqDays.map(function(d){ return d.count; })) || 1;
+
+        function relativeDate(iso) {
+          var diff = Date.now() - new Date(iso).getTime();
+          var mins  = Math.floor(diff / 60000);
+          var hours = Math.floor(mins  / 60);
+          var days  = Math.floor(hours / 24);
+          if (mins  < 60)  return mins  + 'm ago';
+          if (hours < 24)  return hours + 'h ago';
+          if (days  < 30)  return days  + 'd ago';
+          return Math.floor(days / 30) + 'mo ago';
+        }
+      %>
+
+      <!-- Commit frequency chart -->
+      <div style="border:1px solid var(--color-border);border-radius:12px;overflow:hidden;margin-bottom:clamp(10px,1.5vw,14px);">
+        <div style="padding:10px 14px;border-bottom:1px solid var(--color-border);background:var(--color-bg-3);display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:11px;font-family:var(--font-mono);font-weight:500;color:var(--color-text-2);">Commit frequency — last 14 days</span>
+          <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);"><%= allCommits.length %> commits cached</span>
+        </div>
+        <div style="padding:12px 14px 10px;background:var(--color-bg-2);">
+          <div style="display:flex;align-items:flex-end;gap:3px;height:48px;">
+            <% freqDays.forEach(function(day) { %>
+            <%
+              var pct = day.count === 0 ? 0 : Math.max(12, Math.round((day.count / freqMax) * 100));
+              var label = day.date.slice(5);
+            %>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;">
+              <div title="<%= label %>: <%= day.count %> commit<%= day.count !== 1 ? 's' : '' %>"
+                style="width:100%;border-radius:3px 3px 0 0;background:<%= day.count > 0 ? 'var(--color-text-1)' : 'var(--color-border)' %>;opacity:<%= day.count > 0 ? '1' : '0.4' %>;margin-top:auto;height:<%= pct %>%;">
+              </div>
+            </div>
+            <% }) %>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:5px;">
+            <span style="font-size:9px;font-family:var(--font-mono);color:var(--color-text-4);"><%= freqDays[0].date.slice(5) %></span>
+            <span style="font-size:9px;font-family:var(--font-mono);color:var(--color-text-4);">today</span>
+          </div>
+        </div>
       </div>
 
       <div id="activity-grid">
 
+        <!-- Commits list -->
         <div style="border:1px solid var(--color-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;">
           <div style="padding:10px 14px;border-bottom:1px solid var(--color-border);background:var(--color-bg-3);flex-shrink:0;">
             <span style="font-size:11px;font-family:var(--font-mono);font-weight:500;color:var(--color-text-2);">Recent commits</span>
           </div>
           <div style="flex:1;overflow-y:auto;background:var(--color-bg-2);">
-            <%
-              var allCommits = [];
-              if(githubCache.panelCommits&&githubCache.panelCommits.length)  githubCache.panelCommits.slice(0,10).forEach(function(c){allCommits.push(Object.assign({},c,{_repo:'panel'}));});
-              if(githubCache.daemonCommits&&githubCache.daemonCommits.length) githubCache.daemonCommits.slice(0,10).forEach(function(c){allCommits.push(Object.assign({},c,{_repo:'daemon'}));});
-              allCommits.sort(function(a,b){ return new Date(b.commit.author.date) - new Date(a.commit.author.date); });
-            %>
-            <% if(allCommits.length){ %>
-              <% allCommits.slice(0,12).forEach(function(commit){ %>
-              <div style="display:flex;align-items:flex-start;gap:9px;padding:8px 14px;border-bottom:1px solid var(--color-border);" onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background=''">
-                <img src="<%= commit.author ? commit.author.avatar_url : '' %>" alt="" style="width:17px;height:17px;border-radius:50%;flex-shrink:0;background:var(--color-bg-3);margin-top:1px;" onerror="this.style.display='none'">
+            <% if (allCommits.length) { %>
+              <% allCommits.slice(0,14).forEach(function(commit) { %>
+              <div class="commit-row" data-commit='<%- JSON.stringify({sha:commit.sha,msg:commit.commit.message,author:commit.commit.author.name,date:commit.commit.author.date,avatar:commit.author?commit.author.avatar_url:"",repo:commit._repo,url:commit.html_url}).replace(/'/g,"&#39;") %>'
+                style="display:flex;align-items:flex-start;gap:9px;padding:9px 14px;border-bottom:1px solid var(--color-border);cursor:pointer;"
+                onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background=''">
+                <img src="<%= commit.author ? commit.author.avatar_url : '' %>" alt="" loading="lazy" style="width:18px;height:18px;border-radius:50%;flex-shrink:0;background:var(--color-bg-3);margin-top:1px;" onerror="this.style.display='none'">
                 <div style="flex:1;min-width:0;">
-                  <p style="font-size:11px;color:var(--color-text-1);margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.4;"><%= commit.commit.message.split('\n')[0].slice(0,72) %></p>
-                  <p style="font-size:9px;color:var(--color-text-3);font-family:var(--font-mono);margin:2px 0 0;"><%= commit.commit.author.name %> <span style="padding:0 4px;border:1px solid var(--color-border);border-radius:3px;"><%= commit._repo %></span></p>
+                  <p style="font-size:11px;color:var(--color-text-1);margin:0 0 3px;line-height:1.4;overflow-wrap:break-word;word-break:break-word;"><%= commit.commit.message.split('\n')[0] %></p>
+                  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                    <span style="font-size:9px;color:var(--color-text-3);font-family:var(--font-mono);"><%= commit.commit.author.name %></span>
+                    <span style="font-size:9px;font-family:var(--font-mono);color:var(--color-text-4);padding:0 4px;border:1px solid var(--color-border);border-radius:3px;"><%= commit._repo %></span>
+                    <span style="font-size:9px;font-family:var(--font-mono);color:var(--color-text-4);"><%= relativeDate(commit.commit.author.date) %></span>
+                  </div>
                 </div>
-                <a href="<%= commit.html_url %>" target="_blank" rel="noopener" style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);flex-shrink:0;text-decoration:none;" onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'"><%= commit.sha.slice(0,7) %></a>
+                <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);flex-shrink:0;"><%= commit.sha.slice(0,7) %></span>
               </div>
               <% }) %>
             <% } else { %>
@@ -525,19 +632,36 @@ const pageDescription = site.description;
           </div>
         </div>
 
+        <!-- Contributors list -->
         <div style="border:1px solid var(--color-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;">
           <div style="padding:10px 14px;border-bottom:1px solid var(--color-border);background:var(--color-bg-3);flex-shrink:0;display:flex;justify-content:space-between;align-items:center;">
             <span style="font-size:11px;font-family:var(--font-mono);font-weight:500;color:var(--color-text-2);">Contributors</span>
-            <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);"><%= (githubCache.stats&&githubCache.stats.contributors) ? githubCache.stats.contributors : '0' %> total</span>
+            <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);"><%= (_stats.contributors || 0) %> total</span>
           </div>
           <div style="flex:1;overflow-y:auto;background:var(--color-bg-2);">
-            <% if(githubCache.contributors&&githubCache.contributors.length){ %>
-              <% githubCache.contributors.forEach(function(c,i){ %>
-              <a href="<%= c.html_url %>" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:9px;padding:7px 14px;border-bottom:1px solid var(--color-border);text-decoration:none;" onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background=''">
-                <img src="<%= c.avatar_url %>" alt="<%= c.login %>" style="width:<%= i===0?'22px':'17px' %>;height:<%= i===0?'22px':'17px' %>;border-radius:5px;border:1px solid var(--color-border);background:var(--color-bg-3);flex-shrink:0;">
-                <span style="flex:1;font-size:12px;font-weight:500;color:var(--color-text-1);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><%= c.name||c.login %></span>
-                <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);flex-shrink:0;"><%= c.contributions %></span>
-              </a>
+            <% if (githubCache.contributors && githubCache.contributors.length) { %>
+              <%
+                var totalContribs = githubCache.contributors.reduce(function(s,c){ return s + (c.contributions||0); }, 0);
+              %>
+              <% githubCache.contributors.forEach(function(c, i) { %>
+              <%
+                var barPct = totalContribs > 0 ? Math.round((c.contributions / totalContribs) * 100) : 0;
+              %>
+              <div class="contrib-row" data-contrib='<%- JSON.stringify({login:c.login,name:c.name,bio:c.bio,company:c.company,avatar:c.avatar_url,url:c.html_url,contributions:c.contributions}).replace(/'/g,"&#39;") %>'
+                style="display:flex;align-items:center;gap:9px;padding:8px 14px;border-bottom:1px solid var(--color-border);cursor:pointer;"
+                onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background=''">
+                <img src="<%= c.avatar_url %>" alt="<%= c.login %>" loading="lazy"
+                  style="width:<%= i===0?'22px':'17px' %>;height:<%= i===0?'22px':'17px' %>;border-radius:5px;border:1px solid var(--color-border);background:var(--color-bg-3);flex-shrink:0;">
+                <div style="flex:1;min-width:0;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:3px;">
+                    <span style="font-size:<%= i===0?'12px':'11px' %>;font-weight:<%= i===0?'600':'500' %>;color:var(--color-text-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><%= c.name || c.login %></span>
+                    <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);flex-shrink:0;"><%= c.contributions %></span>
+                  </div>
+                  <div style="height:2px;background:var(--color-border);border-radius:999px;overflow:hidden;">
+                    <div style="height:100%;width:<%= barPct %>%;background:var(--color-text-1);border-radius:999px;opacity:0.5;"></div>
+                  </div>
+                </div>
+              </div>
               <% }) %>
             <% } else { %>
             <div style="padding:24px;text-align:center;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);">No data. Run <code style="background:var(--color-bg-3);padding:1px 5px;border-radius:3px;">npm run cache</code></div>
@@ -548,6 +672,56 @@ const pageDescription = site.description;
       </div>
     </div>
   </section>
+
+  <!-- Commit detail popup -->
+  <div id="commit-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 180ms cubic-bezier(0.4,0,0.2,1);">
+    <div id="commit-modal" style="background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:14px;max-width:480px;width:100%;padding:20px;transform:translateY(10px) scale(0.97);transition:transform 200ms cubic-bezier(0.34,1.1,0.64,1);">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:9px;">
+          <img id="cm-avatar" src="" alt="" loading="lazy" style="width:28px;height:28px;border-radius:50%;background:var(--color-bg-3);flex-shrink:0;" onerror="this.style.display='none'">
+          <div>
+            <p id="cm-author" style="font-size:12px;font-weight:600;color:var(--color-text-1);margin:0 0 2px;"></p>
+            <p id="cm-date"   style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);margin:0;"></p>
+          </div>
+        </div>
+        <button id="cm-close" style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;border:1px solid var(--color-border);border-radius:8px;color:var(--color-text-3);background:transparent;cursor:pointer;flex-shrink:0;" onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background=''">
+          <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <p id="cm-message" style="font-size:13px;color:var(--color-text-1);line-height:1.6;margin:0 0 14px;overflow-wrap:break-word;word-break:break-word;"></p>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <code id="cm-sha" style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);background:var(--color-bg-3);border:1px solid var(--color-border);padding:2px 8px;border-radius:5px;"></code>
+        <span id="cm-repo" style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-4);padding:1px 6px;border:1px solid var(--color-border);border-radius:4px;"></span>
+        <a id="cm-link" href="#" target="_blank" rel="noopener" style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);text-decoration:none;margin-left:auto;" onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'">View on GitHub →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contributor profile popup -->
+  <div id="contrib-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 180ms cubic-bezier(0.4,0,0.2,1);">
+    <div id="contrib-modal" style="background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:14px;max-width:360px;width:100%;padding:22px;transform:translateY(10px) scale(0.97);transition:transform 200ms cubic-bezier(0.34,1.1,0.64,1);">
+      <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;">
+        <img id="cp-avatar" src="" alt="" loading="lazy" style="width:52px;height:52px;border-radius:12px;border:1px solid var(--color-border);background:var(--color-bg-3);flex-shrink:0;" onerror="this.style.background='var(--color-bg-3)'">
+        <div style="flex:1;min-width:0;">
+          <p id="cp-name"    style="font-size:15px;font-weight:600;color:var(--color-text-1);margin:0 0 2px;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></p>
+          <p id="cp-login"   style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);margin:0 0 4px;"></p>
+          <p id="cp-company" style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-4);margin:0;"></p>
+        </div>
+        <button id="cp-close" style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;border:1px solid var(--color-border);border-radius:8px;color:var(--color-text-3);background:transparent;cursor:pointer;flex-shrink:0;" onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background=''">
+          <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <p id="cp-bio" style="font-size:12px;color:var(--color-text-2);line-height:1.65;margin:0 0 14px;min-height:18px;"></p>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-top:14px;border-top:1px solid var(--color-border);">
+        <div style="display:flex;align-items:center;gap:5px;">
+          <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--color-text-3);"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          <span id="cp-commits" style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-2);font-weight:600;"></span>
+          <span style="font-size:11px;color:var(--color-text-3);">commits</span>
+        </div>
+        <a id="cp-link" href="#" target="_blank" rel="noopener" style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);text-decoration:none;margin-left:auto;" onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'">View on GitHub →</a>
+      </div>
+    </div>
+  </div>
 
   <!-- ── 5: Team ──────────────────────────────────────────────────── -->
   <section id="spa-team" class="spa-section" style="position:relative;overflow:hidden;">
@@ -561,39 +735,69 @@ const pageDescription = site.description;
 
       <%
         var featuredMembers = [
-          { login:'privt00',   role:'Lead'          },
-          { login:'thavanish', role:'Maintainer'     },
-          { login:'achul123',  role:'Core Developer' },
+          { login:'privt00',   role:'Lead',          fallbackName:'privt00'   },
+          { login:'thavanish', role:'Maintainer',     fallbackName:'Thavanish' },
+          { login:'achul123',  role:'Core Developer', fallbackName:'achul123'  },
         ];
+
+        var contribLookup = {};
+        if (githubCache.contributors && githubCache.contributors.length) {
+          githubCache.contributors.forEach(function(c) {
+            contribLookup[c.login.toLowerCase()] = c;
+          });
+        }
       %>
 
       <div id="team-featured">
-        <% featuredMembers.forEach(function(m){ %>
-        <a href="https://github.com/<%= m.login %>" target="_blank" rel="noopener"
-          style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:clamp(14px,2vw,22px);border:1px solid var(--color-border);border-radius:12px;background:var(--color-bg-2);text-decoration:none;"
+        <% featuredMembers.forEach(function(m) {
+             var cached      = contribLookup[m.login.toLowerCase()] || {};
+             var displayName = (cached.name && cached.name !== m.login) ? cached.name : m.fallbackName;
+             var bio         = cached.bio  || '';
+             var company     = cached.company ? cached.company.replace(/^@/, '') : '';
+             var contribs    = cached.contributions || null;
+        %>
+        <div class="contrib-row" data-contrib='<%- JSON.stringify({login:m.login,name:displayName,bio:bio,company:company,avatar:"https://github.com/"+m.login+".png",url:"https://github.com/"+m.login,contributions:contribs||0}).replace(/'/g,"&#39;") %>'
+          style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:clamp(14px,2vw,22px);border:1px solid var(--color-border);border-radius:12px;background:var(--color-bg-2);cursor:pointer;"
           onmouseover="this.style.background='var(--color-bg-hover)';this.style.borderColor='var(--color-border-input)';this.style.transform='translateY(-2px)'"
           onmouseout="this.style.background='var(--color-bg-2)';this.style.borderColor='var(--color-border)';this.style.transform=''">
-          <img src="https://github.com/<%= m.login %>.png" alt="<%= m.login %>" style="width:clamp(40px,5vw,52px);height:clamp(40px,5vw,52px);border-radius:10px;border:1px solid var(--color-border);background:var(--color-bg-3);" onerror="this.style.background='var(--color-bg-3)'">
-          <div style="text-align:center;">
-            <p style="font-size:13px;font-weight:600;color:var(--color-text-1);margin:0 0 2px;letter-spacing:-0.01em;"><%= m.login %></p>
-            <p style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);margin:0;"><%= m.role %></p>
+          <img src="https://github.com/<%= m.login %>.png" alt="<%= displayName %>"
+            loading="lazy"
+            style="width:clamp(40px,5vw,52px);height:clamp(40px,5vw,52px);border-radius:10px;border:1px solid var(--color-border);background:var(--color-bg-3);"
+            onerror="this.style.background='var(--color-bg-3)'">
+          <div style="text-align:center;width:100%;">
+            <p style="font-size:13px;font-weight:600;color:var(--color-text-1);margin:0 0 2px;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><%= displayName %></p>
+            <p style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);margin:0 0 5px;"><%= m.role %></p>
+            <% if (bio) { %>
+            <p style="font-size:10px;color:var(--color-text-3);line-height:1.45;margin:0 0 4px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;"><%= bio %></p>
+            <% } %>
+            <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;">
+              <% if (company) { %>
+              <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-4);">@<%= company %></span>
+              <% } %>
+              <% if (contribs) { %>
+              <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-4);"><%= contribs %> commits</span>
+              <% } %>
+            </div>
           </div>
-        </a>
+        </div>
         <% }) %>
       </div>
 
-      <% if(githubCache.contributors&&githubCache.contributors.length){ %>
-        <% var fLogins = featuredMembers.map(function(f){ return f.login.toLowerCase(); }); %>
-        <% var otherContributors = githubCache.contributors.filter(function(c){ return fLogins.indexOf(c.login.toLowerCase()) === -1; }); %>
-        <% if(otherContributors.length){ %>
+      <% if (githubCache.contributors && githubCache.contributors.length) { %>
+        <% var fLogins = featuredMembers.map(function(f) { return f.login.toLowerCase(); }); %>
+        <% var otherContributors = githubCache.contributors.filter(function(c) { return fLogins.indexOf(c.login.toLowerCase()) === -1; }); %>
+        <% if (otherContributors.length) { %>
         <div id="team-others">
-          <% otherContributors.forEach(function(c){ %>
-          <a href="<%= c.html_url %>" target="_blank" rel="noopener"
-            style="display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 6px;background:var(--color-bg-2);text-decoration:none;"
+          <% otherContributors.forEach(function(c) { %>
+          <div class="contrib-row" data-contrib='<%- JSON.stringify({login:c.login,name:c.name,bio:c.bio,company:c.company,avatar:c.avatar_url,url:c.html_url,contributions:c.contributions}).replace(/'/g,"&#39;") %>'
+            title="<%= c.name || c.login %> — <%= c.contributions %> commits"
+            style="display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 6px;background:var(--color-bg-2);cursor:pointer;"
             onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background='var(--color-bg-2)'">
-            <img src="<%= c.avatar_url %>" alt="<%= c.login %>" style="width:28px;height:28px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-3);">
+            <img src="<%= c.avatar_url %>" alt="<%= c.login %>"
+              loading="lazy"
+              style="width:28px;height:28px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-3);">
             <p style="font-size:9px;font-family:var(--font-mono);color:var(--color-text-3);margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-align:center;"><%= c.login %></p>
-          </a>
+          </div>
           <% }) %>
         </div>
         <% } %>
@@ -667,10 +871,17 @@ const pageDescription = site.description;
     var theme  = document.documentElement.className === 'light' ? 'light' : 'dark';
     var gifSrc = 'public/assets/features/' + id + '/' + id + '-' + theme + '.png';
     gifImg.style.display = 'none';
+    gifImg.style.opacity = '0';
     gifPh.style.display  = 'flex';
     if (gifLabel) gifLabel.textContent = id + '-' + theme + '.png';
     gifImg.onerror = function() { gifImg.style.display = 'none'; gifPh.style.display = 'flex'; };
-    gifImg.onload  = function() { gifImg.style.display = 'block'; gifPh.style.display = 'none'; };
+    gifImg.onload  = function() {
+      gifImg.style.display    = 'block';
+      gifPh.style.display     = 'none';
+      gifImg.style.transition = 'opacity 280ms cubic-bezier(0.4,0,0.2,1)';
+      void gifImg.offsetHeight;
+      gifImg.style.opacity    = '1';
+    };
     gifImg.src = gifSrc;
 
     overlay.style.transition    = 'opacity 220ms ' + EASE;
@@ -999,8 +1210,6 @@ const pageDescription = site.description;
     var stepId = steps[currentStep].id;
     var meta   = stepTitles[stepId];
 
-    if (typeof window.wizVideoCollapse === 'function') window.wizVideoCollapse();
-
     renderDots(steps, currentStep);
 
     // Show summary bar from step 1 onward, but not on the result step
@@ -1154,121 +1363,88 @@ const pageDescription = site.description;
 </script>
 
 <script>
-// Video walkthrough toggle
+// Video walkthrough — desktop: always visible. Mobile: toggle show/hide.
 (function() {
   var toggle  = document.getElementById('video-toggle');
   var body    = document.getElementById('video-body');
   var chevron = document.getElementById('video-chevron');
-  var wizCard = document.getElementById('wiz-card');
-  var wizDots = document.getElementById('wiz-dots');
-  var wizSummary = document.getElementById('wiz-summary');
-  var wizResult  = null; // removed — command is now inside the wizard card
-  if (!toggle || !body || !chevron) return;
+  var label   = document.getElementById('video-toggle-label');
+  if (!body) return;
 
-  var VIDEO_ID = 'dQw4w9WgXcQ';
-  var loaded   = false;
-  var open     = false;
-  var EASE     = 'cubic-bezier(0.4,0,0.2,1)';
+  var VIDEO_ID = (function() {
+    var url = '<%= site.installVideoUrl || "" %>';
+    var m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);
+    return m ? m[1] : '';
+  })();
 
-  // max-height approach so surrounding elements get pushed by the natural flow,
-  // rather than the video appearing on top of or outside the layout
-  body.style.overflow   = 'hidden';
-  body.style.maxHeight  = '0';
-  body.style.marginTop  = '0';
-  body.style.display    = 'block'; // always in flow; max-height hides it
+  if (!VIDEO_ID) return;
+
+  // Inject the iframe once — it loads immediately on desktop, deferred on mobile
+  function injectIframe() {
+    if (body.querySelector('iframe')) return;
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube.com/embed/' + VIDEO_ID + '?rel=0';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.allowFullscreen = true;
+    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+    iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;';
+    body.appendChild(iframe);
+  }
 
   function isMobile() { return window.innerWidth <= 600; }
 
-  function setWizardVisible(visible) {
-    if (!isMobile()) return;
-    var els = [wizCard, wizDots, wizResult];
-    if (wizSummary && wizSummary.style.display !== 'none') els.push(wizSummary);
-    els.forEach(function(el) {
-      if (!el) return;
-      if (!visible) {
-        el.style.transition = 'opacity 180ms ' + EASE;
-        el.style.opacity    = '0';
-        setTimeout(function() { el.style.display = 'none'; el.style.opacity = ''; }, 190);
+  function setupDesktop() {
+    // Show toggle button: no. Show body: yes, always.
+    if (toggle) toggle.style.display = 'none';
+    body.style.display = 'block';
+    injectIframe();
+  }
+
+  function setupMobile() {
+    // Show toggle button, hide body by default
+    if (toggle) toggle.style.display = 'flex';
+    body.style.display = 'none';
+    if (label) label.textContent = 'Watch the install walkthrough';
+    if (chevron) chevron.style.transform = '';
+  }
+
+  // Initial setup
+  if (isMobile()) {
+    setupMobile();
+  } else {
+    setupDesktop();
+  }
+
+  // Toggle handler — mobile only
+  if (toggle) {
+    toggle.addEventListener('click', function() {
+      if (!isMobile()) return;
+      var isHidden = body.style.display === 'none';
+      if (isHidden) {
+        injectIframe();
+        body.style.display = 'block';
+        if (label)   label.textContent       = 'Hide walkthrough';
+        if (chevron) chevron.style.transform  = 'rotate(180deg)';
+        if (typeof sounds !== 'undefined') sounds.play('toggle');
       } else {
-        el.style.display = '';
-        el.style.opacity = '0';
-        void el.offsetHeight;
-        el.style.transition = 'opacity 200ms ' + EASE;
-        el.style.opacity    = '1';
+        body.style.display = 'none';
+        if (label)   label.textContent       = 'Watch the install walkthrough';
+        if (chevron) chevron.style.transform  = '';
+        if (typeof sounds !== 'undefined') sounds.play('toggle');
       }
     });
   }
 
-  window.wizVideoCollapse = function() {
-    if (!isMobile() || !open) return;
-    open = false;
-    chevron.style.transform = '';
-    body.style.transition = 'max-height 320ms ' + EASE + ', margin-top 320ms ' + EASE;
-    body.style.maxHeight  = '0';
-    body.style.marginTop  = '0';
-    var iframe = body.querySelector('iframe');
-    if (iframe) {
-      iframe.style.transition = 'opacity 180ms ' + EASE;
-      iframe.style.opacity    = '0';
-    }
-  };
-
-  toggle.addEventListener('click', function() {
-    open = !open;
-
-    if (open) {
-      chevron.style.transform = 'rotate(180deg)';
-
-      if (!loaded) {
-        loaded = true;
-        var iframe = document.createElement('iframe');
-        iframe.src = 'https://www.youtube.com/embed/' + VIDEO_ID + '?autoplay=1&rel=0';
-        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-        iframe.allowFullscreen = true;
-        // Start invisible and scaled down — will animate in after max-height opens
-        iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;opacity:0;transform:scale(0.96);transition:opacity 300ms ' + EASE + ',transform 300ms cubic-bezier(0.34,1.1,0.64,1);';
-        body.appendChild(iframe);
-        // Trigger iframe scale-in after a short delay so layout settles first
-        setTimeout(function() {
-          iframe.style.opacity   = '1';
-          iframe.style.transform = 'scale(1)';
-        }, 280);
-      } else {
-        var iframe = body.querySelector('iframe');
-        if (iframe) {
-          iframe.style.transition = 'opacity 220ms ' + EASE + ', transform 220ms cubic-bezier(0.34,1.1,0.64,1)';
-          iframe.style.opacity    = '0';
-          iframe.style.transform  = 'scale(0.96)';
-          void iframe.offsetHeight;
-          setTimeout(function() {
-            iframe.style.opacity   = '1';
-            iframe.style.transform = 'scale(1)';
-          }, 260);
-        }
-      }
-
-      // Expand via max-height so it pushes wizard card down naturally
-      body.style.transition = 'max-height 380ms cubic-bezier(0.4,0,0.2,1), margin-top 380ms cubic-bezier(0.4,0,0.2,1)';
-      body.style.maxHeight  = '600px';
-      body.style.marginTop  = '8px';
-
-      setWizardVisible(false);
+  // On resize, re-evaluate desktop vs mobile without page reload
+  var lastMobile = isMobile();
+  window.addEventListener('resize', function() {
+    var nowMobile = isMobile();
+    if (nowMobile === lastMobile) return;
+    lastMobile = nowMobile;
+    if (nowMobile) {
+      setupMobile();
     } else {
-      chevron.style.transform = '';
-
-      var iframe = body.querySelector('iframe');
-      if (iframe) {
-        iframe.style.transition = 'opacity 160ms ' + EASE;
-        iframe.style.opacity    = '0';
-      }
-
-      setTimeout(function() {
-        body.style.transition = 'max-height 280ms ' + EASE + ', margin-top 280ms ' + EASE;
-        body.style.maxHeight  = '0';
-        body.style.marginTop  = '0';
-      }, 100);
-
-      setWizardVisible(true);
+      setupDesktop();
     }
   });
 })();
@@ -1318,6 +1494,92 @@ const pageDescription = site.description;
   resize();
   window.addEventListener('resize', resize);
   requestAnimationFrame(draw);
+})();
+</script>
+
+<script>
+// ── Commit detail popup ───────────────────────────────────────────────────────
+(function () {
+  var overlay   = document.getElementById('commit-overlay');
+  var modal     = document.getElementById('commit-modal');
+  var closeBtn  = document.getElementById('cm-close');
+  if (!overlay || !modal) return;
+
+  var EASE = 'cubic-bezier(0.4,0,0.2,1)';
+
+  function openCommit(data) {
+    document.getElementById('cm-avatar').src   = data.avatar || '';
+    document.getElementById('cm-author').textContent = data.author || '';
+    document.getElementById('cm-date').textContent   = data.date ? new Date(data.date).toLocaleString() : '';
+    document.getElementById('cm-message').textContent = data.msg || '';
+    document.getElementById('cm-sha').textContent    = data.sha ? data.sha.slice(0,40) : '';
+    document.getElementById('cm-repo').textContent   = data.repo || '';
+    document.getElementById('cm-link').href          = data.url  || '#';
+    overlay.style.opacity       = '1';
+    overlay.style.pointerEvents = 'auto';
+    modal.style.transform       = 'translateY(0) scale(1)';
+    if (typeof sounds !== 'undefined') sounds.play('modalOpen');
+  }
+
+  function closeCommit() {
+    overlay.style.opacity       = '0';
+    overlay.style.pointerEvents = 'none';
+    modal.style.transform       = 'translateY(10px) scale(0.97)';
+    if (typeof sounds !== 'undefined') sounds.play('modalClose');
+  }
+
+  document.addEventListener('click', function (e) {
+    var row = e.target.closest('.commit-row');
+    if (!row) return;
+    try { openCommit(JSON.parse(row.dataset.commit)); } catch (err) {}
+  });
+
+  closeBtn.addEventListener('click', closeCommit);
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) closeCommit(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.style.pointerEvents === 'auto') closeCommit();
+  });
+})();
+
+// ── Contributor profile popup ─────────────────────────────────────────────────
+(function () {
+  var overlay   = document.getElementById('contrib-overlay');
+  var modal     = document.getElementById('contrib-modal');
+  var closeBtn  = document.getElementById('cp-close');
+  if (!overlay || !modal) return;
+
+  function openContrib(data) {
+    document.getElementById('cp-avatar').src           = data.avatar || '';
+    document.getElementById('cp-name').textContent    = data.name   || data.login || '';
+    document.getElementById('cp-login').textContent   = '@' + (data.login || '');
+    document.getElementById('cp-company').textContent = data.company ? data.company.replace(/^@/, '') : '';
+    document.getElementById('cp-bio').textContent     = data.bio    || '';
+    document.getElementById('cp-commits').textContent = data.contributions || '0';
+    document.getElementById('cp-link').href           = data.url    || '#';
+    overlay.style.opacity       = '1';
+    overlay.style.pointerEvents = 'auto';
+    modal.style.transform       = 'translateY(0) scale(1)';
+    if (typeof sounds !== 'undefined') sounds.play('modalOpen');
+  }
+
+  function closeContrib() {
+    overlay.style.opacity       = '0';
+    overlay.style.pointerEvents = 'none';
+    modal.style.transform       = 'translateY(10px) scale(0.97)';
+    if (typeof sounds !== 'undefined') sounds.play('modalClose');
+  }
+
+  document.addEventListener('click', function (e) {
+    var row = e.target.closest('.contrib-row');
+    if (!row) return;
+    try { openContrib(JSON.parse(row.dataset.contrib)); } catch (err) {}
+  });
+
+  closeBtn.addEventListener('click', closeContrib);
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) closeContrib(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.style.pointerEvents === 'auto') closeContrib();
+  });
 })();
 </script>
 

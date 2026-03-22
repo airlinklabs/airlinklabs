@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cache>
+  <generatedAt>2026-03-19T15:20:14.751Z</generatedAt>
+  <stats>
+    <panelStars>50</panelStars>
+    <daemonStars>10</daemonStars>
+    <totalStars>60</totalStars>
+    <contributors>15</contributors>
+  </stats>
+  <versions>
+    <panel>2.0.0-rc1</panel>
+    <daemon>2.0.0-rc1</daemon>
+  </versions>
+  <contributors>
+    <contributor>
+      <login>privt00</login>
+      <n>tfcprivt</n>
+      <bio>Node.js Dev</bio>
+      <company>Airlinklabs</company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/141457761?v=4</avatarUrl>
+      <htmlUrl>https://github.com/privt00</htmlUrl>
+      <contributions>317</contributions>
+    </contributor>
+    <contributor>
+      <login>thavanish</login>
+      <n>Thavanish brijesh</n>
+      <bio>i build game server panels, flash custom android ROMs, and somehow make it all work. been at it for 3 years and i&apos;m not stopping anytime soon.</bio>
+      <company>airlinklabs</company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      <htmlUrl>https://github.com/thavanish</htmlUrl>
+      <contributions>210</contributions>
+    </contributor>
+    <contributor>
+      <login>achul123</login>
+      <n>achul123</n>
+      <bio>CEO @OvernodeProjets </bio>
+      <company>Overnode</company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/73477238?v=4</avatarUrl>
+      <htmlUrl>https://github.com/achul123</htmlUrl>
+      <contributions>189</contributions>
+    </contributor>
+    <contributor>
+      <login>g-flame</login>
+      <n>G-flame</n>
+      <bio></bio>
+      <company>g-flame-oss</company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      <htmlUrl>https://github.com/g-flame</htmlUrl>
+      <contributions>23</contributions>
+    </contributor>
+    <contributor>
+      <login>pika4manu</login>
+      <n>Pika4Manu</n>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/167890437?v=4</avatarUrl>
+      <htmlUrl>https://github.com/pika4manu</htmlUrl>
+      <contributions>6</contributions>
+    </contributor>
+    <contributor>
+      <login>bthavanish</login>
+      <n>i guess so ?</n>
+      <bio>i guess so ?</bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      <htmlUrl>https://github.com/bthavanish</htmlUrl>
+      <contributions>6</contributions>
+    </contributor>
+    <contributor>
+      <login>resslr</login>
+      <n>robby</n>
+      <bio>Software Engineer who loves learning more skills! 🚀</bio>
+      <company>@BitQate</company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/122219240?v=4</avatarUrl>
+      <htmlUrl>https://github.com/resslr</htmlUrl>
+      <contributions>4</contributions>
+    </contributor>
+    <contributor>
+      <login>Qore-AI</login>
+      <n>Qore-AI</n>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/223120244?v=4</avatarUrl>
+      <htmlUrl>https://github.com/Qore-AI</htmlUrl>
+      <contributions>2</contributions>
+    </contributor>
+    <contributor>
+      <login>kanetjuh</login>
+      <n>kanetjuh</n>
+      <bio>i love coding &lt;3</bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/50002439?v=4</avatarUrl>
+      <htmlUrl>https://github.com/kanetjuh</htmlUrl>
+      <contributions>2</contributions>
+    </contributor>
+    <contributor>
+      <login>ma4z-sys</login>
+      <n>ma4z (alt) 1</n>
+      <bio>@ma4z-dev (alt) 2
+@ma4z (alt) 3</bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/166227780?v=4</avatarUrl>
+      <htmlUrl>https://github.com/ma4z-sys</htmlUrl>
+      <contributions>2</contributions>
+    </contributor>
+    <contributor>
+      <login>KubaMichalowski</login>
+      <n>Kuba Michałowski</n>
+      <bio>I&apos;m Kuba, backend developer from Poland.</bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/122045709?v=4</avatarUrl>
+      <htmlUrl>https://github.com/KubaMichalowski</htmlUrl>
+      <contributions>1</contributions>
+    </contributor>
+    <contributor>
+      <login>Paulone-190</login>
+      <n>Paulone-190</n>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/244398802?v=4</avatarUrl>
+      <htmlUrl>https://github.com/Paulone-190</htmlUrl>
+      <contributions>1</contributions>
+    </contributor>
+    <contributor>
+      <login>shubh-qore</login>
+      <n>Shubh@Qore</n>
+      <bio>Engineering Disruption @ Qore ⚡ Full-Stack | Systems | AI/ML 🚀 fork(), exec(), scale() | ~/qore/start.sh 🖥️</bio>
+      <company>Qore</company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/205303930?v=4</avatarUrl>
+      <htmlUrl>https://github.com/shubh-qore</htmlUrl>
+      <contributions>1</contributions>
+    </contributor>
+    <contributor>
+      <login>dc7431</login>
+      <n>dc7431</n>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/67658810?v=4</avatarUrl>
+      <htmlUrl>https://github.com/dc7431</htmlUrl>
+      <contributions>1</contributions>
+    </contributor>
+    <contributor>
+      <login>evokerking1</login>
+      <n>evokerking1</n>
+      <bio>evokerking1
+Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
+      <company>@Robogators-programmers @Orange-Duck-Studio @Orangeduck-Studios </company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/118303818?v=4</avatarUrl>
+      <htmlUrl>https://github.com/evokerking1</htmlUrl>
+      <contributions>1</contributions>
+    </contributor>
+  </contributors>
+  <panelCommits>
+    <commit>
+      <sha>1dccbf3ae84262756578b0637a3407425d673536</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/1dccbf3ae84262756578b0637a3407425d673536</htmlUrl>
+      <message>Update README.md</message>
+      <author>
+        <n>Thavanish brijesh</n>
+        <date>2026-03-19T07:24:54Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>ec151af50cb0b4287b8b4cc4280b6a94b1671901</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/ec151af50cb0b4287b8b4cc4280b6a94b1671901</htmlUrl>
+      <message>Update README.md</message>
+      <author>
+        <n>Thavanish brijesh</n>
+        <date>2026-03-19T07:22:47Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>e206301dda7178b3f628253adba4842ff4904f1c</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/e206301dda7178b3f628253adba4842ff4904f1c</htmlUrl>
+      <message>v2.0.0-rc1</message>
+      <author>
+        <n>i guess so ?</n>
+        <date>2026-03-19T06:12:55Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>0c6146578ccd14b69dc030a6ec67da3581858882</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/0c6146578ccd14b69dc030a6ec67da3581858882</htmlUrl>
+      <message>2.0.0-rc1</message>
+      <author>
+        <n>i guess so ?</n>
+        <date>2026-03-19T06:12:28Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>b35f8f50fe298611d7a40940ffa58c9b6ec3eaec</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/b35f8f50fe298611d7a40940ffa58c9b6ec3eaec</htmlUrl>
+      <message>ui bug fixes and improved security</message>
+      <author>
+        <n>i guess so ?</n>
+        <date>2026-03-19T02:04:49Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>5f52f0a188d90192713fd85acc006e647bfb0201</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/5f52f0a188d90192713fd85acc006e647bfb0201</htmlUrl>
+      <message>more fixes fixed ui added more securre hmac auth</message>
+      <author>
+        <n>i guess so ?</n>
+        <date>2026-03-18T13:58:04Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>83b6da2977721320325aee82ac148377e0b79b13</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/83b6da2977721320325aee82ac148377e0b79b13</htmlUrl>
+      <message>added egg support images store updated ui</message>
+      <author>
+        <n>i guess so ?</n>
+        <date>2026-03-18T12:07:46Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>0ed075b3b78f5d92a0fa7a7bd04136056745db42</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/0ed075b3b78f5d92a0fa7a7bd04136056745db42</htmlUrl>
+      <message>remove unecessary files</message>
+      <author>
+        <n>G-flame</n>
+        <date>2026-03-17T08:35:26Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>cb5d9456f5a46413d68316ee4bba5841d414289f</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/cb5d9456f5a46413d68316ee4bba5841d414289f</htmlUrl>
+      <message>remade ui for console fully and improved panel and fixed bugs</message>
+      <author>
+        <n>G-flame</n>
+        <date>2026-03-17T08:29:22Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>e6a0e338b549a050b7f005eb07e94ce6e946a8d4</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/e6a0e338b549a050b7f005eb07e94ce6e946a8d4</htmlUrl>
+      <message>verbose Docker pull/create events in daemon; mobile console lifecycle writes + input lock; account 2-col compact grid plus Panel fixed</message>
+      <author>
+        <n>G-flame</n>
+        <date>2026-03-17T02:00:51Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>b57813c17763581c19e9eb2ee24a68b3603c9e1e</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/b57813c17763581c19e9eb2ee24a68b3603c9e1e</htmlUrl>
+      <message>security hardening, real-time lifecycle feedback, UI overhaul</message>
+      <author>
+        <n>G-flame</n>
+        <date>2026-03-16T14:30:28Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>ec86ddd62f06ca83bacff6cb60ac9eb1e6deb698</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/ec86ddd62f06ca83bacff6cb60ac9eb1e6deb698</htmlUrl>
+      <message>Remove unnecessary file</message>
+      <author>
+        <n>G-flame</n>
+        <date>2026-03-16T09:17:47Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>55d27a7c23f06fe35fcae4a838579f13cf8a8864</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/55d27a7c23f06fe35fcae4a838579f13cf8a8864</htmlUrl>
+      <message>Remove unnecessary file</message>
+      <author>
+        <n>G-flame</n>
+        <date>2026-03-16T09:17:29Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>9c81699e31d67aedd9cd609b92fc1a1733dc5335</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/9c81699e31d67aedd9cd609b92fc1a1733dc5335</htmlUrl>
+      <message>fix all animations and replace all native browser elements with custom elements</message>
+      <author>
+        <n>G-flame</n>
+        <date>2026-03-16T09:15:38Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>1332a367857227578df2b529b3babfa2d1bbccac</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/1332a367857227578df2b529b3babfa2d1bbccac</htmlUrl>
+      <message>fix radar by actually reading the api correctly and implmenting it and add some more ui animations and updates</message>
+      <author>
+        <n>G-flame</n>
+        <date>2026-03-16T08:54:07Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      </author>
+    </commit>
+  </panelCommits>
+  <daemonCommits>
+    <commit>
+      <sha>0f6b0510366cdf73c6051585f1a94fc8244d4b04</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/0f6b0510366cdf73c6051585f1a94fc8244d4b04</htmlUrl>
+      <message>Update README.md</message>
+      <author>
+        <n>Thavanish brijesh</n>
+        <date>2026-03-19T07:25:49Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>c715eba59222dee492f5dbe8b58ee2f9e20f47e4</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/c715eba59222dee492f5dbe8b58ee2f9e20f47e4</htmlUrl>
+      <message>v2.0.0-rc1</message>
+      <author>
+        <n>i guess so ?</n>
+        <date>2026-03-19T06:29:16Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>8c67e9a298ae4ea0f58d65535b28536b7265a3b7</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/8c67e9a298ae4ea0f58d65535b28536b7265a3b7</htmlUrl>
+      <message>make daemon more consistent and optmize code and improve security</message>
+      <author>
+        <n>G-flame</n>
+        <date>2026-03-17T08:37:38Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>937a13459bf5a16db7dfe6ad9351b361e22d42e2</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/937a13459bf5a16db7dfe6ad9351b361e22d42e2</htmlUrl>
+      <message>create.ts emits the full Docker lifecycle verbosely</message>
+      <author>
+        <n>G-flame</n>
+        <date>2026-03-17T02:13:32Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>942878102a4cbe8523462f08d8d6dbb0d525c733</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/942878102a4cbe8523462f08d8d6dbb0d525c733</htmlUrl>
+      <message>update radar zipping to native and add zip dependency</message>
+      <author>
+        <n>G-flame</n>
+        <date>2026-03-15T14:21:29Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>267fb3d987e9fa731272f8339c2460e5dac35fab</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/267fb3d987e9fa731272f8339c2460e5dac35fab</htmlUrl>
+      <message>add boundary check to pre-mkdir in daemon, add traversal validation to panel rename route</message>
+      <author>
+        <n>G-flame</n>
+        <date>2026-03-15T01:12:58Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>5856adfb9ed2e2747629615bae36b744c7d5272c</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/5856adfb9ed2e2747629615bae36b744c7d5272c</htmlUrl>
+      <message>some massive changes</message>
+      <author>
+        <n>G-flame</n>
+        <date>2026-03-15T01:07:10Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>28484c959aa50d118db8ebc3ead4f51f0d64175d</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/28484c959aa50d118db8ebc3ead4f51f0d64175d</htmlUrl>
+      <message>Added SFTP support
+
+Sftp Support added</message>
+      <author>
+        <n>Thavanish brijesh</n>
+        <date>2026-02-26T13:15:17Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>4c5c77b0340e7d446a03daa71096c9719fbecb29</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/4c5c77b0340e7d446a03daa71096c9719fbecb29</htmlUrl>
+      <message>Make port allocation dynamic since we can only bind one sftp sesh to one port</message>
+      <author>
+        <n>Thavanish brijesh</n>
+        <date>2026-02-26T12:02:08Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>1acf942e938056a52f272e43f6db293e384f0a87</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/1acf942e938056a52f272e43f6db293e384f0a87</htmlUrl>
+      <message>Fix some weird error i got
+
+Failed to generate credentials
+
+(HTTP code 409) unexpected - Conflict. The container name &quot;/alsftp_3d582f37-f57e-403a-9fa5-1f59c9efae8c&quot; is already in use by container &quot;457b942d66471199c3c5aff4cad38dac5457140632ae007b25723ea34d9ee3a5&quot;. You have to remove (or rename) that container to be able to reuse that name.</message>
+      <author>
+        <n>Thavanish brijesh</n>
+        <date>2026-02-26T11:07:49Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>9854640d9b5083d1c4034b5e93f080b0067d1ec6</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/9854640d9b5083d1c4034b5e93f080b0067d1ec6</htmlUrl>
+      <message>Fix sftp permission in container</message>
+      <author>
+        <n>Thavanish brijesh</n>
+        <date>2026-02-26T10:55:40Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>96e6c54e394050feab31638e0c136638c83733ab</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/96e6c54e394050feab31638e0c136638c83733ab</htmlUrl>
+      <message>Fix build error</message>
+      <author>
+        <n>Thavanish brijesh</n>
+        <date>2026-02-26T10:41:43Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>52d5075c50531edad5b690b6ce7533d31e1629ed</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/52d5075c50531edad5b690b6ce7533d31e1629ed</htmlUrl>
+      <message>Fix building error</message>
+      <author>
+        <n>Thavanish brijesh</n>
+        <date>2026-02-26T10:32:40Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>0060493d2a92658d02960d1c3775f5515869ea95</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/0060493d2a92658d02960d1c3775f5515869ea95</htmlUrl>
+      <message>make it configurable</message>
+      <author>
+        <n>Thavanish brijesh</n>
+        <date>2026-02-26T01:55:47Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>4c6ef24458c2c57ddbddc0009e4a86fe3f1ff434</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/4c6ef24458c2c57ddbddc0009e4a86fe3f1ff434</htmlUrl>
+      <message>instead of doing dangerous shit lets use docker</message>
+      <author>
+        <n>Thavanish brijesh</n>
+        <date>2026-02-26T01:22:25Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+  </daemonCommits>
+  <addons>
+    <addon>
+      <id>modrinth-addon</id>
+      <n>Modrinth Store</n>
+      <version>1.6.23</version>
+      <author>g-flame</author>
+      <status>working</status>
+      <description>Browse, search, and install Minecraft mods and modpacks from Modrinth directly inside your AirLink admin panel.</description>
+      <longDescription>The Modrinth Store addon integrates Modrinth directly into your AirLink panel. Browse, search, and install mods or modpacks from the admin panel with full feature control, progress bars, and a clean UI.</longDescription>
+      <icon>https://raw.githubusercontent.com/modrinth/knossos/refs/heads/master/assets/images/logo.svg</icon>
+      <github>https://github.com/g-flame-oss/airlink-addons/tree/modrinth-addon</github>
+      <installNote>Restart the panel after installation.</installNote>
+      <tags>
+        <tag>Minecraft</tag>
+        <tag>Mods</tag>
+        <tag>Modrinth API</tag>
+      </tags>
+      <features>
+        <feature>Browse and search the Modrinth mod database</feature>
+        <feature>One-click mod and modpack installation</feature>
+        <feature>Progress bars for download feedback</feature>
+        <feature>Admin panel integration with sidebar entry</feature>
+        <feature>Full Modrinth API support</feature>
+      </features>
+      <installSteps>
+      </installSteps>
+    </addon>
+    <addon>
+      <id>parachute-addon</id>
+      <n>parachute</n>
+      <version>1.0.0</version>
+      <author>g-flame</author>
+      <status>working</status>
+      <description>Parachute is an AirLink Panel addon that integrates with Google Drive for server backups and file management. It handles authentication, token storage, and server-specific operations using server UUIDs..</description>
+      <longDescription>Parachute is an AirLink Panel addon that integrates with Google Drive for server backups and file management. It handles authentication, token storage, and server-specific operations using server UUIDs.</longDescription>
+      <icon>https://raw.githubusercontent.com/modrinth/knossos/refs/heads/master/assets/images/logo.svg</icon>
+      <github>https://github.com/g-flame-oss/airlink-addons/tree/parachute</github>
+      <installNote>Restart the panel after installation.</installNote>
+      <tags>
+        <tag>Backup</tag>
+        <tag>Cloud</tag>
+        <tag>Google drive</tag>
+      </tags>
+      <features>
+        <feature>Safely backup to cloud</feature>
+      </features>
+      <installSteps>
+      </installSteps>
+    </addon>
+  </addons>
+</cache>
