@@ -1,0 +1,111 @@
+name: Refresh Cache, Build, and Deploy
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Every 2 days at 04:00 UTC
+    - cron: '0 4 */2 * *'
+  workflow_dispatch:
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  # ── 1. Fetch fresh GitHub data and write cache.xml ────────────────────────
+  refresh-cache:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.AIRLINK_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Fetch GitHub data
+        run: npm run cache
+        env:
+          GH_TOKEN: ${{ secrets.AIRLINK_TOKEN }}
+
+      - name: Commit updated cache.xml
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/github-cache/cache.xml
+
+          SUMMARY=""
+          if [ -f data/github-cache/summary.txt ]; then
+            SUMMARY=$(cat data/github-cache/summary.txt)
+            git checkout -- data/github-cache/summary.txt 2>/dev/null || true
+          fi
+
+          if [ -z "$SUMMARY" ]; then
+            MSG="chore: refresh github cache"
+          else
+            MSG="chore: refresh github cache ($SUMMARY)"
+          fi
+
+          git diff --staged --quiet || git commit -m "$MSG"
+          git push
+
+      # Pass the updated cache.xml to the build job without requiring another checkout
+      - name: Upload cache artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-cache
+          path: data/github-cache/cache.xml
+          retention-days: 1
+
+  # ── 2. Build the static site ─────────────────────────────────────────────
+  build:
+    needs: refresh-cache
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # Overwrite the checked-out cache.xml with the freshly fetched one
+      - name: Download fresh cache
+        uses: actions/download-artifact@v4
+        with:
+          name: github-cache
+          path: data/github-cache
+
+      - run: npm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  # ── 3. Deploy to GitHub Pages ─────────────────────────────────────────────
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
