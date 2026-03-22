@@ -290,11 +290,11 @@ const pageDescription = site.description;
             <div style="flex:1;height:14px;background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:4px;margin-left:6px;"></div>
           </div>
           <div style="position:relative;width:100%;height:calc(100% - 39px);">
-            <img id="dashboard-img-dark"  src="<%= rootPrefix %>public/assets/screenshots/dashboard-dark.gif"  alt="AirLink dashboard" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;">
-            <img id="dashboard-img-light" src="<%= rootPrefix %>public/assets/screenshots/dashboard-light.gif" alt="AirLink dashboard" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:none;">
-            <div id="dashboard-ph" style="position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--color-text-4);font-size:11px;font-family:var(--font-mono);text-align:center;">
+            <img id="dashboard-img-dark"  src="<%= rootPrefix %>public/assets/screenshots/dashboard-dark.png"  alt="AirLink dashboard" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:none;" onerror="this.dataset.failed='true'; syncDashboard()" onload="syncDashboard()">
+            <img id="dashboard-img-light" src="<%= rootPrefix %>public/assets/screenshots/dashboard-light.png" alt="AirLink dashboard" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:none;" onerror="this.dataset.failed='true'; syncDashboard()" onload="syncDashboard()">
+            <div id="dashboard-ph" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--color-text-4);font-size:11px;font-family:var(--font-mono);text-align:center;">
               <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="opacity:.3;"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-              dashboard-dark.gif / dashboard-light.gif
+              dashboard-dark.png / dashboard-light.png
             </div>
           </div>
         </div>
@@ -347,17 +347,17 @@ const pageDescription = site.description;
           <!-- GIF strip — dark/light variants, placeholder shown when both fail -->
           <div class="feat-gif-wrap" data-feat-id="<%= f.id %>">
             <img class="feat-gif-dark"
-              src="public/assets/features/<%= f.id %>/<%= f.id %>-dark.gif"
+              src="public/assets/features/<%= f.id %>/<%= f.id %>-dark.png"
               alt=""
               onerror="this.dataset.failed='true'; featGifError(this)">
             <img class="feat-gif-light"
-              src="public/assets/features/<%= f.id %>/<%= f.id %>-light.gif"
+              src="public/assets/features/<%= f.id %>/<%= f.id %>-light.png"
               alt=""
               style="display:none;"
               onerror="this.dataset.failed='true'; featGifError(this)">
             <div class="feat-gif-ph" style="display:none;">
               <div style="color:var(--color-text-3);opacity:0.35;"><%- featureIcon(f.icon) %></div>
-              <span><%= f.id %>-[dark|light].gif</span>
+              <span><%= f.id %>-[dark|light].png</span>
             </div>
           </div>
           <!-- Info row below GIF -->
@@ -665,10 +665,10 @@ const pageDescription = site.description;
 
     // Load theme-aware GIF
     var theme  = document.documentElement.className === 'light' ? 'light' : 'dark';
-    var gifSrc = 'public/assets/features/' + id + '/' + id + '-' + theme + '.gif';
+    var gifSrc = 'public/assets/features/' + id + '/' + id + '-' + theme + '.png';
     gifImg.style.display = 'none';
     gifPh.style.display  = 'flex';
-    if (gifLabel) gifLabel.textContent = id + '-' + theme + '.gif';
+    if (gifLabel) gifLabel.textContent = id + '-' + theme + '.png';
     gifImg.onerror = function() { gifImg.style.display = 'none'; gifPh.style.display = 'flex'; };
     gifImg.onload  = function() { gifImg.style.display = 'block'; gifPh.style.display = 'none'; };
     gifImg.src = gifSrc;
@@ -1075,7 +1075,7 @@ const pageDescription = site.description;
 </script>
 
 <script>
-// Image theme sync — dashboard screenshot + hero feature GIFs
+// Image theme sync — dashboard screenshot + hero feature images
 // Rules:
 //   1. Show the variant that matches the current theme
 //   2. If the theme variant failed to load, fall back to the other variant
@@ -1085,36 +1085,32 @@ const pageDescription = site.description;
   var dashLight = document.getElementById('dashboard-img-light');
   var dashPh    = document.getElementById('dashboard-ph');
 
-  // Track load failures via data-failed attribute set by onerror handlers
   function imgFailed(el) { return el && el.dataset.failed === 'true'; }
+  function imgLoaded(el) { return el && el.complete && el.naturalWidth > 0; }
 
-  function syncDashboard() {
+  window.syncDashboard = function() {
     if (!dashDark && !dashLight) return;
-    var isDark = document.documentElement.className !== 'light';
-
-    var wantEl    = isDark ? dashDark  : dashLight;
+    var isDark     = document.documentElement.className !== 'light';
+    var wantEl     = isDark ? dashDark  : dashLight;
     var fallbackEl = isDark ? dashLight : dashDark;
 
-    if (!imgFailed(wantEl)) {
+    if (!imgFailed(wantEl) && imgLoaded(wantEl)) {
       if (wantEl)     wantEl.style.display     = '';
       if (fallbackEl) fallbackEl.style.display  = 'none';
       if (dashPh)     dashPh.style.display      = 'none';
-    } else if (!imgFailed(fallbackEl)) {
+    } else if (!imgFailed(fallbackEl) && imgLoaded(fallbackEl)) {
       if (wantEl)     wantEl.style.display     = 'none';
       if (fallbackEl) fallbackEl.style.display  = '';
       if (dashPh)     dashPh.style.display      = 'none';
-    } else {
+    } else if (imgFailed(wantEl) && imgFailed(fallbackEl)) {
       if (wantEl)     wantEl.style.display     = 'none';
       if (fallbackEl) fallbackEl.style.display  = 'none';
       if (dashPh)     dashPh.style.display      = 'flex';
     }
-  }
+    // else still loading — placeholder stays visible (it is the default)
+  };
 
-  // Mark failures and re-sync
-  if (dashDark)  dashDark.onerror  = function() { this.dataset.failed = 'true'; syncDashboard(); };
-  if (dashLight) dashLight.onerror = function() { this.dataset.failed = 'true'; syncDashboard(); };
-
-  function syncFeatureGifs() {
+  function syncFeatureImages() {
     var isDark = document.documentElement.className !== 'light';
 
     document.querySelectorAll('.feat-gif-wrap').forEach(function(wrap) {
@@ -1125,15 +1121,15 @@ const pageDescription = site.description;
       var wantImg     = isDark ? darkImg  : lightImg;
       var fallbackImg = isDark ? lightImg : darkImg;
 
-      if (wantImg && !imgFailed(wantImg)) {
+      if (wantImg && !imgFailed(wantImg) && imgLoaded(wantImg)) {
         wantImg.style.display     = '';
         if (fallbackImg) fallbackImg.style.display = 'none';
         if (ph)          ph.style.display           = 'none';
-      } else if (fallbackImg && !imgFailed(fallbackImg)) {
+      } else if (fallbackImg && !imgFailed(fallbackImg) && imgLoaded(fallbackImg)) {
         if (wantImg)     wantImg.style.display     = 'none';
         fallbackImg.style.display = '';
         if (ph)          ph.style.display           = 'none';
-      } else {
+      } else if ((!wantImg || imgFailed(wantImg)) && (!fallbackImg || imgFailed(fallbackImg))) {
         if (wantImg)     wantImg.style.display     = 'none';
         if (fallbackImg) fallbackImg.style.display  = 'none';
         if (ph)          ph.style.display           = 'flex';
@@ -1141,15 +1137,14 @@ const pageDescription = site.description;
     });
   }
 
-  // Called by onerror on each hero GIF img element
   window.featGifError = function(imgEl) {
     imgEl.dataset.failed = 'true';
-    syncFeatureGifs();
+    syncFeatureImages();
   };
 
   function syncAll() {
-    syncDashboard();
-    syncFeatureGifs();
+    window.syncDashboard();
+    syncFeatureImages();
   }
 
   syncAll();

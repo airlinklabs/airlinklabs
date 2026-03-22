@@ -6,6 +6,7 @@
   <title><%= pageTitle ? pageTitle + ' — ' + site.title : site.title + ' — ' + site.description.split('.')[0] %></title>
   <meta name="description" content="<%= pageDescription || site.description %>">
   <link rel="icon" href="<%= rootPrefix %>public/assets/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="<%= rootPrefix %>public/assets/icon.png"   type="image/png" sizes="any">
 
   <link rel="preconnect" href="https://api.fontshare.com">
   <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600,700&display=swap" rel="stylesheet">
@@ -45,7 +46,7 @@
 <!-- Loading screen -->
 <div id="loading-screen">
   <div id="loading-inner">
-    <img src="<%= rootPrefix %>public/assets/icon.png" alt="" width="24" height="24"
+    <img src="<%= rootPrefix %>public/assets/icon.png" alt="" width="32" height="32"
       onerror="this.style.display='none'">
     <span id="loading-title">AirLink</span>
   </div>

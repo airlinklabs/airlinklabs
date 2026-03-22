@@ -1,1 +1,1 @@
-File manager — directory listing with file sizes and dates. Upload/new-file/new-folder buttons.
+File manager — directory listing with sizes and dates. Upload/new-file/new-folder buttons.

@@ -1,1 +1,0 @@
-Admin dashboard — online nodes, total nodes, total instances, avg density. Update notice if newer panel version available.

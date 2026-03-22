@@ -1,1 +1,1 @@
-Live console — terminal output scrolling, resource usage bar at top.
+Live console — terminal output with resource usage bar.

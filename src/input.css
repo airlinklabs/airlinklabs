@@ -210,12 +210,18 @@ button:active, a:active {
   position: fixed;
   inset: 0;
   z-index: 9000;
-  background: var(--color-bg);
+  background: rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px;
+}
+
+.light #loading-screen {
+  background: rgba(255, 255, 255, 0.22);
 }
 
 #loading-inner {
@@ -458,8 +464,19 @@ button:active, a:active {
 
   .spa-section {
     padding-bottom: 84px !important;
-    padding-right: clamp(16px,4vw,28px) !important;
-    padding-left:  clamp(16px,4vw,28px) !important;
+    padding-right: clamp(16px,4vw,24px) !important;
+    padding-left:  clamp(16px,4vw,24px) !important;
   }
-  #page-content { padding-bottom: 84px !important; }
+  #page-content {
+    padding-top:    clamp(24px,4vw,48px) !important;
+    padding-bottom: 84px !important;
+    padding-right:  clamp(16px,4vw,24px) !important;
+    padding-left:   clamp(16px,4vw,24px) !important;
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  #page-content > * {
+    max-width: 100% !important;
+  }
 }

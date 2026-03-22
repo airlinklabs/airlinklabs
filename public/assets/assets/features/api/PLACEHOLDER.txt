@@ -1,1 +1,0 @@
-API keys page — list of keys with name, permissions, creation date.
