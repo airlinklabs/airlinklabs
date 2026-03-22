@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T05:05:40.038Z",
+  "generatedAt": "2026-03-19T15:20:14.751Z",
   "stats": {
     "panelStars": 50,
     "daemonStars": 10,
@@ -24,7 +24,7 @@
       "login": "thavanish",
       "avatar_url": "https://avatars.githubusercontent.com/u/256001212?v=4",
       "html_url": "https://github.com/thavanish",
-      "contributions": 211,
+      "contributions": 210,
       "name": "Thavanish brijesh",
       "bio": "i build game server panels, flash custom android ROMs, and somehow make it all work. been at it for 3 years and i'm not stopping anytime soon.",
       "company": "airlinklabs"
@@ -48,21 +48,21 @@
       "company": "g-flame-oss"
     },
     {
-      "login": "bthavanish",
-      "avatar_url": "https://avatars.githubusercontent.com/u/203604602?v=4",
-      "html_url": "https://github.com/bthavanish",
-      "contributions": 13,
-      "name": "i guess so ?",
-      "bio": "i guess so ?",
-      "company": ""
-    },
-    {
       "login": "pika4manu",
       "avatar_url": "https://avatars.githubusercontent.com/u/167890437?v=4",
       "html_url": "https://github.com/pika4manu",
       "contributions": 6,
       "name": "Pika4Manu",
       "bio": "",
+      "company": ""
+    },
+    {
+      "login": "bthavanish",
+      "avatar_url": "https://avatars.githubusercontent.com/u/203604602?v=4",
+      "html_url": "https://github.com/bthavanish",
+      "contributions": 6,
+      "name": "i guess so ?",
+      "bio": "i guess so ?",
       "company": ""
     },
     {
@@ -148,662 +148,6 @@
     }
   ],
   "panelCommits": [
-    {
-      "sha": "61f006e5f1191feb6d0d391387c92dfcd2a08472",
-      "node_id": "C_kwDONJJQeNoAKDYxZjAwNmU1ZjExOTFmZWI2ZDBkMzkxMzg3YzkyZGZjZDJhMDg0NzI",
-      "commit": {
-        "author": {
-          "name": "i guess so ?",
-          "email": "bthavanish@gmail.com",
-          "date": "2026-03-21T03:22:11Z"
-        },
-        "committer": {
-          "name": "GitHub",
-          "email": "noreply@github.com",
-          "date": "2026-03-21T03:22:11Z"
-        },
-        "message": "replace [[ ]] && short-circuits with if blocks throughout — all were fatal under set -euo pipefail when condition was false",
-        "tree": {
-          "sha": "06c0feea5df6781991d637a2576a57d988f6851d",
-          "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/06c0feea5df6781991d637a2576a57d988f6851d"
-        },
-        "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/61f006e5f1191feb6d0d391387c92dfcd2a08472",
-        "comment_count": 0,
-        "verification": {
-          "verified": true,
-          "reason": "valid",
-          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJpvg7jCRC1aQ7uu5UhlAAAD24QAKbpH/Nua3tfGW4Bn/ky3nkZ\n64gQIuhM4pp1/xcxg5iSeZswOICK8Pu8dGMhKGfZfELOIge5tWPWjstS3K8UXAp0\n2N6O/jaI67atraskhCp+7dm80NLsOTXVGzADA1vcQQamaNat2BSYSSPdArnAnnWV\ny1uSTwbT3zc6JsczbTccsWUJQ3pe0vNP4kL/JChnbOhrQsbPbopPDGJMbej8eD8n\nveV2HNpS9jNJirjpaqLspR33IZfs2po2xWAWMFGWpX/7fJ64ri+6v9GogeKQc88t\nSPvUGKz6gCCwwnGajHqNrESaVK3O8hl7q91sOmicWL5CZDir3fLNZ6mzJj0KpkYA\n+2qvo6EVOwpFBq9/NZA+eSGqimfXNHaavdULfcxw5u3jMp1eFj/On+VYiu9nQomx\nvbGzk8rLCTe0WBZVdbl7NotAy9mX9ATB7yb8ZU7TgGN+K8eVFsY8tarswtCRnljS\n4SSc0IW0aOS5hEBypYiEPF3LTzSoa7p3dxAP4ZL3XUFGLn5Xc778FSvprymP9HXG\nuEokiKZlwuqip97zjvKaUNXkYXdFZK8rISOqvm31YQhIvsbNBC/WGaZq6ssHkFdi\niL8RuwsFcUG3fv0mYWPD1mhW2jz3x0yy8C//2ipErFC+vxJXL7MXFH97Z05fu6eL\n43UZqQAp49QMrxAR9Ckv\n=E5Bh\n-----END PGP SIGNATURE-----\n",
-          "payload": "tree 06c0feea5df6781991d637a2576a57d988f6851d\nparent 0a0059076679d58ee87350e6c990320a2f7b0e58\nauthor i guess so ? <bthavanish@gmail.com> 1774063331 +0530\ncommitter GitHub <noreply@github.com> 1774063331 +0530\n\nreplace [[ ]] && short-circuits with if blocks throughout — all were fatal under set -euo pipefail when condition was false",
-          "verified_at": "2026-03-21T03:22:12Z"
-        }
-      },
-      "url": "https://api.github.com/repos/airlinklabs/panel/commits/61f006e5f1191feb6d0d391387c92dfcd2a08472",
-      "html_url": "https://github.com/airlinklabs/panel/commit/61f006e5f1191feb6d0d391387c92dfcd2a08472",
-      "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/61f006e5f1191feb6d0d391387c92dfcd2a08472/comments",
-      "author": {
-        "login": "bthavanish",
-        "id": 203604602,
-        "node_id": "U_kgDODCLCeg",
-        "avatar_url": "https://avatars.githubusercontent.com/u/203604602?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/bthavanish",
-        "html_url": "https://github.com/bthavanish",
-        "followers_url": "https://api.github.com/users/bthavanish/followers",
-        "following_url": "https://api.github.com/users/bthavanish/following{/other_user}",
-        "gists_url": "https://api.github.com/users/bthavanish/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/bthavanish/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/bthavanish/subscriptions",
-        "organizations_url": "https://api.github.com/users/bthavanish/orgs",
-        "repos_url": "https://api.github.com/users/bthavanish/repos",
-        "events_url": "https://api.github.com/users/bthavanish/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/bthavanish/received_events",
-        "type": "User",
-        "user_view_type": "public",
-        "site_admin": false
-      },
-      "committer": {
-        "login": "web-flow",
-        "id": 19864447,
-        "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
-        "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/web-flow",
-        "html_url": "https://github.com/web-flow",
-        "followers_url": "https://api.github.com/users/web-flow/followers",
-        "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
-        "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
-        "organizations_url": "https://api.github.com/users/web-flow/orgs",
-        "repos_url": "https://api.github.com/users/web-flow/repos",
-        "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/web-flow/received_events",
-        "type": "User",
-        "user_view_type": "public",
-        "site_admin": false
-      },
-      "parents": [
-        {
-          "sha": "0a0059076679d58ee87350e6c990320a2f7b0e58",
-          "url": "https://api.github.com/repos/airlinklabs/panel/commits/0a0059076679d58ee87350e6c990320a2f7b0e58",
-          "html_url": "https://github.com/airlinklabs/panel/commit/0a0059076679d58ee87350e6c990320a2f7b0e58"
-        }
-      ]
-    },
-    {
-      "sha": "0a0059076679d58ee87350e6c990320a2f7b0e58",
-      "node_id": "C_kwDONJJQeNoAKDBhMDA1OTA3NjY3OWQ1OGVlODczNTBlNmM5OTAzMjBhMmY3YjBlNTg",
-      "commit": {
-        "author": {
-          "name": "i guess so ?",
-          "email": "bthavanish@gmail.com",
-          "date": "2026-03-21T03:19:05Z"
-        },
-        "committer": {
-          "name": "GitHub",
-          "email": "noreply@github.com",
-          "date": "2026-03-21T03:19:05Z"
-        },
-        "message": "Add files via upload",
-        "tree": {
-          "sha": "ca24c0b5f69731c17ed331cc7ae8a6530ca511d0",
-          "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/ca24c0b5f69731c17ed331cc7ae8a6530ca511d0"
-        },
-        "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/0a0059076679d58ee87350e6c990320a2f7b0e58",
-        "comment_count": 0,
-        "verification": {
-          "verified": true,
-          "reason": "valid",
-          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJpvg4pCRC1aQ7uu5UhlAAA7XMQADcQ8FU6X+rEQtIftdTa9NuF\neWmklAZ51v3X/M36qV9FQZCn+aGzNzMOE8L9/49N/8sD3x78v0u3AhAFGzol1fCd\n3p2vyi09gt7y206mBIksCD4AMHZMK17RC9i/kcyoxxettY5iTCcRxCxwayF9NXBY\nj2sVcQaiJG0TeSE5cpmHIOtz4U8qm4F30x3E15+FTpmc8mE6/MzWRbsUr+Xr7vZC\nQUyIzQbRaW40cp+T93h4iOOMvYZWazLH0AqY40XFGLPKPWI7yiSXobZglB+aPpxP\nl2fGBBhalIUIWVadoFPx5ZXTYZ2af/+COklkaK40maQyLmdzDe+DHO9ElKpSZcIs\n09/rlHwJ2TFnlcAfXY+c+WNSRppzhiQx56/0+vY9ZDkit/TgITTVpSzaIIkdpMXz\nqahhfttfixGbz3xM6+GrdLXA+RNuDnAi3/cZ2j/DB/xqOP63HJT6uMpr2IsU0U7a\nE+08mJN35Negls7myxFgSFM6gejfe48QZDcYknVVv5homMQPqYnLs6j1eAV6m3CP\nw07EpUwzO6wM7Oo1iyIzyQofvLaia3nl5OlwOonehN++y3+eaAXypzy5QwGJpVLz\ntT+wnPh8uPkYt73Qu9rgX8SIfy6GZvwnYaoxqOlXuLBq7WGAVmYZQ4+EfH04spOm\nwW/vlx3YyUCy6vJ/W0u2\n=l6l4\n-----END PGP SIGNATURE-----\n",
-          "payload": "tree ca24c0b5f69731c17ed331cc7ae8a6530ca511d0\nparent 3ff085fbee5937726dbca0608ca7f2bf3d36c940\nauthor i guess so ? <bthavanish@gmail.com> 1774063145 +0530\ncommitter GitHub <noreply@github.com> 1774063145 +0530\n\nAdd files via upload",
-          "verified_at": "2026-03-21T03:19:06Z"
-        }
-      },
-      "url": "https://api.github.com/repos/airlinklabs/panel/commits/0a0059076679d58ee87350e6c990320a2f7b0e58",
-      "html_url": "https://github.com/airlinklabs/panel/commit/0a0059076679d58ee87350e6c990320a2f7b0e58",
-      "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/0a0059076679d58ee87350e6c990320a2f7b0e58/comments",
-      "author": {
-        "login": "bthavanish",
-        "id": 203604602,
-        "node_id": "U_kgDODCLCeg",
-        "avatar_url": "https://avatars.githubusercontent.com/u/203604602?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/bthavanish",
-        "html_url": "https://github.com/bthavanish",
-        "followers_url": "https://api.github.com/users/bthavanish/followers",
-        "following_url": "https://api.github.com/users/bthavanish/following{/other_user}",
-        "gists_url": "https://api.github.com/users/bthavanish/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/bthavanish/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/bthavanish/subscriptions",
-        "organizations_url": "https://api.github.com/users/bthavanish/orgs",
-        "repos_url": "https://api.github.com/users/bthavanish/repos",
-        "events_url": "https://api.github.com/users/bthavanish/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/bthavanish/received_events",
-        "type": "User",
-        "user_view_type": "public",
-        "site_admin": false
-      },
-      "committer": {
-        "login": "web-flow",
-        "id": 19864447,
-        "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
-        "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/web-flow",
-        "html_url": "https://github.com/web-flow",
-        "followers_url": "https://api.github.com/users/web-flow/followers",
-        "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
-        "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
-        "organizations_url": "https://api.github.com/users/web-flow/orgs",
-        "repos_url": "https://api.github.com/users/web-flow/repos",
-        "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/web-flow/received_events",
-        "type": "User",
-        "user_view_type": "public",
-        "site_admin": false
-      },
-      "parents": [
-        {
-          "sha": "3ff085fbee5937726dbca0608ca7f2bf3d36c940",
-          "url": "https://api.github.com/repos/airlinklabs/panel/commits/3ff085fbee5937726dbca0608ca7f2bf3d36c940",
-          "html_url": "https://github.com/airlinklabs/panel/commit/3ff085fbee5937726dbca0608ca7f2bf3d36c940"
-        }
-      ]
-    },
-    {
-      "sha": "3ff085fbee5937726dbca0608ca7f2bf3d36c940",
-      "node_id": "C_kwDONJJQeNoAKDNmZjA4NWZiZWU1OTM3NzI2ZGJjYTA2MDhjYTdmMmJmM2QzNmM5NDA",
-      "commit": {
-        "author": {
-          "name": "i guess so ?",
-          "email": "bthavanish@gmail.com",
-          "date": "2026-03-21T03:16:12Z"
-        },
-        "committer": {
-          "name": "GitHub",
-          "email": "noreply@github.com",
-          "date": "2026-03-21T03:16:12Z"
-        },
-        "message": "update installer with tui",
-        "tree": {
-          "sha": "1dda94feec9c34c87dd6249ae112ed56bd63608c",
-          "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/1dda94feec9c34c87dd6249ae112ed56bd63608c"
-        },
-        "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/3ff085fbee5937726dbca0608ca7f2bf3d36c940",
-        "comment_count": 0,
-        "verification": {
-          "verified": true,
-          "reason": "valid",
-          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJpvg18CRC1aQ7uu5UhlAAADA0QAGZBKTX2kqjHkaZXNqkGXrgS\nV1jQ5Yz0CJ58ZuqKa0ZdA7v9O9Vn5xnqjPD6xCGB69kBdmzkPyGYg0BJLLF89oLy\ndwRWl9tFRyBjEwY5moKbkhn1AjZvXFtoZ9Y/DKZ9rtoIaxEFaxlhmPXb0dcQIbx8\nbtt6IkszvpOOZEM1xG35Lc7vObov4nVgt0UBLJgnJ4316issPbG3Unf4AaNYnrUd\nw5cOO2xVfPNHi/3ZM7/oaZBRZ1M7CMG1K71mOknTZowXBKxZ4RrcBVsMKeSQDqDa\nDQdQFLEgvf9FZwQRQHVjoNI7ZXAK/qAatjl9yVDGGM+RKlZXCcE3dR1Fdd3AZrwQ\nAnUrJZlhnVsj/A4eKfFnEHi3GOAXxNOWq9qd0+bSSerlaCOZSBeGMwPB6wIcIdeP\nTJqz62wGII7uxwzhdaRLJ8VN/gbuPW89XAEzWvp8DD+DrwFuYsa9dHksSLH6tiSz\nDNlF+emo89jUQssWQDP83lzmvGWVhj99XtP1Fe/jwOVK/uRzyWdyK5ghjot8tC1I\nV6TtXeREkfEDYscfaIjeYlawZmZ9bggTy0LvydxjoOWg4h1finY5dhwC/b32EkYW\npMc5URJerib4324Ebjpm9vCvPJhxjUI7Wd3J8FoGn0xPgvXRB8BRbuwGzqBWu0Mu\nC9UKTRGi+lRBpmV2wEnn\n=y2A9\n-----END PGP SIGNATURE-----\n",
-          "payload": "tree 1dda94feec9c34c87dd6249ae112ed56bd63608c\nparent e26b40b7ed49cec73ebd65d43611cb6c19e296fe\nauthor i guess so ? <bthavanish@gmail.com> 1774062972 +0530\ncommitter GitHub <noreply@github.com> 1774062972 +0530\n\nupdate installer with tui",
-          "verified_at": "2026-03-21T03:16:13Z"
-        }
-      },
-      "url": "https://api.github.com/repos/airlinklabs/panel/commits/3ff085fbee5937726dbca0608ca7f2bf3d36c940",
-      "html_url": "https://github.com/airlinklabs/panel/commit/3ff085fbee5937726dbca0608ca7f2bf3d36c940",
-      "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/3ff085fbee5937726dbca0608ca7f2bf3d36c940/comments",
-      "author": {
-        "login": "bthavanish",
-        "id": 203604602,
-        "node_id": "U_kgDODCLCeg",
-        "avatar_url": "https://avatars.githubusercontent.com/u/203604602?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/bthavanish",
-        "html_url": "https://github.com/bthavanish",
-        "followers_url": "https://api.github.com/users/bthavanish/followers",
-        "following_url": "https://api.github.com/users/bthavanish/following{/other_user}",
-        "gists_url": "https://api.github.com/users/bthavanish/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/bthavanish/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/bthavanish/subscriptions",
-        "organizations_url": "https://api.github.com/users/bthavanish/orgs",
-        "repos_url": "https://api.github.com/users/bthavanish/repos",
-        "events_url": "https://api.github.com/users/bthavanish/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/bthavanish/received_events",
-        "type": "User",
-        "user_view_type": "public",
-        "site_admin": false
-      },
-      "committer": {
-        "login": "web-flow",
-        "id": 19864447,
-        "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
-        "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/web-flow",
-        "html_url": "https://github.com/web-flow",
-        "followers_url": "https://api.github.com/users/web-flow/followers",
-        "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
-        "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
-        "organizations_url": "https://api.github.com/users/web-flow/orgs",
-        "repos_url": "https://api.github.com/users/web-flow/repos",
-        "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/web-flow/received_events",
-        "type": "User",
-        "user_view_type": "public",
-        "site_admin": false
-      },
-      "parents": [
-        {
-          "sha": "e26b40b7ed49cec73ebd65d43611cb6c19e296fe",
-          "url": "https://api.github.com/repos/airlinklabs/panel/commits/e26b40b7ed49cec73ebd65d43611cb6c19e296fe",
-          "html_url": "https://github.com/airlinklabs/panel/commit/e26b40b7ed49cec73ebd65d43611cb6c19e296fe"
-        }
-      ]
-    },
-    {
-      "sha": "e26b40b7ed49cec73ebd65d43611cb6c19e296fe",
-      "node_id": "C_kwDONJJQeNoAKGUyNmI0MGI3ZWQ0OWNlYzczZWJkNjVkNDM2MTFjYjZjMTllMjk2ZmU",
-      "commit": {
-        "author": {
-          "name": "i guess so ?",
-          "email": "bthavanish@gmail.com",
-          "date": "2026-03-21T02:58:56Z"
-        },
-        "committer": {
-          "name": "GitHub",
-          "email": "noreply@github.com",
-          "date": "2026-03-21T02:58:56Z"
-        },
-        "message": "add CLI arg support to installer, clean up duplicate config/validation logic",
-        "tree": {
-          "sha": "174a69a3eab6003384e01a2668bc49bce7eff9f8",
-          "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/174a69a3eab6003384e01a2668bc49bce7eff9f8"
-        },
-        "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/e26b40b7ed49cec73ebd65d43611cb6c19e296fe",
-        "comment_count": 0,
-        "verification": {
-          "verified": true,
-          "reason": "valid",
-          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJpvglxCRC1aQ7uu5UhlAAA09kQAHUijnH9m+6AGAGADr0yD3Lp\nK27ykkO0U0ZMT4o2igl/z3OWagBbRxDd1CMPl5AcoGX4RtRwzf3pe1136cDE39Ye\n6MGx721fdoxagC9NkOjY02BXF1pJrAWiZuO1QB8D72qwnhtqHt1TdFcKbVpPSLxn\n1RkrCiyTF30Sx77pxljQjM783flrdt7czub2o5kr6NfFN3t6igIT0iU5v/sjuIZ4\n1Br8y7TR+Sh3ZYjzwGrLrVg/QDVI1Xg8WuCn1CeiJ8PcN6m84nQtEzfVEkTbeJaE\n+T9onw4egjScYlkoofkKC7NQV0hUAf/H+UboKJntF6bkyAVYkEEY33kmr58mGbKa\nMfXHwtCPkZq/MeSST9qsexcO9hRDP5XDVKbpBWiHiM5iN8W9IJeW1Tr7Ow1DJSLr\ndUPOhV7HJIBTyMkkc4mekoJeC7WYdkWwiGH782FpCV3uAIgORZj5WRKkThaJNelA\nFM9nuE/LIXqap1nbf57EjFwD5JPV87VDa/Ve+ebwyzfvjj1POY0DDdscHELYzwJE\nVKO7OAcou0bhsMf02o5SHH82ZWOyO8T+xqN0czL0RXvPkcyf5wDapkcTvRrY3A+H\nYK/4wX0oKIqvTXdJ2T0xEm3Ag3UQ2BXCpviV3YYVs4ED4eD2rjIoeBvJUML0bon2\nd0CUM1TJgcK+72zrWrN4\n=T8F5\n-----END PGP SIGNATURE-----\n",
-          "payload": "tree 174a69a3eab6003384e01a2668bc49bce7eff9f8\nparent 2552305f734242bd25e54804ac2860abd351fcb3\nauthor i guess so ? <bthavanish@gmail.com> 1774061936 +0530\ncommitter GitHub <noreply@github.com> 1774061936 +0530\n\nadd CLI arg support to installer, clean up duplicate config/validation logic",
-          "verified_at": "2026-03-21T02:58:57Z"
-        }
-      },
-      "url": "https://api.github.com/repos/airlinklabs/panel/commits/e26b40b7ed49cec73ebd65d43611cb6c19e296fe",
-      "html_url": "https://github.com/airlinklabs/panel/commit/e26b40b7ed49cec73ebd65d43611cb6c19e296fe",
-      "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/e26b40b7ed49cec73ebd65d43611cb6c19e296fe/comments",
-      "author": {
-        "login": "bthavanish",
-        "id": 203604602,
-        "node_id": "U_kgDODCLCeg",
-        "avatar_url": "https://avatars.githubusercontent.com/u/203604602?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/bthavanish",
-        "html_url": "https://github.com/bthavanish",
-        "followers_url": "https://api.github.com/users/bthavanish/followers",
-        "following_url": "https://api.github.com/users/bthavanish/following{/other_user}",
-        "gists_url": "https://api.github.com/users/bthavanish/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/bthavanish/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/bthavanish/subscriptions",
-        "organizations_url": "https://api.github.com/users/bthavanish/orgs",
-        "repos_url": "https://api.github.com/users/bthavanish/repos",
-        "events_url": "https://api.github.com/users/bthavanish/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/bthavanish/received_events",
-        "type": "User",
-        "user_view_type": "public",
-        "site_admin": false
-      },
-      "committer": {
-        "login": "web-flow",
-        "id": 19864447,
-        "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
-        "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/web-flow",
-        "html_url": "https://github.com/web-flow",
-        "followers_url": "https://api.github.com/users/web-flow/followers",
-        "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
-        "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
-        "organizations_url": "https://api.github.com/users/web-flow/orgs",
-        "repos_url": "https://api.github.com/users/web-flow/repos",
-        "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/web-flow/received_events",
-        "type": "User",
-        "user_view_type": "public",
-        "site_admin": false
-      },
-      "parents": [
-        {
-          "sha": "2552305f734242bd25e54804ac2860abd351fcb3",
-          "url": "https://api.github.com/repos/airlinklabs/panel/commits/2552305f734242bd25e54804ac2860abd351fcb3",
-          "html_url": "https://github.com/airlinklabs/panel/commit/2552305f734242bd25e54804ac2860abd351fcb3"
-        }
-      ]
-    },
-    {
-      "sha": "2552305f734242bd25e54804ac2860abd351fcb3",
-      "node_id": "C_kwDONJJQeNoAKDI1NTIzMDVmNzM0MjQyYmQyNWU1NDgwNGFjMjg2MGFiZDM1MWZjYjM",
-      "commit": {
-        "author": {
-          "name": "Thavanish brijesh",
-          "email": "thavanishbrijesh@gmail.com",
-          "date": "2026-03-20T17:37:15Z"
-        },
-        "committer": {
-          "name": "GitHub",
-          "email": "noreply@github.com",
-          "date": "2026-03-20T17:37:15Z"
-        },
-        "message": "remove seeding",
-        "tree": {
-          "sha": "ee9851f934335eb2903fc7e456f25bd4f9955c07",
-          "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/ee9851f934335eb2903fc7e456f25bd4f9955c07"
-        },
-        "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/2552305f734242bd25e54804ac2860abd351fcb3",
-        "comment_count": 0,
-        "verification": {
-          "verified": true,
-          "reason": "valid",
-          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJpvYXLCRC1aQ7uu5UhlAAAgAcQAEnoNQ9PqzrLPZNx5x3wdFnz\n+KuncZtgHnedPphu1/dolmpLq6B6/OyOVLArP5oFYy9I13eUrWMGFpzxd3ZVY7XE\n0EAVY2ASvgG96mqawioQ1/2ZtHsCUzaqto8eO2TlaQLKlMkHX+srA3AAU80veS/S\nDF1/1ZQXUIe8nYdptdUHK1hMvWqxVMDIppfCY+LaVnEE9P9n8B1yYTUMzzIZ9t29\nN+fDE3Pf7kKFA+LLJSodW/zF22ttTjNuF5IDvWKCFq+i40XyT8aok3n+B7HJd6Au\n+dHqqsOPk44QiUiMyhgWSx1GlrmqS7Px1ihOGPBb+mVtM0IW7wiRZaoPySE0fDH4\nKzVzGLhiMZUZEpqWLShJOuGeaig9ocYklEFGip4DJPZJhcm0273b6hUIK9yDpqVY\nieGGCa23vgfEaH8f11c6PfErpzFBz9CZEEujE7uMglZNCWJVdCaQCt5wwJZJ/AQc\nXgREjt+RwxzDbG1vgbSNC3OvUedNMdJvJTSoCBYn783gjwsD0V7S/wnXdnEvTrVR\nGJPHold0EEhq2JWjuVWgsUEqxPhRi3GwGoq4H3/RHRv9qjNvOf6JDhKOqDoYay9k\nR/WW0HZjtserlpyC+HkY9PP0C33ACZVMrnftoEE5iUCh1lUND1c6VHi8DjmYc8zg\n3ja0+hv9RFOy7raeODIA\n=4f8+\n-----END PGP SIGNATURE-----\n",
-          "payload": "tree ee9851f934335eb2903fc7e456f25bd4f9955c07\nparent 34eab9cbb675ee88f90dd355831fc2c9e332c745\nauthor Thavanish brijesh <thavanishbrijesh@gmail.com> 1774028235 +0530\ncommitter GitHub <noreply@github.com> 1774028235 +0530\n\nremove seeding",
-          "verified_at": "2026-03-20T17:37:16Z"
-        }
-      },
-      "url": "https://api.github.com/repos/airlinklabs/panel/commits/2552305f734242bd25e54804ac2860abd351fcb3",
-      "html_url": "https://github.com/airlinklabs/panel/commit/2552305f734242bd25e54804ac2860abd351fcb3",
-      "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/2552305f734242bd25e54804ac2860abd351fcb3/comments",
-      "author": {
-        "login": "thavanish",
-        "id": 256001212,
-        "node_id": "U_kgDOD0JEvA",
-        "avatar_url": "https://avatars.githubusercontent.com/u/256001212?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/thavanish",
-        "html_url": "https://github.com/thavanish",
-        "followers_url": "https://api.github.com/users/thavanish/followers",
-        "following_url": "https://api.github.com/users/thavanish/following{/other_user}",
-        "gists_url": "https://api.github.com/users/thavanish/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/thavanish/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/thavanish/subscriptions",
-        "organizations_url": "https://api.github.com/users/thavanish/orgs",
-        "repos_url": "https://api.github.com/users/thavanish/repos",
-        "events_url": "https://api.github.com/users/thavanish/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/thavanish/received_events",
-        "type": "User",
-        "user_view_type": "public",
-        "site_admin": false
-      },
-      "committer": {
-        "login": "web-flow",
-        "id": 19864447,
-        "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
-        "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/web-flow",
-        "html_url": "https://github.com/web-flow",
-        "followers_url": "https://api.github.com/users/web-flow/followers",
-        "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
-        "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
-        "organizations_url": "https://api.github.com/users/web-flow/orgs",
-        "repos_url": "https://api.github.com/users/web-flow/repos",
-        "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/web-flow/received_events",
-        "type": "User",
-        "user_view_type": "public",
-        "site_admin": false
-      },
-      "parents": [
-        {
-          "sha": "34eab9cbb675ee88f90dd355831fc2c9e332c745",
-          "url": "https://api.github.com/repos/airlinklabs/panel/commits/34eab9cbb675ee88f90dd355831fc2c9e332c745",
-          "html_url": "https://github.com/airlinklabs/panel/commit/34eab9cbb675ee88f90dd355831fc2c9e332c745"
-        }
-      ]
-    },
-    {
-      "sha": "34eab9cbb675ee88f90dd355831fc2c9e332c745",
-      "node_id": "C_kwDONJJQeNoAKDM0ZWFiOWNiYjY3NWVlODhmOTBkZDM1NTgzMWZjMmM5ZTMzMmM3NDU",
-      "commit": {
-        "author": {
-          "name": "i guess so ?",
-          "email": "bthavanish@gmail.com",
-          "date": "2026-03-20T10:58:47Z"
-        },
-        "committer": {
-          "name": "GitHub",
-          "email": "noreply@github.com",
-          "date": "2026-03-20T10:58:47Z"
-        },
-        "message": "simplify git clone/pull logic, add GIT_TERMINAL_PROMPT=0 to prevent hangs",
-        "tree": {
-          "sha": "0f90bb1525058de50f53d97b8ff059ffdf45944a",
-          "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/0f90bb1525058de50f53d97b8ff059ffdf45944a"
-        },
-        "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/34eab9cbb675ee88f90dd355831fc2c9e332c745",
-        "comment_count": 0,
-        "verification": {
-          "verified": true,
-          "reason": "valid",
-          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJpvShnCRC1aQ7uu5UhlAAANzUQABR4qPrQ6aRvtLZEGEq1Obud\n1cJN+XIdgUtbl4jPwTvGtb9Dj3df5RO32Pq1iaGJLkKgAJXi0IHa3LNDRi/tSEwp\njbV9dhMfp7lYVkol7L3nKdN6ahb3LgqUE1iFvIQ2ZozBNU2bWFOwhuyeUtLzrvjE\n4LpzDrh238oP+DmwM/cHX5Rs8vlPAlsUuXtFlJtmVoenmeRiP/SrNPhpJrDXVuVH\nZMH1ZqkrDncK6qwDNx7xVSc9pAqVkNBXg947IHY6/j24Re0l0d0hzXgly31Tb3f9\nnAScMbsDu/mbvGjGinvR1/SQlrcuaxz2j1LN78K1R+JfMVcb1a/KreDHLh3zNNpt\nmUkupgvmh9Njb1/zESe7EB/L5osuyGkf+OxYSa+i28A5uM8B6miNk6f04a7N+yqs\nGw88ce7USeF4RpJe2iHTkEIJuwPBWaOmCnBYex/mNlyjdsG+DpsSEIGgJ96BwMqd\nitw4FjzeiqKVFjJ+MJn22FeHjC6BG7UhgRL5/mICG47PnOPV+GVbtJ4sJDDpOodY\nm8A40XorCUfIFapXl2weH1SFsNxLpZKADGlwxSsqBO2SzhzB/A03lybac1bRH81E\ndaeXS3Axtayz7mLwFDaHJbLkBZugCpJbO96Mi4ovFL0hu9WHEi/lhTeZc4cHAPYZ\nWCZqQpWhg7ar3E7HuAeg\n=+43V\n-----END PGP SIGNATURE-----\n",
-          "payload": "tree 0f90bb1525058de50f53d97b8ff059ffdf45944a\nparent 097129ddd16005f889970d898e77dbb3c0ed9b0f\nauthor i guess so ? <bthavanish@gmail.com> 1774004327 +0530\ncommitter GitHub <noreply@github.com> 1774004327 +0530\n\nsimplify git clone/pull logic, add GIT_TERMINAL_PROMPT=0 to prevent hangs",
-          "verified_at": "2026-03-20T10:58:49Z"
-        }
-      },
-      "url": "https://api.github.com/repos/airlinklabs/panel/commits/34eab9cbb675ee88f90dd355831fc2c9e332c745",
-      "html_url": "https://github.com/airlinklabs/panel/commit/34eab9cbb675ee88f90dd355831fc2c9e332c745",
-      "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/34eab9cbb675ee88f90dd355831fc2c9e332c745/comments",
-      "author": {
-        "login": "bthavanish",
-        "id": 203604602,
-        "node_id": "U_kgDODCLCeg",
-        "avatar_url": "https://avatars.githubusercontent.com/u/203604602?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/bthavanish",
-        "html_url": "https://github.com/bthavanish",
-        "followers_url": "https://api.github.com/users/bthavanish/followers",
-        "following_url": "https://api.github.com/users/bthavanish/following{/other_user}",
-        "gists_url": "https://api.github.com/users/bthavanish/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/bthavanish/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/bthavanish/subscriptions",
-        "organizations_url": "https://api.github.com/users/bthavanish/orgs",
-        "repos_url": "https://api.github.com/users/bthavanish/repos",
-        "events_url": "https://api.github.com/users/bthavanish/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/bthavanish/received_events",
-        "type": "User",
-        "user_view_type": "public",
-        "site_admin": false
-      },
-      "committer": {
-        "login": "web-flow",
-        "id": 19864447,
-        "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
-        "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/web-flow",
-        "html_url": "https://github.com/web-flow",
-        "followers_url": "https://api.github.com/users/web-flow/followers",
-        "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
-        "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
-        "organizations_url": "https://api.github.com/users/web-flow/orgs",
-        "repos_url": "https://api.github.com/users/web-flow/repos",
-        "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/web-flow/received_events",
-        "type": "User",
-        "user_view_type": "public",
-        "site_admin": false
-      },
-      "parents": [
-        {
-          "sha": "097129ddd16005f889970d898e77dbb3c0ed9b0f",
-          "url": "https://api.github.com/repos/airlinklabs/panel/commits/097129ddd16005f889970d898e77dbb3c0ed9b0f",
-          "html_url": "https://github.com/airlinklabs/panel/commit/097129ddd16005f889970d898e77dbb3c0ed9b0f"
-        }
-      ]
-    },
-    {
-      "sha": "097129ddd16005f889970d898e77dbb3c0ed9b0f",
-      "node_id": "C_kwDONJJQeNoAKDA5NzEyOWRkZDE2MDA1Zjg4OTk3MGQ4OThlNzdkYmIzYzBlZDliMGY",
-      "commit": {
-        "author": {
-          "name": "i guess so ?",
-          "email": "bthavanish@gmail.com",
-          "date": "2026-03-20T08:01:03Z"
-        },
-        "committer": {
-          "name": "i guess so ?",
-          "email": "bthavanish@gmail.com",
-          "date": "2026-03-20T08:01:03Z"
-        },
-        "message": "fix egg cloning",
-        "tree": {
-          "sha": "e85608ba7732c198aa34f7739dd9df27ebda21c3",
-          "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/e85608ba7732c198aa34f7739dd9df27ebda21c3"
-        },
-        "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/097129ddd16005f889970d898e77dbb3c0ed9b0f",
-        "comment_count": 0,
-        "verification": {
-          "verified": false,
-          "reason": "unsigned",
-          "signature": null,
-          "payload": null,
-          "verified_at": null
-        }
-      },
-      "url": "https://api.github.com/repos/airlinklabs/panel/commits/097129ddd16005f889970d898e77dbb3c0ed9b0f",
-      "html_url": "https://github.com/airlinklabs/panel/commit/097129ddd16005f889970d898e77dbb3c0ed9b0f",
-      "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/097129ddd16005f889970d898e77dbb3c0ed9b0f/comments",
-      "author": {
-        "login": "bthavanish",
-        "id": 203604602,
-        "node_id": "U_kgDODCLCeg",
-        "avatar_url": "https://avatars.githubusercontent.com/u/203604602?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/bthavanish",
-        "html_url": "https://github.com/bthavanish",
-        "followers_url": "https://api.github.com/users/bthavanish/followers",
-        "following_url": "https://api.github.com/users/bthavanish/following{/other_user}",
-        "gists_url": "https://api.github.com/users/bthavanish/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/bthavanish/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/bthavanish/subscriptions",
-        "organizations_url": "https://api.github.com/users/bthavanish/orgs",
-        "repos_url": "https://api.github.com/users/bthavanish/repos",
-        "events_url": "https://api.github.com/users/bthavanish/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/bthavanish/received_events",
-        "type": "User",
-        "user_view_type": "public",
-        "site_admin": false
-      },
-      "committer": {
-        "login": "bthavanish",
-        "id": 203604602,
-        "node_id": "U_kgDODCLCeg",
-        "avatar_url": "https://avatars.githubusercontent.com/u/203604602?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/bthavanish",
-        "html_url": "https://github.com/bthavanish",
-        "followers_url": "https://api.github.com/users/bthavanish/followers",
-        "following_url": "https://api.github.com/users/bthavanish/following{/other_user}",
-        "gists_url": "https://api.github.com/users/bthavanish/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/bthavanish/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/bthavanish/subscriptions",
-        "organizations_url": "https://api.github.com/users/bthavanish/orgs",
-        "repos_url": "https://api.github.com/users/bthavanish/repos",
-        "events_url": "https://api.github.com/users/bthavanish/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/bthavanish/received_events",
-        "type": "User",
-        "user_view_type": "public",
-        "site_admin": false
-      },
-      "parents": [
-        {
-          "sha": "0baa26619205015e7cf4dc0e3d9b4872395855e9",
-          "url": "https://api.github.com/repos/airlinklabs/panel/commits/0baa26619205015e7cf4dc0e3d9b4872395855e9",
-          "html_url": "https://github.com/airlinklabs/panel/commit/0baa26619205015e7cf4dc0e3d9b4872395855e9"
-        }
-      ]
-    },
-    {
-      "sha": "0baa26619205015e7cf4dc0e3d9b4872395855e9",
-      "node_id": "C_kwDONJJQeNoAKDBiYWEyNjYxOTIwNTAxNWU3Y2Y0ZGMwZTNkOWI0ODcyMzk1ODU1ZTk",
-      "commit": {
-        "author": {
-          "name": "i guess so ?",
-          "email": "bthavanish@gmail.com",
-          "date": "2026-03-20T06:42:42Z"
-        },
-        "committer": {
-          "name": "i guess so ?",
-          "email": "bthavanish@gmail.com",
-          "date": "2026-03-20T06:42:42Z"
-        },
-        "message": "fix ctel+c not working and images repo not beijg pulled properly",
-        "tree": {
-          "sha": "6d7ea190807f6f9ad454172f5c050817aae486c0",
-          "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/6d7ea190807f6f9ad454172f5c050817aae486c0"
-        },
-        "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/0baa26619205015e7cf4dc0e3d9b4872395855e9",
-        "comment_count": 0,
-        "verification": {
-          "verified": false,
-          "reason": "unsigned",
-          "signature": null,
-          "payload": null,
-          "verified_at": null
-        }
-      },
-      "url": "https://api.github.com/repos/airlinklabs/panel/commits/0baa26619205015e7cf4dc0e3d9b4872395855e9",
-      "html_url": "https://github.com/airlinklabs/panel/commit/0baa26619205015e7cf4dc0e3d9b4872395855e9",
-      "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/0baa26619205015e7cf4dc0e3d9b4872395855e9/comments",
-      "author": {
-        "login": "bthavanish",
-        "id": 203604602,
-        "node_id": "U_kgDODCLCeg",
-        "avatar_url": "https://avatars.githubusercontent.com/u/203604602?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/bthavanish",
-        "html_url": "https://github.com/bthavanish",
-        "followers_url": "https://api.github.com/users/bthavanish/followers",
-        "following_url": "https://api.github.com/users/bthavanish/following{/other_user}",
-        "gists_url": "https://api.github.com/users/bthavanish/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/bthavanish/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/bthavanish/subscriptions",
-        "organizations_url": "https://api.github.com/users/bthavanish/orgs",
-        "repos_url": "https://api.github.com/users/bthavanish/repos",
-        "events_url": "https://api.github.com/users/bthavanish/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/bthavanish/received_events",
-        "type": "User",
-        "user_view_type": "public",
-        "site_admin": false
-      },
-      "committer": {
-        "login": "bthavanish",
-        "id": 203604602,
-        "node_id": "U_kgDODCLCeg",
-        "avatar_url": "https://avatars.githubusercontent.com/u/203604602?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/bthavanish",
-        "html_url": "https://github.com/bthavanish",
-        "followers_url": "https://api.github.com/users/bthavanish/followers",
-        "following_url": "https://api.github.com/users/bthavanish/following{/other_user}",
-        "gists_url": "https://api.github.com/users/bthavanish/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/bthavanish/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/bthavanish/subscriptions",
-        "organizations_url": "https://api.github.com/users/bthavanish/orgs",
-        "repos_url": "https://api.github.com/users/bthavanish/repos",
-        "events_url": "https://api.github.com/users/bthavanish/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/bthavanish/received_events",
-        "type": "User",
-        "user_view_type": "public",
-        "site_admin": false
-      },
-      "parents": [
-        {
-          "sha": "1dccbf3ae84262756578b0637a3407425d673536",
-          "url": "https://api.github.com/repos/airlinklabs/panel/commits/1dccbf3ae84262756578b0637a3407425d673536",
-          "html_url": "https://github.com/airlinklabs/panel/commit/1dccbf3ae84262756578b0637a3407425d673536"
-        }
-      ]
-    },
     {
       "sha": "1dccbf3ae84262756578b0637a3407425d673536",
       "node_id": "C_kwDONJJQeNoAKDFkY2NiZjNhZTg0MjYyNzU2NTc4YjA2MzdhMzQwNzQyNWQ2NzM1MzY",
@@ -1375,6 +719,662 @@
           "sha": "0ed075b3b78f5d92a0fa7a7bd04136056745db42",
           "url": "https://api.github.com/repos/airlinklabs/panel/commits/0ed075b3b78f5d92a0fa7a7bd04136056745db42",
           "html_url": "https://github.com/airlinklabs/panel/commit/0ed075b3b78f5d92a0fa7a7bd04136056745db42"
+        }
+      ]
+    },
+    {
+      "sha": "0ed075b3b78f5d92a0fa7a7bd04136056745db42",
+      "node_id": "C_kwDONJJQeNoAKDBlZDA3NWIzYjc4ZjVkOTJhMGZhN2E3YmQwNDEzNjA1Njc0NWRiNDI",
+      "commit": {
+        "author": {
+          "name": "G-flame",
+          "email": "thegreenflame1507@gmail.com",
+          "date": "2026-03-17T08:35:26Z"
+        },
+        "committer": {
+          "name": "G-flame",
+          "email": "thegreenflame1507@gmail.com",
+          "date": "2026-03-17T08:35:26Z"
+        },
+        "message": "remove unecessary files",
+        "tree": {
+          "sha": "63779412df0838accddbd6c940594e0b0041ee18",
+          "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/63779412df0838accddbd6c940594e0b0041ee18"
+        },
+        "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/0ed075b3b78f5d92a0fa7a7bd04136056745db42",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      },
+      "url": "https://api.github.com/repos/airlinklabs/panel/commits/0ed075b3b78f5d92a0fa7a7bd04136056745db42",
+      "html_url": "https://github.com/airlinklabs/panel/commit/0ed075b3b78f5d92a0fa7a7bd04136056745db42",
+      "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/0ed075b3b78f5d92a0fa7a7bd04136056745db42/comments",
+      "author": {
+        "login": "g-flame",
+        "id": 190345519,
+        "node_id": "U_kgDOC1hxLw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/g-flame",
+        "html_url": "https://github.com/g-flame",
+        "followers_url": "https://api.github.com/users/g-flame/followers",
+        "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
+        "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
+        "organizations_url": "https://api.github.com/users/g-flame/orgs",
+        "repos_url": "https://api.github.com/users/g-flame/repos",
+        "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/g-flame/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "committer": {
+        "login": "g-flame",
+        "id": 190345519,
+        "node_id": "U_kgDOC1hxLw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/g-flame",
+        "html_url": "https://github.com/g-flame",
+        "followers_url": "https://api.github.com/users/g-flame/followers",
+        "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
+        "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
+        "organizations_url": "https://api.github.com/users/g-flame/orgs",
+        "repos_url": "https://api.github.com/users/g-flame/repos",
+        "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/g-flame/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "parents": [
+        {
+          "sha": "cb5d9456f5a46413d68316ee4bba5841d414289f",
+          "url": "https://api.github.com/repos/airlinklabs/panel/commits/cb5d9456f5a46413d68316ee4bba5841d414289f",
+          "html_url": "https://github.com/airlinklabs/panel/commit/cb5d9456f5a46413d68316ee4bba5841d414289f"
+        }
+      ]
+    },
+    {
+      "sha": "cb5d9456f5a46413d68316ee4bba5841d414289f",
+      "node_id": "C_kwDONJJQeNoAKGNiNWQ5NDU2ZjVhNDY0MTNkNjgzMTZlZTRiYmE1ODQxZDQxNDI4OWY",
+      "commit": {
+        "author": {
+          "name": "G-flame",
+          "email": "thegreenflame1507@gmail.com",
+          "date": "2026-03-17T08:29:22Z"
+        },
+        "committer": {
+          "name": "G-flame",
+          "email": "thegreenflame1507@gmail.com",
+          "date": "2026-03-17T08:29:22Z"
+        },
+        "message": "remade ui for console fully and improved panel and fixed bugs",
+        "tree": {
+          "sha": "6ac544fd6fbdc6a7735c3c71f576e062955cc19f",
+          "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/6ac544fd6fbdc6a7735c3c71f576e062955cc19f"
+        },
+        "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/cb5d9456f5a46413d68316ee4bba5841d414289f",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      },
+      "url": "https://api.github.com/repos/airlinklabs/panel/commits/cb5d9456f5a46413d68316ee4bba5841d414289f",
+      "html_url": "https://github.com/airlinklabs/panel/commit/cb5d9456f5a46413d68316ee4bba5841d414289f",
+      "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/cb5d9456f5a46413d68316ee4bba5841d414289f/comments",
+      "author": {
+        "login": "g-flame",
+        "id": 190345519,
+        "node_id": "U_kgDOC1hxLw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/g-flame",
+        "html_url": "https://github.com/g-flame",
+        "followers_url": "https://api.github.com/users/g-flame/followers",
+        "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
+        "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
+        "organizations_url": "https://api.github.com/users/g-flame/orgs",
+        "repos_url": "https://api.github.com/users/g-flame/repos",
+        "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/g-flame/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "committer": {
+        "login": "g-flame",
+        "id": 190345519,
+        "node_id": "U_kgDOC1hxLw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/g-flame",
+        "html_url": "https://github.com/g-flame",
+        "followers_url": "https://api.github.com/users/g-flame/followers",
+        "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
+        "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
+        "organizations_url": "https://api.github.com/users/g-flame/orgs",
+        "repos_url": "https://api.github.com/users/g-flame/repos",
+        "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/g-flame/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "parents": [
+        {
+          "sha": "e6a0e338b549a050b7f005eb07e94ce6e946a8d4",
+          "url": "https://api.github.com/repos/airlinklabs/panel/commits/e6a0e338b549a050b7f005eb07e94ce6e946a8d4",
+          "html_url": "https://github.com/airlinklabs/panel/commit/e6a0e338b549a050b7f005eb07e94ce6e946a8d4"
+        }
+      ]
+    },
+    {
+      "sha": "e6a0e338b549a050b7f005eb07e94ce6e946a8d4",
+      "node_id": "C_kwDONJJQeNoAKGU2YTBlMzM4YjU0OWEwNTBiN2YwMDVlYjA3ZTk0Y2U2ZTk0NmE4ZDQ",
+      "commit": {
+        "author": {
+          "name": "G-flame",
+          "email": "thegreenflame1507@gmail.com",
+          "date": "2026-03-17T02:00:51Z"
+        },
+        "committer": {
+          "name": "G-flame",
+          "email": "thegreenflame1507@gmail.com",
+          "date": "2026-03-17T02:00:51Z"
+        },
+        "message": "verbose Docker pull/create events in daemon; mobile console lifecycle writes + input lock; account 2-col compact grid plus Panel fixed",
+        "tree": {
+          "sha": "20d245a7fc3b88d00c3fc0bb6d2d66ddd0a6ede2",
+          "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/20d245a7fc3b88d00c3fc0bb6d2d66ddd0a6ede2"
+        },
+        "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/e6a0e338b549a050b7f005eb07e94ce6e946a8d4",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      },
+      "url": "https://api.github.com/repos/airlinklabs/panel/commits/e6a0e338b549a050b7f005eb07e94ce6e946a8d4",
+      "html_url": "https://github.com/airlinklabs/panel/commit/e6a0e338b549a050b7f005eb07e94ce6e946a8d4",
+      "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/e6a0e338b549a050b7f005eb07e94ce6e946a8d4/comments",
+      "author": {
+        "login": "g-flame",
+        "id": 190345519,
+        "node_id": "U_kgDOC1hxLw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/g-flame",
+        "html_url": "https://github.com/g-flame",
+        "followers_url": "https://api.github.com/users/g-flame/followers",
+        "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
+        "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
+        "organizations_url": "https://api.github.com/users/g-flame/orgs",
+        "repos_url": "https://api.github.com/users/g-flame/repos",
+        "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/g-flame/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "committer": {
+        "login": "g-flame",
+        "id": 190345519,
+        "node_id": "U_kgDOC1hxLw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/g-flame",
+        "html_url": "https://github.com/g-flame",
+        "followers_url": "https://api.github.com/users/g-flame/followers",
+        "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
+        "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
+        "organizations_url": "https://api.github.com/users/g-flame/orgs",
+        "repos_url": "https://api.github.com/users/g-flame/repos",
+        "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/g-flame/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "parents": [
+        {
+          "sha": "b57813c17763581c19e9eb2ee24a68b3603c9e1e",
+          "url": "https://api.github.com/repos/airlinklabs/panel/commits/b57813c17763581c19e9eb2ee24a68b3603c9e1e",
+          "html_url": "https://github.com/airlinklabs/panel/commit/b57813c17763581c19e9eb2ee24a68b3603c9e1e"
+        }
+      ]
+    },
+    {
+      "sha": "b57813c17763581c19e9eb2ee24a68b3603c9e1e",
+      "node_id": "C_kwDONJJQeNoAKGI1NzgxM2MxNzc2MzU4MWMxOWU5ZWIyZWUyNGE2OGIzNjAzYzllMWU",
+      "commit": {
+        "author": {
+          "name": "G-flame",
+          "email": "thegreenflame1507@gmail.com",
+          "date": "2026-03-16T14:30:28Z"
+        },
+        "committer": {
+          "name": "G-flame",
+          "email": "thegreenflame1507@gmail.com",
+          "date": "2026-03-16T14:30:28Z"
+        },
+        "message": "security hardening, real-time lifecycle feedback, UI overhaul",
+        "tree": {
+          "sha": "2af059b56c830913f5fff1d52de03d63266f7f95",
+          "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/2af059b56c830913f5fff1d52de03d63266f7f95"
+        },
+        "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/b57813c17763581c19e9eb2ee24a68b3603c9e1e",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      },
+      "url": "https://api.github.com/repos/airlinklabs/panel/commits/b57813c17763581c19e9eb2ee24a68b3603c9e1e",
+      "html_url": "https://github.com/airlinklabs/panel/commit/b57813c17763581c19e9eb2ee24a68b3603c9e1e",
+      "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/b57813c17763581c19e9eb2ee24a68b3603c9e1e/comments",
+      "author": {
+        "login": "g-flame",
+        "id": 190345519,
+        "node_id": "U_kgDOC1hxLw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/g-flame",
+        "html_url": "https://github.com/g-flame",
+        "followers_url": "https://api.github.com/users/g-flame/followers",
+        "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
+        "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
+        "organizations_url": "https://api.github.com/users/g-flame/orgs",
+        "repos_url": "https://api.github.com/users/g-flame/repos",
+        "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/g-flame/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "committer": {
+        "login": "g-flame",
+        "id": 190345519,
+        "node_id": "U_kgDOC1hxLw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/g-flame",
+        "html_url": "https://github.com/g-flame",
+        "followers_url": "https://api.github.com/users/g-flame/followers",
+        "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
+        "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
+        "organizations_url": "https://api.github.com/users/g-flame/orgs",
+        "repos_url": "https://api.github.com/users/g-flame/repos",
+        "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/g-flame/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "parents": [
+        {
+          "sha": "ec86ddd62f06ca83bacff6cb60ac9eb1e6deb698",
+          "url": "https://api.github.com/repos/airlinklabs/panel/commits/ec86ddd62f06ca83bacff6cb60ac9eb1e6deb698",
+          "html_url": "https://github.com/airlinklabs/panel/commit/ec86ddd62f06ca83bacff6cb60ac9eb1e6deb698"
+        }
+      ]
+    },
+    {
+      "sha": "ec86ddd62f06ca83bacff6cb60ac9eb1e6deb698",
+      "node_id": "C_kwDONJJQeNoAKGVjODZkZGQ2MmYwNmNhODNiYWNmZjZjYjYwYWM5ZWIxZTZkZWI2OTg",
+      "commit": {
+        "author": {
+          "name": "G-flame",
+          "email": "thegreenflame1507@gmail.com",
+          "date": "2026-03-16T09:17:47Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-03-16T09:17:47Z"
+        },
+        "message": "Remove unnecessary file",
+        "tree": {
+          "sha": "5d41b2d9a953ddeefda40c65afbf3b303ebc4085",
+          "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/5d41b2d9a953ddeefda40c65afbf3b303ebc4085"
+        },
+        "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/ec86ddd62f06ca83bacff6cb60ac9eb1e6deb698",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJpt8q7CRC1aQ7uu5UhlAAAF2cQAHbLAk2XE/eXox4sRrHZWTrE\nSAqL2teiFw8u9NQXoyTtvI9TL4idDTMHGKgdJAfSjmg3MMktEz6pPBGRxsaDhWDl\nWkvGobPpiqSFi37tFHCpvQ38ML62Vtrd5pntvimWECVjcBhFrgmvIDfhHmMq1cWQ\n4YWuKxa5TUS7NkuKC5HKxrDlOkQxwWLNIJvGCb0Ao/60PVOizT4dQDeQMCXgS3or\nMLfkBrmihO1h+nygepJb1zJSebo+vYN8KZiutiPG2q74V8GrOPgUpmbv4Bt9jRyb\nsQ6DhZ8UeMS91Jc+YlafT5GLl41FBDWUCK0UKuMreWFo7nyNrp9GYRdWKHW1dl97\njVKgdajSartMkQs++y0oFX5o4BoryZ7i1krXdZdAuLLgjb6MurWluATiFhxiDQVx\n9Lintxqsc4oGeA15HK470RaPSv60lv5DSPV9bx5b+FcTGNqaND8aOhh43nNdR9bL\nZIKRGdLZ8uHTPAYSDlUoHlNKC/6CjiIXTBYbhyjEKJqVWhBi5Dp7j5nebHLKCJsE\nm226RkM98oQsQpTRCga6dUh+74i1LTFHraEMFoBVUwYuP9T0bJFH5IMFlJ208t0D\n7KYCiu8UYK/4v/SLqUDy54wkHVN5bTvgDXjBHPZ7WWG/9x21DFQTHR3x+Y7EYoeo\n653J9VugBvOEoeogloX3\n=AgHd\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree 5d41b2d9a953ddeefda40c65afbf3b303ebc4085\nparent 55d27a7c23f06fe35fcae4a838579f13cf8a8864\nauthor G-flame <thegreenflame1507@gmail.com> 1773652667 +0530\ncommitter GitHub <noreply@github.com> 1773652667 +0530\n\nRemove unnecessary file",
+          "verified_at": "2026-03-16T09:17:48Z"
+        }
+      },
+      "url": "https://api.github.com/repos/airlinklabs/panel/commits/ec86ddd62f06ca83bacff6cb60ac9eb1e6deb698",
+      "html_url": "https://github.com/airlinklabs/panel/commit/ec86ddd62f06ca83bacff6cb60ac9eb1e6deb698",
+      "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/ec86ddd62f06ca83bacff6cb60ac9eb1e6deb698/comments",
+      "author": {
+        "login": "g-flame",
+        "id": 190345519,
+        "node_id": "U_kgDOC1hxLw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/g-flame",
+        "html_url": "https://github.com/g-flame",
+        "followers_url": "https://api.github.com/users/g-flame/followers",
+        "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
+        "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
+        "organizations_url": "https://api.github.com/users/g-flame/orgs",
+        "repos_url": "https://api.github.com/users/g-flame/repos",
+        "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/g-flame/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "committer": {
+        "login": "web-flow",
+        "id": 19864447,
+        "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/web-flow",
+        "html_url": "https://github.com/web-flow",
+        "followers_url": "https://api.github.com/users/web-flow/followers",
+        "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+        "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+        "organizations_url": "https://api.github.com/users/web-flow/orgs",
+        "repos_url": "https://api.github.com/users/web-flow/repos",
+        "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/web-flow/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "parents": [
+        {
+          "sha": "55d27a7c23f06fe35fcae4a838579f13cf8a8864",
+          "url": "https://api.github.com/repos/airlinklabs/panel/commits/55d27a7c23f06fe35fcae4a838579f13cf8a8864",
+          "html_url": "https://github.com/airlinklabs/panel/commit/55d27a7c23f06fe35fcae4a838579f13cf8a8864"
+        }
+      ]
+    },
+    {
+      "sha": "55d27a7c23f06fe35fcae4a838579f13cf8a8864",
+      "node_id": "C_kwDONJJQeNoAKDU1ZDI3YTdjMjNmMDZmZTM1ZmNhZTRhODM4NTc5ZjEzY2Y4YTg4NjQ",
+      "commit": {
+        "author": {
+          "name": "G-flame",
+          "email": "thegreenflame1507@gmail.com",
+          "date": "2026-03-16T09:17:29Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2026-03-16T09:17:29Z"
+        },
+        "message": "Remove unnecessary file",
+        "tree": {
+          "sha": "02454cfd6890ac5a0e1f54332acccf767b23ab93",
+          "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/02454cfd6890ac5a0e1f54332acccf767b23ab93"
+        },
+        "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/55d27a7c23f06fe35fcae4a838579f13cf8a8864",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJpt8qpCRC1aQ7uu5UhlAAAJEwQABIVyQMIymGhmWnT8DZ0SFgn\nu7lEG+/elYhQwkpEiG9WzEQT1KTJOuQwlkxQy2UNhlX2HWVh9mNpOZ3+aNAuD75z\n35ylfyfqJvIJERmNQQbUM9PU8a3wqbsDWbbyUeep7ob4Mej2iBNmaUt110bvFwHM\nRNvuSyva0fI4An6+v0G79l6wUut8aVkdCmT+U+LVVPf+cm8aVwbAzPUZzKtscT2B\n+w0BI01rLddaev0vQUc71HhVyBI4YaR40ROXvDg43j2D1Sj55w9k02njQ6Vo5FMG\nHy/e+vlPUvCQ64Vun7NYWj6wT9ShJedAhi6Tu3HrCX2zcJHOq8WhXv0LCGQirL6O\nPQmLt9t/xYRLqspj3QNq6pxPHqqjJMyDePKzD7T4MjlpRppSmuSXZ4gUK51lqmVX\nQS9GBPcS64+eMZOcyf9BbBCG4pZsgTCjZo69SQKyOqE6xwHVv1Z4Pc0gGSdku3d3\nhnZy5gakrKACRQ1tqdWgQAnp5QnRAZORO6iLUSodyNAzmwMqaReVJ6wCga7YtW9k\njiyPwmvkCX7ZCZVYC19TohLEG5D/63waT5kr/iy4tb8iiVbdcNDIku4KQ2Exu884\nx01AzCgmcVfb6ihGwlrqFL1pBcblcKrtZ/QYP4fZxUlLzCRavvMxlhYaaUPbSX7c\nGCkJ1qaqpuSwMs2wiMUR\n=ojyb\n-----END PGP SIGNATURE-----\n",
+          "payload": "tree 02454cfd6890ac5a0e1f54332acccf767b23ab93\nparent 9c81699e31d67aedd9cd609b92fc1a1733dc5335\nauthor G-flame <thegreenflame1507@gmail.com> 1773652649 +0530\ncommitter GitHub <noreply@github.com> 1773652649 +0530\n\nRemove unnecessary file",
+          "verified_at": "2026-03-16T09:17:30Z"
+        }
+      },
+      "url": "https://api.github.com/repos/airlinklabs/panel/commits/55d27a7c23f06fe35fcae4a838579f13cf8a8864",
+      "html_url": "https://github.com/airlinklabs/panel/commit/55d27a7c23f06fe35fcae4a838579f13cf8a8864",
+      "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/55d27a7c23f06fe35fcae4a838579f13cf8a8864/comments",
+      "author": {
+        "login": "g-flame",
+        "id": 190345519,
+        "node_id": "U_kgDOC1hxLw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/g-flame",
+        "html_url": "https://github.com/g-flame",
+        "followers_url": "https://api.github.com/users/g-flame/followers",
+        "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
+        "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
+        "organizations_url": "https://api.github.com/users/g-flame/orgs",
+        "repos_url": "https://api.github.com/users/g-flame/repos",
+        "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/g-flame/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "committer": {
+        "login": "web-flow",
+        "id": 19864447,
+        "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/web-flow",
+        "html_url": "https://github.com/web-flow",
+        "followers_url": "https://api.github.com/users/web-flow/followers",
+        "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+        "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+        "organizations_url": "https://api.github.com/users/web-flow/orgs",
+        "repos_url": "https://api.github.com/users/web-flow/repos",
+        "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/web-flow/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "parents": [
+        {
+          "sha": "9c81699e31d67aedd9cd609b92fc1a1733dc5335",
+          "url": "https://api.github.com/repos/airlinklabs/panel/commits/9c81699e31d67aedd9cd609b92fc1a1733dc5335",
+          "html_url": "https://github.com/airlinklabs/panel/commit/9c81699e31d67aedd9cd609b92fc1a1733dc5335"
+        }
+      ]
+    },
+    {
+      "sha": "9c81699e31d67aedd9cd609b92fc1a1733dc5335",
+      "node_id": "C_kwDONJJQeNoAKDljODE2OTllMzFkNjdhZWRkOWNkNjA5YjkyZmMxYTE3MzNkYzUzMzU",
+      "commit": {
+        "author": {
+          "name": "G-flame",
+          "email": "thegreenflame1507@gmail.com",
+          "date": "2026-03-16T09:15:38Z"
+        },
+        "committer": {
+          "name": "G-flame",
+          "email": "thegreenflame1507@gmail.com",
+          "date": "2026-03-16T09:15:38Z"
+        },
+        "message": "fix all animations and replace all native browser elements with custom elements",
+        "tree": {
+          "sha": "6b16322c2a0c3ab45b90b60faa76d864031b8410",
+          "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/6b16322c2a0c3ab45b90b60faa76d864031b8410"
+        },
+        "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/9c81699e31d67aedd9cd609b92fc1a1733dc5335",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      },
+      "url": "https://api.github.com/repos/airlinklabs/panel/commits/9c81699e31d67aedd9cd609b92fc1a1733dc5335",
+      "html_url": "https://github.com/airlinklabs/panel/commit/9c81699e31d67aedd9cd609b92fc1a1733dc5335",
+      "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/9c81699e31d67aedd9cd609b92fc1a1733dc5335/comments",
+      "author": {
+        "login": "g-flame",
+        "id": 190345519,
+        "node_id": "U_kgDOC1hxLw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/g-flame",
+        "html_url": "https://github.com/g-flame",
+        "followers_url": "https://api.github.com/users/g-flame/followers",
+        "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
+        "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
+        "organizations_url": "https://api.github.com/users/g-flame/orgs",
+        "repos_url": "https://api.github.com/users/g-flame/repos",
+        "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/g-flame/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "committer": {
+        "login": "g-flame",
+        "id": 190345519,
+        "node_id": "U_kgDOC1hxLw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/g-flame",
+        "html_url": "https://github.com/g-flame",
+        "followers_url": "https://api.github.com/users/g-flame/followers",
+        "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
+        "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
+        "organizations_url": "https://api.github.com/users/g-flame/orgs",
+        "repos_url": "https://api.github.com/users/g-flame/repos",
+        "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/g-flame/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "parents": [
+        {
+          "sha": "1332a367857227578df2b529b3babfa2d1bbccac",
+          "url": "https://api.github.com/repos/airlinklabs/panel/commits/1332a367857227578df2b529b3babfa2d1bbccac",
+          "html_url": "https://github.com/airlinklabs/panel/commit/1332a367857227578df2b529b3babfa2d1bbccac"
+        }
+      ]
+    },
+    {
+      "sha": "1332a367857227578df2b529b3babfa2d1bbccac",
+      "node_id": "C_kwDONJJQeNoAKDEzMzJhMzY3ODU3MjI3NTc4ZGYyYjUyOWIzYmFiZmEyZDFiYmNjYWM",
+      "commit": {
+        "author": {
+          "name": "G-flame",
+          "email": "thegreenflame1507@gmail.com",
+          "date": "2026-03-16T08:54:07Z"
+        },
+        "committer": {
+          "name": "G-flame",
+          "email": "thegreenflame1507@gmail.com",
+          "date": "2026-03-16T08:54:07Z"
+        },
+        "message": "fix radar by actually reading the api correctly and implmenting it and add some more ui animations and updates",
+        "tree": {
+          "sha": "e282a45b792d5b310622c7b987d095aedbff5e4a",
+          "url": "https://api.github.com/repos/airlinklabs/panel/git/trees/e282a45b792d5b310622c7b987d095aedbff5e4a"
+        },
+        "url": "https://api.github.com/repos/airlinklabs/panel/git/commits/1332a367857227578df2b529b3babfa2d1bbccac",
+        "comment_count": 0,
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null,
+          "verified_at": null
+        }
+      },
+      "url": "https://api.github.com/repos/airlinklabs/panel/commits/1332a367857227578df2b529b3babfa2d1bbccac",
+      "html_url": "https://github.com/airlinklabs/panel/commit/1332a367857227578df2b529b3babfa2d1bbccac",
+      "comments_url": "https://api.github.com/repos/airlinklabs/panel/commits/1332a367857227578df2b529b3babfa2d1bbccac/comments",
+      "author": {
+        "login": "g-flame",
+        "id": 190345519,
+        "node_id": "U_kgDOC1hxLw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/g-flame",
+        "html_url": "https://github.com/g-flame",
+        "followers_url": "https://api.github.com/users/g-flame/followers",
+        "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
+        "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
+        "organizations_url": "https://api.github.com/users/g-flame/orgs",
+        "repos_url": "https://api.github.com/users/g-flame/repos",
+        "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/g-flame/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "committer": {
+        "login": "g-flame",
+        "id": 190345519,
+        "node_id": "U_kgDOC1hxLw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/190345519?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/g-flame",
+        "html_url": "https://github.com/g-flame",
+        "followers_url": "https://api.github.com/users/g-flame/followers",
+        "following_url": "https://api.github.com/users/g-flame/following{/other_user}",
+        "gists_url": "https://api.github.com/users/g-flame/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/g-flame/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/g-flame/subscriptions",
+        "organizations_url": "https://api.github.com/users/g-flame/orgs",
+        "repos_url": "https://api.github.com/users/g-flame/repos",
+        "events_url": "https://api.github.com/users/g-flame/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/g-flame/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "parents": [
+        {
+          "sha": "6c914b54fdfee8b6b04cf24398807b9ca10757d8",
+          "url": "https://api.github.com/repos/airlinklabs/panel/commits/6c914b54fdfee8b6b04cf24398807b9ca10757d8",
+          "html_url": "https://github.com/airlinklabs/panel/commit/6c914b54fdfee8b6b04cf24398807b9ca10757d8"
         }
       ]
     }

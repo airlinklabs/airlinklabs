@@ -1,1 +1,1 @@
-Modrinth Store addon — mod search results inside the panel admin.
+Modrinth Store addon — mod search results inside the panel.

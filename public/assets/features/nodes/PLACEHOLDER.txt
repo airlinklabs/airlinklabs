@@ -1,1 +1,1 @@
-Nodes page — node list with status indicators and instance counts.
+Nodes page — node list with status and instance counts.

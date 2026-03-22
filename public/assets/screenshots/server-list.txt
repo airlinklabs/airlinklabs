@@ -1,1 +1,1 @@
-Server list — table of all servers with owner, node, status badge, RAM and CPU limits.
+Server list — table of all servers with owner, node, status badge, RAM/CPU limits.

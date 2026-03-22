@@ -1,1 +1,1 @@
-Addons page — installed addons with enable/disable toggles, marketplace tab.
+Addons page — installed addons with enable/disable toggles and marketplace tab.

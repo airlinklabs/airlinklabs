@@ -1,1 +1,1 @@
-Server management admin view — all servers across all nodes in a table.
+Server management admin view — all servers across all nodes.
