@@ -8,6 +8,24 @@
   <link rel="icon" href="<%= rootPrefix %>public/assets/favicon.ico" type="image/x-icon">
   <link rel="icon" href="<%= rootPrefix %>public/assets/icon.png"   type="image/png" sizes="any">
 
+  <%
+    var _siteUrl   = (site.siteUrl || '').replace(/\/$/, '');
+    var _pageTitle = pageTitle ? pageTitle + ' — ' + site.title : site.title;
+    var _pageDesc  = pageDescription || site.description;
+    var _ogImage   = _siteUrl + '/public/assets/icon.png';
+    // canonical: siteUrl + path derived from rootPrefix depth
+    var _depth     = (rootPrefix.match(/\.\.\//g) || []).length;
+    var _canonical = _siteUrl + (rootPrefix === '' ? '/' : ('/' + Array(_depth).fill('').join('')));
+  %>
+
+  <!-- Open Graph — used by Discord, GitHub, and most link previewers -->
+  <meta property="og:type"        content="website">
+  <meta property="og:site_name"   content="<%= site.title %>">
+  <meta property="og:title"       content="<%= _pageTitle %>">
+  <meta property="og:description" content="<%= _pageDesc %>">
+  <meta property="og:image"       content="<%= _ogImage %>">
+  <% if (_siteUrl) { %><meta property="og:url" content="<%= _canonical %>"><% } %>
+
   <link rel="preconnect" href="https://api.fontshare.com">
   <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="<%= rootPrefix %>public/css/styles.css">

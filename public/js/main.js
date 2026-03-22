@@ -1,4 +1,38 @@
-// ── Mobile detection — runs once, stores result ──────────────────────────────
+// ── Image fade-in on load ─────────────────────────────────────────────────────
+(function () {
+  function markLoaded(img) {
+    img.classList.add('img-loaded');
+  }
+
+  function watchImage(img) {
+    // Images hidden with display:none don't need the fade treatment
+    if (img.style.display === 'none') return;
+    if (img.complete && img.naturalWidth > 0) {
+      markLoaded(img);
+      return;
+    }
+    // Hard timeout — if the image hasn't loaded in 2s, reveal it anyway
+    var timeout = setTimeout(function () { markLoaded(img); }, 2000);
+    img.addEventListener('load',  function () { clearTimeout(timeout); markLoaded(img); }, { once: true });
+    img.addEventListener('error', function () { clearTimeout(timeout); markLoaded(img); }, { once: true });
+  }
+
+  document.querySelectorAll('img[loading="lazy"]').forEach(watchImage);
+
+  // Pick up dynamically injected lazy images (modal gifs, registry step icons)
+  var observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (m) {
+      m.addedNodes.forEach(function (node) {
+        if (node.nodeType !== 1) return;
+        if (node.tagName === 'IMG' && node.getAttribute('loading') === 'lazy') watchImage(node);
+        if (node.querySelectorAll) node.querySelectorAll('img[loading="lazy"]').forEach(watchImage);
+      });
+    });
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
+
+
 (function () {
   var stored = null;
   try { stored = localStorage.getItem('isMobile'); } catch (e) {}
@@ -104,8 +138,70 @@ document.addEventListener('click', function (e) {
   if (el.closest('[data-theme-toggle]')) return;
   if (el.closest('.copy-btn')) return;
   if (el.id === 'mute-btn' || el.id === 'mute-btn-mobile') return;
+  if (el.id === 'redirect-confirm' || el.id === 'redirect-cancel') return;
   sounds.play('click');
 });
+
+// ── Redirect confirmation popup ───────────────────────────────────────────────
+(function () {
+  var overlay    = document.getElementById('redirect-overlay');
+  var domainEl   = document.getElementById('redirect-domain');
+  var cancelBtn  = document.getElementById('redirect-cancel');
+  var confirmBtn = document.getElementById('redirect-confirm');
+  if (!overlay) return;
+
+  var pendingHref = '';
+
+  function isExternal(href) {
+    try {
+      var url = new URL(href, window.location.href);
+      return url.origin !== window.location.origin;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function openRedirect(href) {
+    pendingHref = href;
+    try { domainEl.textContent = new URL(href).hostname; } catch (e) { domainEl.textContent = href; }
+    overlay.classList.add('open');
+    if (typeof sounds !== 'undefined') sounds.play('modalOpen');
+  }
+
+  function closeRedirect() {
+    overlay.classList.remove('open');
+    pendingHref = '';
+    if (typeof sounds !== 'undefined') sounds.play('modalClose');
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href]');
+    if (!a) return;
+    var href = a.getAttribute('href');
+    if (!href || !isExternal(href)) return;
+    e.preventDefault();
+    openRedirect(href);
+  });
+
+  cancelBtn.addEventListener('click', closeRedirect);
+
+  confirmBtn.addEventListener('click', function () {
+    if (typeof sounds !== 'undefined') sounds.play('click');
+    overlay.classList.remove('open');
+    if (pendingHref) window.open(pendingHref, '_blank', 'noopener,noreferrer');
+    pendingHref = '';
+  });
+
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeRedirect();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (!overlay.classList.contains('open')) return;
+    if (e.key === 'Escape') closeRedirect();
+    if (e.key === 'Enter')  confirmBtn.click();
+  });
+})();
 
 // ── Loading screen + staggered hero reveal ────────────────────────────────────
 (function () {
@@ -137,7 +233,7 @@ document.addEventListener('click', function (e) {
 
     var delay = screen ? 240 : 0;
 
-    // Non-SPA pages — fade up page-content as one block
+    // Non-SPA pages — fade up the whole content block
     if (content) {
       content.style.opacity    = '0';
       content.style.transform  = 'translateY(14px)';
@@ -150,7 +246,7 @@ document.addEventListener('click', function (e) {
       return;
     }
 
-    // SPA home page — stagger hero elements
+    // SPA home — stagger individual hero elements
     staggerIn([
       document.querySelector('#hero-left > div:first-child'),
       document.querySelector('#hero-left h1'),
@@ -167,7 +263,8 @@ document.addEventListener('click', function (e) {
     window.addEventListener('load', function () { setTimeout(reveal, 40); });
   }
 
-  // Outgoing navigation — fade out, show loading screen, navigate
+  // Outgoing internal navigation — page is already painted so switch loading screen
+  // to frosted glass mode before showing it
   document.addEventListener('click', function (e) {
     var a = e.target.closest('a[href]');
     if (!a) return;
@@ -186,6 +283,7 @@ document.addEventListener('click', function (e) {
 
     if (screen) {
       setTimeout(function () {
+        screen.classList.add('glass');
         screen.style.display    = 'flex';
         screen.style.opacity    = '0';
         screen.style.transition = 'opacity 160ms ' + EASE;
