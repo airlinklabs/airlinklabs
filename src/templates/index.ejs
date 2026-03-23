@@ -283,6 +283,12 @@ const pageDescription = site.description;
               <span style="font-size:10px;color:var(--color-text-3);font-family:var(--font-mono);">repos</span>
             </div>
 
+            <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg-2);border-radius:999px;padding:6px 14px 6px 10px;">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-success);flex-shrink:0;"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+              <span id="hero-install-count" style="font-size:12px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);letter-spacing:-0.02em;">—</span>
+              <span style="font-size:10px;color:var(--color-text-3);font-family:var(--font-mono);">installs</span>
+            </div>
+
           </div>
         </div>
 
@@ -1580,6 +1586,19 @@ const pageDescription = site.description;
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && overlay.style.pointerEvents === 'auto') closeContrib();
   });
+})();
+</script>
+
+<script>
+(function() {
+  var el = document.getElementById('hero-install-count');
+  if (!el) return;
+  fetch('https://api.counterapi.dev/v2/airlinklabs/installed-air')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (typeof data.count === 'number') el.textContent = data.count.toLocaleString();
+    })
+    .catch(function() {});
 })();
 </script>
 
