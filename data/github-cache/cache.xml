@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cache>
-  <generatedAt>2026-03-27T05:29:29.367Z</generatedAt>
+  <generatedAt>2026-03-29T05:40:14.677Z</generatedAt>
   <stats>
     <panelStars>51</panelStars>
     <daemonStars>10</daemonStars>
@@ -63,7 +63,7 @@
       <company></company>
       <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
       <htmlUrl>https://github.com/bthavanish</htmlUrl>
-      <contributions>15</contributions>
+      <contributions>16</contributions>
     </contributor>
     <contributor>
       <login>pika4manu</login>
@@ -72,7 +72,7 @@
       <company></company>
       <avatarUrl>https://avatars.githubusercontent.com/u/167890437?v=4</avatarUrl>
       <htmlUrl>https://github.com/pika4manu</htmlUrl>
-      <contributions>6</contributions>
+      <contributions>7</contributions>
     </contributor>
     <contributor>
       <login>resslr</login>
@@ -159,6 +159,28 @@ Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
     </contributor>
   </contributors>
   <panelCommits>
+    <commit>
+      <sha>6763ef1bf39414e5103ebdf2efd39481c2e83e2b</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/6763ef1bf39414e5103ebdf2efd39481c2e83e2b</htmlUrl>
+      <message>fix mobile admin only server edit button 
+
+Fix redirect from Mobile Server page to Admin Server page</message>
+      <author>
+        <name>i guess so ?</name>
+        <date>2026-03-28T13:24:10Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>6502d46cdad47a575cc40ed82425ca59e85f0175</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/6502d46cdad47a575cc40ed82425ca59e85f0175</htmlUrl>
+      <message>Fix redirect from Mobile Server page to Admin Server page</message>
+      <author>
+        <name>Pika4Manu</name>
+        <date>2026-03-28T13:09:33Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/167890437?v=4</avatarUrl>
+      </author>
+    </commit>
     <commit>
       <sha>f81d0b8cedf9721751d6c983eb8406de824ccb42</sha>
       <htmlUrl>https://github.com/airlinklabs/panel/commit/f81d0b8cedf9721751d6c983eb8406de824ccb42</htmlUrl>
@@ -287,26 +309,6 @@ Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
         <name>Thavanish brijesh</name>
         <date>2026-03-19T07:22:47Z</date>
         <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>e206301dda7178b3f628253adba4842ff4904f1c</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/e206301dda7178b3f628253adba4842ff4904f1c</htmlUrl>
-      <message>v2.0.0-rc1</message>
-      <author>
-        <name>i guess so ?</name>
-        <date>2026-03-19T06:12:55Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>0c6146578ccd14b69dc030a6ec67da3581858882</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/0c6146578ccd14b69dc030a6ec67da3581858882</htmlUrl>
-      <message>2.0.0-rc1</message>
-      <author>
-        <name>i guess so ?</name>
-        <date>2026-03-19T06:12:28Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
       </author>
     </commit>
   </panelCommits>
