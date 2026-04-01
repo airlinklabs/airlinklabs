@@ -103,7 +103,7 @@
   }
 })();
 
-// ── Copy buttons ──────────────────────────────────────────────────────────────
+// ── Copy buttons (installer wizard code blocks) ───────────────────────────────
 document.addEventListener('click', function (e) {
   var btn = e.target.closest('.copy-btn');
   if (!btn) return;
@@ -130,6 +130,32 @@ document.addEventListener('click', function (e) {
   });
 });
 
+// ── Copy buttons (prose code blocks in docs / blog) ───────────────────────────
+document.addEventListener('click', function (e) {
+  var btn = e.target.closest('.prose-copy-btn');
+  if (!btn) return;
+  e.stopPropagation();
+
+  var block = btn.closest('.prose-code-block');
+  if (!block) return;
+
+  var pre = block.querySelector('pre');
+  var text = pre ? (pre.textContent || '') : '';
+
+  navigator.clipboard.writeText(text.trim()).then(function () {
+    if (typeof sounds !== 'undefined') sounds.play('copy');
+    var orig = btn.innerHTML;
+    btn.innerHTML = '<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Copied';
+    btn.style.color       = 'var(--color-success)';
+    btn.style.borderColor = 'var(--color-success)';
+    setTimeout(function () {
+      btn.innerHTML         = orig;
+      btn.style.color       = '';
+      btn.style.borderColor = '';
+    }, 2000);
+  });
+});
+
 // ── Click sounds ──────────────────────────────────────────────────────────────
 document.addEventListener('click', function (e) {
   if (typeof sounds === 'undefined') return;
@@ -137,6 +163,7 @@ document.addEventListener('click', function (e) {
   if (!el) return;
   if (el.closest('[data-theme-toggle]')) return;
   if (el.closest('.copy-btn')) return;
+  if (el.closest('.prose-copy-btn')) return;
   if (el.id === 'mute-btn' || el.id === 'mute-btn-mobile') return;
   if (el.id === 'redirect-confirm' || el.id === 'redirect-cancel') return;
   sounds.play('click');
@@ -296,3 +323,5 @@ document.addEventListener('click', function (e) {
     }
   });
 })();
+
+// ~ https://github.com/thavanish edited this shitty code

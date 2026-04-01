@@ -166,17 +166,18 @@ async function loadXmlCache(filePath: string): Promise<GithubCache> {
 }
 
 // Small SVG icons used in templates via featureIcon()
+// lucide-static v1.7.0 — real paths, not hand-rolled garbage
 const ICONS: Record<string, string> = {
-  server:   '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>',
-  terminal: '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>',
-  folder:   '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>',
-  network:  '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="5" rx="1.5"/><rect x="2" y="9.5" width="20" height="5" rx="1.5"/><rect x="2" y="17" width="20" height="5" rx="1.5"/><line x1="6" y1="4.5" x2="6.01" y2="4.5"/><line x1="9" y1="4.5" x2="9.01" y2="4.5"/><line x1="6" y1="12" x2="6.01" y2="12"/><line x1="9" y1="12" x2="9.01" y2="12"/><line x1="6" y1="19.5" x2="6.01" y2="19.5"/><line x1="9" y1="19.5" x2="9.01" y2="19.5"/></svg>',
-  users:    '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
-  puzzle:   '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>',
-  plug:     '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M12 22v-4"/><path d="M7 10v2a5 5 0 0 0 10 0v-2"/><line x1="9" y1="3" x2="9" y2="7"/><line x1="15" y1="3" x2="15" y2="7"/><rect x="7" y="7" width="10" height="3" rx="1"/></svg>',
-  transfer: '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>',
-  database: '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>',
-  egg:      '<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path d="M12 2C8.5 2 5 6 5 12c0 4.4 3.1 10 7 10s7-5.6 7-10c0-6-3.5-10-7-10z"/><path d="M9 11l2 2 4-3"/></svg>',
+  server:   '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>',
+  terminal: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19h8"/><path d="m4 17 6-6-6-6"/></svg>',
+  folder:   '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>',
+  network:  '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>',
+  users:    '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg>',
+  puzzle:   '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.39 4.39a1 1 0 0 0 1.68-.474 2.5 2.5 0 1 1 3.014 3.015 1 1 0 0 0-.474 1.68l1.683 1.682a2.414 2.414 0 0 1 0 3.414L19.61 15.39a1 1 0 0 1-1.68-.474 2.5 2.5 0 1 0-3.014 3.015 1 1 0 0 1 .474 1.68l-1.683 1.682a2.414 2.414 0 0 1-3.414 0L8.61 19.61a1 1 0 0 0-1.68.474 2.5 2.5 0 1 1-3.014-3.015 1 1 0 0 0 .474-1.68l-1.683-1.682a2.414 2.414 0 0 1 0-3.414L4.39 8.61a1 1 0 0 1 1.68.474 2.5 2.5 0 1 0 3.014-3.015 1 1 0 0 1-.474-1.68l1.683-1.682a2.414 2.414 0 0 1 3.414 0z"/></svg>',
+  plug:     '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M15 8V2"/><path d="M17 8a1 1 0 0 1 1 1v4a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1z"/><path d="M9 8V2"/></svg>',
+  transfer: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></svg>',
+  database: '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>',
+  egg:      '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8 2 4 8 4 14a8 8 0 0 0 16 0c0-6-4-12-8-12"/></svg>',
 };
 
 function featureIcon(key: string): string {
@@ -190,8 +191,10 @@ async function loadDocPages(): Promise<DocPage[]> {
   const pages = await Promise.all(files.map(async (file) => {
     const raw    = await fs.readFile(path.join(docsDir, file), 'utf-8');
     const parsed = fm<{ title?: string; description?: string; order?: number; author?: string; date?: string }>(raw);
-    const content = await marked(parsed.body);
-    const slug    = path.basename(file, '.md');
+    const slug           = path.basename(file, '.md');
+    const bodyWithImages = resolveContentImages(parsed.body, `/public/assets/docs/${slug}`);
+    let content          = await marked(bodyWithImages);
+    content              = injectProseCodeCopyButtons(content);
     return {
       slug,
       title:       parsed.attributes.title       || slug,
@@ -206,6 +209,145 @@ async function loadDocPages(): Promise<DocPage[]> {
   return pages.sort((a, b) => a.order - b.order);
 }
 
+// <(filename.ext)> — image embeds
+// <(chart title="..." ...)> — inline bar chart
+// <(statusgrid title="..." items="Label:100,Label:70")> — status table in a box
+// <(progress label="..." value=75)> — single progress bar (kept for back-compat)
+// modifiers for images (space-separated):
+//   full, noround, alt="...", caption="..."
+function resolveContentImages(html: string, assetBasePath: string): string {
+  return html.replace(/<\(((?:[^)>]|\([^)]*\))+)\)>/g, (_match, inner) => {
+    const raw   = inner.trim();
+    const parts = raw.split(/\s+/);
+    const first = parts[0];
+    if (!first) return '';
+
+    // ── chart block ──────────────────────────────────────────────────────────
+    // syntax: <(chart title="Migration timeline" bars="Phase 1:100,Phase 2:65,Phase 3:20")>
+    if (first === 'chart') {
+      let title  = '';
+      let barsRaw = '';
+      let caption = '';
+      const kvRe = /(\w+)="([^"]*)"/g;
+      let m: RegExpExecArray | null;
+      while ((m = kvRe.exec(raw)) !== null) {
+        if (m[1] === 'title')   title   = m[2];
+        if (m[1] === 'bars')    barsRaw = m[2];
+        if (m[1] === 'caption') caption = m[2];
+      }
+      const bars = barsRaw.split(',').map(b => {
+        const idx = b.lastIndexOf(':');
+        return { label: b.slice(0, idx).trim(), value: parseInt(b.slice(idx + 1), 10) || 0 };
+      });
+      const maxVal = Math.max(...bars.map(b => b.value), 1);
+      const barsHtml = bars.map(b => {
+        const pct = Math.round((b.value / maxVal) * 100);
+        return `<div class="prose-chart-row">`
+          + `<span class="prose-chart-label">${b.label}</span>`
+          + `<div class="prose-chart-track">`
+          + `<div class="prose-chart-bar" style="width:${pct}%"></div>`
+          + `</div>`
+          + `<span class="prose-chart-val">${b.value}%</span>`
+          + `</div>`;
+      }).join('');
+      const titleHtml  = title   ? `<p class="prose-chart-title">${title}</p>` : '';
+      const captionHtml = caption ? `<p class="prose-caption" style="text-align:left;">${caption}</p>` : '';
+      return `<div class="prose-chart">${titleHtml}${barsHtml}${captionHtml}</div>`;
+    }
+
+    // ── status grid ───────────────────────────────────────────────────────────
+    // syntax: <(statusgrid title="..." items="Label:100,Label:70,Label:30")>
+    // value 100 = done, 60-99 = partial, <60 = wip
+    if (first === 'statusgrid') {
+      let title    = '';
+      let itemsRaw = '';
+      const kvRe2  = /(\w+)="([^"]*)"/g;
+      let m2: RegExpExecArray | null;
+      while ((m2 = kvRe2.exec(raw)) !== null) {
+        if (m2[1] === 'title') title    = m2[2];
+        if (m2[1] === 'items') itemsRaw = m2[2];
+      }
+      const items = itemsRaw.split(',').map(s => {
+        const idx   = s.lastIndexOf(':');
+        const label = s.slice(0, idx).trim();
+        const val   = parseInt(s.slice(idx + 1), 10) || 0;
+        let badgeClass = 'wip';
+        let badgeText  = 'in progress';
+        if (val === 100) { badgeClass = 'done';    badgeText = 'done'; }
+        else if (val >= 60) { badgeClass = 'partial'; badgeText = 'partial'; }
+        return { label, badgeClass, badgeText };
+      });
+      const titleHtml = title ? `<div class="prose-status-grid-title">${title}</div>` : '';
+      const rowsHtml  = items.map(it =>
+        `<div class="prose-status-row">`
+        + `<span class="prose-status-label">${it.label}</span>`
+        + `<span class="prose-status-badge ${it.badgeClass}">${it.badgeText}</span>`
+        + `</div>`
+      ).join('');
+      return `<div class="prose-status-grid">${titleHtml}${rowsHtml}</div>`;
+    }
+
+    // ── progress bar (kept for back-compat) ──────────────────────────────────
+    if (first === 'progress') {
+      let label = '';
+      let value = 0;
+      const kvRe2 = /(\w+)="([^"]*)"/g;
+      let m2: RegExpExecArray | null;
+      while ((m2 = kvRe2.exec(raw)) !== null) {
+        if (m2[1] === 'label') label = m2[2];
+      }
+      const numMatch = raw.match(/value=(\d+)/);
+      if (numMatch) value = parseInt(numMatch[1], 10);
+      return `<div class="prose-progress">`
+        + `<div class="prose-progress-header">`
+        + `<span class="prose-progress-label">${label}</span>`
+        + `<span class="prose-progress-val">${value}%</span>`
+        + `</div>`
+        + `<div class="prose-progress-track">`
+        + `<div class="prose-progress-fill" style="width:${value}%"></div>`
+        + `</div>`
+        + `</div>`;
+    }
+
+    // ── image ─────────────────────────────────────────────────────────────────
+    const modifiers = parts.slice(1);
+    const isFull    = modifiers.includes('full');
+    const noRound   = modifiers.includes('noround');
+
+    let alt     = '';
+    let caption = '';
+    for (const mod of modifiers) {
+      const altMatch     = mod.match(/^alt="([^"]*)"$/);
+      const captionMatch = mod.match(/^caption="([^"]*)"$/);
+      if (altMatch)     alt     = altMatch[1];
+      if (captionMatch) caption = captionMatch[1];
+    }
+
+    const src        = `${assetBasePath}/${first}`;
+    const roundStyle = noRound ? '' : 'border-radius:8px;';
+    const widthStyle = isFull  ? 'width:100%;max-width:100%;' : 'max-width:100%;';
+    const imgHtml    = `<img src="${src}" alt="${alt}" loading="lazy" class="prose-img img-loaded" style="${widthStyle}${roundStyle}display:block;">`;
+
+    if (caption) {
+      return `<figure class="prose-figure">${imgHtml}<figcaption class="prose-caption">${caption}</figcaption></figure>`;
+    }
+    return `<figure class="prose-figure">${imgHtml}</figure>`;
+  });
+}
+
+// wrap every <pre> in prose with a relative div + inject a copy button
+// main.js already handles .prose-copy-btn clicks via the same clipboard pattern
+function injectProseCodeCopyButtons(html: string): string {
+  return html.replace(/<pre>/g, () => {
+    const btn = `<button class="prose-copy-btn" aria-label="Copy code" type="button">`
+      + `<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">`
+      + `<rect x="9" y="9" width="13" height="13" rx="2"/>`
+      + `<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>`
+      + `</svg> Copy</button>`;
+    return `<div class="prose-code-block">${btn}<pre>`;
+  }).replace(/<\/pre>/g, '</pre></div>');
+}
+
 async function loadAnnouncements(): Promise<Announcement[]> {
   const dir   = path.join(DATA, 'docs', 'announcements');
   const exists = await fs.pathExists(dir);
@@ -216,8 +358,13 @@ async function loadAnnouncements(): Promise<Announcement[]> {
   const posts = await Promise.all(files.map(async (file) => {
     const raw    = await fs.readFile(path.join(dir, file), 'utf-8');
     const parsed = fm<{ title?: string; date?: string; author?: string; authorGithub?: string; pinned?: boolean }>(raw);
-    const content = await marked(parsed.body);
-    const slug    = path.basename(file, '.md');
+    const slug   = path.basename(file, '.md');
+
+    // resolve images before passing to marked so the custom tags don't get escaped
+    const bodyWithImages = resolveContentImages(parsed.body, `/public/assets/blog/${slug}`);
+    let content = await marked(bodyWithImages);
+    content = injectProseCodeCopyButtons(content);
+
     return {
       slug,
       title:        parsed.attributes.title        || slug,
@@ -338,6 +485,11 @@ async function build() {
     await fs.outputFile(path.join(DIST, 'blog', post.slug, 'index.html'), postHtml);
     console.log(`  blog/${post.slug}/index.html`);
   }
+
+  // 404.html — GitHub Pages serves this for any unmatched path
+  const notFoundHtml = await renderTemplate(path.join(TEMPLATES, '404.ejs'), base);
+  await fs.outputFile(path.join(DIST, '404.html'), notFoundHtml);
+  console.log('  404.html');
 
   // write screenshot placeholder text files into the source tree (not dist)
   // so the developer knows what screenshots to drop in

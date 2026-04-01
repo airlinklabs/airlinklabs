@@ -511,6 +511,215 @@ button:active, a:active {
   border-radius: 4px;
 }
 
+/* prose code blocks get a wrapper so we can position the copy button */
+.prose-code-block {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.prose-code-block pre {
+  margin-bottom: 0;
+}
+
+.prose-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--color-text-3);
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-border);
+  padding: 4px 9px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 120ms, color 120ms, border-color 120ms, transform 120ms;
+  pointer-events: none;
+}
+
+.prose-code-block:hover .prose-copy-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.prose-copy-btn:hover  { transform: translateY(-1px); color: var(--color-text-1); }
+.prose-copy-btn:active { transform: scale(0.94); }
+
+/* prose embedded images */
+.prose-figure {
+  margin: 1.5rem 0;
+}
+
+.prose-img {
+  border: 1px solid var(--color-border);
+}
+
+.prose-caption {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: var(--color-text-4);
+  margin-top: 8px;
+  text-align: center;
+  display: block;
+}
+
+/* prose bar charts */
+.prose-chart {
+  margin: 1.5rem 0;
+  padding: 16px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-bg-2);
+}
+
+.prose-chart-title {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--color-text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 14px;
+}
+
+.prose-chart-row {
+  display: grid;
+  grid-template-columns: 130px 1fr 36px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 9px;
+}
+
+.prose-chart-label {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--color-text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prose-chart-track {
+  height: 5px;
+  background: var(--color-bg-3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.prose-chart-bar {
+  height: 100%;
+  background: var(--color-text-1);
+  border-radius: 3px;
+  transition: width 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.prose-chart-val {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--color-text-4);
+  text-align: right;
+}
+
+@media (max-width: 480px) {
+  .prose-chart-row {
+    grid-template-columns: 90px 1fr 32px;
+    gap: 8px;
+  }
+}
+
+/* prose single progress bars */
+.prose-progress {
+  margin: 1rem 0;
+}
+
+.prose-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.prose-progress-label {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--color-text-2);
+}
+
+.prose-progress-val {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--color-text-4);
+}
+
+.prose-progress-track {
+  height: 4px;
+  background: var(--color-bg-3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.prose-progress-fill {
+  height: 100%;
+  background: var(--color-text-1);
+  border-radius: 2px;
+}
+
+/* prose status grid — feature/task status table inside a box */
+.prose-status-grid {
+  margin: 1.5rem 0;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.prose-status-grid-title {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-3);
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--color-text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.prose-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-2);
+}
+
+.prose-status-row:last-child {
+  border-bottom: none;
+}
+
+.prose-status-label {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--color-text-2);
+}
+
+.prose-status-badge {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.prose-status-badge.done    { color: var(--color-success); border-color: var(--color-success); }
+.prose-status-badge.partial { color: var(--color-warning); border-color: var(--color-warning); }
+.prose-status-badge.wip     { color: var(--color-text-3);  border-color: var(--color-border-input); }
+
 /* ── Responsive: mobile breakpoint ──────────────────────────────────────────── */
 @media (max-width: 600px) {
   #right-strip { display: none !important; }
@@ -672,12 +881,14 @@ button:active, a:active {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   padding: 16px 0;
   border-bottom: 1px solid var(--color-border);
   text-decoration: none;
+  color: var(--color-text-1);
   transition: padding-left 150ms cubic-bezier(0.4, 0, 0.2, 1);
   min-width: 0;
+  overflow: hidden;
 }
 
 .blog-post-row:hover {
@@ -690,31 +901,56 @@ button:active, a:active {
   color: var(--color-text-1);
   letter-spacing: -0.015em;
   margin: 0 0 5px;
-  /* wrap cleanly on mobile */
-  overflow-wrap: break-word;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   word-break: break-word;
-  hyphens: auto;
+}
+
+@media (min-width: 640px) {
+  .blog-post-row .post-title {
+    -webkit-line-clamp: unset;
+    display: block;
+    overflow: visible;
+    white-space: normal;
+  }
 }
 
 .blog-post-row .post-meta {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 6px;
+  flex-wrap: nowrap;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .blog-post-row .post-meta span {
   font-size: 11px;
   font-family: var(--font-mono);
   color: var(--color-text-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 
 .blog-post-row .post-date {
   font-size: 11px;
   font-family: var(--font-mono);
   color: var(--color-text-4);
-  flex-shrink: 0;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90px;
+  flex-shrink: 1;
+}
+
+@media (max-width: 400px) {
+  .blog-post-row .post-date {
+    display: none;
+  }
 }
 
 .blog-card {
@@ -741,8 +977,19 @@ button:active, a:active {
   letter-spacing: -0.015em;
   margin: 0 0 10px;
   flex: 1;
-  overflow-wrap: break-word;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   word-break: break-word;
+}
+
+@media (min-width: 640px) {
+  .blog-card .post-title {
+    -webkit-line-clamp: unset;
+    display: block;
+    overflow: visible;
+  }
 }
 
 /* ── Blog post reading layout ────────────────────────────────────────────────── */

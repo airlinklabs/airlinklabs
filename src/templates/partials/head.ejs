@@ -29,6 +29,7 @@
   <link rel="preconnect" href="https://api.fontshare.com">
   <link href="https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="<%= rootPrefix %>public/css/styles.css">
+  <link rel="preload" as="image" href="<%= rootPrefix %>public/assets/icon.png">
 
   <!-- Prevent theme flash — must run before first paint -->
   <script>
@@ -65,6 +66,7 @@
 <div id="loading-screen">
   <div id="loading-inner">
     <img src="<%= rootPrefix %>public/assets/icon.png" alt="" width="32" height="32"
+      fetchpriority="high"
       onerror="this.style.display='none'">
     <span id="loading-title">AirLink</span>
   </div>

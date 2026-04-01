@@ -188,10 +188,23 @@ const pageDescription = site.description;
     display: grid;
     grid-template-columns: 1fr;
     gap: clamp(10px, 1.5vw, 14px);
-    height: clamp(300px, 42vh, 420px);
   }
   @media (min-width: 700px) {
-    #activity-grid { grid-template-columns: 1fr 1fr; }
+    #activity-grid {
+      grid-template-columns: 1fr 1fr;
+      height: clamp(300px, 42vh, 420px);
+    }
+  }
+
+  /* Mobile: cap the scrollable lists so they don't expand infinitely */
+  .activity-scroll {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--color-bg-2);
+    max-height: 320px;
+  }
+  @media (min-width: 700px) {
+    .activity-scroll { max-height: none; }
   }
 
   /* Team */
@@ -614,7 +627,7 @@ const pageDescription = site.description;
           <div style="padding:10px 14px;border-bottom:1px solid var(--color-border);background:var(--color-bg-3);flex-shrink:0;">
             <span style="font-size:11px;font-family:var(--font-mono);font-weight:500;color:var(--color-text-2);">Recent commits</span>
           </div>
-          <div style="flex:1;overflow-y:auto;background:var(--color-bg-2);">
+          <div class="activity-scroll">
             <% if (allCommits.length) { %>
               <% allCommits.slice(0,14).forEach(function(commit) { %>
               <div class="commit-row" data-commit='<%- JSON.stringify({sha:commit.sha,msg:commit.commit.message,author:commit.commit.author.name,date:commit.commit.author.date,avatar:commit.author?commit.author.avatar_url:"",repo:commit._repo,url:commit.html_url}).replace(/'/g,"&#39;") %>'
@@ -644,7 +657,7 @@ const pageDescription = site.description;
             <span style="font-size:11px;font-family:var(--font-mono);font-weight:500;color:var(--color-text-2);">Contributors</span>
             <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);"><%= (_stats.contributors || 0) %> total</span>
           </div>
-          <div style="flex:1;overflow-y:auto;background:var(--color-bg-2);">
+          <div class="activity-scroll">
             <% if (githubCache.contributors && githubCache.contributors.length) { %>
               <%
                 var totalContribs = githubCache.contributors.reduce(function(s,c){ return s + (c.contributions||0); }, 0);
