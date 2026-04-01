@@ -62,7 +62,9 @@ function serve(port = 3000) {
       }
     }
 
-    const fallback = path.join(DIST, 'index.html');
+    const fallback404  = path.join(DIST, '404.html');
+    const fallbackHome = path.join(DIST, 'index.html');
+    const fallback = fs.existsSync(fallback404) ? fallback404 : fallbackHome;
     if (fs.existsSync(fallback)) {
       res.writeHead(404, { 'Content-Type': 'text/html' });
       res.end(fs.readFileSync(fallback));

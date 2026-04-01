@@ -157,30 +157,58 @@ const pageDescription = site.description;
   #install-layout {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 0;
   }
-  #install-wizard {
+
+  /* Tab switcher — shown on all sizes */
+  #install-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--color-bg-2);
+  }
+  .install-tab {
     flex: 1;
-    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: var(--font-mono);
+    color: var(--color-text-3);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color 140ms, background 140ms;
+    border-right: 1px solid var(--color-border);
   }
-  #install-video-col {
-    flex: 1;
-    min-width: 0;
+  .install-tab:last-child { border-right: none; }
+  .install-tab.active {
+    color: var(--color-text-1);
+    background: var(--color-bg-hover);
   }
+  .install-tab svg { flex-shrink: 0; }
+
+  #install-panel-wizard,
+  #install-panel-video {
+    width: 100%;
+  }
+
   @media (min-width: 860px) {
     #install-layout {
       flex-direction: row;
       align-items: flex-start;
+      gap: 24px;
     }
-    #install-wizard    { max-width: 480px; }
-    #install-video-col { position: sticky; top: 0; }
-    /* Desktop: toggle button never shown, video body always shown */
-    #video-toggle { display: none !important; }
-    #video-body   { display: block !important; }
-  }
-  @media (max-width: 859px) {
-    /* Mobile: show the toggle button */
-    #video-toggle { display: flex !important; }
+    /* Desktop: always show both panels side by side, hide the tab bar */
+    #install-tabs { display: none; }
+    #install-panel-wizard { flex: 1; min-width: 0; max-width: 480px; }
+    #install-panel-video  { flex: 1; min-width: 0; position: sticky; top: 0; display: block !important; }
   }
 
   /* Activity */
@@ -205,6 +233,52 @@ const pageDescription = site.description;
   }
   @media (min-width: 700px) {
     .activity-scroll { max-height: none; }
+  }
+
+  /* Activity mobile tabs */
+  #activity-tabs {
+    display: flex;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    background: var(--color-bg-2);
+  }
+  .activity-tab {
+    flex: 1;
+    padding: 9px 12px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--color-text-3);
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--color-border);
+    cursor: pointer;
+    transition: color 140ms, background 140ms;
+  }
+  .activity-tab:last-child { border-right: none; }
+  .activity-tab.active { color: var(--color-text-1); background: var(--color-bg-hover); }
+  @media (min-width: 700px) { #activity-tabs { display: none; } }
+
+  /* Team mobile */
+  @media (max-width: 539px) {
+    #team-featured {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      gap: 10px;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    #team-featured::-webkit-scrollbar { display: none; }
+    #team-featured > div {
+      min-width: 140px;
+      flex-shrink: 0;
+    }
+    #team-others {
+      grid-template-columns: repeat(3, 1fr) !important;
+    }
   }
 
   /* Team */
@@ -456,8 +530,20 @@ const pageDescription = site.description;
 
       <div id="install-layout">
 
-        <!-- Left / top: wizard -->
-        <div id="install-wizard">
+        <!-- Tab switcher (mobile only — hidden on desktop by CSS) -->
+        <div id="install-tabs">
+          <button class="install-tab active" id="tab-wizard" onclick="installTab('wizard')">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            Configure
+          </button>
+          <button class="install-tab" id="tab-video" onclick="installTab('video')">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+            Walkthrough
+          </button>
+        </div>
+
+        <!-- Wizard panel -->
+        <div id="install-panel-wizard">
 
           <!-- Progress dots -->
           <div id="wiz-dots" style="display:flex;gap:6px;margin-bottom:20px;align-items:center;"></div>
@@ -493,20 +579,8 @@ const pageDescription = site.description;
 
         </div>
 
-        <!-- Right / bottom: video walkthrough -->
-        <div id="install-video-col">
-
-          <!-- Mobile-only toggle — hidden on desktop via CSS -->
-          <button id="video-toggle"
-            style="display:none;align-items:center;gap:8px;width:100%;background:transparent;border:1px solid var(--color-border);border-radius:10px;padding:11px 14px;cursor:pointer;text-align:left;margin-bottom:8px;"
-            onmouseover="this.style.background='var(--color-bg-hover)';this.style.borderColor='var(--color-border-input)'"
-            onmouseout="this.style.background='transparent';this.style.borderColor='var(--color-border)'">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" style="color:var(--color-text-3);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
-            <span id="video-toggle-label" style="font-size:12px;font-weight:500;color:var(--color-text-2);flex:1;">Watch the install walkthrough</span>
-            <svg id="video-chevron" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--color-text-4);flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-
-          <!-- Video body — always visible on desktop, toggled on mobile -->
+        <!-- Video panel -->
+        <div id="install-panel-video" style="display:none;">
           <div id="video-body" style="border-radius:10px;overflow:hidden;border:1px solid var(--color-border);aspect-ratio:16/9;background:var(--color-bg-3);">
             <!-- iframe injected by JS -->
           </div>
@@ -620,10 +694,16 @@ const pageDescription = site.description;
         </div>
       </div>
 
+      <!-- Mobile tabs — hidden on desktop via CSS -->
+      <div id="activity-tabs">
+        <button class="activity-tab active" onclick="activityTab('commits')">Commits</button>
+        <button class="activity-tab" onclick="activityTab('contributors')">Contributors</button>
+      </div>
+
       <div id="activity-grid">
 
         <!-- Commits list -->
-        <div style="border:1px solid var(--color-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;">
+        <div id="activity-panel-commits" style="border:1px solid var(--color-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;">
           <div style="padding:10px 14px;border-bottom:1px solid var(--color-border);background:var(--color-bg-3);flex-shrink:0;">
             <span style="font-size:11px;font-family:var(--font-mono);font-weight:500;color:var(--color-text-2);">Recent commits</span>
           </div>
@@ -652,7 +732,7 @@ const pageDescription = site.description;
         </div>
 
         <!-- Contributors list -->
-        <div style="border:1px solid var(--color-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;">
+        <div id="activity-panel-contributors" style="border:1px solid var(--color-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;">
           <div style="padding:10px 14px;border-bottom:1px solid var(--color-border);background:var(--color-bg-3);flex-shrink:0;display:flex;justify-content:space-between;align-items:center;">
             <span style="font-size:11px;font-family:var(--font-mono);font-weight:500;color:var(--color-text-2);">Contributors</span>
             <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);"><%= (_stats.contributors || 0) %> total</span>
@@ -1382,13 +1462,13 @@ const pageDescription = site.description;
 </script>
 
 <script>
-// Video walkthrough — desktop: always visible. Mobile: toggle show/hide.
+// Install section — tab switcher (mobile) + video pause on hide
 (function() {
-  var toggle  = document.getElementById('video-toggle');
-  var body    = document.getElementById('video-body');
-  var chevron = document.getElementById('video-chevron');
-  var label   = document.getElementById('video-toggle-label');
-  if (!body) return;
+  var wizPanel   = document.getElementById('install-panel-wizard');
+  var vidPanel   = document.getElementById('install-panel-video');
+  var videoBody  = document.getElementById('video-body');
+  var tabWizard  = document.getElementById('tab-wizard');
+  var tabVideo   = document.getElementById('tab-video');
 
   var VIDEO_ID = (function() {
     var url = '<%= site.installVideoUrl || "" %>';
@@ -1396,75 +1476,108 @@ const pageDescription = site.description;
     return m ? m[1] : '';
   })();
 
-  if (!VIDEO_ID) return;
-
-  // Inject the iframe once — it loads immediately on desktop, deferred on mobile
   function injectIframe() {
-    if (body.querySelector('iframe')) return;
+    if (!videoBody || videoBody.querySelector('iframe')) return;
     var iframe = document.createElement('iframe');
-    iframe.src = 'https://www.youtube.com/embed/' + VIDEO_ID + '?rel=0';
+    iframe.src = 'https://www.youtube.com/embed/' + VIDEO_ID + '?rel=0&enablejsapi=1';
     iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
     iframe.allowFullscreen = true;
     iframe.referrerPolicy = 'strict-origin-when-cross-origin';
     iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;';
-    body.appendChild(iframe);
+    videoBody.appendChild(iframe);
   }
 
-  function isMobile() { return window.innerWidth <= 600; }
-
-  function setupDesktop() {
-    // Show toggle button: no. Show body: yes, always.
-    if (toggle) toggle.style.display = 'none';
-    body.style.display = 'block';
-    injectIframe();
+  function pauseVideo() {
+    if (!videoBody) return;
+    var iframe = videoBody.querySelector('iframe');
+    if (iframe) iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
   }
 
-  function setupMobile() {
-    // Show toggle button, hide body by default
-    if (toggle) toggle.style.display = 'flex';
-    body.style.display = 'none';
-    if (label) label.textContent = 'Watch the install walkthrough';
-    if (chevron) chevron.style.transform = '';
-  }
+  function isDesktop() { return window.innerWidth >= 860; }
 
-  // Initial setup
-  if (isMobile()) {
-    setupMobile();
-  } else {
-    setupDesktop();
-  }
-
-  // Toggle handler — mobile only
-  if (toggle) {
-    toggle.addEventListener('click', function() {
-      if (!isMobile()) return;
-      var isHidden = body.style.display === 'none';
-      if (isHidden) {
-        injectIframe();
-        body.style.display = 'block';
-        if (label)   label.textContent       = 'Hide walkthrough';
-        if (chevron) chevron.style.transform  = 'rotate(180deg)';
-        if (typeof sounds !== 'undefined') sounds.play('toggle');
-      } else {
-        body.style.display = 'none';
-        if (label)   label.textContent       = 'Watch the install walkthrough';
-        if (chevron) chevron.style.transform  = '';
-        if (typeof sounds !== 'undefined') sounds.play('toggle');
-      }
-    });
-  }
-
-  // On resize, re-evaluate desktop vs mobile without page reload
-  var lastMobile = isMobile();
-  window.addEventListener('resize', function() {
-    var nowMobile = isMobile();
-    if (nowMobile === lastMobile) return;
-    lastMobile = nowMobile;
-    if (nowMobile) {
-      setupMobile();
+  function applyLayout() {
+    if (isDesktop()) {
+      // Desktop: always show both, no tabs needed
+      if (wizPanel) wizPanel.style.display = '';
+      if (vidPanel) vidPanel.style.display = '';
+      if (VIDEO_ID) injectIframe();
     } else {
-      setupDesktop();
+      // Mobile: respect current active tab, default to wizard
+      var activeTab = (tabVideo && tabVideo.classList.contains('active')) ? 'video' : 'wizard';
+      showTab(activeTab, false);
     }
+  }
+
+  function showTab(which, sound) {
+    var showWiz = which === 'wizard';
+    if (wizPanel) wizPanel.style.display = showWiz ? '' : 'none';
+    if (vidPanel) vidPanel.style.display = showWiz ? 'none' : '';
+    if (tabWizard) tabWizard.classList.toggle('active', showWiz);
+    if (tabVideo)  tabVideo.classList.toggle('active', !showWiz);
+    if (showWiz) {
+      pauseVideo();
+    } else {
+      if (VIDEO_ID) injectIframe();
+    }
+    if (sound && typeof sounds !== 'undefined') sounds.play('toggle');
+  }
+
+  window.installTab = function(which) {
+    if (isDesktop()) return;
+    showTab(which, true);
+  };
+
+  applyLayout();
+
+  var lastDesktop = isDesktop();
+  window.addEventListener('resize', function() {
+    var nowDesktop = isDesktop();
+    if (nowDesktop === lastDesktop) return;
+    lastDesktop = nowDesktop;
+    applyLayout();
+  });
+})();
+</script>
+
+<script>
+// Activity section — mobile tab switcher (commits / contributors)
+(function() {
+  var panels = {
+    commits:      document.getElementById('activity-panel-commits'),
+    contributors: document.getElementById('activity-panel-contributors'),
+  };
+
+  function isMobile() { return window.innerWidth < 700; }
+
+  function applyActivityLayout() {
+    if (!isMobile()) {
+      // Desktop: show both
+      if (panels.commits)      panels.commits.style.display      = '';
+      if (panels.contributors) panels.contributors.style.display  = '';
+    }
+    // Mobile: current active tab controls visibility — don't reset if user already picked
+  }
+
+  window.activityTab = function(which) {
+    if (!isMobile()) return;
+    var tabs = document.querySelectorAll('.activity-tab');
+    tabs.forEach(function(t, i) { t.classList.toggle('active', i === (which === 'commits' ? 0 : 1)); });
+    if (panels.commits)      panels.commits.style.display      = (which === 'commits')      ? '' : 'none';
+    if (panels.contributors) panels.contributors.style.display  = (which === 'contributors') ? '' : 'none';
+    if (typeof sounds !== 'undefined') sounds.play('toggle');
+  };
+
+  // Set initial mobile state
+  if (isMobile()) {
+    if (panels.contributors) panels.contributors.style.display = 'none';
+  }
+
+  var lastMob = isMobile();
+  window.addEventListener('resize', function() {
+    var nowMob = isMobile();
+    if (nowMob === lastMob) return;
+    lastMob = nowMob;
+    applyActivityLayout();
   });
 })();
 </script>

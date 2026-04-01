@@ -69,10 +69,33 @@
       fetchpriority="high"
       onerror="this.style.display='none'">
     <span id="loading-title">AirLink</span>
-  </div>
-  <div id="loading-bar-wrap">
-    <div id="loading-bar"></div>
+    <div id="loading-spinner"></div>
+    <span id="loading-msg"></span>
   </div>
 </div>
+
+<script>
+(function () {
+  var msgs = [
+    'Loading assets',
+    'Fetching styles',
+    'Preparing page',
+    'Almost there',
+  ];
+  var el = document.getElementById('loading-msg');
+  var i  = 0;
+  if (!el) return;
+  el.textContent = msgs[0];
+  var t = setInterval(function () {
+    i = (i + 1) % msgs.length;
+    el.style.opacity = '0';
+    setTimeout(function () {
+      el.textContent   = msgs[i];
+      el.style.opacity = '1';
+    }, 160);
+  }, 900);
+  window.addEventListener('load', function () { clearInterval(t); });
+})();
+</script>
 
 <script src="<%= rootPrefix %>public/js/sounds.js"></script>
