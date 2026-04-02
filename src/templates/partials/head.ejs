@@ -94,7 +94,16 @@
       el.style.opacity = '1';
     }, 160);
   }, 900);
-  window.addEventListener('load', function () { clearInterval(t); });
+  // Clear on either load or DOMContentLoaded to avoid getting stuck
+  function stop() { clearInterval(t); }
+  if (document.readyState === 'complete') {
+    stop();
+  } else {
+    window.addEventListener('load', stop, { once: true });
+    window.addEventListener('DOMContentLoaded', function () {
+      setTimeout(stop, 3000);
+    }, { once: true });
+  }
 })();
 </script>
 

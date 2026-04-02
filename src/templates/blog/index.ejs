@@ -6,8 +6,149 @@ const pageDescription = 'Announcements and release notes from AirLink.';
 <%- include('./partials/head', { site, underConstruction, rootPrefix, pageTitle, pageDescription }) %>
 <%- include('./partials/nav', { site, underConstruction, rootPrefix, docPages, pageTitle }) %>
 
-<div id="page-content">
-  <div style="max-width:680px;">
+<style>
+  .blog-layout {
+    min-height: 100vh;
+    display: flex;
+    padding: clamp(32px,5vw,72px) clamp(20px,4vw,56px) clamp(32px,5vw,72px) clamp(20px,4vw,56px);
+    box-sizing: border-box;
+    gap: clamp(32px,5vw,72px);
+  }
+
+  @media (max-width: 600px) {
+    .blog-layout {
+      padding-bottom: 84px;
+    }
+  }
+
+  @media (min-width: 860px) {
+    .blog-layout {
+      padding-right: calc(60px + clamp(20px,4vw,56px));
+    }
+  }
+
+  /* Sidebar — doc/blog selector, desktop only */
+  .blog-sidebar {
+    display: none;
+    width: 200px;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 860px) {
+    .blog-sidebar { display: block; }
+  }
+
+  .blog-sidebar-label {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--color-text-4);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 10px;
+  }
+
+  .blog-sidebar-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    margin-bottom: 2px;
+    transition: background 120ms;
+  }
+
+  .blog-sidebar-link:hover { background: var(--color-bg-hover); }
+
+  .blog-sidebar-link--active {
+    background: var(--color-bg-2);
+    border: 1px solid var(--color-border);
+  }
+
+  .blog-sidebar-link .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-border-input);
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+
+  .blog-sidebar-link--active .dot {
+    background: var(--color-text-1);
+  }
+
+  .blog-sidebar-link .title {
+    font-size: 12px;
+    color: var(--color-text-3);
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .blog-sidebar-link--active .title {
+    color: var(--color-text-1);
+    font-weight: 500;
+  }
+
+  .blog-sidebar-link .date {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--color-text-4);
+    margin-top: 1px;
+  }
+
+  /* Main content */
+  .blog-main {
+    flex: 1;
+    min-width: 0;
+  }
+
+  #blog-header {
+    margin-bottom: clamp(24px,3vw,40px);
+    padding-bottom: clamp(20px,3vw,32px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  #blog-header .eyebrow {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--color-text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 8px;
+  }
+
+  #blog-header h1 {
+    font-size: clamp(22px,3.5vw,36px);
+    font-weight: 600;
+    color: var(--color-text-1);
+    letter-spacing: -0.035em;
+    margin: 0;
+    line-height: 1.1;
+  }
+</style>
+
+<div class="blog-layout">
+
+  <!-- Sidebar: post list for desktop navigation -->
+  <% if (announcements && announcements.length) { %>
+  <aside class="blog-sidebar">
+    <p class="blog-sidebar-label">All posts</p>
+    <% announcements.forEach(function(post) { %>
+    <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="blog-sidebar-link">
+      <span class="dot"></span>
+      <div style="min-width:0;">
+        <p class="title"><%= post.title %></p>
+        <% if (post.date) { %><p class="date"><%= post.date %></p><% } %>
+      </div>
+    </a>
+    <% }) %>
+  </aside>
+  <% } %>
+
+  <main class="blog-main">
 
     <div id="blog-header">
       <p class="eyebrow">Announcements</p>
@@ -29,7 +170,7 @@ const pageDescription = 'Announcements and release notes from AirLink.';
       </p>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:12px;">
         <% pinnedPosts.forEach(function(post) { %>
-        <a href="<%= rootPrefix %>blog/<%= post.slug %>/index.html" class="blog-card">
+        <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="blog-card">
           <p class="post-title"><%= post.title %></p>
           <div style="display:flex;align-items:center;gap:8px;margin-top:auto;">
             <% if (post.authorGithub) { %>
@@ -52,7 +193,7 @@ const pageDescription = 'Announcements and release notes from AirLink.';
       <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 4px;">All posts</p>
       <% } %>
       <% regularPosts.forEach(function(post) { %>
-      <a href="<%= rootPrefix %>blog/<%= post.slug %>/index.html" class="blog-post-row">
+      <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="blog-post-row">
         <div style="min-width:0;">
           <p class="post-title"><%= post.title %></p>
           <div class="post-meta">
@@ -77,7 +218,8 @@ const pageDescription = 'Announcements and release notes from AirLink.';
     <p style="font-size:13px;font-family:var(--font-mono);color:var(--color-text-3);padding:40px 0;">No posts yet.</p>
     <% } %>
 
-  </div>
+  </main>
+
 </div>
 
 <script src="<%= rootPrefix %>public/js/main.js"></script>

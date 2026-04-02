@@ -2,9 +2,14 @@
   <div style="max-width:1160px;margin:0 auto;padding:clamp(32px,5vw,64px) clamp(20px,4vw,48px);">
 
     <style>
-      @media(min-width:640px) { #footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr !important; } }
+      #footer-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(24px,4vw,40px); margin-bottom:clamp(24px,4vw,40px); }
+      @media(min-width:640px) { #footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; } }
+      .footer-col-links { display:flex; flex-direction:column; gap:8px; }
+      .footer-link { font-size:12px; color:var(--color-text-3); text-decoration:none; display:block; }
+      .footer-link:hover { color:var(--color-text-1); }
+      .footer-col-head { font-size:10px; font-family:var(--font-mono); color:var(--color-text-3); text-transform:uppercase; letter-spacing:0.1em; margin:0 0 12px; }
     </style>
-    <div id="footer-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,40px);margin-bottom:clamp(24px,4vw,40px);">
+    <div id="footer-grid">
 
       <div>
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
@@ -15,38 +20,30 @@
       </div>
 
       <div>
-        <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 12px;">Product</p>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <% [
-            { href: rootPrefix + 'index.html',          label: 'Home'     },
-            { href: rootPrefix + 'registry/index.html', label: 'Registry' },
-            { href: rootPrefix + 'blog/index.html',     label: 'Blog'     },
-          ].forEach(function(l) { %>
-          <a href="<%= l.href %>" style="font-size:12px;color:var(--color-text-3);text-decoration:none;transition:color 160ms;" onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'"><%= l.label %></a>
-          <% }) %>
+        <p class="footer-col-head">Product</p>
+        <div class="footer-col-links">
+          <a href="<%= rootPrefix %>" class="footer-link">Home</a>
+          <a href="<%= rootPrefix %>registry/" class="footer-link">Registry</a>
+          <a href="<%= rootPrefix %>blog/" class="footer-link">Blog</a>
         </div>
       </div>
 
       <div>
-        <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 12px;">Docs</p>
-        <div style="display:flex;flex-direction:column;gap:8px;">
+        <p class="footer-col-head">Docs</p>
+        <div class="footer-col-links">
           <% docPages.forEach(function(doc) { %>
-          <a href="<%= rootPrefix %>docs/<%= doc.slug %>/index.html" style="font-size:12px;color:var(--color-text-3);text-decoration:none;transition:color 160ms;" onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'"><%= doc.title %></a>
+          <a href="<%= rootPrefix %>docs/<%= doc.slug %>/" class="footer-link"><%= doc.title %></a>
           <% }) %>
         </div>
       </div>
 
       <div>
-        <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 12px;">Links</p>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <% [
-            { href: site.discordUrl,                                     label: 'Discord' },
-            { href: 'https://github.com/' + site.githubPanel,            label: 'Panel'   },
-            { href: 'https://github.com/' + site.githubDaemon,           label: 'Daemon'  },
-            { href: 'https://github.com/' + site.githubPanel + '/issues',label: 'Issues'  },
-          ].forEach(function(l) { %>
-          <a href="<%= l.href %>" target="_blank" rel="noopener" style="font-size:12px;color:var(--color-text-3);text-decoration:none;transition:color 160ms;" onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'"><%= l.label %></a>
-          <% }) %>
+        <p class="footer-col-head">Links</p>
+        <div class="footer-col-links">
+          <a href="<%= site.discordUrl %>" target="_blank" rel="noopener" class="footer-link">Discord</a>
+          <a href="https://github.com/<%= site.githubPanel %>" target="_blank" rel="noopener" class="footer-link">Panel</a>
+          <a href="https://github.com/<%= site.githubDaemon %>" target="_blank" rel="noopener" class="footer-link">Daemon</a>
+          <a href="https://github.com/<%= site.githubPanel %>/issues" target="_blank" rel="noopener" class="footer-link">Issues</a>
         </div>
       </div>
 

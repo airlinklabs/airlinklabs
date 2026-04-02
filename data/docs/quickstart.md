@@ -79,7 +79,7 @@ Once the daemon is running on a machine:
 
 1. Log into the panel as admin
 2. Go to **Admin > Nodes > Create Node**
-3. Enter the node's IP address and daemon port (default: `8080`)
+3. Enter the node's IP address and daemon port (default: `3000`)
 4. Click **Configure** to get the daemon key
 5. Put that key in the daemon's `.env` as `DAEMON_KEY`
 6. Restart the daemon

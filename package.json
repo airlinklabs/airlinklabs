@@ -34,7 +34,9 @@
     "githubPanel": "AirlinkLabs/panel",
     "githubDaemon": "AirlinkLabs/daemon",
     "discordUrl": "https://discord.gg/D8YbT9rDqz",
-    "installVideoUrl": "https://youtu.be/-rGvbc1sVlI?si=MKfYOisLjJJKPMhe"
+    "installVideoUrl": "https://youtu.be/-rGvbc1sVlI?si=MKfYOisLjJJKPMhe",
+    "ytURL": "https://youtu.be/-rGvbc1sVlI?si=MKfYOisLjJJKPMhe",
+    "ytVidIFrame": false
   },
   "underConstruction": {
     "enabled": false,

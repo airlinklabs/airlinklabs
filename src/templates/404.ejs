@@ -2,6 +2,7 @@
 const rootPrefix = '/';
 const pageTitle = '404';
 const pageDescription = 'Page not found — ' + site.title;
+const siteBase = (site.siteUrl || '').replace(/\/$/, '');
 %>
 <%- include('./partials/head', { site, underConstruction, rootPrefix, pageTitle, pageDescription }) %>
 <%- include('./partials/nav', { site, underConstruction, rootPrefix, docPages, pageTitle }) %>
@@ -120,12 +121,12 @@ const pageDescription = 'Page not found — ' + site.title;
       <code id="not-found-path"></code>
 
       <div class="not-found-links">
-        <a href="<%= rootPrefix %>index.html" class="not-found-link-primary">
+        <a id="link-home" href="<%= siteBase %>/" class="not-found-link-primary">
           <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           Home
         </a>
-        <a href="<%= rootPrefix %>docs/index.html" class="not-found-link-secondary">Docs</a>
-        <a href="<%= rootPrefix %>blog/index.html" class="not-found-link-secondary">Blog</a>
+        <a id="link-docs" href="<%= siteBase %>/docs/" class="not-found-link-secondary">Docs</a>
+        <a id="link-blog" href="<%= siteBase %>/blog/" class="not-found-link-secondary">Blog</a>
       </div>
 
     </div>
@@ -138,10 +139,30 @@ const pageDescription = 'Page not found — ' + site.title;
 <script src="<%= rootPrefix %>public/js/main.js"></script>
 
 <script>
-  (function () {
-    var el = document.getElementById('not-found-path');
-    if (el) el.textContent = window.location.pathname || '/';
-  })();
+(function () {
+  var siteBase = '<%= siteBase %>';
+  var el = document.getElementById('not-found-path');
+  if (el) el.textContent = window.location.pathname || '/';
+
+  // Fix nav links to be absolute for GitHub Pages sub-path hosting
+  var home = document.getElementById('link-home');
+  var docs = document.getElementById('link-docs');
+  var blog = document.getElementById('link-blog');
+  if (home) home.href = siteBase + '/';
+  if (docs) docs.href = siteBase + '/docs/';
+  if (blog) blog.href = siteBase + '/blog/';
+
+  // GitHub Pages 404 SPA redirect trick:
+  // If the URL looks like it should resolve to a known route, redirect there.
+  var path = window.location.pathname;
+  var routes = ['/docs', '/blog', '/registry'];
+  for (var i = 0; i < routes.length; i++) {
+    if (path.indexOf(routes[i]) !== -1) {
+      // Already on a valid base path — stay, show 404
+      break;
+    }
+  }
+})();
 </script>
 
 </body>

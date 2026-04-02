@@ -444,6 +444,8 @@ button:active, a:active {
 .spa-section-inner {
   width: 100%;
   max-width: 1060px;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 /* ── Non-SPA page content wrapper ───────────────────────────────────────────── */
@@ -452,9 +454,15 @@ button:active, a:active {
    the outer padding, min-height, and box-sizing in one place. */
 #page-content {
   min-height: 100vh;
-  padding: clamp(32px,5vw,72px) calc(60px + clamp(20px,4vw,56px)) clamp(32px,5vw,72px) clamp(20px,3vw,48px);
+  padding: clamp(32px,5vw,72px) clamp(20px,4vw,56px) clamp(32px,5vw,72px) clamp(20px,3vw,48px);
   box-sizing: border-box;
   overflow-x: hidden;
+}
+
+@media (min-width: 601px) {
+  #page-content {
+    padding-right: calc(60px + clamp(20px,4vw,56px));
+  }
 }
 
 /* ── Code blocks ─────────────────────────────────────────────────────────────── */

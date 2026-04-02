@@ -13,7 +13,7 @@ const DATA      = path.join(ROOT, 'data');
 const PUBLIC    = path.join(ROOT, 'public');
 
 type PackageJson = {
-  site: Record<string, string>;
+  site: Record<string, string | boolean>;
   underConstruction: { enabled: boolean; message: string; badge: string };
 };
 
@@ -21,6 +21,7 @@ type GithubCache = Record<string, unknown>;
 
 type DocPage = {
   slug: string;
+  fileSlug: string;
   title: string;
   description: string;
   order: number;
@@ -38,6 +39,16 @@ type Announcement = {
   pinned: boolean;
   content: string;
 };
+
+function titleToSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
+
 
 async function loadJson<T>(filePath: string, fallback: T): Promise<T> {
   try {
@@ -184,6 +195,28 @@ function featureIcon(key: string): string {
   return ICONS[key] || ICONS['puzzle'];
 }
 
+async function renderMarkdown(html: string): Promise<string> {
+  let result = await marked(html);
+  result = fixMarkdownImagePaths(result);
+  result = injectProseCodeCopyButtons(result);
+  return result;
+}
+
+// Standard markdown ![alt](path) images end up with relative paths that break
+// when served from a sub-directory. Rewrite any img src that starts with a
+// bare filename or relative path to be root-relative via /public/assets/...
+// We only touch paths that don't already start with http(s):// or /.
+function fixMarkdownImagePaths(html: string): string {
+  return html.replace(/<img([^>]+)src="([^"]+)"([^>]*)>/gi, (match, before, src, after) => {
+    if (src.startsWith('http') || src.startsWith('/') || src.startsWith('data:')) {
+      return match;
+    }
+    const fixed = '/' + src.replace(/^\.\//, '');
+    return `<img${before}src="${fixed}"${after}>`;
+  });
+}
+
+
 async function loadDocPages(): Promise<DocPage[]> {
   const docsDir = path.join(DATA, 'docs');
   const files   = (await fs.readdir(docsDir)).filter(f => f.endsWith('.md'));
@@ -191,13 +224,14 @@ async function loadDocPages(): Promise<DocPage[]> {
   const pages = await Promise.all(files.map(async (file) => {
     const raw    = await fs.readFile(path.join(docsDir, file), 'utf-8');
     const parsed = fm<{ title?: string; description?: string; order?: number; author?: string; date?: string }>(raw);
-    const slug           = path.basename(file, '.md');
-    const bodyWithImages = resolveContentImages(parsed.body, `/public/assets/docs/${slug}`);
-    let content          = await marked(bodyWithImages);
-    content              = injectProseCodeCopyButtons(content);
+    const fileSlug           = path.basename(file, '.md');
+    const titleSlug          = parsed.attributes.title ? titleToSlug(parsed.attributes.title) : fileSlug;
+    const bodyWithImages     = resolveContentImages(parsed.body, `/public/assets/docs/${fileSlug}`);
+    let content              = await renderMarkdown(bodyWithImages);
     return {
-      slug,
-      title:       parsed.attributes.title       || slug,
+      slug:        titleSlug,
+      fileSlug,
+      title:       parsed.attributes.title       || fileSlug,
       description: parsed.attributes.description || '',
       order:       parsed.attributes.order        ?? 99,
       author:      parsed.attributes.author       || '',
@@ -323,7 +357,7 @@ function resolveContentImages(html: string, assetBasePath: string): string {
       if (captionMatch) caption = captionMatch[1];
     }
 
-    const src        = `${assetBasePath}/${first}`;
+    const src        = `${assetBasePath.startsWith('/') ? assetBasePath : '/' + assetBasePath}/${first}`;
     const roundStyle = noRound ? '' : 'border-radius:8px;';
     const widthStyle = isFull  ? 'width:100%;max-width:100%;' : 'max-width:100%;';
     const imgHtml    = `<img src="${src}" alt="${alt}" loading="lazy" class="prose-img img-loaded" style="${widthStyle}${roundStyle}display:block;">`;
@@ -362,8 +396,7 @@ async function loadAnnouncements(): Promise<Announcement[]> {
 
     // resolve images before passing to marked so the custom tags don't get escaped
     const bodyWithImages = resolveContentImages(parsed.body, `/public/assets/blog/${slug}`);
-    let content = await marked(bodyWithImages);
-    content = injectProseCodeCopyButtons(content);
+    let content = await renderMarkdown(bodyWithImages);
 
     return {
       slug,
@@ -458,7 +491,7 @@ async function build() {
   await fs.outputFile(path.join(DIST, 'docs', 'index.html'), docsIndexHtml);
   console.log('  docs/index.html');
 
-  // each doc page
+  // each doc page — output at slug/ (title-derived kebab-case)
   for (const doc of docPages) {
     const docHtml = await renderTemplate(
       path.join(TEMPLATES, 'docs', 'doc.ejs'),
