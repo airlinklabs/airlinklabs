@@ -261,24 +261,29 @@ const pageDescription = site.description;
   .activity-tab.active { color: var(--color-text-1); background: var(--color-bg-hover); }
   @media (min-width: 700px) { #activity-tabs { display: none; } }
 
-  /* Team mobile */
-  @media (max-width: 539px) {
-    #team-featured {
-      display: flex;
+  /* Activity mobile — horizontal single-card scroll */
+  @media (max-width: 699px) {
+    #activity-grid {
+      display: flex !important;
       flex-direction: row;
       overflow-x: auto;
       gap: 10px;
       padding-bottom: 4px;
       scrollbar-width: none;
+      height: auto !important;
     }
-    #team-featured::-webkit-scrollbar { display: none; }
-    #team-featured > div {
-      min-width: 140px;
+    #activity-grid::-webkit-scrollbar { display: none; }
+    #activity-grid > div {
+      min-width: 80vw;
+      max-width: 80vw;
       flex-shrink: 0;
     }
-    #team-others {
-      grid-template-columns: repeat(3, 1fr) !important;
-    }
+    .activity-scroll { max-height: 300px; }
+    /* Hide mobile tab switcher — nav is the horizontal scroll itself */
+    #activity-tabs { display: none; }
+    /* Show both panels on mobile now that they scroll side by side */
+    #activity-panel-commits,
+    #activity-panel-contributors { display: flex !important; }
   }
 
   /* Team */
@@ -302,6 +307,35 @@ const pageDescription = site.description;
   @media (min-width: 480px)  { #team-others { grid-template-columns: repeat(5, 1fr); } }
   @media (min-width: 700px)  { #team-others { grid-template-columns: repeat(7, 1fr); } }
   @media (min-width: 1000px) { #team-others { grid-template-columns: repeat(9, 1fr); } }
+
+  /* Team mobile — horizontal scroll, one focused card + peeking neighbours */
+  @media (max-width: 539px) {
+    #team-featured {
+      display: flex !important;
+      flex-direction: row !important;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      gap: 10px;
+      padding-bottom: 6px;
+      scrollbar-width: none;
+      margin-bottom: 12px;
+      /* allow peeking: don't clip at section edge */
+      padding-left: 2px;
+      padding-right: 2px;
+    }
+    #team-featured::-webkit-scrollbar { display: none; }
+    /* Center card is full width, side cards peek */
+    #team-featured > div {
+      min-width: 72vw !important;
+      max-width: 72vw !important;
+      flex-shrink: 0 !important;
+      scroll-snap-align: center;
+    }
+    #team-others {
+      grid-template-columns: repeat(3, 1fr) !important;
+    }
+  }
 
   /* SPA section base padding — desktop gets right clearance for floating pill nav (~60px) */
   .spa-section {
@@ -379,23 +413,35 @@ const pageDescription = site.description;
           </div>
         </div>
 
-        <div id="hero-mockup"
-          style="border-radius:12px;overflow:hidden;border:1px solid var(--color-border);background:var(--color-bg-2);aspect-ratio:16/10;"
+        <!-- ── Hero window ─────────────────────────────────────────── -->
+        <div id="hero-window"
+          style="border-radius:12px;overflow:hidden;border:1px solid var(--color-border);background:var(--color-bg-2);aspect-ratio:16/10;transition:transform 220ms cubic-bezier(0.4,0,0.2,1),box-shadow 220ms cubic-bezier(0.4,0,0.2,1);"
           onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,0.18)'"
           onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
-          <div style="background:var(--color-bg-3);border-bottom:1px solid var(--color-border);padding:9px 12px;display:flex;align-items:center;gap:5px;">
-            <span style="width:8px;height:8px;border-radius:50%;background:var(--color-danger);opacity:.55;"></span>
-            <span style="width:8px;height:8px;border-radius:50%;background:var(--color-warning);opacity:.55;"></span>
-            <span style="width:8px;height:8px;border-radius:50%;background:var(--color-success);opacity:.55;"></span>
-            <div style="flex:1;height:14px;background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:4px;margin-left:6px;"></div>
+
+          <!-- Title bar -->
+          <div id="hero-titlebar" style="background:var(--color-bg-3);border-bottom:1px solid var(--color-border);padding:9px 12px;display:flex;align-items:center;gap:5px;user-select:none;">
+            <!-- Traffic lights -->
+            <button id="hw-close"    title="Close"    aria-label="Close window"    style="width:11px;height:11px;border-radius:50%;background:#ff5f57;border:none;cursor:pointer;flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center;" onmouseover="hwBtnHover(this,'close',true)"    onmouseout="hwBtnHover(this,'close',false)"></button>
+            <button id="hw-minimize" title="Minimize" aria-label="Minimize window" style="width:11px;height:11px;border-radius:50%;background:#febc2e;border:none;cursor:pointer;flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center;" onmouseover="hwBtnHover(this,'minimize',true)" onmouseout="hwBtnHover(this,'minimize',false)"></button>
+            <button id="hw-maximize" title="Maximize" aria-label="Maximize window" style="width:11px;height:11px;border-radius:50%;background:#28c840;border:none;cursor:pointer;flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center;" onmouseover="hwBtnHover(this,'maximize',true)" onmouseout="hwBtnHover(this,'maximize',false)"></button>
+
+            <!-- Window title -->
+            <span id="hero-win-title" style="flex:1;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 6px;"></span>
           </div>
-          <div style="position:relative;width:100%;height:calc(100% - 39px);">
-            <img id="dashboard-img-dark"  src="<%= rootPrefix %>public/assets/screenshots/dashboard-dark.png"  alt="AirLink dashboard" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:none;" onerror="this.dataset.failed='true'; syncDashboard()" onload="syncDashboard()">
-            <img id="dashboard-img-light" src="<%= rootPrefix %>public/assets/screenshots/dashboard-light.png" alt="AirLink dashboard" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:none;" onerror="this.dataset.failed='true'; syncDashboard()" onload="syncDashboard()">
-            <div id="dashboard-ph" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--color-text-4);font-size:11px;font-family:var(--font-mono);text-align:center;">
+
+          <!-- Image area -->
+          <div id="hero-img-area" style="position:relative;width:100%;height:calc(100% - 35px);background:var(--color-bg-3);">
+            <img id="hero-img-dark"  src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:none;transition:opacity 220ms cubic-bezier(0.4,0,0.2,1);">
+            <img id="hero-img-light" src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:none;transition:opacity 220ms cubic-bezier(0.4,0,0.2,1);">
+            <div id="hero-img-ph" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--color-text-4);font-size:11px;font-family:var(--font-mono);text-align:center;">
               <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="opacity:.3;"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-              dashboard-dark.png / dashboard-light.png
+              <span id="hero-img-ph-label" style="opacity:.4;"></span>
             </div>
+          </div>
+
+          <!-- Minimize tray — hidden by default, shown when window is minimized -->
+          <div id="hero-tray" style="display:none;background:var(--color-bg-2);overflow-x:auto;scrollbar-width:none;padding:14px 16px;gap:8px;flex-direction:row;align-items:center;justify-content:center;width:100%;box-sizing:border-box;flex-wrap:wrap;">
           </div>
         </div>
       </div>
@@ -581,8 +627,29 @@ const pageDescription = site.description;
 
         <!-- Video panel -->
         <div id="install-panel-video" style="display:none;">
-          <div id="video-body" style="border-radius:10px;overflow:hidden;border:1px solid var(--color-border);aspect-ratio:16/9;background:var(--color-bg-3);">
-            <!-- iframe injected by JS -->
+          <div id="video-body" style="border-radius:10px;overflow:hidden;border:1px solid var(--color-border);aspect-ratio:16/9;background:var(--color-bg-3);position:relative;">
+            <% if (!site.ytVidIFrame && site.ytURL) { %>
+            <!-- Static placeholder — links out rather than embedding an iframe -->
+            <a href="<%= site.ytURL %>" target="_blank" rel="noopener"
+              id="video-placeholder"
+              style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-decoration:none;background:var(--color-bg-3);"
+              onmouseover="document.getElementById('video-play-ring').style.background='var(--color-text-1)';document.getElementById('video-play-ring').style.borderColor='var(--color-text-1)';document.getElementById('video-play-icon').style.color='var(--color-bg)';"
+              onmouseout="document.getElementById('video-play-ring').style.background='transparent';document.getElementById('video-play-ring').style.borderColor='var(--color-border-input)';document.getElementById('video-play-icon').style.color='var(--color-text-2)';">
+              <!-- YouTube thumbnail via noembed -->
+              <img id="video-thumb" src="" alt="Install walkthrough" loading="lazy"
+                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;opacity:0;transition:opacity 300ms;">
+              <!-- Overlay dimmer so play button is always readable -->
+              <div style="position:absolute;inset:0;background:rgba(0,0,0,0.38);"></div>
+              <!-- Play button -->
+              <div id="video-play-ring"
+                style="position:relative;z-index:1;width:52px;height:52px;border-radius:50%;border:1.5px solid var(--color-border-input);background:transparent;display:flex;align-items:center;justify-content:center;transition:background 160ms,border-color 160ms;">
+                <svg id="video-play-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="color:var(--color-text-2);margin-left:3px;transition:color 160ms;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+              <span style="position:relative;z-index:1;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);">Watch install walkthrough</span>
+            </a>
+            <% } else { %>
+            <!-- iframe injected by JS when ytVidIFrame is true -->
+            <% } %>
           </div>
         </div>
 
@@ -905,6 +972,41 @@ const pageDescription = site.description;
     </div>
   </section>
 
+</div>
+
+<!-- Hero window fullscreen overlay -->
+<div id="hero-fullscreen" style="position:fixed;inset:0;z-index:400;background:rgba(0,0,0,0.82);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity 220ms cubic-bezier(0.4,0,0.2,1);">
+  <div style="width:100%;max-width:1100px;background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:14px;overflow:hidden;transform:scale(0.96);transition:transform 240ms cubic-bezier(0.34,1.1,0.64,1);" id="hero-fs-inner">
+
+    <!-- Fullscreen title bar -->
+    <div style="background:var(--color-bg-3);border-bottom:1px solid var(--color-border);padding:10px 14px;display:flex;align-items:center;gap:6px;user-select:none;">
+      <button id="hw-fs-close"    title="Close"    aria-label="Close"    style="width:11px;height:11px;border-radius:50%;background:#ff5f57;border:none;cursor:pointer;flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center;" onmouseover="hwFsBtnHover(this,'close',true)"    onmouseout="hwFsBtnHover(this,'close',false)"></button>
+      <button id="hw-fs-minimize" title="Minimize" aria-label="Minimize" style="width:11px;height:11px;border-radius:50%;background:#febc2e;border:none;cursor:pointer;flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center;" onmouseover="hwFsBtnHover(this,'minimize',true)" onmouseout="hwFsBtnHover(this,'minimize',false)"></button>
+      <div style="width:11px;height:11px;border-radius:50%;background:#28c840;opacity:.35;flex-shrink:0;"></div>
+      <span id="hero-fs-title" style="flex:1;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 8px;"></span>
+      <!-- Arrow navigation -->
+      <button id="hw-fs-prev" title="Previous image" aria-label="Previous image"
+        style="width:24px;height:24px;border-radius:6px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;"
+        onmouseover="this.style.background='var(--color-bg-hover)';this.style.color='var(--color-text-1)'" onmouseout="this.style.background='transparent';this.style.color='var(--color-text-3)'">
+        <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button id="hw-fs-next" title="Next image" aria-label="Next image"
+        style="width:24px;height:24px;border-radius:6px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;"
+        onmouseover="this.style.background='var(--color-bg-hover)';this.style.color='var(--color-text-1)'" onmouseout="this.style.background='transparent';this.style.color='var(--color-text-3)'">
+        <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+
+    <!-- Fullscreen image area -->
+    <div style="position:relative;aspect-ratio:16/9;background:var(--color-bg-3);overflow:hidden;">
+      <img id="hero-fs-img-dark"  src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:none;">
+      <img id="hero-fs-img-light" src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:none;">
+      <div id="hero-fs-ph" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--color-text-4);font-size:11px;font-family:var(--font-mono);">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="opacity:.3;"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <!-- Feature detail modal -->
@@ -1383,64 +1485,329 @@ const pageDescription = site.description;
 </script>
 
 <script>
-// Image theme sync — dashboard screenshot + hero feature images
-// Rules:
-//   1. Show the variant that matches the current theme
-//   2. If the theme variant failed to load, fall back to the other variant
-//   3. If both failed, show the placeholder div
+// ── Hero window ───────────────────────────────────────────────────────────────
+// Handles: traffic lights (close/minimize/maximize), tray strip, fullscreen overlay,
+// theme-aware image switching, and the feature image rotation.
 (function() {
-  var dashDark  = document.getElementById('dashboard-img-dark');
-  var dashLight = document.getElementById('dashboard-img-light');
-  var dashPh    = document.getElementById('dashboard-ph');
+  // All feature images — id and title
+  var HERO_IMAGES = [
+    <% features.forEach(function(f, i) { %>{ id: '<%= f.id %>', title: '<%= f.title %>' }<%= i < features.length - 1 ? ',' : '' %>
+    <% }) %>
+  ];
 
-  function imgFailed(el) { return el && el.dataset.failed === 'true'; }
-  function imgLoaded(el) { return el && el.complete && el.naturalWidth > 0; }
+  var currentIndex = 0;
+  var isMinimized  = false;
 
-  window.syncDashboard = function() {
-    if (!dashDark && !dashLight) return;
-    var isDark     = document.documentElement.className !== 'light';
-    var wantEl     = isDark ? dashDark  : dashLight;
-    var fallbackEl = isDark ? dashLight : dashDark;
+  var win       = document.getElementById('hero-window');
+  var imgArea   = document.getElementById('hero-img-area');
+  var tray      = document.getElementById('hero-tray');
+  var titleEl   = document.getElementById('hero-win-title');
+  var darkImg   = document.getElementById('hero-img-dark');
+  var lightImg  = document.getElementById('hero-img-light');
+  var phEl      = document.getElementById('hero-img-ph');
+  var phLabel   = document.getElementById('hero-img-ph-label');
 
-    if (!imgFailed(wantEl) && imgLoaded(wantEl)) {
-      if (wantEl)     wantEl.style.display     = '';
-      if (fallbackEl) fallbackEl.style.display  = 'none';
-      if (dashPh)     dashPh.style.display      = 'none';
-    } else if (!imgFailed(fallbackEl) && imgLoaded(fallbackEl)) {
-      if (wantEl)     wantEl.style.display     = 'none';
-      if (fallbackEl) fallbackEl.style.display  = '';
-      if (dashPh)     dashPh.style.display      = 'none';
-    } else if (imgFailed(wantEl) && imgFailed(fallbackEl)) {
-      if (wantEl)     wantEl.style.display     = 'none';
-      if (fallbackEl) fallbackEl.style.display  = 'none';
-      if (dashPh)     dashPh.style.display      = 'flex';
+  var btnClose    = document.getElementById('hw-close');
+  var btnMinimize = document.getElementById('hw-minimize');
+  var btnMaximize = document.getElementById('hw-maximize');
+
+  var fsOverlay = document.getElementById('hero-fullscreen');
+  var fsInner   = document.getElementById('hero-fs-inner');
+  var fsDark    = document.getElementById('hero-fs-img-dark');
+  var fsLight   = document.getElementById('hero-fs-img-light');
+  var fsPh      = document.getElementById('hero-fs-ph');
+  var fsTitleEl = document.getElementById('hero-fs-title');
+  var fsBtnClose    = document.getElementById('hw-fs-close');
+  var fsBtnMinimize = document.getElementById('hw-fs-minimize');
+  var fsBtnPrev     = document.getElementById('hw-fs-prev');
+  var fsBtnNext     = document.getElementById('hw-fs-next');
+
+  var EASE = 'cubic-bezier(0.4,0,0.2,1)';
+
+  function isDark() { return document.documentElement.className !== 'light'; }
+
+  function imgPath(id, theme) {
+    return 'public/assets/features/' + id + '/' + id + '-' + theme + '.png';
+  }
+
+  function applyThemeImage(dImg, lImg, phDiv, phLbl, id) {
+    var theme     = isDark() ? 'dark' : 'light';
+    var altTheme  = isDark() ? 'light' : 'dark';
+    var wantImg   = isDark() ? dImg : lImg;
+    var otherImg  = isDark() ? lImg : dImg;
+    var label     = id + '-' + theme + '.png';
+
+    if (wantImg) {
+      wantImg.src   = imgPath(id, theme);
+      wantImg.style.display = 'block';
+      wantImg.style.opacity = '0';
+      wantImg.onload = function() {
+        wantImg.style.opacity = '1';
+        if (phDiv) phDiv.style.display = 'none';
+      };
+      wantImg.onerror = function() {
+        wantImg.style.display = 'none';
+        if (otherImg) {
+          otherImg.src = imgPath(id, altTheme);
+          otherImg.style.display = 'block';
+          otherImg.style.opacity = '0';
+          otherImg.onload = function() { otherImg.style.opacity = '1'; if (phDiv) phDiv.style.display = 'none'; };
+          otherImg.onerror = function() { otherImg.style.display = 'none'; if (phDiv) phDiv.style.display = 'flex'; };
+        } else {
+          if (phDiv) phDiv.style.display = 'flex';
+        }
+      };
     }
-    // else still loading — placeholder stays visible (it is the default)
+    if (otherImg) otherImg.style.display = 'none';
+    if (phLbl)    phLbl.textContent = label;
+    if (phDiv)    phDiv.style.display = 'flex';
+  }
+
+  function loadImage(index) {
+    var entry = HERO_IMAGES[index];
+    if (!entry) return;
+    if (titleEl) titleEl.textContent = entry.title;
+    applyThemeImage(darkImg, lightImg, phEl, phLabel, entry.id);
+  }
+
+  function loadFsImage(index) {
+    var entry = HERO_IMAGES[index];
+    if (!entry) return;
+    if (fsTitleEl) fsTitleEl.textContent = entry.title;
+    applyThemeImage(fsDark, fsLight, fsPh, null, entry.id);
+  }
+
+  // Traffic light hover icons (show icon on hover, hide on mouseout)
+  var ICONS = {
+    close:    '<svg width="6" height="6" viewBox="0 0 10 10" fill="none" stroke="rgba(0,0,0,0.5)" stroke-width="1.8"><line x1="2" y1="2" x2="8" y2="8"/><line x1="8" y1="2" x2="2" y2="8"/></svg>',
+    minimize: '<svg width="6" height="6" viewBox="0 0 10 10" fill="none" stroke="rgba(0,0,0,0.5)" stroke-width="1.8"><line x1="2" y1="5" x2="8" y2="5"/></svg>',
+    maximize: '<svg width="6" height="6" viewBox="0 0 10 10" fill="none" stroke="rgba(0,0,0,0.5)" stroke-width="1.8"><polyline points="6,2 8,2 8,4"/><polyline points="4,8 2,8 2,6"/><line x1="8" y1="2" x2="5.5" y2="4.5"/><line x1="4.5" y1="5.5" x2="2" y2="8"/></svg>',
+    restore:  '<svg width="6" height="6" viewBox="0 0 10 10" fill="none" stroke="rgba(0,0,0,0.5)" stroke-width="1.8"><rect x="1" y="3" width="6" height="6" rx="1"/><path d="M3 3V2a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H8"/></svg>',
   };
 
+  window.hwBtnHover = function(btn, type, on) {
+    btn.innerHTML = on ? ICONS[type] : '';
+  };
+
+  window.hwFsBtnHover = function(btn, type, on) {
+    btn.innerHTML = on ? ICONS[type === 'minimize' ? 'restore' : type] : '';
+  };
+
+  function buildTray() {
+    tray.innerHTML = '';
+    tray.style.cssText += ';-webkit-overflow-scrolling:touch;';
+    HERO_IMAGES.forEach(function(entry, i) {
+      var thumb = document.createElement('button');
+      thumb.title = entry.title;
+      thumb.setAttribute('aria-label', entry.title);
+      thumb.style.cssText = [
+        'width:90px;height:58px;flex-shrink:0;border-radius:7px;overflow:hidden;',
+        'border:' + (i === currentIndex ? '2px solid var(--color-text-1)' : '1.5px solid var(--color-border)') + ';',
+        'background:var(--color-bg-3);cursor:pointer;padding:0;',
+        'transition:border-color 140ms,transform 140ms;position:relative;',
+      ].join('');
+      var tImg = document.createElement('img');
+      var theme = isDark() ? 'dark' : 'light';
+      tImg.src = imgPath(entry.id, theme);
+      tImg.alt = entry.title;
+      tImg.loading = 'lazy';
+      tImg.style.cssText = 'width:100%;height:100%;object-fit:cover;object-position:top;display:block;';
+      tImg.onerror = function() {
+        var alt = isDark() ? 'light' : 'dark';
+        tImg.src = imgPath(entry.id, alt);
+        tImg.onerror = function() { tImg.style.display = 'none'; };
+      };
+      // Label under image
+      var label = document.createElement('span');
+      label.textContent = entry.title;
+      label.style.cssText = [
+        'position:absolute;bottom:0;left:0;right:0;',
+        'font-size:8px;font-family:var(--font-mono);color:#fff;',
+        'background:rgba(0,0,0,0.55);padding:2px 4px;',
+        'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;',
+      ].join('');
+      thumb.appendChild(tImg);
+      thumb.appendChild(label);
+      thumb.addEventListener('mouseenter', function() { thumb.style.transform = 'translateY(-2px)'; thumb.style.borderColor = 'var(--color-text-1)'; });
+      thumb.addEventListener('mouseleave', function() { thumb.style.transform = ''; thumb.style.borderColor = i === currentIndex ? 'var(--color-text-1)' : 'var(--color-border)'; });
+      thumb.addEventListener('click', function() {
+        currentIndex = i;
+        restoreWindow();
+      });
+      tray.appendChild(thumb);
+    });
+  }
+
+  function minimizeWindow() {
+    isMinimized = true;
+    imgArea.style.transition = 'opacity 160ms ' + EASE;
+    imgArea.style.opacity = '0';
+    setTimeout(function() {
+      imgArea.style.display = 'none';
+      imgArea.style.opacity = '1';
+      win.style.aspectRatio = 'unset';
+      buildTray();
+      tray.style.display = 'flex';
+      tray.style.opacity = '0';
+      tray.style.transition = 'opacity 160ms ' + EASE;
+      void tray.offsetHeight;
+      tray.style.opacity = '1';
+      if (btnMaximize) btnMaximize.style.opacity = '0.35';
+    }, 160);
+    if (typeof sounds !== 'undefined') sounds.play('toggle');
+  }
+
+  function restoreWindow() {
+    isMinimized = false;
+    tray.style.transition = 'opacity 120ms ' + EASE;
+    tray.style.opacity = '0';
+    setTimeout(function() {
+      tray.style.display = 'none';
+      win.style.aspectRatio = '16/10';
+      imgArea.style.display = '';
+      imgArea.style.opacity = '0';
+      imgArea.style.transition = 'opacity 180ms ' + EASE;
+      void imgArea.offsetHeight;
+      imgArea.style.opacity = '1';
+      if (btnMaximize) btnMaximize.style.opacity = '1';
+      loadImage(currentIndex);
+    }, 120);
+    if (typeof sounds !== 'undefined') sounds.play('toggle');
+  }
+
+  function openNextImage() {
+    currentIndex = (currentIndex + 1) % HERO_IMAGES.length;
+    loadImage(currentIndex);
+  }
+
+  function openFullscreen() {
+    loadFsImage(currentIndex);
+    fsOverlay.style.pointerEvents = 'auto';
+    fsOverlay.style.opacity = '1';
+    if (fsInner) {
+      fsInner.style.transform = 'scale(1)';
+    }
+    if (typeof sounds !== 'undefined') sounds.play('modalOpen');
+  }
+
+  function closeFullscreen() {
+    fsOverlay.style.opacity = '0';
+    fsOverlay.style.pointerEvents = 'none';
+    if (fsInner) fsInner.style.transform = 'scale(0.96)';
+    if (typeof sounds !== 'undefined') sounds.play('modalClose');
+  }
+
+  // Traffic light — Close: close window (fade out), then open next image
+  if (btnClose) {
+    btnClose.addEventListener('click', function() {
+      win.style.transition = 'opacity 180ms ' + EASE;
+      win.style.opacity = '0';
+      setTimeout(function() {
+        openNextImage();
+        win.style.opacity = '0';
+        void win.offsetHeight;
+        win.style.transition = 'opacity 200ms ' + EASE;
+        win.style.opacity = '1';
+      }, 200);
+    });
+  }
+
+  // Traffic light — Minimize: shrink to tray bar
+  if (btnMinimize) {
+    btnMinimize.addEventListener('click', function() {
+      if (isMinimized) {
+        restoreWindow();
+      } else {
+        minimizeWindow();
+      }
+    });
+  }
+
+  // Traffic light — Maximize: open fullscreen overlay
+  if (btnMaximize) {
+    btnMaximize.addEventListener('click', function() {
+      if (!isMinimized) openFullscreen();
+    });
+  }
+
+  // Fullscreen — Close: close overlay and advance image in the background window
+  if (fsBtnClose) {
+    fsBtnClose.addEventListener('click', function() {
+      closeFullscreen();
+      openNextImage();
+    });
+  }
+
+  // Fullscreen — Minimize (restore to window)
+  if (fsBtnMinimize) {
+    fsBtnMinimize.addEventListener('click', function() {
+      closeFullscreen();
+    });
+  }
+
+  // Fullscreen — Arrow nav
+  if (fsBtnPrev) {
+    fsBtnPrev.addEventListener('click', function() {
+      currentIndex = (currentIndex - 1 + HERO_IMAGES.length) % HERO_IMAGES.length;
+      loadFsImage(currentIndex);
+      loadImage(currentIndex);
+    });
+  }
+  if (fsBtnNext) {
+    fsBtnNext.addEventListener('click', function() {
+      currentIndex = (currentIndex + 1) % HERO_IMAGES.length;
+      loadFsImage(currentIndex);
+      loadImage(currentIndex);
+    });
+  }
+
+  // Close fullscreen on backdrop click or Escape
+  if (fsOverlay) {
+    fsOverlay.addEventListener('click', function(e) {
+      if (e.target === fsOverlay) closeFullscreen();
+    });
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && fsOverlay && fsOverlay.style.pointerEvents === 'auto') {
+      closeFullscreen();
+    }
+    if (fsOverlay && fsOverlay.style.pointerEvents === 'auto') {
+      if (e.key === 'ArrowLeft' && fsBtnPrev)  fsBtnPrev.click();
+      if (e.key === 'ArrowRight' && fsBtnNext) fsBtnNext.click();
+    }
+  });
+
+  // Re-sync images when theme changes
+  var obs = new MutationObserver(function() {
+    if (!isMinimized) loadImage(currentIndex);
+    if (fsOverlay && fsOverlay.style.pointerEvents === 'auto') loadFsImage(currentIndex);
+    syncFeatureImages();
+  });
+  obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+  // Feature section image sync (dark/light swap)
   function syncFeatureImages() {
-    var isDark = document.documentElement.className !== 'light';
-
+    var dark = document.documentElement.className !== 'light';
     document.querySelectorAll('.feat-gif-wrap').forEach(function(wrap) {
-      var darkImg  = wrap.querySelector('.feat-gif-dark');
-      var lightImg = wrap.querySelector('.feat-gif-light');
-      var ph       = wrap.querySelector('.feat-gif-ph');
-
-      var wantImg     = isDark ? darkImg  : lightImg;
-      var fallbackImg = isDark ? lightImg : darkImg;
-
-      if (wantImg && !imgFailed(wantImg) && imgLoaded(wantImg)) {
-        wantImg.style.display     = '';
-        if (fallbackImg) fallbackImg.style.display = 'none';
-        if (ph)          ph.style.display           = 'none';
-      } else if (fallbackImg && !imgFailed(fallbackImg) && imgLoaded(fallbackImg)) {
-        if (wantImg)     wantImg.style.display     = 'none';
-        fallbackImg.style.display = '';
-        if (ph)          ph.style.display           = 'none';
-      } else if ((!wantImg || imgFailed(wantImg)) && (!fallbackImg || imgFailed(fallbackImg))) {
-        if (wantImg)     wantImg.style.display     = 'none';
-        if (fallbackImg) fallbackImg.style.display  = 'none';
-        if (ph)          ph.style.display           = 'flex';
+      var dImg = wrap.querySelector('.feat-gif-dark');
+      var lImg = wrap.querySelector('.feat-gif-light');
+      var ph   = wrap.querySelector('.feat-gif-ph');
+      var want    = dark ? dImg : lImg;
+      var fallback = dark ? lImg : dImg;
+      function failed(el) { return el && el.dataset.failed === 'true'; }
+      function loaded(el) { return el && el.complete && el.naturalWidth > 0; }
+      if (want && !failed(want) && loaded(want)) {
+        want.style.display = '';
+        if (fallback) fallback.style.display = 'none';
+        if (ph) ph.style.display = 'none';
+      } else if (fallback && !failed(fallback) && loaded(fallback)) {
+        if (want) want.style.display = 'none';
+        fallback.style.display = '';
+        if (ph) ph.style.display = 'none';
+      } else if ((!want || failed(want)) && (!fallback || failed(fallback))) {
+        if (want) want.style.display = 'none';
+        if (fallback) fallback.style.display = 'none';
+        if (ph) ph.style.display = 'flex';
       }
     });
   }
@@ -1450,14 +1817,9 @@ const pageDescription = site.description;
     syncFeatureImages();
   };
 
-  function syncAll() {
-    window.syncDashboard();
-    syncFeatureImages();
-  }
-
-  syncAll();
-  var obs = new MutationObserver(syncAll);
-  obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  // Boot: load first image
+  loadImage(0);
+  syncFeatureImages();
 })();
 </script>
 
@@ -1540,7 +1902,7 @@ const pageDescription = site.description;
 </script>
 
 <script>
-// Activity section — mobile tab switcher (commits / contributors)
+// Activity section — desktop layout guard (both panels always visible on mobile via scroll)
 (function() {
   var panels = {
     commits:      document.getElementById('activity-panel-commits'),
@@ -1550,27 +1912,15 @@ const pageDescription = site.description;
   function isMobile() { return window.innerWidth < 700; }
 
   function applyActivityLayout() {
-    if (!isMobile()) {
-      // Desktop: show both
-      if (panels.commits)      panels.commits.style.display      = '';
-      if (panels.contributors) panels.contributors.style.display  = '';
-    }
-    // Mobile: current active tab controls visibility — don't reset if user already picked
+    // Both panels always visible — mobile uses horizontal scroll, desktop uses grid
+    if (panels.commits)      panels.commits.style.display      = '';
+    if (panels.contributors) panels.contributors.style.display  = '';
   }
 
-  window.activityTab = function(which) {
-    if (!isMobile()) return;
-    var tabs = document.querySelectorAll('.activity-tab');
-    tabs.forEach(function(t, i) { t.classList.toggle('active', i === (which === 'commits' ? 0 : 1)); });
-    if (panels.commits)      panels.commits.style.display      = (which === 'commits')      ? '' : 'none';
-    if (panels.contributors) panels.contributors.style.display  = (which === 'contributors') ? '' : 'none';
-    if (typeof sounds !== 'undefined') sounds.play('toggle');
-  };
+  // Keep activityTab as a no-op in case any other code references it
+  window.activityTab = function() {};
 
-  // Set initial mobile state
-  if (isMobile()) {
-    if (panels.contributors) panels.contributors.style.display = 'none';
-  }
+  applyActivityLayout();
 
   var lastMob = isMobile();
   window.addEventListener('resize', function() {
@@ -1727,6 +2077,37 @@ const pageDescription = site.description;
     .catch(function() {});
 })();
 </script>
+
+<% if (!site.ytVidIFrame && site.ytURL) { %>
+<script>
+// Load YouTube thumbnail for the video placeholder panel
+(function() {
+  var thumb = document.getElementById('video-thumb');
+  if (!thumb) return;
+  var ytUrl = '<%= site.ytURL %>';
+  var m = ytUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);
+  if (!m) return;
+  var id = m[1];
+  // Try maxresdefault first, fall back to hqdefault
+  var src = 'https://i.ytimg.com/vi/' + id + '/maxresdefault.jpg';
+  thumb.src = src;
+  thumb.onload = function() {
+    thumb.style.display = 'block';
+    void thumb.offsetHeight;
+    thumb.style.opacity = '1';
+  };
+  thumb.onerror = function() {
+    thumb.src = 'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg';
+    thumb.onload = function() {
+      thumb.style.display = 'block';
+      void thumb.offsetHeight;
+      thumb.style.opacity = '1';
+    };
+    thumb.onerror = function() {};
+  };
+})();
+</script>
+<% } %>
 
 </body>
 </html>

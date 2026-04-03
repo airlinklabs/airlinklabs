@@ -208,7 +208,7 @@ async function renderMarkdown(html: string): Promise<string> {
 // We only touch paths that don't already start with http(s):// or /.
 function fixMarkdownImagePaths(html: string): string {
   return html.replace(/<img([^>]+)src="([^"]+)"([^>]*)>/gi, (match, before, src, after) => {
-    if (src.startsWith('http') || src.startsWith('/') || src.startsWith('data:')) {
+    if (src.startsWith('http') || src.startsWith('/') || src.startsWith('data:') || src.startsWith('.')) {
       return match;
     }
     const fixed = '/' + src.replace(/^\.\//, '');
@@ -357,7 +357,11 @@ function resolveContentImages(html: string, assetBasePath: string): string {
       if (captionMatch) caption = captionMatch[1];
     }
 
-    const src        = `${assetBasePath.startsWith('/') ? assetBasePath : '/' + assetBasePath}/${first}`;
+    // Use assetBasePath as-is. If it starts with '/', it's root-absolute (works on
+    // GitHub Pages only when served from the domain root). If it's relative, keep it.
+    // Callers that need relative paths (e.g. blog posts at /blog/slug/) should pass
+    // a path like '../../public/assets/blog/slug' instead of '/public/assets/blog/slug'.
+    const src        = `${assetBasePath}/${first}`;
     const roundStyle = noRound ? '' : 'border-radius:8px;';
     const widthStyle = isFull  ? 'width:100%;max-width:100%;' : 'max-width:100%;';
     const imgHtml    = `<img src="${src}" alt="${alt}" loading="lazy" class="prose-img img-loaded" style="${widthStyle}${roundStyle}display:block;">`;
@@ -395,7 +399,10 @@ async function loadAnnouncements(): Promise<Announcement[]> {
     const slug   = path.basename(file, '.md');
 
     // resolve images before passing to marked so the custom tags don't get escaped
-    const bodyWithImages = resolveContentImages(parsed.body, `/public/assets/blog/${slug}`);
+    // Blog posts live at dist/blog/{slug}/index.html, so two levels up from root.
+    // Using a relative path here means the image resolves correctly regardless of
+    // whether the site is deployed at the domain root or a subpath like /home/.
+    const bodyWithImages = resolveContentImages(parsed.body, `../../public/assets/blog/${slug}`);
     let content = await renderMarkdown(bodyWithImages);
 
     return {
