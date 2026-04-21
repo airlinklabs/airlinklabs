@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cache>
-  <generatedAt>2026-04-19T05:53:20.090Z</generatedAt>
+  <generatedAt>2026-04-21T05:58:11.869Z</generatedAt>
   <stats>
     <panelStars>54</panelStars>
     <daemonStars>12</daemonStars>
     <totalStars>66</totalStars>
-    <panelForks>36</panelForks>
+    <panelForks>37</panelForks>
     <daemonForks>12</daemonForks>
-    <totalForks>48</totalForks>
+    <totalForks>49</totalForks>
     <panelIssues>1</panelIssues>
     <daemonIssues>0</daemonIssues>
     <openIssues>1</openIssues>
@@ -27,7 +27,7 @@
       <company>Airlinklabs</company>
       <avatarUrl>https://avatars.githubusercontent.com/u/141457761?v=4</avatarUrl>
       <htmlUrl>https://github.com/privt00</htmlUrl>
-      <contributions>317</contributions>
+      <contributions>320</contributions>
     </contributor>
     <contributor>
       <login>thavanish</login>
@@ -160,6 +160,26 @@ Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
   </contributors>
   <panelCommits>
     <commit>
+      <sha>f6075b00a0a2f55155640f91f735c6a4638021c2</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/f6075b00a0a2f55155640f91f735c6a4638021c2</htmlUrl>
+      <message>fix https</message>
+      <author>
+        <name>privt00</name>
+        <date>2026-04-19T20:51:14Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/141457761?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>e72057d1bdd66eca7760b0d9436759f889ea88b1</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/e72057d1bdd66eca7760b0d9436759f889ea88b1</htmlUrl>
+      <message>Added Airlink cloud</message>
+      <author>
+        <name>privt00</name>
+        <date>2026-04-19T19:12:02Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/141457761?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
       <sha>6763ef1bf39414e5103ebdf2efd39481c2e83e2b</sha>
       <htmlUrl>https://github.com/airlinklabs/panel/commit/6763ef1bf39414e5103ebdf2efd39481c2e83e2b</htmlUrl>
       <message>fix mobile admin only server edit button 
@@ -291,28 +311,18 @@ Fix redirect from Mobile Server page to Admin Server page</message>
         <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
       </author>
     </commit>
-    <commit>
-      <sha>1dccbf3ae84262756578b0637a3407425d673536</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/1dccbf3ae84262756578b0637a3407425d673536</htmlUrl>
-      <message>Update README.md</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-03-19T07:24:54Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>ec151af50cb0b4287b8b4cc4280b6a94b1671901</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/ec151af50cb0b4287b8b4cc4280b6a94b1671901</htmlUrl>
-      <message>Update README.md</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-03-19T07:22:47Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
   </panelCommits>
   <daemonCommits>
+    <commit>
+      <sha>32f1761408132b97cc3527720b1672a92151d778</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/32f1761408132b97cc3527720b1672a92151d778</htmlUrl>
+      <message>Added airlink cloud</message>
+      <author>
+        <name>privt00</name>
+        <date>2026-04-19T19:12:11Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/141457761?v=4</avatarUrl>
+      </author>
+    </commit>
     <commit>
       <sha>078f069d74a0d6f69241de8da80d185e47d6f5f8</sha>
       <htmlUrl>https://github.com/airlinklabs/daemon/commit/078f069d74a0d6f69241de8da80d185e47d6f5f8</htmlUrl>
@@ -456,16 +466,6 @@ Failed to generate credentials
       <author>
         <name>Thavanish brijesh</name>
         <date>2026-02-26T10:32:40Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>0060493d2a92658d02960d1c3775f5515869ea95</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/0060493d2a92658d02960d1c3775f5515869ea95</htmlUrl>
-      <message>make it configurable</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-02-26T01:55:47Z</date>
         <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       </author>
     </commit>
