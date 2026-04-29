@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cache>
-  <generatedAt>2026-04-27T06:22:48.556Z</generatedAt>
+  <generatedAt>2026-04-29T06:17:47.733Z</generatedAt>
   <stats>
     <panelStars>54</panelStars>
     <daemonStars>12</daemonStars>
@@ -36,7 +36,7 @@
       <company>airlinklabs</company>
       <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       <htmlUrl>https://github.com/thavanish</htmlUrl>
-      <contributions>212</contributions>
+      <contributions>215</contributions>
     </contributor>
     <contributor>
       <login>achul123</login>
@@ -160,6 +160,36 @@ Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
   </contributors>
   <panelCommits>
     <commit>
+      <sha>6d24530c98cdc09ab409c6e88074a58bfea7af63</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/6d24530c98cdc09ab409c6e88074a58bfea7af63</htmlUrl>
+      <message>fix: add --no-frozen-lockfile to make pnpm include unincluded packages as a fallback</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-04-29T01:13:09Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>93ea5a410731797586c6106aed5a8c5575c36911</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/93ea5a410731797586c6106aed5a8c5575c36911</htmlUrl>
+      <message>feat: Add status line and replace npm with pnpm and ad more tui fixes</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-04-29T00:09:50Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>61ad58a85a685b054963d838a37b88f51e4c5097</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/61ad58a85a685b054963d838a37b88f51e4c5097</htmlUrl>
+      <message>feat: fully rework TUI and update the installer to actaully work without args and  add new progress screen</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-04-28T23:19:31Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
       <sha>f6075b00a0a2f55155640f91f735c6a4638021c2</sha>
       <htmlUrl>https://github.com/airlinklabs/panel/commit/f6075b00a0a2f55155640f91f735c6a4638021c2</htmlUrl>
       <message>fix https</message>
@@ -279,36 +309,6 @@ Fix redirect from Mobile Server page to Admin Server page</message>
         <name>Thavanish brijesh</name>
         <date>2026-03-20T17:37:15Z</date>
         <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>34eab9cbb675ee88f90dd355831fc2c9e332c745</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/34eab9cbb675ee88f90dd355831fc2c9e332c745</htmlUrl>
-      <message>simplify git clone/pull logic, add GIT_TERMINAL_PROMPT=0 to prevent hangs</message>
-      <author>
-        <name>i guess so ?</name>
-        <date>2026-03-20T10:58:47Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>097129ddd16005f889970d898e77dbb3c0ed9b0f</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/097129ddd16005f889970d898e77dbb3c0ed9b0f</htmlUrl>
-      <message>fix egg cloning</message>
-      <author>
-        <name>i guess so ?</name>
-        <date>2026-03-20T08:01:03Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>0baa26619205015e7cf4dc0e3d9b4872395855e9</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/0baa26619205015e7cf4dc0e3d9b4872395855e9</htmlUrl>
-      <message>fix ctel+c not working and images repo not beijg pulled properly</message>
-      <author>
-        <name>i guess so ?</name>
-        <date>2026-03-20T06:42:42Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
       </author>
     </commit>
   </panelCommits>
