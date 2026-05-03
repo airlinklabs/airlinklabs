@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cache>
-  <generatedAt>2026-05-01T06:31:57.480Z</generatedAt>
+  <generatedAt>2026-05-03T06:21:36.541Z</generatedAt>
   <stats>
     <panelStars>54</panelStars>
     <daemonStars>12</daemonStars>
@@ -36,7 +36,7 @@
       <company>airlinklabs</company>
       <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       <htmlUrl>https://github.com/thavanish</htmlUrl>
-      <contributions>215</contributions>
+      <contributions>216</contributions>
     </contributor>
     <contributor>
       <login>achul123</login>
@@ -159,6 +159,16 @@ Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
     </contributor>
   </contributors>
   <panelCommits>
+    <commit>
+      <sha>b3aad312d41fd7a159fcd1210ea9e6f4309f1c7e</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/b3aad312d41fd7a159fcd1210ea9e6f4309f1c7e</htmlUrl>
+      <message>Fix: installer not working correctly fixed</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-01T08:56:56Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
     <commit>
       <sha>6d24530c98cdc09ab409c6e88074a58bfea7af63</sha>
       <htmlUrl>https://github.com/airlinklabs/panel/commit/6d24530c98cdc09ab409c6e88074a58bfea7af63</htmlUrl>
@@ -299,16 +309,6 @@ Fix redirect from Mobile Server page to Admin Server page</message>
         <name>i guess so ?</name>
         <date>2026-03-21T02:58:56Z</date>
         <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>2552305f734242bd25e54804ac2860abd351fcb3</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/2552305f734242bd25e54804ac2860abd351fcb3</htmlUrl>
-      <message>remove seeding</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-03-20T17:37:15Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       </author>
     </commit>
   </panelCommits>
