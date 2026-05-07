@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cache>
-  <generatedAt>2026-05-05T06:10:02.746Z</generatedAt>
+  <generatedAt>2026-05-07T06:29:47.707Z</generatedAt>
   <stats>
-    <panelStars>54</panelStars>
+    <panelStars>55</panelStars>
     <daemonStars>12</daemonStars>
-    <totalStars>66</totalStars>
+    <totalStars>67</totalStars>
     <panelForks>37</panelForks>
     <daemonForks>12</daemonForks>
     <totalForks>49</totalForks>
@@ -63,7 +63,7 @@
       <company></company>
       <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
       <htmlUrl>https://github.com/bthavanish</htmlUrl>
-      <contributions>17</contributions>
+      <contributions>18</contributions>
     </contributor>
     <contributor>
       <login>pika4manu</login>
@@ -159,6 +159,16 @@ Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
     </contributor>
   </contributors>
   <panelCommits>
+    <commit>
+      <sha>cb16910bd70e01f630c761aa83b5efa02d29ef2f</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/cb16910bd70e01f630c761aa83b5efa02d29ef2f</htmlUrl>
+      <message>feat: optimize install script, remove prisma/admin setup, preserve existing folders, and improve TUI responsiveness</message>
+      <author>
+        <name>i guess so ?</name>
+        <date>2026-05-07T06:23:52Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
     <commit>
       <sha>b3aad312d41fd7a159fcd1210ea9e6f4309f1c7e</sha>
       <htmlUrl>https://github.com/airlinklabs/panel/commit/b3aad312d41fd7a159fcd1210ea9e6f4309f1c7e</htmlUrl>
@@ -298,16 +308,6 @@ Fix redirect from Mobile Server page to Admin Server page</message>
       <author>
         <name>i guess so ?</name>
         <date>2026-03-21T03:16:12Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>e26b40b7ed49cec73ebd65d43611cb6c19e296fe</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/e26b40b7ed49cec73ebd65d43611cb6c19e296fe</htmlUrl>
-      <message>add CLI arg support to installer, clean up duplicate config/validation logic</message>
-      <author>
-        <name>i guess so ?</name>
-        <date>2026-03-21T02:58:56Z</date>
         <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
       </author>
     </commit>
