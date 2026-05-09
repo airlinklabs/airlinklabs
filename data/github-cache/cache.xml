@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cache>
-  <generatedAt>2026-05-07T06:29:47.707Z</generatedAt>
+  <generatedAt>2026-05-09T06:09:25.306Z</generatedAt>
   <stats>
     <panelStars>55</panelStars>
     <daemonStars>12</daemonStars>
@@ -36,7 +36,7 @@
       <company>airlinklabs</company>
       <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       <htmlUrl>https://github.com/thavanish</htmlUrl>
-      <contributions>216</contributions>
+      <contributions>229</contributions>
     </contributor>
     <contributor>
       <login>achul123</login>
@@ -160,6 +160,126 @@ Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
   </contributors>
   <panelCommits>
     <commit>
+      <sha>4397643e3036170289fe6bae3188b971308838ca</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/4397643e3036170289fe6bae3188b971308838ca</htmlUrl>
+      <message>Fix: fix incorrect resource info being sent to node due to mb and gb and percentage and cores count</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T10:10:42Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>9c45fe236a2f1c8e7745546b9570719b0dec3845</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/9c45fe236a2f1c8e7745546b9570719b0dec3845</htmlUrl>
+      <message>Fix : add nonce=&quot;&lt;%- nonce %&gt; to improve security in all script tags  update app.ts to include this and add python patch to approve pnpm builds and add uuid explicit install to daemon</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T08:54:17Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>c3076ded568672d559c5508e5140f7d89e2a7826</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/c3076ded568672d559c5508e5140f7d89e2a7826</htmlUrl>
+      <message>Fix: who messed up the panel this much phew finally fixed some major issues</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T08:11:36Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>37ae70db4b6c89a34a3e586e94acc2b5239cef43</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/37ae70db4b6c89a34a3e586e94acc2b5239cef43</htmlUrl>
+      <message>fix:remove http:/ tag</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T07:27:57Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>d065bd0cdfb1dc36f9e0b897f068770b6dc671b3</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/d065bd0cdfb1dc36f9e0b897f068770b6dc671b3</htmlUrl>
+      <message>fix :Add make and gcc install using local package manager</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T07:14:49Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>a3857143942f39042d0ab62f7d1e5e4a6c58f159</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/a3857143942f39042d0ab62f7d1e5e4a6c58f159</htmlUrl>
+      <message>fix: add missing deps for daemon (i really am fuckin stupid)</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T07:07:10Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>64d2dedffed60938a6037bc99bc0d2fcbf62ecef</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/64d2dedffed60938a6037bc99bc0d2fcbf62ecef</htmlUrl>
+      <message>Fix: add missing dependencies installation in installer.sh</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T07:01:25Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>dd13176c16c2c33d421e3b78830c2bf9d26cc58f</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/dd13176c16c2c33d421e3b78830c2bf9d26cc58f</htmlUrl>
+      <message>chore : remove unneded shit for prisma ver dedection</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T06:58:38Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>488694331f15e4b8ee25b738f47f9511a4f6e336</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/488694331f15e4b8ee25b738f47f9511a4f6e336</htmlUrl>
+      <message>fix: replace migrate:dev with migrate:deploy</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T06:53:27Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>d6988959399a191fb8ed8ab0c84cfcdf11c8528b</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/d6988959399a191fb8ed8ab0c84cfcdf11c8528b</htmlUrl>
+      <message>fix: make prisma install dedect from package.json</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T06:46:28Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>aa7bc68447cc81e05043d100ae8777f44bf50f4e</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/aa7bc68447cc81e05043d100ae8777f44bf50f4e</htmlUrl>
+      <message>chore:fix Build and add prisma</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T06:44:25Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>7cbb0cf68bbb2ee999c030755d76c58808467c82</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/7cbb0cf68bbb2ee999c030755d76c58808467c82</htmlUrl>
+      <message>chore:add all deps to normal deps</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T06:43:44Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
       <sha>cb16910bd70e01f630c761aa83b5efa02d29ef2f</sha>
       <htmlUrl>https://github.com/airlinklabs/panel/commit/cb16910bd70e01f630c761aa83b5efa02d29ef2f</htmlUrl>
       <message>feat: optimize install script, remove prisma/admin setup, preserve existing folders, and improve TUI responsiveness</message>
@@ -189,130 +309,18 @@ Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
         <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       </author>
     </commit>
-    <commit>
-      <sha>93ea5a410731797586c6106aed5a8c5575c36911</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/93ea5a410731797586c6106aed5a8c5575c36911</htmlUrl>
-      <message>feat: Add status line and replace npm with pnpm and ad more tui fixes</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-04-29T00:09:50Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>61ad58a85a685b054963d838a37b88f51e4c5097</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/61ad58a85a685b054963d838a37b88f51e4c5097</htmlUrl>
-      <message>feat: fully rework TUI and update the installer to actaully work without args and  add new progress screen</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-04-28T23:19:31Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>f6075b00a0a2f55155640f91f735c6a4638021c2</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/f6075b00a0a2f55155640f91f735c6a4638021c2</htmlUrl>
-      <message>fix https</message>
-      <author>
-        <name>privt00</name>
-        <date>2026-04-19T20:51:14Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/141457761?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>e72057d1bdd66eca7760b0d9436759f889ea88b1</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/e72057d1bdd66eca7760b0d9436759f889ea88b1</htmlUrl>
-      <message>Added Airlink cloud</message>
-      <author>
-        <name>privt00</name>
-        <date>2026-04-19T19:12:02Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/141457761?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>6763ef1bf39414e5103ebdf2efd39481c2e83e2b</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/6763ef1bf39414e5103ebdf2efd39481c2e83e2b</htmlUrl>
-      <message>fix mobile admin only server edit button 
-
-Fix redirect from Mobile Server page to Admin Server page</message>
-      <author>
-        <name>i guess so ?</name>
-        <date>2026-03-28T13:24:10Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>6502d46cdad47a575cc40ed82425ca59e85f0175</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/6502d46cdad47a575cc40ed82425ca59e85f0175</htmlUrl>
-      <message>Fix redirect from Mobile Server page to Admin Server page</message>
-      <author>
-        <name>Pika4Manu</name>
-        <date>2026-03-28T13:09:33Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/167890437?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>f81d0b8cedf9721751d6c983eb8406de824ccb42</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/f81d0b8cedf9721751d6c983eb8406de824ccb42</htmlUrl>
-      <message>Asd install counter</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-03-23T11:26:18Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>6c79d0a8e6e6b5608f86c077bdd9ee7efbb33c18</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/6c79d0a8e6e6b5608f86c077bdd9ee7efbb33c18</htmlUrl>
-      <message>NI banner; existing-install update mode (src wipe + schema replace + migrate deploy); fix NI output streaming below steps; move TUI output below progress box</message>
-      <author>
-        <name>i guess so ?</name>
-        <date>2026-03-21T15:04:23Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>eeb51150562d86e5b840f9f07fccc6c39e9144e6</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/eeb51150562d86e5b840f9f07fccc6c39e9144e6</htmlUrl>
-      <message>split install into phase_ functions eliminating double-execution; add live output tail to TUI progress; simplify Prisma install to always reinstall pinned version</message>
-      <author>
-        <name>i guess so ?</name>
-        <date>2026-03-21T14:56:11Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>61f006e5f1191feb6d0d391387c92dfcd2a08472</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/61f006e5f1191feb6d0d391387c92dfcd2a08472</htmlUrl>
-      <message>replace [[ ]] &amp;&amp; short-circuits with if blocks throughout — all were fatal under set -euo pipefail when condition was false</message>
-      <author>
-        <name>i guess so ?</name>
-        <date>2026-03-21T03:22:11Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>0a0059076679d58ee87350e6c990320a2f7b0e58</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/0a0059076679d58ee87350e6c990320a2f7b0e58</htmlUrl>
-      <message>Add files via upload</message>
-      <author>
-        <name>i guess so ?</name>
-        <date>2026-03-21T03:19:05Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>3ff085fbee5937726dbca0608ca7f2bf3d36c940</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/3ff085fbee5937726dbca0608ca7f2bf3d36c940</htmlUrl>
-      <message>update installer with tui</message>
-      <author>
-        <name>i guess so ?</name>
-        <date>2026-03-21T03:16:12Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
-      </author>
-    </commit>
   </panelCommits>
   <daemonCommits>
+    <commit>
+      <sha>447d3f7f228532433605d5e32576156a0b92480d</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/447d3f7f228532433605d5e32576156a0b92480d</htmlUrl>
+      <message>Fix:Add mb memory parsing instead of random shit</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T10:17:55Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
     <commit>
       <sha>32f1761408132b97cc3527720b1672a92151d778</sha>
       <htmlUrl>https://github.com/airlinklabs/daemon/commit/32f1761408132b97cc3527720b1672a92151d778</htmlUrl>
@@ -456,16 +464,6 @@ Failed to generate credentials
       <author>
         <name>Thavanish brijesh</name>
         <date>2026-02-26T10:41:43Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>52d5075c50531edad5b690b6ce7533d31e1629ed</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/52d5075c50531edad5b690b6ce7533d31e1629ed</htmlUrl>
-      <message>Fix building error</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-02-26T10:32:40Z</date>
         <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       </author>
     </commit>
