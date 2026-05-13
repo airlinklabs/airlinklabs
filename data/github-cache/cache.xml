@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cache>
-  <generatedAt>2026-05-11T06:59:04.730Z</generatedAt>
+  <generatedAt>2026-05-13T06:42:21.697Z</generatedAt>
   <stats>
-    <panelStars>55</panelStars>
+    <panelStars>56</panelStars>
     <daemonStars>12</daemonStars>
-    <totalStars>67</totalStars>
+    <totalStars>68</totalStars>
     <panelForks>37</panelForks>
     <daemonForks>13</daemonForks>
     <totalForks>50</totalForks>
     <panelIssues>1</panelIssues>
-    <daemonIssues>0</daemonIssues>
-    <openIssues>1</openIssues>
+    <daemonIssues>1</daemonIssues>
+    <openIssues>2</openIssues>
     <contributors>15</contributors>
   </stats>
   <versions>
@@ -36,7 +36,7 @@
       <company>airlinklabs</company>
       <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       <htmlUrl>https://github.com/thavanish</htmlUrl>
-      <contributions>229</contributions>
+      <contributions>231</contributions>
     </contributor>
     <contributor>
       <login>achul123</login>
@@ -160,6 +160,44 @@ Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
   </contributors>
   <panelCommits>
     <commit>
+      <sha>5743ab38d5acab71a03a4fca373232f8481e25b8</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/5743ab38d5acab71a03a4fca373232f8481e25b8</htmlUrl>
+      <message>chore:remove artifact</message>
+      <author>
+        <name>thavanish</name>
+        <date>2026-05-12T04:54:47Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>8984b2aa89e1acd38103315b89ddef4335e12e71</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/8984b2aa89e1acd38103315b89ddef4335e12e71</htmlUrl>
+      <message>chore:this sounded too shit so changed it</message>
+      <author>
+        <name>thavanish</name>
+        <date>2026-05-11T11:56:16Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>33fc3dadaf22bff9dcea89db9a142ed5b73ece62</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/33fc3dadaf22bff9dcea89db9a142ed5b73ece62</htmlUrl>
+      <message>fix: enhance error page handling and security validation
+
+- Add renderErrorPage handler for consistent error page rendering
+- Improve SESSION_SECRET validation in production environment
+- Redirect unauthenticated users from error pages to login
+- Integrate errorPageHandler and notFoundHandler middleware
+- Add error pages for desktop and mobile viewports
+- Fix IP ban error response to use renderErrorPage
+- Clean up error handling middleware implementation</message>
+      <author>
+        <name>Airlink Developer</name>
+        <date>2026-05-11T11:15:01Z</date>
+        <avatarUrl></avatarUrl>
+      </author>
+    </commit>
+    <commit>
       <sha>4397643e3036170289fe6bae3188b971308838ca</sha>
       <htmlUrl>https://github.com/airlinklabs/panel/commit/4397643e3036170289fe6bae3188b971308838ca</htmlUrl>
       <message>Fix: fix incorrect resource info being sent to node due to mb and gb and percentage and cores count</message>
@@ -279,38 +317,23 @@ Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
         <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       </author>
     </commit>
-    <commit>
-      <sha>cb16910bd70e01f630c761aa83b5efa02d29ef2f</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/cb16910bd70e01f630c761aa83b5efa02d29ef2f</htmlUrl>
-      <message>feat: optimize install script, remove prisma/admin setup, preserve existing folders, and improve TUI responsiveness</message>
-      <author>
-        <name>i guess so ?</name>
-        <date>2026-05-07T06:23:52Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>b3aad312d41fd7a159fcd1210ea9e6f4309f1c7e</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/b3aad312d41fd7a159fcd1210ea9e6f4309f1c7e</htmlUrl>
-      <message>Fix: installer not working correctly fixed</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-05-01T08:56:56Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>6d24530c98cdc09ab409c6e88074a58bfea7af63</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/6d24530c98cdc09ab409c6e88074a58bfea7af63</htmlUrl>
-      <message>fix: add --no-frozen-lockfile to make pnpm include unincluded packages as a fallback</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-04-29T01:13:09Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
   </panelCommits>
   <daemonCommits>
+    <commit>
+      <sha>0cd329250b2dcd3c50a88f7fb990f75dbb6f169d</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/0cd329250b2dcd3c50a88f7fb990f75dbb6f169d</htmlUrl>
+      <message>fix: enforce HMAC signature validation by default
+
+- Change HMAC verification to strict mode (enabled by default)
+- Update REQUIRE_HMAC logic: now false for permissive mode only
+- Update middleware documentation with new behavior
+- Improve request signing security requirements</message>
+      <author>
+        <name>Airlink Developer</name>
+        <date>2026-05-11T11:15:02Z</date>
+        <avatarUrl></avatarUrl>
+      </author>
+    </commit>
     <commit>
       <sha>447d3f7f228532433605d5e32576156a0b92480d</sha>
       <htmlUrl>https://github.com/airlinklabs/daemon/commit/447d3f7f228532433605d5e32576156a0b92480d</htmlUrl>
@@ -454,16 +477,6 @@ Failed to generate credentials
       <author>
         <name>Thavanish brijesh</name>
         <date>2026-02-26T10:55:40Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>96e6c54e394050feab31638e0c136638c83733ab</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/96e6c54e394050feab31638e0c136638c83733ab</htmlUrl>
-      <message>Fix build error</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-02-26T10:41:43Z</date>
         <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       </author>
     </commit>
