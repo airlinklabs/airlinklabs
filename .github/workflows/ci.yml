@@ -4,8 +4,8 @@ on:
   push:
     branches: [main]
   schedule:
-    # Every 2 days at 04:00 UTC
-    - cron: '0 4 */2 * *'
+    # Every day at 04:00 UTC
+    - cron: '0 4 */1 * *'
   workflow_dispatch:
 
 concurrency:
@@ -24,15 +24,19 @@ jobs:
         with:
           token: ${{ secrets.AIRLINK_TOKEN }}
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
+          cache: pnpm
 
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
 
       - name: Fetch GitHub data
-        run: npm run cache
+        run: pnpm cache
         env:
           GH_TOKEN: ${{ secrets.AIRLINK_TOKEN }}
 
@@ -75,12 +79,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
+          cache: pnpm
 
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
 
       # Overwrite the checked-out cache.xml with the freshly fetched one
       - name: Download fresh cache
@@ -89,7 +97,7 @@ jobs:
           name: github-cache
           path: data/github-cache
 
-      - run: npm run build
+      - run: pnpm build
 
       - uses: actions/upload-pages-artifact@v3
         with:
