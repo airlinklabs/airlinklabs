@@ -135,12 +135,18 @@ const siteBase = (site.siteUrl || '').replace(/\/$/, '');
 
 <%- include('./partials/footer', { site, rootPrefix, docPages }) %>
 
-<script src="<%= rootPrefix %>public/js/sounds.js"></script>
-<script src="<%= rootPrefix %>public/js/main.js"></script>
-
 <script>
 (function () {
   var siteBase = '<%= siteBase %>';
+  // Load scripts with correct base path
+  var soundsScript = document.createElement('script');
+  soundsScript.src = siteBase + 'public/js/sounds.js';
+  document.head.appendChild(soundsScript);
+  
+  var mainScript = document.createElement('script');
+  mainScript.src = siteBase + 'public/js/main.js';
+  document.head.appendChild(mainScript);
+
   var el = document.getElementById('not-found-path');
   if (el) el.textContent = window.location.pathname || '/';
 

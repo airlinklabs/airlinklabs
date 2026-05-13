@@ -41,6 +41,23 @@ const readMins  = Math.max(1, Math.round(wordCount / 200));
 </style>
 
 <div class="post-layout">
+  
+  <!-- Sidebar: post list for desktop navigation -->
+  <% if (announcements && announcements.length) { %>
+  <aside class="blog-sidebar">
+    <p class="blog-sidebar-label">All posts</p>
+    <% announcements.forEach(function(post) { %>
+    <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="blog-sidebar-link">
+      <span class="dot"></span>
+      <div style="min-width:0;">
+        <p class="title"><%= post.title %></p>
+        <% if (post.date) { %><p class="date"><%= post.date %></p><% } %>
+      </div>
+    </a>
+    <% }) %>
+  </aside>
+  <% } %>
+
   <div class="post-inner">
 
     <div class="post-header">
