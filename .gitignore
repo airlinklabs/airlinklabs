@@ -2,3 +2,4 @@ node_modules/
 dist/
 dist-scripts/
 data/github-cache/summary.txt
+pnpm-lock.yaml
