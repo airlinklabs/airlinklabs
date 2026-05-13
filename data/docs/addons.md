@@ -1,6 +1,7 @@
 ---
 author: thavanish
 date: 2026-03-19
+updated: 2026-05-13
 title: Addon Development
 description: Build addons that extend the panel without touching core code.
 order: 2
@@ -8,7 +9,7 @@ order: 2
 
 ## How addons work
 
-Addons live in `storage/addons/`. The panel loads every enabled addon at startup. Each addon registers its routes, UI elements, and database migrations through a simple API — nothing in core files gets modified.
+Addons live in `storage/addons/`. When the panel starts, it loads every enabled addon and lets it register routes, UI bits, and migrations. Core files stay untouched.
 
 ---
 
@@ -46,9 +47,9 @@ my-addon/
 }
 ```
 
-- `main` — entry point, defaults to `index.ts`
-- `router` — base URL path for all addon routes
-- `migrations` — SQL run once when the addon is first enabled, tracked so they never repeat
+- `main` is the entry point. If you skip it, the panel uses `index.ts`.
+- `router` is the base path for the addon routes.
+- `migrations` are SQL statements that run once when the addon is enabled.
 
 ---
 
@@ -75,8 +76,8 @@ export default function(router: Router, api: any) {
         }
       });
     } catch (error) {
-      logger.error('Error:', error);
-      res.status(500).send('An error occurred');
+      logger.error('addon page failed', error);
+      res.status(500).send('something broke');
     }
   });
 }
@@ -89,15 +90,15 @@ export default function(router: Router, api: any) {
 ### Core
 
 - `logger.info / warn / error / debug` — write to the panel log
-- `prisma` — Prisma ORM client connected to the panel's database
+- `prisma` — Prisma client connected to the panel database
 - `addonPath` — absolute path to your addon folder
 - `viewsPath` — absolute path to your addon's `views/` folder
-- `getComponentPath(path)` — returns the absolute path to a panel layout component
+- `getComponentPath(path)` — returns the path to a panel layout component
 
 ### User utilities
 
-- `utils.isUserAdmin(userId)` — returns true if the user is an admin
-- `utils.checkServerAccess(userId, serverId)` — returns true if the user can access the server
+- `utils.isUserAdmin(userId)` — checks whether the user is an admin
+- `utils.checkServerAccess(userId, serverId)` — checks whether the user can access the server
 - `utils.getServerById(serverId)` — returns a server object
 - `utils.getServerByUUID(uuid)` — returns a server object by UUID
 - `utils.getPrimaryPort(server)` — returns the primary port for a server
@@ -127,7 +128,7 @@ api.ui.addSidebarItem({
 
 ## Views
 
-Views are EJS templates. Use the panel's layout components to stay consistent.
+Views are EJS templates. Keep them in line with the panel layout components and avoid reinventing the page shell.
 
 ```html
 <%- include(components.header, { title: 'My Addon', user: user }) %>
