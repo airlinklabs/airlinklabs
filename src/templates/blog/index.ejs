@@ -1,227 +1,265 @@
-<%
-const rootPrefix = '../';
-const pageTitle = 'Blog';
-const pageDescription = 'Announcements and release notes from AirLink.';
-%>
-<%- include('./partials/head', { site, underConstruction, rootPrefix, pageTitle, pageDescription }) %>
-<%- include('./partials/nav', { site, underConstruction, rootPrefix, docPages, pageTitle }) %>
+<% const rootPrefix='../' ; const pageTitle='Blog' ; const
+  pageDescription='Announcements and release notes from AirLink.' ; %>
+  <%- include('./partials/head', { site, underConstruction, rootPrefix, pageTitle, pageDescription }) %>
+    <%- include('./partials/nav', { site, underConstruction, rootPrefix, docPages, pageTitle }) %>
 
-<style>
-  .blog-layout {
-    min-height: 100vh;
-    display: flex;
-    padding: clamp(32px,5vw,72px) clamp(20px,4vw,56px) clamp(32px,5vw,72px) clamp(20px,4vw,56px);
-    box-sizing: border-box;
-    gap: clamp(32px,5vw,72px);
-  }
+      <style>
+        .blog-layout {
+          min-height: 100vh;
+          display: flex;
+          padding: clamp(32px, 5vw, 72px) clamp(20px, 4vw, 56px) clamp(32px, 5vw, 72px) clamp(20px, 4vw, 56px);
+          box-sizing: border-box;
+          gap: clamp(32px, 5vw, 72px);
+        }
 
-  @media (max-width: 600px) {
-    .blog-layout {
-      padding-bottom: 84px;
-    }
-  }
+        @media (max-width: 600px) {
+          .blog-layout {
+            padding-bottom: 84px;
+          }
+        }
 
-  @media (min-width: 860px) {
-    .blog-layout {
-      padding-right: calc(60px + clamp(20px,4vw,56px));
-    }
-  }
+        @media (min-width: 860px) {
+          .blog-layout {
+            padding-right: calc(60px + clamp(20px, 4vw, 56px));
+          }
+        }
 
-  /* Sidebar — doc/blog selector, desktop only */
-  .blog-sidebar {
-    display: none;
-    width: 200px;
-    flex-shrink: 0;
-  }
+        /* Sidebar — doc/blog selector, desktop only */
+        .blog-sidebar {
+          display: none;
+          width: 200px;
+          flex-shrink: 0;
+        }
 
-  @media (min-width: 860px) {
-    .blog-sidebar { display: block; }
-  }
+        @media (min-width: 860px) {
+          .blog-sidebar {
+            display: block;
+          }
+        }
 
-  .blog-sidebar-label {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: var(--color-text-4);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin: 0 0 10px;
-  }
+        .blog-sidebar-label {
+          font-size: 10px;
+          font-family: var(--font-mono);
+          color: var(--color-text-4);
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          margin: 0 0 10px;
+        }
 
-  .blog-sidebar-link {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 8px 10px;
-    border-radius: 8px;
-    text-decoration: none;
-    margin-bottom: 2px;
-    transition: background 120ms;
-  }
+        .blog-sidebar-link {
+          display: flex;
+          align-items: flex-start;
+          gap: 8px;
+          padding: 8px 10px;
+          border-radius: 8px;
+          text-decoration: none;
+          margin-bottom: 2px;
+          transition: background 120ms;
+        }
 
-  .blog-sidebar-link:hover { background: var(--color-bg-hover); }
+        .blog-sidebar-link:hover {
+          background: var(--color-bg-hover);
+        }
 
-  .blog-sidebar-link--active {
-    background: var(--color-bg-2);
-    border: 1px solid var(--color-border);
-  }
+        .blog-sidebar-link--active {
+          background: var(--color-bg-2);
+          border: 1px solid var(--color-border);
+        }
 
-  .blog-sidebar-link .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--color-border-input);
-    flex-shrink: 0;
-    margin-top: 5px;
-  }
+        .blog-sidebar-link .dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: var(--color-border-input);
+          flex-shrink: 0;
+          margin-top: 5px;
+        }
 
-  .blog-sidebar-link--active .dot {
-    background: var(--color-text-1);
-  }
+        .blog-sidebar-link--active .dot {
+          background: var(--color-text-1);
+        }
 
-  .blog-sidebar-link .title {
-    font-size: 12px;
-    color: var(--color-text-3);
-    line-height: 1.4;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+        .blog-sidebar-link .title {
+          font-size: 12px;
+          color: var(--color-text-3);
+          line-height: 1.4;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
 
-  .blog-sidebar-link--active .title {
-    color: var(--color-text-1);
-    font-weight: 500;
-  }
+        .blog-sidebar-link--active .title {
+          color: var(--color-text-1);
+          font-weight: 500;
+        }
 
-  .blog-sidebar-link .date {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: var(--color-text-4);
-    margin-top: 1px;
-  }
+        .blog-sidebar-link .date {
+          font-size: 10px;
+          font-family: var(--font-mono);
+          color: var(--color-text-4);
+          margin-top: 1px;
+        }
 
-  /* Main content */
-  .blog-main {
-    flex: 1;
-    min-width: 0;
-  }
+        /* Main content */
+        .blog-main {
+          flex: 1;
+          min-width: 0;
+        }
 
-  #blog-header {
-    margin-bottom: clamp(24px,3vw,40px);
-    padding-bottom: clamp(20px,3vw,32px);
-    border-bottom: 1px solid var(--color-border);
-  }
+        #blog-header {
+          margin-bottom: clamp(24px, 3vw, 40px);
+          padding-bottom: clamp(20px, 3vw, 32px);
+          border-bottom: 1px solid var(--color-border);
+        }
 
-  #blog-header .eyebrow {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: var(--color-text-3);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin: 0 0 8px;
-  }
+        #blog-header .eyebrow {
+          font-size: 10px;
+          font-family: var(--font-mono);
+          color: var(--color-text-3);
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          margin: 0 0 8px;
+        }
 
-  #blog-header h1 {
-    font-size: clamp(22px,3.5vw,36px);
-    font-weight: 600;
-    color: var(--color-text-1);
-    letter-spacing: -0.035em;
-    margin: 0;
-    line-height: 1.1;
-  }
-</style>
+        #blog-header h1 {
+          font-size: clamp(22px, 3.5vw, 36px);
+          font-weight: 600;
+          color: var(--color-text-1);
+          letter-spacing: -0.035em;
+          margin: 0;
+          line-height: 1.1;
+        }
+      </style>
 
-<div class="blog-layout">
+      <div class="blog-layout">
 
-  <!-- Sidebar: post list for desktop navigation -->
-  <% if (announcements && announcements.length) { %>
-  <aside class="blog-sidebar">
-    <p class="blog-sidebar-label">All posts</p>
-    <% announcements.forEach(function(post) { %>
-    <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="blog-sidebar-link">
-      <span class="dot"></span>
-      <div style="min-width:0;">
-        <p class="title"><%= post.title %></p>
-        <% if (post.date) { %><p class="date"><%= post.date %></p><% } %>
-      </div>
-    </a>
-    <% }) %>
-  </aside>
-  <% } %>
-
-  <main class="blog-main">
-
-    <div id="blog-header">
-      <p class="eyebrow">Announcements</p>
-      <h1><%= site.title %> Blog</h1>
-    </div>
-
-    <% if (announcements && announcements.length) { %>
-
-    <%
-      var pinnedPosts  = announcements.filter(function(p) { return p.pinned; });
-      var regularPosts = announcements.filter(function(p) { return !p.pinned; });
-    %>
-
-    <% if (pinnedPosts.length) { %>
-    <div style="margin-bottom:clamp(20px,3vw,36px);">
-      <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 12px;display:flex;align-items:center;gap:7px;">
-        <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        Pinned
-      </p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:12px;">
-        <% pinnedPosts.forEach(function(post) { %>
-        <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="blog-card">
-          <p class="post-title"><%= post.title %></p>
-          <div style="display:flex;align-items:center;gap:8px;margin-top:auto;">
-            <% if (post.authorGithub) { %>
-            <img src="https://github.com/<%= post.authorGithub %>.png?size=32" alt="" loading="lazy" style="width:16px;height:16px;border-radius:50%;background:var(--color-bg-3);flex-shrink:0;" onerror="this.style.display='none'">
-            <% } %>
-            <span style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);"><%= post.author || 'AirlinkLabs' %></span>
-            <% if (post.date) { %>
-            <span style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-4);">· <%= post.date %></span>
-            <% } %>
-          </div>
-        </a>
-        <% }) %>
-      </div>
-    </div>
-    <% } %>
-
-    <% if (regularPosts.length) { %>
-    <div>
-      <% if (pinnedPosts.length) { %>
-      <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 4px;">All posts</p>
-      <% } %>
-      <% regularPosts.forEach(function(post) { %>
-      <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="blog-post-row">
-        <div style="min-width:0;">
-          <p class="post-title"><%= post.title %></p>
-          <div class="post-meta">
-            <% if (post.authorGithub) { %>
-            <img src="https://github.com/<%= post.authorGithub %>.png?size=28" alt="" loading="lazy" style="width:14px;height:14px;border-radius:50%;background:var(--color-bg-3);flex-shrink:0;" onerror="this.style.display='none'">
-            <% } %>
-            <span><%= post.author || 'AirlinkLabs' %></span>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
-          <% if (post.date) { %>
-          <span class="post-date"><%= post.date %></span>
+        <!-- Sidebar: post list for desktop navigation -->
+        <% if (announcements && announcements.length) { %>
+          <aside class="blog-sidebar">
+            <p class="blog-sidebar-label">All posts</p>
+            <% announcements.forEach(function(post) { %>
+              <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="blog-sidebar-link">
+                <span class="dot"></span>
+                <div style="min-width:0;">
+                  <p class="title">
+                    <%= post.title %>
+                  </p>
+                  <% if (post.date) { %>
+                    <p class="date">
+                      <%= post.date %>
+                    </p>
+                    <% } %>
+                </div>
+              </a>
+              <% }) %>
+          </aside>
           <% } %>
-          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--color-text-4);flex-shrink:0;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-      </a>
-      <% }) %>
-    </div>
-    <% } %>
 
-    <% } else { %>
-    <p style="font-size:13px;font-family:var(--font-mono);color:var(--color-text-3);padding:40px 0;">No posts yet.</p>
-    <% } %>
+            <main class="blog-main">
 
-  </main>
+              <div id="blog-header">
+                <p class="eyebrow">Announcements</p>
+                <h1>
+                  <%= site.title %> Blog
+                </h1>
+              </div>
 
-</div>
+              <% if (announcements && announcements.length) { %>
 
-<script src="<%= rootPrefix %>public/js/main.js"></script>
-</body>
-</html>
+                <% var pinnedPosts=announcements.filter(function(p) { return p.pinned; }); var
+                  regularPosts=announcements.filter(function(p) { return !p.pinned; }); %>
+
+                  <% if (pinnedPosts.length) { %>
+                    <div style="margin-bottom:clamp(20px,3vw,36px);">
+                      <p
+                        style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 12px;display:flex;align-items:center;gap:7px;">
+                        <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"
+                          viewBox="0 0 24 24">
+                          <path
+                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                        Pinned
+                      </p>
+                      <div
+                        style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:12px;">
+                        <% pinnedPosts.forEach(function(post) { %>
+                          <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="blog-card">
+                            <p class="post-title">
+                              <%= post.title %>
+                            </p>
+                            <div style="display:flex;align-items:center;gap:8px;margin-top:auto;">
+                              <% if (post.authorGithub) { %>
+                                <img src="https://github.com/<%= post.authorGithub %>.png?size=32" alt="" loading="lazy"
+                                  style="width:16px;height:16px;border-radius:50%;background:var(--color-bg-3);flex-shrink:0;"
+                                  onerror="this.style.display='none'">
+                                <% } %>
+                                  <span style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);">
+                                    <%= post.author || 'AirlinkLabs' %>
+                                  </span>
+                                  <% if (post.date) { %>
+                                    <span
+                                      style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-4);">·
+                                      <%= post.date %></span>
+                                    <% } %>
+                            </div>
+                          </a>
+                          <% }) %>
+                      </div>
+                    </div>
+                    <% } %>
+
+                      <% if (regularPosts.length) { %>
+                        <div>
+                          <% if (pinnedPosts.length) { %>
+                            <p
+                              style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 4px;">
+                              All posts</p>
+                            <% } %>
+                              <% regularPosts.forEach(function(post) { %>
+                                <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="blog-post-row">
+                                  <div style="min-width:0;">
+                                    <p class="post-title">
+                                      <%= post.title %>
+                                    </p>
+                                    <div class="post-meta">
+                                      <% if (post.authorGithub) { %>
+                                        <img src="https://github.com/<%= post.authorGithub %>.png?size=28" alt=""
+                                          loading="lazy"
+                                          style="width:14px;height:14px;border-radius:50%;background:var(--color-bg-3);flex-shrink:0;"
+                                          onerror="this.style.display='none'">
+                                        <% } %>
+                                          <span>
+                                            <%= post.author || 'AirlinkLabs' %>
+                                          </span>
+                                    </div>
+                                  </div>
+                                  <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+                                    <% if (post.date) { %>
+                                      <span class="post-date">
+                                        <%= post.date %>
+                                      </span>
+                                      <% } %>
+                                        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
+                                          viewBox="0 0 24 24" style="color:var(--color-text-4);flex-shrink:0;">
+                                          <path d="M5 12h14M12 5l7 7-7 7" />
+                                        </svg>
+                                  </div>
+                                </a>
+                                <% }) %>
+                        </div>
+                        <% } %>
+
+                          <% } else { %>
+                            <p
+                              style="font-size:13px;font-family:var(--font-mono);color:var(--color-text-3);padding:40px 0;">
+                              No posts yet.</p>
+                            <% } %>
+
+            </main>
+
+      </div>
+
+      <script src="<%= rootPrefix %>public/js/main.js"></script>
+      </body>
+
+      </html>
