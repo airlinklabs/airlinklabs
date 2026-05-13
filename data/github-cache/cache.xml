@@ -1,30 +1,534 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cache>
-  <generatedAt>2026-05-13T08:15:09.341Z</generatedAt>
+  <generatedAt>2026-05-13T08:40:53.765Z</generatedAt>
   <stats>
-    <panelStars>0</panelStars>
-    <daemonStars>0</daemonStars>
-    <totalStars>0</totalStars>
-    <panelForks>0</panelForks>
-    <daemonForks>0</daemonForks>
-    <totalForks>0</totalForks>
-    <panelIssues>0</panelIssues>
-    <daemonIssues>0</daemonIssues>
-    <openIssues>0</openIssues>
-    <contributors>0</contributors>
+    <panelStars>56</panelStars>
+    <daemonStars>12</daemonStars>
+    <totalStars>68</totalStars>
+    <panelForks>37</panelForks>
+    <daemonForks>13</daemonForks>
+    <totalForks>50</totalForks>
+    <panelIssues>1</panelIssues>
+    <daemonIssues>1</daemonIssues>
+    <openIssues>2</openIssues>
+    <contributors>15</contributors>
   </stats>
   <versions>
     <panel>2.0.0-rc1</panel>
     <daemon>2.0.0-rc1</daemon>
-    <panelRelease></panelRelease>
-    <daemonRelease></daemonRelease>
+    <panelRelease>2.0.0-rc1</panelRelease>
+    <daemonRelease>2.0.0-rc1</daemonRelease>
   </versions>
   <contributors>
+    <contributor>
+      <login>privt00</login>
+      <name>tfcprivt</name>
+      <bio>Node.js Dev</bio>
+      <company>Airlinklabs</company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/141457761?v=4</avatarUrl>
+      <htmlUrl>https://github.com/privt00</htmlUrl>
+      <contributions>320</contributions>
+    </contributor>
+    <contributor>
+      <login>thavanish</login>
+      <name>Thavanish brijesh</name>
+      <bio>i build game server panels, flash custom android ROMs, and somehow make it all work. been at it for 3 years and i&apos;m not stopping anytime soon.</bio>
+      <company>airlinklabs</company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      <htmlUrl>https://github.com/thavanish</htmlUrl>
+      <contributions>231</contributions>
+    </contributor>
+    <contributor>
+      <login>achul123</login>
+      <name>achul123</name>
+      <bio>CEO @OvernodeProjets </bio>
+      <company>Overnode</company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/73477238?v=4</avatarUrl>
+      <htmlUrl>https://github.com/achul123</htmlUrl>
+      <contributions>189</contributions>
+    </contributor>
+    <contributor>
+      <login>g-flame</login>
+      <name>G-flame</name>
+      <bio></bio>
+      <company>g-flame-oss</company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      <htmlUrl>https://github.com/g-flame</htmlUrl>
+      <contributions>23</contributions>
+    </contributor>
+    <contributor>
+      <login>bthavanish</login>
+      <name>i guess so ?</name>
+      <bio>i guess so ?</bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      <htmlUrl>https://github.com/bthavanish</htmlUrl>
+      <contributions>18</contributions>
+    </contributor>
+    <contributor>
+      <login>pika4manu</login>
+      <name>Pika4Manu</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/167890437?v=4</avatarUrl>
+      <htmlUrl>https://github.com/pika4manu</htmlUrl>
+      <contributions>7</contributions>
+    </contributor>
+    <contributor>
+      <login>resslr</login>
+      <name>robby</name>
+      <bio>Software Engineer who loves learning more skills! 🚀</bio>
+      <company>@BitQate</company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/122219240?v=4</avatarUrl>
+      <htmlUrl>https://github.com/resslr</htmlUrl>
+      <contributions>4</contributions>
+    </contributor>
+    <contributor>
+      <login>Qore-AI</login>
+      <name>Qore-AI</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/223120244?v=4</avatarUrl>
+      <htmlUrl>https://github.com/Qore-AI</htmlUrl>
+      <contributions>2</contributions>
+    </contributor>
+    <contributor>
+      <login>kanetjuh</login>
+      <name>kanetjuh</name>
+      <bio>i love coding &lt;3</bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/50002439?v=4</avatarUrl>
+      <htmlUrl>https://github.com/kanetjuh</htmlUrl>
+      <contributions>2</contributions>
+    </contributor>
+    <contributor>
+      <login>ma4z-sys</login>
+      <name>ma4z (alt) 1</name>
+      <bio>@ma4z-dev (alt) 2
+@ma4z (alt) 3</bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/166227780?v=4</avatarUrl>
+      <htmlUrl>https://github.com/ma4z-sys</htmlUrl>
+      <contributions>2</contributions>
+    </contributor>
+    <contributor>
+      <login>KubaMichalowski</login>
+      <name>Kuba Michałowski</name>
+      <bio>I&apos;m Kuba, backend developer from Poland.</bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/122045709?v=4</avatarUrl>
+      <htmlUrl>https://github.com/KubaMichalowski</htmlUrl>
+      <contributions>1</contributions>
+    </contributor>
+    <contributor>
+      <login>Paulone-190</login>
+      <name>Paulone-190</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/244398802?v=4</avatarUrl>
+      <htmlUrl>https://github.com/Paulone-190</htmlUrl>
+      <contributions>1</contributions>
+    </contributor>
+    <contributor>
+      <login>shubh-qore</login>
+      <name>Shubh@Qore</name>
+      <bio>Engineering Disruption @ Qore ⚡ Full-Stack | Systems | AI/ML 🚀 fork(), exec(), scale() | ~/qore/start.sh 🖥️</bio>
+      <company>Qore</company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/205303930?v=4</avatarUrl>
+      <htmlUrl>https://github.com/shubh-qore</htmlUrl>
+      <contributions>1</contributions>
+    </contributor>
+    <contributor>
+      <login>dc7431</login>
+      <name>dc7431</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/67658810?v=4</avatarUrl>
+      <htmlUrl>https://github.com/dc7431</htmlUrl>
+      <contributions>1</contributions>
+    </contributor>
+    <contributor>
+      <login>evokerking1</login>
+      <name>evokerking1</name>
+      <bio>evokerking1
+Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
+      <company>@Robogators-programmers @Orange-Duck-Studio @Orangeduck-Studios </company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/118303818?v=4</avatarUrl>
+      <htmlUrl>https://github.com/evokerking1</htmlUrl>
+      <contributions>1</contributions>
+    </contributor>
   </contributors>
   <panelCommits>
+    <commit>
+      <sha>5743ab38d5acab71a03a4fca373232f8481e25b8</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/5743ab38d5acab71a03a4fca373232f8481e25b8</htmlUrl>
+      <message>chore:remove artifact</message>
+      <author>
+        <name>thavanish</name>
+        <date>2026-05-12T04:54:47Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>8984b2aa89e1acd38103315b89ddef4335e12e71</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/8984b2aa89e1acd38103315b89ddef4335e12e71</htmlUrl>
+      <message>chore:this sounded too shit so changed it</message>
+      <author>
+        <name>thavanish</name>
+        <date>2026-05-11T11:56:16Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>33fc3dadaf22bff9dcea89db9a142ed5b73ece62</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/33fc3dadaf22bff9dcea89db9a142ed5b73ece62</htmlUrl>
+      <message>fix: enhance error page handling and security validation
+
+- Add renderErrorPage handler for consistent error page rendering
+- Improve SESSION_SECRET validation in production environment
+- Redirect unauthenticated users from error pages to login
+- Integrate errorPageHandler and notFoundHandler middleware
+- Add error pages for desktop and mobile viewports
+- Fix IP ban error response to use renderErrorPage
+- Clean up error handling middleware implementation</message>
+      <author>
+        <name>Airlink Developer</name>
+        <date>2026-05-11T11:15:01Z</date>
+        <avatarUrl></avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>4397643e3036170289fe6bae3188b971308838ca</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/4397643e3036170289fe6bae3188b971308838ca</htmlUrl>
+      <message>Fix: fix incorrect resource info being sent to node due to mb and gb and percentage and cores count</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T10:10:42Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>9c45fe236a2f1c8e7745546b9570719b0dec3845</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/9c45fe236a2f1c8e7745546b9570719b0dec3845</htmlUrl>
+      <message>Fix : add nonce=&quot;&lt;%- nonce %&gt; to improve security in all script tags  update app.ts to include this and add python patch to approve pnpm builds and add uuid explicit install to daemon</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T08:54:17Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>c3076ded568672d559c5508e5140f7d89e2a7826</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/c3076ded568672d559c5508e5140f7d89e2a7826</htmlUrl>
+      <message>Fix: who messed up the panel this much phew finally fixed some major issues</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T08:11:36Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>37ae70db4b6c89a34a3e586e94acc2b5239cef43</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/37ae70db4b6c89a34a3e586e94acc2b5239cef43</htmlUrl>
+      <message>fix:remove http:/ tag</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T07:27:57Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>d065bd0cdfb1dc36f9e0b897f068770b6dc671b3</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/d065bd0cdfb1dc36f9e0b897f068770b6dc671b3</htmlUrl>
+      <message>fix :Add make and gcc install using local package manager</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T07:14:49Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>a3857143942f39042d0ab62f7d1e5e4a6c58f159</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/a3857143942f39042d0ab62f7d1e5e4a6c58f159</htmlUrl>
+      <message>fix: add missing deps for daemon (i really am fuckin stupid)</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T07:07:10Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>64d2dedffed60938a6037bc99bc0d2fcbf62ecef</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/64d2dedffed60938a6037bc99bc0d2fcbf62ecef</htmlUrl>
+      <message>Fix: add missing dependencies installation in installer.sh</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T07:01:25Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>dd13176c16c2c33d421e3b78830c2bf9d26cc58f</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/dd13176c16c2c33d421e3b78830c2bf9d26cc58f</htmlUrl>
+      <message>chore : remove unneded shit for prisma ver dedection</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T06:58:38Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>488694331f15e4b8ee25b738f47f9511a4f6e336</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/488694331f15e4b8ee25b738f47f9511a4f6e336</htmlUrl>
+      <message>fix: replace migrate:dev with migrate:deploy</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T06:53:27Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>d6988959399a191fb8ed8ab0c84cfcdf11c8528b</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/d6988959399a191fb8ed8ab0c84cfcdf11c8528b</htmlUrl>
+      <message>fix: make prisma install dedect from package.json</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T06:46:28Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>aa7bc68447cc81e05043d100ae8777f44bf50f4e</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/aa7bc68447cc81e05043d100ae8777f44bf50f4e</htmlUrl>
+      <message>chore:fix Build and add prisma</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T06:44:25Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>7cbb0cf68bbb2ee999c030755d76c58808467c82</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/7cbb0cf68bbb2ee999c030755d76c58808467c82</htmlUrl>
+      <message>chore:add all deps to normal deps</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T06:43:44Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
   </panelCommits>
   <daemonCommits>
+    <commit>
+      <sha>0cd329250b2dcd3c50a88f7fb990f75dbb6f169d</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/0cd329250b2dcd3c50a88f7fb990f75dbb6f169d</htmlUrl>
+      <message>fix: enforce HMAC signature validation by default
+
+- Change HMAC verification to strict mode (enabled by default)
+- Update REQUIRE_HMAC logic: now false for permissive mode only
+- Update middleware documentation with new behavior
+- Improve request signing security requirements</message>
+      <author>
+        <name>Airlink Developer</name>
+        <date>2026-05-11T11:15:02Z</date>
+        <avatarUrl></avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>447d3f7f228532433605d5e32576156a0b92480d</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/447d3f7f228532433605d5e32576156a0b92480d</htmlUrl>
+      <message>Fix:Add mb memory parsing instead of random shit</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-07T10:17:55Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>32f1761408132b97cc3527720b1672a92151d778</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/32f1761408132b97cc3527720b1672a92151d778</htmlUrl>
+      <message>Added airlink cloud</message>
+      <author>
+        <name>privt00</name>
+        <date>2026-04-19T19:12:11Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/141457761?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>078f069d74a0d6f69241de8da80d185e47d6f5f8</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/078f069d74a0d6f69241de8da80d185e47d6f5f8</htmlUrl>
+      <message>Update README.md</message>
+      <author>
+        <name>i guess so ?</name>
+        <date>2026-03-30T00:05:56Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>0f6b0510366cdf73c6051585f1a94fc8244d4b04</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/0f6b0510366cdf73c6051585f1a94fc8244d4b04</htmlUrl>
+      <message>Update README.md</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-03-19T07:25:49Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>c715eba59222dee492f5dbe8b58ee2f9e20f47e4</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/c715eba59222dee492f5dbe8b58ee2f9e20f47e4</htmlUrl>
+      <message>v2.0.0-rc1</message>
+      <author>
+        <name>i guess so ?</name>
+        <date>2026-03-19T06:29:16Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>8c67e9a298ae4ea0f58d65535b28536b7265a3b7</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/8c67e9a298ae4ea0f58d65535b28536b7265a3b7</htmlUrl>
+      <message>make daemon more consistent and optmize code and improve security</message>
+      <author>
+        <name>G-flame</name>
+        <date>2026-03-17T08:37:38Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>937a13459bf5a16db7dfe6ad9351b361e22d42e2</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/937a13459bf5a16db7dfe6ad9351b361e22d42e2</htmlUrl>
+      <message>create.ts emits the full Docker lifecycle verbosely</message>
+      <author>
+        <name>G-flame</name>
+        <date>2026-03-17T02:13:32Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>942878102a4cbe8523462f08d8d6dbb0d525c733</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/942878102a4cbe8523462f08d8d6dbb0d525c733</htmlUrl>
+      <message>update radar zipping to native and add zip dependency</message>
+      <author>
+        <name>G-flame</name>
+        <date>2026-03-15T14:21:29Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>267fb3d987e9fa731272f8339c2460e5dac35fab</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/267fb3d987e9fa731272f8339c2460e5dac35fab</htmlUrl>
+      <message>add boundary check to pre-mkdir in daemon, add traversal validation to panel rename route</message>
+      <author>
+        <name>G-flame</name>
+        <date>2026-03-15T01:12:58Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>5856adfb9ed2e2747629615bae36b744c7d5272c</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/5856adfb9ed2e2747629615bae36b744c7d5272c</htmlUrl>
+      <message>some massive changes</message>
+      <author>
+        <name>G-flame</name>
+        <date>2026-03-15T01:07:10Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>28484c959aa50d118db8ebc3ead4f51f0d64175d</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/28484c959aa50d118db8ebc3ead4f51f0d64175d</htmlUrl>
+      <message>Added SFTP support
+
+Sftp Support added</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-02-26T13:15:17Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>4c5c77b0340e7d446a03daa71096c9719fbecb29</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/4c5c77b0340e7d446a03daa71096c9719fbecb29</htmlUrl>
+      <message>Make port allocation dynamic since we can only bind one sftp sesh to one port</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-02-26T12:02:08Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>1acf942e938056a52f272e43f6db293e384f0a87</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/1acf942e938056a52f272e43f6db293e384f0a87</htmlUrl>
+      <message>Fix some weird error i got
+
+Failed to generate credentials
+
+(HTTP code 409) unexpected - Conflict. The container name &quot;/alsftp_3d582f37-f57e-403a-9fa5-1f59c9efae8c&quot; is already in use by container &quot;457b942d66471199c3c5aff4cad38dac5457140632ae007b25723ea34d9ee3a5&quot;. You have to remove (or rename) that container to be able to reuse that name.</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-02-26T11:07:49Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>9854640d9b5083d1c4034b5e93f080b0067d1ec6</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/9854640d9b5083d1c4034b5e93f080b0067d1ec6</htmlUrl>
+      <message>Fix sftp permission in container</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-02-26T10:55:40Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
   </daemonCommits>
   <addons>
+    <addon>
+      <id>modrinth-addon</id>
+      <name>Modrinth Store</name>
+      <version>1.6.23</version>
+      <author>g-flame</author>
+      <status>working</status>
+      <description>Browse, search, and install Minecraft mods and modpacks from Modrinth directly inside your AirLink admin panel.</description>
+      <longDescription>The Modrinth Store addon integrates Modrinth directly into your AirLink panel. Browse, search, and install mods or modpacks from the admin panel with full feature control, progress bars, and a clean UI.</longDescription>
+      <icon>https://raw.githubusercontent.com/modrinth/knossos/refs/heads/master/assets/images/logo.svg</icon>
+      <github>https://github.com/g-flame-oss/airlink-addons/tree/modrinth-addon</github>
+      <installNote>Restart the panel after installation.</installNote>
+      <tags>
+        <tag>Minecraft</tag>
+        <tag>Mods</tag>
+        <tag>Modrinth API</tag>
+      </tags>
+      <features>
+        <feature>Browse and search the Modrinth mod database</feature>
+        <feature>One-click mod and modpack installation</feature>
+        <feature>Progress bars for download feedback</feature>
+        <feature>Admin panel integration with sidebar entry</feature>
+        <feature>Full Modrinth API support</feature>
+      </features>
+      <installSteps>
+      </installSteps>
+    </addon>
+    <addon>
+      <id>parachute-addon</id>
+      <name>parachute</name>
+      <version>1.0.0</version>
+      <author>g-flame</author>
+      <status>working</status>
+      <description>Parachute is an AirLink Panel addon that integrates with Google Drive for server backups and file management. It handles authentication, token storage, and server-specific operations using server UUIDs..</description>
+      <longDescription>Parachute is an AirLink Panel addon that integrates with Google Drive for server backups and file management. It handles authentication, token storage, and server-specific operations using server UUIDs.</longDescription>
+      <icon>https://raw.githubusercontent.com/modrinth/knossos/refs/heads/master/assets/images/logo.svg</icon>
+      <github>https://github.com/g-flame-oss/airlink-addons/tree/parachute</github>
+      <installNote>Restart the panel after installation.</installNote>
+      <tags>
+        <tag>Backup</tag>
+        <tag>Cloud</tag>
+        <tag>Google drive</tag>
+      </tags>
+      <features>
+        <feature>Safely backup to cloud</feature>
+      </features>
+      <installSteps>
+      </installSteps>
+    </addon>
   </addons>
 </cache>
