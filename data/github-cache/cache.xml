@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cache>
-  <generatedAt>2026-05-30T06:42:08.026Z</generatedAt>
+  <generatedAt>2026-05-31T07:40:53.632Z</generatedAt>
   <stats>
     <panelStars>56</panelStars>
     <daemonStars>12</daemonStars>
@@ -36,7 +36,7 @@
       <company>airlinklabs</company>
       <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       <htmlUrl>https://github.com/thavanish</htmlUrl>
-      <contributions>231</contributions>
+      <contributions>232</contributions>
     </contributor>
     <contributor>
       <login>achul123</login>
@@ -63,7 +63,7 @@
       <company></company>
       <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
       <htmlUrl>https://github.com/bthavanish</htmlUrl>
-      <contributions>18</contributions>
+      <contributions>22</contributions>
     </contributor>
     <contributor>
       <login>pika4manu</login>
@@ -159,6 +159,56 @@ Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
     </contributor>
   </contributors>
   <panelCommits>
+    <commit>
+      <sha>b06f22a7ca912954aae14e2823171bc3a3406787</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/b06f22a7ca912954aae14e2823171bc3a3406787</htmlUrl>
+      <message>Update PRODUCT.md</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-05-30T16:43:27Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>7dbc808335ab3e8f1040ff75f832a977bc198eb1</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/7dbc808335ab3e8f1040ff75f832a977bc198eb1</htmlUrl>
+      <message>chore:forgot to edit the front facing text of uri</message>
+      <author>
+        <name>i guess so ?</name>
+        <date>2026-05-30T16:36:05Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>5e5460846401710b00e638d2696fa24736c6fedb</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/5e5460846401710b00e638d2696fa24736c6fedb</htmlUrl>
+      <message>chore:update uri to new uri of the website</message>
+      <author>
+        <name>i guess so ?</name>
+        <date>2026-05-30T16:35:03Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>13162ea8e408db23e7e7a9393256434238982de1</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/13162ea8e408db23e7e7a9393256434238982de1</htmlUrl>
+      <message>edit: update PRODUCT.md using a claude agent using impeccable for future reference</message>
+      <author>
+        <name>i guess so ?</name>
+        <date>2026-05-30T16:33:11Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>17aa9f64be042dd371c4e04c8cc8cca88e3cfc0c</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/17aa9f64be042dd371c4e04c8cc8cca88e3cfc0c</htmlUrl>
+      <message>Cleanup: clean up ui codebase slightly and clean up ts files code too</message>
+      <author>
+        <name>i guess so ?</name>
+        <date>2026-05-30T15:48:25Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
     <commit>
       <sha>5743ab38d5acab71a03a4fca373232f8481e25b8</sha>
       <htmlUrl>https://github.com/airlinklabs/panel/commit/5743ab38d5acab71a03a4fca373232f8481e25b8</htmlUrl>
@@ -264,56 +314,6 @@ Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
       <author>
         <name>Thavanish brijesh</name>
         <date>2026-05-07T07:01:25Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>dd13176c16c2c33d421e3b78830c2bf9d26cc58f</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/dd13176c16c2c33d421e3b78830c2bf9d26cc58f</htmlUrl>
-      <message>chore : remove unneded shit for prisma ver dedection</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-05-07T06:58:38Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>488694331f15e4b8ee25b738f47f9511a4f6e336</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/488694331f15e4b8ee25b738f47f9511a4f6e336</htmlUrl>
-      <message>fix: replace migrate:dev with migrate:deploy</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-05-07T06:53:27Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>d6988959399a191fb8ed8ab0c84cfcdf11c8528b</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/d6988959399a191fb8ed8ab0c84cfcdf11c8528b</htmlUrl>
-      <message>fix: make prisma install dedect from package.json</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-05-07T06:46:28Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>aa7bc68447cc81e05043d100ae8777f44bf50f4e</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/aa7bc68447cc81e05043d100ae8777f44bf50f4e</htmlUrl>
-      <message>chore:fix Build and add prisma</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-05-07T06:44:25Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>7cbb0cf68bbb2ee999c030755d76c58808467c82</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/7cbb0cf68bbb2ee999c030755d76c58808467c82</htmlUrl>
-      <message>chore:add all deps to normal deps</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-05-07T06:43:44Z</date>
         <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       </author>
     </commit>
