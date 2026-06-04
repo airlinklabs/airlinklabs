@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cache>
-  <generatedAt>2026-06-03T08:51:06.712Z</generatedAt>
+  <generatedAt>2026-06-04T08:15:07.925Z</generatedAt>
   <stats>
     <panelStars>56</panelStars>
     <daemonStars>12</daemonStars>
@@ -14,10 +14,10 @@
     <contributors>15</contributors>
   </stats>
   <versions>
-    <panel>2.0.0-rc1</panel>
-    <daemon>2.0.0-rc1</daemon>
+    <panel>2.0.0-beta-rc2</panel>
+    <daemon>3.0.0-beta-rc1</daemon>
     <panelRelease>2.0.0-rc1</panelRelease>
-    <daemonRelease>2.0.0-rc1</daemonRelease>
+    <daemonRelease>v3.0.0-beta.rc1</daemonRelease>
   </versions>
   <contributors>
     <contributor>
@@ -27,7 +27,7 @@
       <company>Airlinklabs</company>
       <avatarUrl>https://avatars.githubusercontent.com/u/141457761?v=4</avatarUrl>
       <htmlUrl>https://github.com/privt00</htmlUrl>
-      <contributions>320</contributions>
+      <contributions>319</contributions>
     </contributor>
     <contributor>
       <login>thavanish</login>
@@ -36,7 +36,7 @@
       <company>airlinklabs</company>
       <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       <htmlUrl>https://github.com/thavanish</htmlUrl>
-      <contributions>232</contributions>
+      <contributions>245</contributions>
     </contributor>
     <contributor>
       <login>achul123</login>
@@ -48,6 +48,15 @@
       <contributions>189</contributions>
     </contributor>
     <contributor>
+      <login>bthavanish</login>
+      <name>i guess so ?</name>
+      <bio>i guess so ?</bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      <htmlUrl>https://github.com/bthavanish</htmlUrl>
+      <contributions>35</contributions>
+    </contributor>
+    <contributor>
       <login>g-flame</login>
       <name>G-flame</name>
       <bio></bio>
@@ -55,15 +64,6 @@
       <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
       <htmlUrl>https://github.com/g-flame</htmlUrl>
       <contributions>23</contributions>
-    </contributor>
-    <contributor>
-      <login>bthavanish</login>
-      <name>i guess so ?</name>
-      <bio>i guess so ?</bio>
-      <company></company>
-      <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
-      <htmlUrl>https://github.com/bthavanish</htmlUrl>
-      <contributions>22</contributions>
     </contributor>
     <contributor>
       <login>pika4manu</login>
@@ -160,6 +160,76 @@ Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
   </contributors>
   <panelCommits>
     <commit>
+      <sha>0cc93c33736370a37c7255c71c59417eb66ce80b</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/0cc93c33736370a37c7255c71c59417eb66ce80b</htmlUrl>
+      <message>Fix : fix the file renderer</message>
+      <author>
+        <name>bthavanish</name>
+        <date>2026-06-03T13:12:06Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>f1e0532135d8e25e5d4a9035005d6c4a220b7d3d</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/f1e0532135d8e25e5d4a9035005d6c4a220b7d3d</htmlUrl>
+      <message>Fix:Update installer.sh to support new daemon</message>
+      <author>
+        <name>i guess so ?</name>
+        <date>2026-06-03T10:31:39Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>0f2bbbc2f605a5bcb448a47a4a80d11284bd5a65</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/0f2bbbc2f605a5bcb448a47a4a80d11284bd5a65</htmlUrl>
+      <message>chore:Bump version to rc2</message>
+      <author>
+        <name>i guess so ?</name>
+        <date>2026-06-03T10:07:39Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>8a663409298c990c2ec2f8209971a81240255333</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/8a663409298c990c2ec2f8209971a81240255333</htmlUrl>
+      <message>Chore: Add mit license disclaimer to ascii art</message>
+      <author>
+        <name>bthavanish</name>
+        <date>2026-06-03T09:53:48Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>dc792573c48259dfc106be543756140e84faa374</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/dc792573c48259dfc106be543756140e84faa374</htmlUrl>
+      <message>fix :configure command updated for bun js</message>
+      <author>
+        <name>bthavanish</name>
+        <date>2026-06-03T09:45:56Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>f37fc044daf81e7955df29ee1a60dfd5c92262ee</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/f37fc044daf81e7955df29ee1a60dfd5c92262ee</htmlUrl>
+      <message>Feat: Add New Port config system to panel</message>
+      <author>
+        <name>i guess so ?</name>
+        <date>2026-06-03T09:28:15Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>fc1134d3bc9c1a989f34741ec0b817c16f2f245d</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/fc1134d3bc9c1a989f34741ec0b817c16f2f245d</htmlUrl>
+      <message>Fix :adapt panel to bunjs daemon and improve and clean up codebase</message>
+      <author>
+        <name>i guess so ?</name>
+        <date>2026-06-03T08:34:55Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
       <sha>b06f22a7ca912954aae14e2823171bc3a3406787</sha>
       <htmlUrl>https://github.com/airlinklabs/panel/commit/b06f22a7ca912954aae14e2823171bc3a3406787</htmlUrl>
       <message>Update PRODUCT.md</message>
@@ -247,236 +317,206 @@ Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
         <avatarUrl></avatarUrl>
       </author>
     </commit>
-    <commit>
-      <sha>4397643e3036170289fe6bae3188b971308838ca</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/4397643e3036170289fe6bae3188b971308838ca</htmlUrl>
-      <message>Fix: fix incorrect resource info being sent to node due to mb and gb and percentage and cores count</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-05-07T10:10:42Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>9c45fe236a2f1c8e7745546b9570719b0dec3845</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/9c45fe236a2f1c8e7745546b9570719b0dec3845</htmlUrl>
-      <message>Fix : add nonce=&quot;&lt;%- nonce %&gt; to improve security in all script tags  update app.ts to include this and add python patch to approve pnpm builds and add uuid explicit install to daemon</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-05-07T08:54:17Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>c3076ded568672d559c5508e5140f7d89e2a7826</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/c3076ded568672d559c5508e5140f7d89e2a7826</htmlUrl>
-      <message>Fix: who messed up the panel this much phew finally fixed some major issues</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-05-07T08:11:36Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>37ae70db4b6c89a34a3e586e94acc2b5239cef43</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/37ae70db4b6c89a34a3e586e94acc2b5239cef43</htmlUrl>
-      <message>fix:remove http:/ tag</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-05-07T07:27:57Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>d065bd0cdfb1dc36f9e0b897f068770b6dc671b3</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/d065bd0cdfb1dc36f9e0b897f068770b6dc671b3</htmlUrl>
-      <message>fix :Add make and gcc install using local package manager</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-05-07T07:14:49Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>a3857143942f39042d0ab62f7d1e5e4a6c58f159</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/a3857143942f39042d0ab62f7d1e5e4a6c58f159</htmlUrl>
-      <message>fix: add missing deps for daemon (i really am fuckin stupid)</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-05-07T07:07:10Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>64d2dedffed60938a6037bc99bc0d2fcbf62ecef</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/64d2dedffed60938a6037bc99bc0d2fcbf62ecef</htmlUrl>
-      <message>Fix: add missing dependencies installation in installer.sh</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-05-07T07:01:25Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
   </panelCommits>
   <daemonCommits>
     <commit>
-      <sha>0cd329250b2dcd3c50a88f7fb990f75dbb6f169d</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/0cd329250b2dcd3c50a88f7fb990f75dbb6f169d</htmlUrl>
-      <message>fix: enforce HMAC signature validation by default
-
-- Change HMAC verification to strict mode (enabled by default)
-- Update REQUIRE_HMAC logic: now false for permissive mode only
-- Update middleware documentation with new behavior
-- Improve request signing security requirements</message>
-      <author>
-        <name>Airlink Developer</name>
-        <date>2026-05-11T11:15:02Z</date>
-        <avatarUrl></avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>447d3f7f228532433605d5e32576156a0b92480d</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/447d3f7f228532433605d5e32576156a0b92480d</htmlUrl>
-      <message>Fix:Add mb memory parsing instead of random shit</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-05-07T10:17:55Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>32f1761408132b97cc3527720b1672a92151d778</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/32f1761408132b97cc3527720b1672a92151d778</htmlUrl>
-      <message>Added airlink cloud</message>
-      <author>
-        <name>privt00</name>
-        <date>2026-04-19T19:12:11Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/141457761?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>078f069d74a0d6f69241de8da80d185e47d6f5f8</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/078f069d74a0d6f69241de8da80d185e47d6f5f8</htmlUrl>
-      <message>Update README.md</message>
+      <sha>05045f079bf290b8c8aab231a5cdf0ce6b83c992</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/05045f079bf290b8c8aab231a5cdf0ce6b83c992</htmlUrl>
+      <message>fix:Update build.yml</message>
       <author>
         <name>i guess so ?</name>
-        <date>2026-03-30T00:05:56Z</date>
+        <date>2026-06-03T10:19:46Z</date>
         <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
       </author>
     </commit>
     <commit>
-      <sha>0f6b0510366cdf73c6051585f1a94fc8244d4b04</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/0f6b0510366cdf73c6051585f1a94fc8244d4b04</htmlUrl>
-      <message>Update README.md</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-03-19T07:25:49Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>c715eba59222dee492f5dbe8b58ee2f9e20f47e4</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/c715eba59222dee492f5dbe8b58ee2f9e20f47e4</htmlUrl>
-      <message>v2.0.0-rc1</message>
+      <sha>8909bc6b565c656e84f3406fd57fd1a09e7e42dc</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/8909bc6b565c656e84f3406fd57fd1a09e7e42dc</htmlUrl>
+      <message>Fix: Update build.yml to be run manually and update other setting within</message>
       <author>
         <name>i guess so ?</name>
-        <date>2026-03-19T06:29:16Z</date>
+        <date>2026-06-03T10:13:38Z</date>
         <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
       </author>
     </commit>
     <commit>
-      <sha>8c67e9a298ae4ea0f58d65535b28536b7265a3b7</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/8c67e9a298ae4ea0f58d65535b28536b7265a3b7</htmlUrl>
-      <message>make daemon more consistent and optmize code and improve security</message>
+      <sha>790b59898cbdedca4a94b1272ddeb0b906f8b296</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/790b59898cbdedca4a94b1272ddeb0b906f8b296</htmlUrl>
+      <message>chore: Bump version to rc1</message>
       <author>
-        <name>G-flame</name>
-        <date>2026-03-17T08:37:38Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+        <name>i guess so ?</name>
+        <date>2026-06-03T10:08:11Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
       </author>
     </commit>
     <commit>
-      <sha>937a13459bf5a16db7dfe6ad9351b361e22d42e2</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/937a13459bf5a16db7dfe6ad9351b361e22d42e2</htmlUrl>
-      <message>create.ts emits the full Docker lifecycle verbosely</message>
+      <sha>873f1bc482d78e79d37462e0ab3f7e34504b39a8</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/873f1bc482d78e79d37462e0ab3f7e34504b39a8</htmlUrl>
+      <message>chore:update ver no in readme</message>
       <author>
-        <name>G-flame</name>
-        <date>2026-03-17T02:13:32Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+        <name>bthavanish</name>
+        <date>2026-06-03T09:55:03Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
       </author>
     </commit>
     <commit>
-      <sha>942878102a4cbe8523462f08d8d6dbb0d525c733</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/942878102a4cbe8523462f08d8d6dbb0d525c733</htmlUrl>
-      <message>update radar zipping to native and add zip dependency</message>
+      <sha>650998d85ad314e654697679a19230446b5a2016</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/650998d85ad314e654697679a19230446b5a2016</htmlUrl>
+      <message>Chore: add back Readme and license and update ascii art</message>
       <author>
-        <name>G-flame</name>
-        <date>2026-03-15T14:21:29Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+        <name>bthavanish</name>
+        <date>2026-06-03T09:53:25Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
       </author>
     </commit>
     <commit>
-      <sha>267fb3d987e9fa731272f8339c2460e5dac35fab</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/267fb3d987e9fa731272f8339c2460e5dac35fab</htmlUrl>
-      <message>add boundary check to pre-mkdir in daemon, add traversal validation to panel rename route</message>
+      <sha>8bbcce075fae636c70bce727231517b34c9fa90f</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/8bbcce075fae636c70bce727231517b34c9fa90f</htmlUrl>
+      <message>Refactor:fix daemon fully and work as expected can now fully replace the express daemon</message>
       <author>
-        <name>G-flame</name>
-        <date>2026-03-15T01:12:58Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
+        <name>i guess so ?</name>
+        <date>2026-06-03T08:34:28Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
       </author>
     </commit>
     <commit>
-      <sha>5856adfb9ed2e2747629615bae36b744c7d5272c</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/5856adfb9ed2e2747629615bae36b744c7d5272c</htmlUrl>
-      <message>some massive changes</message>
-      <author>
-        <name>G-flame</name>
-        <date>2026-03-15T01:07:10Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/190345519?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>28484c959aa50d118db8ebc3ead4f51f0d64175d</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/28484c959aa50d118db8ebc3ead4f51f0d64175d</htmlUrl>
-      <message>Added SFTP support
+      <sha>d016f8b32e918b0b279aaa078f0b4a8dd845b3f2</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/d016f8b32e918b0b279aaa078f0b4a8dd845b3f2</htmlUrl>
+      <message>feat: add container runtime abstraction for docker/podman support
 
-Sftp Support added</message>
+- Add ContainerRuntime interface and DockerRuntime implementation
+- Support both docker and podman via CONTAINER_RUNTIME env config
+- Add containerRuntime to application config with docker as default
+- Update docker handler to use configurable container runtime
+- Update checkDocker and checkDockerRunning to support both runtimes
+
+fix: improve HMAC verification for DELETE requests
+- Add DELETE method to bodyless methods in HMAC verification
+- DELETE requests no longer incorrectly handled as body-containing requests
+
+fix: improve command stream handling
+- Refactor sendCommandToContainer stream handling for better error management
+- Add debug logging for container running state and command execution
+- Use stream.write/end pattern for more reliable command delivery
+
+fix: enhance websocket command extraction
+- Prioritize msg.command field from panel for better compatibility
+- Fall back to other fields for backwards compatibility
+- Add fallback field check first before checking candidates
+
+chore: add debug logging to websocket message handling
+- Log incoming websocket messages for debugging
+- Track parsed events and authentication state
+- Monitor command event routing</message>
       <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-02-26T13:15:17Z</date>
+        <name>thavanish</name>
+        <date>2026-05-13T07:57:56Z</date>
         <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       </author>
     </commit>
     <commit>
-      <sha>4c5c77b0340e7d446a03daa71096c9719fbecb29</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/4c5c77b0340e7d446a03daa71096c9719fbecb29</htmlUrl>
-      <message>Make port allocation dynamic since we can only bind one sftp sesh to one port</message>
+      <sha>4dcfe6f98dd996e2fbf01ba172f02450f18c9805</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/4dcfe6f98dd996e2fbf01ba172f02450f18c9805</htmlUrl>
+      <message>fix:added security fixes for ws upgrade and tried fixes but did not work</message>
       <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-02-26T12:02:08Z</date>
+        <name>thavanish</name>
+        <date>2026-05-12T08:05:03Z</date>
         <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       </author>
     </commit>
     <commit>
-      <sha>1acf942e938056a52f272e43f6db293e384f0a87</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/1acf942e938056a52f272e43f6db293e384f0a87</htmlUrl>
-      <message>Fix some weird error i got
+      <sha>056409bf321a0c8f9b86b825ac66ce53be449c1d</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/056409bf321a0c8f9b86b825ac66ce53be449c1d</htmlUrl>
+      <message>fix: improve ws server logging and error handling for debugging
 
-Failed to generate credentials
-
-(HTTP code 409) unexpected - Conflict. The container name &quot;/alsftp_3d582f37-f57e-403a-9fa5-1f59c9efae8c&quot; is already in use by container &quot;457b942d66471199c3c5aff4cad38dac5457140632ae007b25723ea34d9ee3a5&quot;. You have to remove (or rename) that container to be able to reuse that name.</message>
+- Add debug/warn logging to WebSocket upgrade validation
+- Add detailed logging for message parsing errors and missing fields
+- Add client auth confirmation response
+- Add logging for unauthenticated and invalid command attempts
+- Improve error tracking for ws upgrade success/failure</message>
       <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-02-26T11:07:49Z</date>
+        <name>thavanish</name>
+        <date>2026-05-12T06:36:27Z</date>
         <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       </author>
     </commit>
     <commit>
-      <sha>9854640d9b5083d1c4034b5e93f080b0067d1ec6</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/9854640d9b5083d1c4034b5e93f080b0067d1ec6</htmlUrl>
-      <message>Fix sftp permission in container</message>
+      <sha>777724491c622154e6d755147dec710b33998ef7</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/777724491c622154e6d755147dec710b33998ef7</htmlUrl>
+      <message>feat: add backup upload endpoint and improve backup API security
+
+- Add new POST /container/backup/upload endpoint for uploading container backups
+- Refactor backup API to use full backup paths instead of backup IDs for improved security
+  and path validation (prevents potential path traversal attacks)
+- Rename backup-related variables for better clarity:
+  * backupId → backupUuid (semantic clarity)
+  * fileName → backupFileName (consistency)
+- Improve backup response structure with timestamps and standardized format
+- Capitalize success messages for consistency (&apos;backup created&apos; → &apos;Backup created&apos;)
+- Add REQUIRE_HMAC=false environment variable support to allow unsigned requests during dev/testing
+- Update HMAC verification to gracefully handle unsigned requests when disabled
+- Bump bun dependency from ^1.3.12 to ^1.3.13
+- Remove .instructions.md file
+- Add basename import to instances.ts for proper filename extraction
+
+This improves the security posture of backup operations by validating the full
+backup path against the allowed backups directory, preventing unauthorized access
+to files outside the backup storage location.
+
+Known issues: sending commands from panel not working, stop and restart not working</message>
+      <author>
+        <name>thavanish</name>
+        <date>2026-05-12T05:17:25Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>69ad72cbdbf3232e88706ca1601b2de9d5183edd</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/69ad72cbdbf3232e88706ca1601b2de9d5183edd</htmlUrl>
+      <message>fix:make file creation work but ws still not yet working correctly</message>
+      <author>
+        <name>thavanish</name>
+        <date>2026-05-08T06:21:24Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>74943c40651f59b3c18bff9ca47b35667e64cf94</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/74943c40651f59b3c18bff9ca47b35667e64cf94</htmlUrl>
+      <message>feat:add missing features from original daemon and improve security</message>
       <author>
         <name>Thavanish brijesh</name>
-        <date>2026-02-26T10:55:40Z</date>
+        <date>2026-05-08T05:20:28Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>33c81455d6c73d3b7ef6a0cb9115f6692bcd6ab2</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/33c81455d6c73d3b7ef6a0cb9115f6692bcd6ab2</htmlUrl>
+      <message>fix: fixed tui bugs gui is still broken</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-04-16T08:50:58Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>f3f58508f89e90d32abe47496aaa7dc1f1707bfd</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/f3f58508f89e90d32abe47496aaa7dc1f1707bfd</htmlUrl>
+      <message>chore: remove added creits tag from json</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-04-13T12:54:49Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>67219f68d3f85b1e798f654e896b5ec279dbb9e6</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/67219f68d3f85b1e798f654e896b5ec279dbb9e6</htmlUrl>
+      <message>fix:make ui actually work and fix bugs and add credits to all files and updates deps</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-04-13T12:40:51Z</date>
         <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       </author>
     </commit>
