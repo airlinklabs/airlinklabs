@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cache>
-  <generatedAt>2026-06-14T08:11:17.671Z</generatedAt>
+  <generatedAt>2026-06-15T09:55:59.204Z</generatedAt>
   <stats>
-    <panelStars>58</panelStars>
+    <panelStars>59</panelStars>
     <daemonStars>13</daemonStars>
-    <totalStars>71</totalStars>
+    <totalStars>72</totalStars>
     <panelForks>38</panelForks>
     <daemonForks>11</daemonForks>
     <totalForks>49</totalForks>
@@ -36,7 +36,7 @@
       <company>airlinklabs</company>
       <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       <htmlUrl>https://github.com/thavanish</htmlUrl>
-      <contributions>245</contributions>
+      <contributions>246</contributions>
     </contributor>
     <contributor>
       <login>achul123</login>
@@ -159,6 +159,16 @@ Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
     </contributor>
   </contributors>
   <panelCommits>
+    <commit>
+      <sha>bf348075c1dff8a3b87fadff5b9f13ab98ec560d</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/bf348075c1dff8a3b87fadff5b9f13ab98ec560d</htmlUrl>
+      <message>rebase:migrate to latest dependencies and u0date syntax and unify ui across mobile and desktop and fix bugs tho its still a bit buggy but is definately usable</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-06-14T19:55:24Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
     <commit>
       <sha>0cc93c33736370a37c7255c71c59417eb66ce80b</sha>
       <htmlUrl>https://github.com/airlinklabs/panel/commit/0cc93c33736370a37c7255c71c59417eb66ce80b</htmlUrl>
@@ -297,24 +307,6 @@ Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
         <name>thavanish</name>
         <date>2026-05-11T11:56:16Z</date>
         <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>33fc3dadaf22bff9dcea89db9a142ed5b73ece62</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/33fc3dadaf22bff9dcea89db9a142ed5b73ece62</htmlUrl>
-      <message>fix: enhance error page handling and security validation
-
-- Add renderErrorPage handler for consistent error page rendering
-- Improve SESSION_SECRET validation in production environment
-- Redirect unauthenticated users from error pages to login
-- Integrate errorPageHandler and notFoundHandler middleware
-- Add error pages for desktop and mobile viewports
-- Fix IP ban error response to use renderErrorPage
-- Clean up error handling middleware implementation</message>
-      <author>
-        <name>Airlink Developer</name>
-        <date>2026-05-11T11:15:01Z</date>
-        <avatarUrl></avatarUrl>
       </author>
     </commit>
   </panelCommits>
