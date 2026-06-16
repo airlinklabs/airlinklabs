@@ -199,6 +199,7 @@ async function renderMarkdown(html: string): Promise<string> {
   let result = await marked(html);
   result = fixMarkdownImagePaths(result);
   result = injectProseCodeCopyButtons(result);
+  result = transformDiagramBlocks(result);
   return result;
 }
 
@@ -247,6 +248,9 @@ async function loadDocPages(): Promise<DocPage[]> {
 // <(chart title="..." ...)> — inline bar chart
 // <(statusgrid title="..." items="Label:100,Label:70")> — status table in a box
 // <(progress label="..." value=75)> — single progress bar (kept for back-compat)
+// <(flow title="..." steps="A->B:label,B->C:label")> — animated flow diagram
+// <(counter value=42 label="things")> — animated counter
+// ```diagram ... ``` — ASCII box diagram in code block
 // modifiers for images (space-separated):
 //   full, noround, alt="...", caption="..."
 function resolveContentImages(html: string, assetBasePath: string): string {
@@ -343,6 +347,71 @@ function resolveContentImages(html: string, assetBasePath: string): string {
         + `</div>`;
     }
 
+    // ── flow diagram ──────────────────────────────────────────────────────────
+    // syntax: <(flow title="Request lifecycle" steps="Browser->Panel:HTTP,Panel->Daemon:HMAC")>
+    if (first === 'flow') {
+      let title    = '';
+      let stepsRaw = '';
+      const kvRe3  = /(\w+)="([^"]*)"/g;
+      let m3: RegExpExecArray | null;
+      while ((m3 = kvRe3.exec(raw)) !== null) {
+        if (m3[1] === 'title')    title    = m3[2];
+        if (m3[1] === 'steps')    stepsRaw = m3[2];
+      }
+      const steps = stepsRaw.split(',').map(s => {
+        const arrowIdx = s.indexOf('->');
+        const colonIdx = s.lastIndexOf(':');
+        // Support both "A->B:label" and "A:B" (source:action) formats
+        if (arrowIdx !== -1) {
+          const from = s.slice(0, arrowIdx).trim();
+          const to   = s.slice(arrowIdx + 2, colonIdx === -1 ? undefined : colonIdx).trim();
+          const label = colonIdx === -1 ? '' : s.slice(colonIdx + 1).trim();
+          return { from, to, label };
+        } else if (colonIdx !== -1) {
+          const from = s.slice(0, colonIdx).trim();
+          const to   = s.slice(colonIdx + 1).trim();
+          return { from, to, label: '' };
+        }
+        return null;
+      }).filter(Boolean) as { from: string; to: string; label: string }[];
+      const titleHtml = title ? `<p class="prose-flow-title">${title}</p>` : '';
+      const nodes = new Set<string>();
+      steps.forEach(s => { nodes.add(s.from); nodes.add(s.to); });
+      const nodeArr = Array.from(nodes);
+      const nodeListHtml = nodeArr.map(n =>
+        `<div class="prose-flow-node" data-flow-node="${n}">${n}</div>`
+      ).join('');
+      const arrowListHtml = steps.map((s, i) =>
+        `<div class="prose-flow-step" data-flow-step="${i}">`
+        + `<span class="prose-flow-from">${s.from}</span>`
+        + `<span class="prose-flow-arrow">→</span>`
+        + `<span class="prose-flow-to">${s.to}</span>`
+        + (s.label ? `<span class="prose-flow-label">${s.label}</span>` : '')
+        + `</div>`
+      ).join('');
+      return `<div class="prose-flow" data-flow-steps="${steps.length}">${titleHtml}<div class="prose-flow-nodes">${nodeListHtml}</div><div class="prose-flow-steps">${arrowListHtml}</div></div>`;
+    }
+
+    // ── animated counter ──────────────────────────────────────────────────────
+    // syntax: <(counter value=42 label="API endpoints")>
+    if (first === 'counter') {
+      let label = '';
+      let value = 0;
+      const kvRe4 = /(\w+)="([^"]*)"/g;
+      let m4: RegExpExecArray | null;
+      while ((m4 = kvRe4.exec(raw)) !== null) {
+        if (m4[1] === 'label') label = m4[2];
+      }
+      const numMatch = raw.match(/value=(\d+)/);
+      if (numMatch) value = parseInt(numMatch[1], 10);
+      const suffixMatch = raw.match(/suffix="([^"]*)"/);
+      const suffix = suffixMatch ? suffixMatch[1] : '';
+      return `<div class="prose-counter" data-counter-to="${value}" data-counter-suffix="${suffix}">`
+        + `<span class="prose-counter-val">0${suffix}</span>`
+        + `<span class="prose-counter-label">${label}</span>`
+        + `</div>`;
+    }
+
     // ── image ─────────────────────────────────────────────────────────────────
     const modifiers = parts.slice(1);
     const isFull    = modifiers.includes('full');
@@ -384,6 +453,19 @@ function injectProseCodeCopyButtons(html: string): string {
       + `</svg> Copy</button>`;
     return `<div class="prose-code-block">${btn}<pre>`;
   }).replace(/<\/pre>/g, '</pre></div>');
+}
+
+// transform ```diagram code blocks into styled ASCII diagram containers
+function transformDiagramBlocks(html: string): string {
+  return html.replace(/<pre><code class="language-diagram">([\s\S]*?)<\/code><\/pre>/g, (_match, code) => {
+    const decoded = code
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&#39;/g, "'")
+      .replace(/&quot;/g, '"');
+    return `<div class="prose-diagram"><pre>${decoded}</pre></div>`;
+  });
 }
 
 async function loadAnnouncements(): Promise<Announcement[]> {

@@ -325,3 +325,63 @@ document.addEventListener('click', function (e) {
 })();
 
 // ~ https://github.com/thavanish edited this shitty code
+
+// ── Scroll-triggered animations (flow diagrams + counters) ────────────────────
+(function () {
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Animate counter from 0 to target value
+  function animateCounter(el) {
+    var target = parseInt(el.getAttribute('data-counter-to'), 10) || 0;
+    var suffix = el.getAttribute('data-counter-suffix') || '';
+    var valEl = el.querySelector('.prose-counter-val');
+    if (!valEl) return;
+
+    if (prefersReduced) {
+      valEl.textContent = target + suffix;
+      return;
+    }
+
+    var duration = 1200;
+    var start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      // ease out cubic
+      var eased = 1 - Math.pow(1 - progress, 3);
+      valEl.textContent = Math.round(eased * target) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Reveal flow diagram nodes and steps
+  function revealFlow(el) {
+    if (prefersReduced) {
+      el.classList.add('revealed');
+      return;
+    }
+    // small delay so the CSS transition kicks in
+    requestAnimationFrame(function () { el.classList.add('revealed'); });
+  }
+
+  if (prefersReduced) return;
+
+  var targets = document.querySelectorAll('.prose-flow, .prose-counter');
+  if (!targets.length) return;
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      var el = entry.target;
+      if (el.classList.contains('prose-flow')) {
+        revealFlow(el);
+      } else if (el.classList.contains('prose-counter')) {
+        animateCounter(el);
+      }
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.2 });
+
+  targets.forEach(function (el) { observer.observe(el); });
+})();

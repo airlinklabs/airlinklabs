@@ -1070,6 +1070,155 @@ img[loading="lazy"][style*="display:none"] {
   opacity: 1;
 }
 
+/* ── ASCII diagram block ────────────────────────────────────────────────────── */
+.prose-diagram {
+  margin: 1.5rem 0;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-bg-2);
+  overflow: hidden;
+}
+
+.prose-diagram pre {
+  margin: 0;
+  padding: 20px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--color-text-2);
+  background: transparent;
+  border: none;
+}
+
+/* ── Flow diagram ───────────────────────────────────────────────────────────── */
+.prose-flow {
+  margin: 1.5rem 0;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 20px;
+  background: var(--color-bg-2);
+}
+
+.prose-flow-title {
+  margin: 0 0 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-3);
+}
+
+.prose-flow-nodes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.prose-flow-node {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 6px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg-3);
+  color: var(--color-text-2);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 400ms cubic-bezier(0.16, 1, 0.3, 1), transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.prose-flow.revealed .prose-flow-node {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.prose-flow.revealed .prose-flow-node:nth-child(1) { transition-delay: 0ms; }
+.prose-flow.revealed .prose-flow-node:nth-child(2) { transition-delay: 80ms; }
+.prose-flow.revealed .prose-flow-node:nth-child(3) { transition-delay: 160ms; }
+.prose-flow.revealed .prose-flow-node:nth-child(4) { transition-delay: 240ms; }
+.prose-flow.revealed .prose-flow-node:nth-child(5) { transition-delay: 320ms; }
+
+.prose-flow-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 16px;
+}
+
+.prose-flow-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-text-3);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 300ms cubic-bezier(0.16, 1, 0.3, 1), transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.prose-flow.revealed .prose-flow-step {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.prose-flow.revealed .prose-flow-step:nth-child(1) { transition-delay: 200ms; }
+.prose-flow.revealed .prose-flow-step:nth-child(2) { transition-delay: 320ms; }
+.prose-flow.revealed .prose-flow-step:nth-child(3) { transition-delay: 440ms; }
+.prose-flow.revealed .prose-flow-step:nth-child(4) { transition-delay: 560ms; }
+.prose-flow.revealed .prose-flow-step:nth-child(5) { transition-delay: 680ms; }
+.prose-flow.revealed .prose-flow-step:nth-child(6) { transition-delay: 800ms; }
+
+.prose-flow-from,
+.prose-flow-to {
+  padding: 3px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-bg-3);
+  color: var(--color-text-2);
+}
+
+.prose-flow-arrow {
+  color: var(--color-text-4);
+}
+
+.prose-flow-label {
+  color: var(--color-text-4);
+  font-size: 11px;
+}
+
+/* ── Animated counter ───────────────────────────────────────────────────────── */
+.prose-counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-bg-2);
+}
+
+.prose-counter-val {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text-1);
+  line-height: 1;
+}
+
+.prose-counter-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-text-4);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 /* ── Reduced motion ────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

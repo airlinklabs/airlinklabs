@@ -94,6 +94,53 @@ Restart the panel, then go to **Admin > Addons** and enable your addon. Visit it
 
 ---
 
+## Lifecycle
+
+When the panel boots, it scans `storage/addons/` for directories with a valid `package.json`. For each enabled addon:
+
+1. Migrations run (in order, tracked so they never repeat)
+2. The entry point's default function is called with an Express router and the API object
+3. Routes, sidebar items, and UI sections register themselves
+
+When an addon is disabled, its routes stop matching but its data stays in the database.
+
+---
+
+## renderView
+
+For addons that need to render a view with full layout control:
+
+```typescript
+const html = await api.renderView('main.ejs', {
+  user: req.session?.user,
+  settings,
+  customData: 'whatever'
+});
+res.send(html);
+```
+
+`renderView` resolves the view from your addon's `views/` folder and wraps it with the panel layout.
+
+---
+
+## Error handling
+
+Wrap route handlers in try/catch. The panel logs unhandled errors but renders a generic 500 to the user.
+
+```typescript
+router.get('/something', async (req: any, res: any) => {
+  try {
+    const data = await doWork();
+    res.render(path.join(api.viewsPath, 'page.ejs'), { data });
+  } catch (error) {
+    logger.error('my-addon error', error);
+    res.status(500).send('something broke');
+  }
+});
+```
+
+---
+
 ## Folder structure
 
 ```
@@ -196,11 +243,13 @@ api.ui.addSidebarItem({
 Addons have full access to the database through Prisma:
 
 ```typescript
-// Read
+// Read from panel tables
 const users = await api.prisma.users.findMany();
 
-// Write (for tables created by your migrations, use raw SQL)
+// Read from your own tables (created by migrations)
 const results = await api.prisma.$queryRaw`SELECT * FROM MyAddonItems`;
+
+// Write to your own tables
 await api.prisma.$executeRaw`INSERT INTO MyAddonItems (name) VALUES (${name})`;
 ```
 

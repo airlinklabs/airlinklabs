@@ -66,6 +66,45 @@ Bad: `create_items`
 
 Migrations run against whichever database the panel uses: SQLite, MySQL, or PostgreSQL. Keep the SQL portable unless you're tied to one database.
 
+Use `IF NOT EXISTS` when creating tables to avoid errors across database engines.
+
+---
+
+## Schema design
+
+When designing your addon's schema, keep a few things in mind:
+
+- Addon tables are not in the Prisma schema, so you interact with them via raw SQL
+- Foreign keys to panel tables (like `Users`) work, but be careful with cascading deletes
+- Use `TEXT` for timestamps in SQLite, `DATETIME` in MySQL/PostgreSQL
+- For boolean flags, use `INTEGER` (0/1) in SQLite or `BOOLEAN` in other databases
+
+### Example: a table with relations
+
+```json
+{
+  "name": "my_addon_v1_create_notes",
+  "sql": "CREATE TABLE IF NOT EXISTS MyAddonNotes (id INTEGER PRIMARY KEY AUTOINCREMENT, userId INTEGER NOT NULL, title TEXT NOT NULL, body TEXT, createdAt TEXT NOT NULL DEFAULT (datetime('now')), FOREIGN KEY (userId) REFERENCES Users(id) ON DELETE CASCADE)"
+}
+```
+
+---
+
+## Transactions
+
+Migrations run outside of transactions by default. If a migration partially succeeds and then fails, the successful part stays. This is by design — SQLite doesn't support transactional DDL, and MySQL's InnoDB rolls back DDL in transactions anyway.
+
+If you need atomicity, structure each migration to be idempotent:
+
+```json
+{
+  "name": "my_addon_v1_create_items",
+  "sql": "CREATE TABLE IF NOT EXISTS MyAddonItems (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)"
+}
+```
+
+The `IF NOT EXISTS` clause means the migration is safe to re-run.
+
 ---
 
 ## Working with migrated tables
@@ -99,15 +138,6 @@ Don't delete a migration and expect the change to undo itself. Add a new migrati
 
 ---
 
-## Best practices
-
-- Use `IF NOT EXISTS` when creating tables
-- Prefix table names with your addon slug
-- Keep migrations small and focused
-- Test in dev before releasing
-
----
-
 ## Checking applied migrations
 
 Query the `AddonMigration` table:
@@ -121,3 +151,13 @@ const applied = await prisma.$queryRaw`
 ```
 
 In development, you can reset by deleting records from `AddonMigration` for your addon. Don't do this in production.
+
+---
+
+## Best practices
+
+- Use `IF NOT EXISTS` when creating tables
+- Prefix table names with your addon slug
+- Keep migrations small and focused — one change per migration
+- Test in dev before releasing
+- Document your schema in your addon's README

@@ -3,26 +3,26 @@ author: Thavanish
 date: 2026-03-19
 updated: 2026-06-16
 title: Quick Start
-description: Install AirLink, connect a node, and create your first server.
+description: Install AirLink, connect a node, and spin up your first game server.
 order: 1
 ---
 
 ## What you need
 
-- A Linux server. We don't care what distro — if npm/node runs, it's fine.
-- Node.js v18 or higher
-- npm v9 or higher
-- Docker (required for the daemon)
+- Linux. Any distro that runs npm and Docker works.
+- Node.js v18+
+- npm v9+
+- Docker (the daemon needs it)
 - PostgreSQL, MySQL, or SQLite
 - Git
 
-The main repos are `panel`, `daemon`, `images`, and `addons` under the `airlinklabs` org on GitHub.
+The main repos live under [airlinklabs](https://github.com/airlinklabs) on GitHub: `panel`, `daemon`, `images`, and `addons`.
 
 ---
 
-## Quick install
+## Install
 
-The fast path. Run as root — it handles dependencies, database setup, admin account creation, and systemd setup.
+The fast path. Run as root. It handles dependencies, database setup, admin account creation, and systemd.
 
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/airlinklabs/panel/refs/heads/main/installer.sh)
@@ -78,7 +78,7 @@ npm run start
 
 ## Connecting a node
 
-Once the daemon is up on a machine:
+Once the daemon is running on a machine:
 
 1. Log into the panel as an admin
 2. Go to **Admin > Nodes > Create Node**
@@ -100,14 +100,50 @@ The node should show online within a few seconds.
 
 ---
 
-## Architecture overview
+## Architecture
 
-```
+```diagram
 Browser ──▶ Panel (Express, port 3000) ──HTTP/HMAC──▶ Daemon (Bun, port 3002) ──▶ Docker containers
 ```
 
-- **Panel**: Express.js web app serving HTML (EJS templates) and JSON APIs. Stores data in SQLite via Prisma.
-- **Daemon**: Bun HTTP server running on each node. Manages Docker containers, files, and SFTP. Authenticates via HMAC + Basic Auth.
+- **Panel**: Express.js web app. HTML via EJS templates, JSON APIs. SQLite via Prisma.
+- **Daemon**: Bun HTTP server on each node. Manages Docker containers, files, and SFTP.
 - **Communication**: Panel signs every request with HMAC-SHA256. Daemon verifies the signature before executing.
 
-The panel talks to daemons over HTTP. Every request includes a timestamp, a random nonce, and an HMAC-SHA256 signature. The daemon checks the IP allowlist, verifies Basic Auth, validates the HMAC, and rejects replays via a nonce set. This keeps the panel-daemon link secure without shared sessions or cookies -_-
+The panel talks to daemons over HTTP. Every request includes a timestamp, a random nonce, and an HMAC-SHA256 signature. The daemon checks the IP allowlist, verifies Basic Auth, validates the HMAC, and rejects replays via a nonce set. No shared sessions or cookies -_-
+
+---
+
+## HTTPS and reverse proxies
+
+If you are behind Nginx, Caddy, or Cloudflare, set `URL` in `.env` to your public HTTPS address. The panel uses this for redirects and callback URLs.
+
+For WebSocket connections (console, status), make sure your proxy passes the `Upgrade` and `Connection` headers:
+
+```nginx
+# Nginx
+proxy_set_header Upgrade $http_upgrade;
+proxy_set_header Connection "upgrade";
+proxy_http_version 1.1;
+```
+
+---
+
+## Troubleshooting
+
+**Panel won't start**
+
+Check that `DATABASE_URL` in `.env` is correct and the database server is running. Run `npm run migrate:deploy` to apply schema changes.
+
+**Daemon won't connect**
+
+Make sure the daemon port (default 3002) is open and reachable from the panel server. Check that the daemon key matches what the panel shows under **Admin > Nodes > Configure**.
+
+**Container creation fails**
+
+Verify Docker is installed and the daemon user has permission to run Docker commands. Check `docker info` works from the daemon's user.
+
+**SFTP won't connect**
+
+The daemon creates an isolated `atmoz/sftp` container per session. Make sure Docker can pull `atmoz/sftp` and that the daemon has network access.
+```
