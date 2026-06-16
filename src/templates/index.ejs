@@ -7,8 +7,8 @@ const pageDescription = site.description;
 <%- include('./partials/nav', { site, underConstruction, rootPrefix, docPages, pageTitle }) %>
 
 <style>
-  /* On desktop the right strip is 52px. On mobile it's hidden (nav.ejs handles this).
-     SPA sections need right padding to clear the strip on desktop. */
+  /* On desktop the left strip is 52px. On mobile it's hidden (nav.ejs handles this).
+     SPA sections need left padding to clear the strip on desktop. */
   .spa-section-inner {
     width: 100%;
     max-width: 1060px;
@@ -154,61 +154,8 @@ const pageDescription = site.description;
   }
 
   /* Install wizard */
-  #install-layout {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  /* Tab switcher — shown on all sizes */
-  #install-tabs {
-    display: flex;
-    gap: 0;
-    margin-bottom: 16px;
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    overflow: hidden;
-    background: var(--color-bg-2);
-  }
-  .install-tab {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    padding: 10px 16px;
-    font-size: 12px;
-    font-weight: 500;
-    font-family: var(--font-mono);
-    color: var(--color-text-3);
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    transition: color 140ms, background 140ms;
-    border-right: 1px solid var(--color-border);
-  }
-  .install-tab:last-child { border-right: none; }
-  .install-tab.active {
-    color: var(--color-text-1);
-    background: var(--color-bg-hover);
-  }
-  .install-tab svg { flex-shrink: 0; }
-
-  #install-panel-wizard,
-  #install-panel-video {
+  #install-panel-wizard {
     width: 100%;
-  }
-
-  @media (min-width: 860px) {
-    #install-layout {
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 24px;
-    }
-    /* Desktop: always show both panels side by side, hide the tab bar */
-    #install-tabs { display: none; }
-    #install-panel-wizard { flex: 1; min-width: 0; max-width: 480px; }
-    #install-panel-video  { flex: 1; min-width: 0; position: sticky; top: 0; display: block !important; }
   }
 
   /* Activity */
@@ -216,74 +163,6 @@ const pageDescription = site.description;
     display: grid;
     grid-template-columns: 1fr;
     gap: clamp(10px, 1.5vw, 14px);
-  }
-  @media (min-width: 700px) {
-    #activity-grid {
-      grid-template-columns: 1fr 1fr;
-      height: clamp(300px, 42vh, 420px);
-    }
-  }
-
-  /* Mobile: cap the scrollable lists so they don't expand infinitely */
-  .activity-scroll {
-    flex: 1;
-    overflow-y: auto;
-    background: var(--color-bg-2);
-    max-height: 320px;
-  }
-  @media (min-width: 700px) {
-    .activity-scroll { max-height: none; }
-  }
-
-  /* Activity mobile tabs */
-  #activity-tabs {
-    display: flex;
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 12px;
-    background: var(--color-bg-2);
-  }
-  .activity-tab {
-    flex: 1;
-    padding: 9px 12px;
-    font-size: 11px;
-    font-family: var(--font-mono);
-    font-weight: 500;
-    color: var(--color-text-3);
-    background: transparent;
-    border: none;
-    border-right: 1px solid var(--color-border);
-    cursor: pointer;
-    transition: color 140ms, background 140ms;
-  }
-  .activity-tab:last-child { border-right: none; }
-  .activity-tab.active { color: var(--color-text-1); background: var(--color-bg-hover); }
-  @media (min-width: 700px) { #activity-tabs { display: none; } }
-
-  /* Activity mobile — horizontal single-card scroll */
-  @media (max-width: 699px) {
-    #activity-grid {
-      display: flex !important;
-      flex-direction: row;
-      overflow-x: auto;
-      gap: 10px;
-      padding-bottom: 4px;
-      scrollbar-width: none;
-      height: auto !important;
-    }
-    #activity-grid::-webkit-scrollbar { display: none; }
-    #activity-grid > div {
-      min-width: 80vw;
-      max-width: 80vw;
-      flex-shrink: 0;
-    }
-    .activity-scroll { max-height: 300px; }
-    /* Hide mobile tab switcher — nav is the horizontal scroll itself */
-    #activity-tabs { display: none; }
-    /* Show both panels on mobile now that they scroll side by side */
-    #activity-panel-commits,
-    #activity-panel-contributors { display: flex !important; }
   }
 
   /* Team */
@@ -337,9 +216,9 @@ const pageDescription = site.description;
     }
   }
 
-  /* SPA section base padding — desktop gets right clearance for floating pill nav (~60px) */
+  /* SPA section base padding — desktop gets left clearance for floating pill nav (~60px) */
   .spa-section {
-    padding: clamp(24px, 4vw, 52px) calc(60px + clamp(20px, 3vw, 48px)) clamp(24px, 4vw, 52px) clamp(20px, 3vw, 48px);
+    padding: clamp(24px, 4vw, 52px) clamp(20px, 3vw, 48px) clamp(24px, 4vw, 52px) calc(60px + clamp(20px, 3vw, 48px));
   }
 </style>
 
@@ -357,29 +236,27 @@ const pageDescription = site.description;
             Open source &bull; MIT &bull; <%= site.versionLabel %>
           </div>
 
-          <h1 style="font-size:clamp(28px,5vw,56px);font-weight:600;color:var(--color-text-1);line-height:1.06;letter-spacing:-0.04em;margin:0 0 clamp(12px,2vw,20px);">
+          <h1 style="font-size:clamp(36px,6vw,72px);font-weight:700;color:var(--color-text-1);line-height:1.02;letter-spacing:-0.045em;margin:0 0 clamp(12px,2vw,20px);">
             AirLink.
           </h1>
 
-          <p style="font-size:clamp(13px,1.3vw,14px);color:var(--color-text-2);line-height:1.75;margin:0 0 clamp(18px,2.5vw,28px);max-width:400px;">
-            Open-source game server panel built with TypeScript. Deploy across multiple nodes, control access with granular permissions, and extend everything through addons.
+          <p style="font-size:var(--text-secondary);color:var(--color-text-2);line-height:1.65;margin:0 0 clamp(18px,2.5vw,28px);max-width:400px;">
+            Game servers, served cold. Open-source panel that runs where you tell it to. No vendor lock, no surprises.
           </p>
 
           <div style="display:flex;flex-wrap:wrap;gap:9px;margin-bottom:clamp(14px,2vw,22px);">
             <a href="#spa-install" style="display:inline-flex;align-items:center;font-size:12px;font-weight:500;background:var(--color-text-1);color:var(--color-bg);padding:8px 20px;border-radius:999px;text-decoration:none;" onmouseover="this.style.opacity='.82'" onmouseout="this.style.opacity='1'">Get started</a>
-            <a href="https://github.com/<%= site.githubPanel %>" target="_blank" rel="noopener"
-              style="display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:500;color:var(--color-text-2);border:1px solid var(--color-border);padding:8px 20px;border-radius:999px;text-decoration:none;"
-              onmouseover="this.style.background='var(--color-bg-hover)';this.style.color='var(--color-text-1)';this.style.borderColor='var(--color-border-input)'"
-              onmouseout="this.style.background='';this.style.color='var(--color-text-2)';this.style.borderColor='var(--color-border)'">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
-              Panel
+            <a href="<%= rootPrefix %>docs/" style="display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:500;color:var(--color-text-2);border:1px solid var(--color-border);padding:8px 20px;border-radius:999px;text-decoration:none;" onmouseover="this.style.background='var(--color-bg-hover)';this.style.color='var(--color-text-1)'" onmouseout="this.style.background='';this.style.color='var(--color-text-2)'">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+              Docs
             </a>
-            <a href="https://github.com/<%= site.githubDaemon %>" target="_blank" rel="noopener"
-              style="display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:500;color:var(--color-text-2);border:1px solid var(--color-border);padding:8px 20px;border-radius:999px;text-decoration:none;"
-              onmouseover="this.style.background='var(--color-bg-hover)';this.style.color='var(--color-text-1)';this.style.borderColor='var(--color-border-input)'"
-              onmouseout="this.style.background='';this.style.color='var(--color-text-2)';this.style.borderColor='var(--color-border)'">
+            <a href="<%= rootPrefix %>blog/" style="display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:500;color:var(--color-text-2);border:1px solid var(--color-border);padding:8px 20px;border-radius:999px;text-decoration:none;" onmouseover="this.style.background='var(--color-bg-hover)';this.style.color='var(--color-text-1)'" onmouseout="this.style.background='';this.style.color='var(--color-text-2)'">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              Blog
+            </a>
+            <a href="https://github.com/<%= site.githubPanel %>" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:500;color:var(--color-text-2);border:1px solid var(--color-border);padding:8px 20px;border-radius:999px;text-decoration:none;" onmouseover="this.style.background='var(--color-bg-hover)';this.style.color='var(--color-text-1)'" onmouseout="this.style.background='';this.style.color='var(--color-text-2)'">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
-              Daemon
+              GitHub
             </a>
           </div>
 
@@ -454,8 +331,7 @@ const pageDescription = site.description;
     <div class="spa-section-inner">
 
       <div style="margin-bottom:clamp(14px,1.8vw,24px);">
-        <h2 style="font-size:clamp(18px,2.5vw,26px);font-weight:600;color:var(--color-text-1);letter-spacing:-0.03em;margin:0 0 4px;">Features</h2>
-        <p style="font-size:12px;color:var(--color-text-3);margin:0;">Everything the panel and daemon ship with.</p>
+        <h2 style="font-size:clamp(20px,2.8vw,30px);font-weight:700;color:var(--color-text-1);letter-spacing:-0.035em;margin:0;">Everything you get</h2>
       </div>
 
       <%
@@ -570,90 +446,62 @@ const pageDescription = site.description;
     <div class="spa-section-inner">
 
       <div style="margin-bottom:clamp(16px,2vw,28px);">
-        <h2 style="font-size:clamp(18px,2.5vw,26px);font-weight:600;color:var(--color-text-1);letter-spacing:-0.03em;margin:0 0 4px;">Install</h2>
-        <p style="font-size:12px;color:var(--color-text-3);margin:0;">Answer a few questions and copy the command.</p>
+        <h2 style="font-size:clamp(20px,2.8vw,30px);font-weight:700;color:var(--color-text-1);letter-spacing:-0.035em;margin:0;">One command. That's it.</h2>
+        <p style="font-size:var(--text-secondary);color:var(--color-text-3);margin:6px 0 0;">Copy, paste, done. We timed it: faster than making coffee.</p>
       </div>
 
-      <div id="install-layout">
-
-        <!-- Tab switcher (mobile only — hidden on desktop by CSS) -->
-        <div id="install-tabs">
-          <button class="install-tab active" id="tab-wizard" onclick="installTab('wizard')">
-            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-            Configure
-          </button>
-          <button class="install-tab" id="tab-video" onclick="installTab('video')">
-            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
-            Walkthrough
-          </button>
-        </div>
-
-        <!-- Wizard panel -->
-        <div id="install-panel-wizard">
-
-          <!-- Progress dots -->
-          <div id="wiz-dots" style="display:flex;gap:6px;margin-bottom:20px;align-items:center;"></div>
-
-          <!-- Summary of previous answers -->
-          <div id="wiz-summary" style="display:none;margin-bottom:16px;padding:12px 14px;background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:10px;"></div>
-
-          <!-- Step card -->
-          <div id="wiz-card" style="background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:12px;overflow:hidden;">
-
-            <div id="wiz-step-header" style="padding:16px 18px;border-bottom:1px solid var(--color-border);">
-              <p id="wiz-step-label" style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.08em;margin:0 0 3px;"></p>
-              <h3 id="wiz-step-title" style="font-size:15px;font-weight:600;color:var(--color-text-1);letter-spacing:-0.01em;margin:0;"></h3>
-            </div>
-
-            <div id="wiz-step-body" style="padding:18px;"></div>
-
-            <div style="padding:14px 18px;border-top:1px solid var(--color-border);display:flex;align-items:center;justify-content:space-between;gap:10px;">
-              <button id="wiz-back" type="button"
-                style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-3);background:transparent;border:1px solid var(--color-border);padding:8px 18px;border-radius:999px;cursor:pointer;display:none;"
-                onmouseover="this.style.color='var(--color-text-1)';this.style.borderColor='var(--color-border-input)'"
-                onmouseout="this.style.color='var(--color-text-3)';this.style.borderColor='var(--color-border)'">
-                Back
-              </button>
-              <div></div>
-              <button id="wiz-next" type="button"
-                style="font-size:12px;font-weight:500;font-family:var(--font-mono);color:var(--color-bg);background:var(--color-text-1);border:none;padding:8px 22px;border-radius:999px;cursor:pointer;"
-                onmouseover="this.style.opacity='0.82'" onmouseout="this.style.opacity='1'">
-                Next →
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Video panel -->
-        <div id="install-panel-video" style="display:none;">
-          <div id="video-body" style="border-radius:10px;overflow:hidden;border:1px solid var(--color-border);aspect-ratio:16/9;background:var(--color-bg-3);position:relative;">
-            <% if (!site.ytVidIFrame && site.ytURL) { %>
-            <!-- Static placeholder — links out rather than embedding an iframe -->
-            <a href="<%= site.ytURL %>" target="_blank" rel="noopener"
-              id="video-placeholder"
-              style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-decoration:none;background:var(--color-bg-3);"
-              onmouseover="document.getElementById('video-play-ring').style.background='var(--color-text-1)';document.getElementById('video-play-ring').style.borderColor='var(--color-text-1)';document.getElementById('video-play-icon').style.color='var(--color-bg)';"
-              onmouseout="document.getElementById('video-play-ring').style.background='transparent';document.getElementById('video-play-ring').style.borderColor='var(--color-border-input)';document.getElementById('video-play-icon').style.color='var(--color-text-2)';">
-              <!-- YouTube thumbnail via noembed -->
-              <img id="video-thumb" src="" alt="Install walkthrough" loading="lazy"
-                style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;opacity:0;transition:opacity 300ms;">
-              <!-- Overlay dimmer so play button is always readable -->
-              <div style="position:absolute;inset:0;background:rgba(0,0,0,0.38);"></div>
-              <!-- Play button -->
-              <div id="video-play-ring"
-                style="position:relative;z-index:1;width:52px;height:52px;border-radius:50%;border:1.5px solid var(--color-border-input);background:transparent;display:flex;align-items:center;justify-content:center;transition:background 160ms,border-color 160ms;">
-                <svg id="video-play-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="color:var(--color-text-2);margin-left:3px;transition:color 160ms;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </div>
-              <span style="position:relative;z-index:1;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);">Watch install walkthrough</span>
-            </a>
-            <% } else { %>
-            <!-- iframe injected by JS when ytVidIFrame is true -->
-            <% } %>
-          </div>
-        </div>
-
+      <!-- One-liner command -->
+      <div style="position:relative;background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:12px;padding:16px 18px;margin-bottom:16px;">
+        <code id="install-cmd" style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-1);line-height:1.7;display:block;white-space:pre-wrap;word-break:break-all;padding-right:60px;">bash &lt;(curl -s https://raw.githubusercontent.com/airlinklabs/panel/refs/heads/main/installer.sh)</code>
+        <button id="install-copy" class="copy-btn" style="position:absolute;top:12px;right:12px;font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);background:var(--color-bg-3);border:1px solid var(--color-border);padding:5px 10px;border-radius:6px;display:flex;align-items:center;gap:4px;cursor:pointer;"
+          onclick="navigator.clipboard.writeText(document.getElementById('install-cmd').textContent).then(function(){document.getElementById('install-copy').textContent='Copied';setTimeout(function(){document.getElementById('install-copy').innerHTML='<svg width=\\'10\\' height=\\'10\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'2\\' viewBox=\\'0 0 24 24\\'><rect x=\\'9\\' y=\\'9\\' width=\\'13\\' height=\\'13\\' rx=\\'2\\'/><path d=\\'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\\'/></svg>Copy'},1500)})">
+          <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy
+        </button>
       </div>
+
+      <!-- Customize toggle -->
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+        <button id="wiz-toggle" type="button" style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);background:transparent;border:1px solid var(--color-border);padding:6px 14px;border-radius:999px;cursor:pointer;"
+          onmouseover="this.style.color='var(--color-text-1)';this.style.borderColor='var(--color-border-input)'"
+          onmouseout="this.style.color='var(--color-text-3)';this.style.borderColor='var(--color-border)'">
+          <svg id="wiz-toggle-icon" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:transform 160ms;"><path d="M6 9l6 6 6-6"/></svg>
+          Customize install
+        </button>
+        <% if (site.ytURL) { %>
+        <a href="<%= site.ytURL %>" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);text-decoration:none;" onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'">
+          <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+          Watch walkthrough
+        </a>
+        <% } %>
+      </div>
+
+      <!-- Wizard (hidden by default) -->
+      <div id="install-panel-wizard" style="display:none;">
+        <div id="wiz-dots" style="display:flex;gap:6px;margin-bottom:20px;align-items:center;"></div>
+        <div id="wiz-summary" style="display:none;margin-bottom:16px;padding:12px 14px;background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:10px;"></div>
+        <div id="wiz-card" style="background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:12px;overflow:hidden;">
+          <div id="wiz-step-header" style="padding:16px 18px;border-bottom:1px solid var(--color-border);">
+            <p id="wiz-step-label" style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.08em;margin:0 0 3px;"></p>
+            <h3 id="wiz-step-title" style="font-size:15px;font-weight:600;color:var(--color-text-1);letter-spacing:-0.01em;margin:0;"></h3>
+          </div>
+          <div id="wiz-step-body" style="padding:18px;"></div>
+          <div style="padding:14px 18px;border-top:1px solid var(--color-border);display:flex;align-items:center;justify-content:space-between;gap:10px;">
+            <button id="wiz-back" type="button"
+              style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-3);background:transparent;border:1px solid var(--color-border);padding:8px 18px;border-radius:999px;cursor:pointer;display:none;"
+              onmouseover="this.style.color='var(--color-text-1)';this.style.borderColor='var(--color-border-input)'"
+              onmouseout="this.style.color='var(--color-text-3)';this.style.borderColor='var(--color-border)'">
+              Back
+            </button>
+            <div></div>
+            <button id="wiz-next" type="button"
+              style="font-size:12px;font-weight:500;font-family:var(--font-mono);color:var(--color-bg);background:var(--color-text-1);border:none;padding:8px 22px;border-radius:999px;cursor:pointer;"
+              onmouseover="this.style.opacity='0.82'" onmouseout="this.style.opacity='1'">
+              Next →
+            </button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -662,8 +510,8 @@ const pageDescription = site.description;
     <div class="spa-section-inner">
 
       <div style="margin-bottom:clamp(16px,2vw,24px);">
-        <h2 style="font-size:clamp(18px,2.5vw,26px);font-weight:600;color:var(--color-text-1);letter-spacing:-0.03em;margin:0 0 4px;">Activity</h2>
-        <p style="font-size:12px;color:var(--color-text-3);margin:0;">Recent commits and contributor breakdown across both repos.</p>
+        <h2 style="font-size:clamp(20px,2.8vw,30px);font-weight:700;color:var(--color-text-1);letter-spacing:-0.035em;margin:0;">We ship code, not promises</h2>
+        <p style="font-size:var(--text-secondary);color:var(--color-text-3);margin:6px 0 0;">Real commits from real humans. No ghost writes.</p>
       </div>
 
       <%
@@ -671,56 +519,37 @@ const pageDescription = site.description;
         var _versions = githubCache.versions || {};
       %>
 
-      <!-- Stats bar -->
-      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:clamp(14px,2vw,20px);">
-        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg);border-radius:10px;padding:8px 14px;">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-warning);flex-shrink:0;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <span style="font-size:13px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);"><%- _stats.totalStars || '—' %></span>
-          <span style="font-size:10px;color:var(--color-text-3);">stars</span>
+      <!-- Stats row -->
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:clamp(16px,2vw,24px);">
+        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg);border-radius:999px;padding:6px 14px;">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-text-2);flex-shrink:0;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span style="font-size:12px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);"><%- _stats.totalStars || '—' %></span>
+          <span style="font-size:10px;color:var(--color-text-3);font-family:var(--font-mono);">stars</span>
         </div>
-        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg);border-radius:10px;padding:8px 14px;">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-text-3);flex-shrink:0;"><path d="M7 18v-1a5 5 0 0 1 5-5 5 5 0 0 1 5 5v1"/><circle cx="12" cy="8" r="4"/><path d="M3 18v-1a3 3 0 0 1 3-3"/><circle cx="6" cy="10" r="2.5"/><path d="M21 18v-1a3 3 0 0 0-3-3"/><circle cx="18" cy="10" r="2.5"/></svg>
-          <span style="font-size:13px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);"><%- _stats.contributors || '—' %></span>
-          <span style="font-size:10px;color:var(--color-text-3);">contributors</span>
+        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg);border-radius:999px;padding:6px 14px;">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-text-2);flex-shrink:0;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span style="font-size:12px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);"><%- _stats.contributors || '—' %></span>
+          <span style="font-size:10px;color:var(--color-text-3);font-family:var(--font-mono);">contributors</span>
         </div>
-        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg);border-radius:10px;padding:8px 14px;">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-text-3);flex-shrink:0;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-          <span style="font-size:13px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);"><%- _stats.totalForks || '—' %></span>
-          <span style="font-size:10px;color:var(--color-text-3);">forks</span>
-        </div>
-        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg);border-radius:10px;padding:8px 14px;">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-danger);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span style="font-size:13px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);"><%- _stats.openIssues || '—' %></span>
-          <span style="font-size:10px;color:var(--color-text-3);">open issues</span>
+        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg);border-radius:999px;padding:6px 14px;">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-text-2);flex-shrink:0;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          <span style="font-size:12px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);"><%- _stats.totalForks || '—' %></span>
+          <span style="font-size:10px;color:var(--color-text-3);font-family:var(--font-mono);">forks</span>
         </div>
         <% if (_versions.panelRelease) { %>
-        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg);border-radius:10px;padding:8px 14px;">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-success);flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
-          <span style="font-size:13px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);"><%- _versions.panelRelease %></span>
-          <span style="font-size:10px;color:var(--color-text-3);">latest</span>
+        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg);border-radius:999px;padding:6px 14px;">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-text-2);flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
+          <span style="font-size:12px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);"><%- _versions.panelRelease %></span>
+          <span style="font-size:10px;color:var(--color-text-3);font-family:var(--font-mono);">latest</span>
         </div>
         <% } %>
       </div>
 
       <%
         var allCommits = [];
-        if (githubCache.panelCommits  && githubCache.panelCommits.length)  githubCache.panelCommits.slice(0,15).forEach(function(c)  { allCommits.push(Object.assign({},c,{_repo:'panel'})); });
-        if (githubCache.daemonCommits && githubCache.daemonCommits.length) githubCache.daemonCommits.slice(0,15).forEach(function(c) { allCommits.push(Object.assign({},c,{_repo:'daemon'})); });
+        if (githubCache.panelCommits  && githubCache.panelCommits.length)  githubCache.panelCommits.slice(0,10).forEach(function(c)  { allCommits.push(Object.assign({},c,{_repo:'panel'})); });
+        if (githubCache.daemonCommits && githubCache.daemonCommits.length) githubCache.daemonCommits.slice(0,10).forEach(function(c) { allCommits.push(Object.assign({},c,{_repo:'daemon'})); });
         allCommits.sort(function(a,b) { return new Date(b.commit.author.date) - new Date(a.commit.author.date); });
-
-        // Build commit frequency data (commits per day, last 14 days)
-        var freqMap = {};
-        allCommits.forEach(function(c) {
-          var d = c.commit.author.date.slice(0,10);
-          freqMap[d] = (freqMap[d] || 0) + 1;
-        });
-        var freqDays = [];
-        for (var i = 13; i >= 0; i--) {
-          var dt = new Date(Date.now() - i * 86400000);
-          var key = dt.toISOString().slice(0,10);
-          freqDays.push({ date: key, count: freqMap[key] || 0 });
-        }
-        var freqMax = Math.max.apply(null, freqDays.map(function(d){ return d.count; })) || 1;
 
         function relativeDate(iso) {
           var diff = Date.now() - new Date(iso).getTime();
@@ -734,108 +563,26 @@ const pageDescription = site.description;
         }
       %>
 
-      <!-- Commit frequency chart -->
-      <div style="border:1px solid var(--color-border);border-radius:12px;overflow:hidden;margin-bottom:clamp(10px,1.5vw,14px);">
-        <div style="padding:10px 14px;border-bottom:1px solid var(--color-border);background:var(--color-bg-3);display:flex;align-items:center;justify-content:space-between;">
-          <span style="font-size:11px;font-family:var(--font-mono);font-weight:500;color:var(--color-text-2);">Commit frequency — last 14 days</span>
-          <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);"><%= allCommits.length %> commits cached</span>
-        </div>
-        <div style="padding:12px 14px 10px;background:var(--color-bg-2);">
-          <div style="display:flex;align-items:flex-end;gap:3px;height:48px;">
-            <% freqDays.forEach(function(day) { %>
-            <%
-              var pct = day.count === 0 ? 0 : Math.max(12, Math.round((day.count / freqMax) * 100));
-              var label = day.date.slice(5);
-            %>
-            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;">
-              <div title="<%= label %>: <%= day.count %> commit<%= day.count !== 1 ? 's' : '' %>"
-                style="width:100%;border-radius:3px 3px 0 0;background:<%= day.count > 0 ? 'var(--color-text-1)' : 'var(--color-border)' %>;opacity:<%= day.count > 0 ? '1' : '0.4' %>;margin-top:auto;height:<%= pct %>%;">
-              </div>
+      <!-- Recent commits -->
+      <div style="border:1px solid var(--color-border);border-radius:12px;overflow:hidden;">
+        <% if (allCommits.length) { %>
+          <% allCommits.slice(0,8).forEach(function(commit) { %>
+          <div class="commit-row" data-commit='<%- JSON.stringify({sha:commit.sha,msg:commit.commit.message,author:commit.commit.author.name,date:commit.commit.author.date,avatar:commit.author?commit.author.avatar_url:"",repo:commit._repo,url:commit.html_url}).replace(/'/g,"&#39;") %>'
+            style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--color-border);cursor:pointer;"
+            onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background=''">
+            <img src="<%= commit.author ? commit.author.avatar_url : '' %>" alt="" loading="lazy" style="width:20px;height:20px;border-radius:50%;flex-shrink:0;background:var(--color-bg-3);" onerror="this.style.display='none'">
+            <div style="flex:1;min-width:0;">
+              <p style="font-size:12px;color:var(--color-text-1);margin:0;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><%= commit.commit.message.split('\n')[0] %></p>
             </div>
-            <% }) %>
+            <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);white-space:nowrap;flex-shrink:0;"><%= commit._repo %></span>
+            <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-4);white-space:nowrap;flex-shrink:0;"><%= relativeDate(commit.commit.author.date) %></span>
           </div>
-          <div style="display:flex;justify-content:space-between;margin-top:5px;">
-            <span style="font-size:9px;font-family:var(--font-mono);color:var(--color-text-4);"><%= freqDays[0].date.slice(5) %></span>
-            <span style="font-size:9px;font-family:var(--font-mono);color:var(--color-text-4);">today</span>
-          </div>
-        </div>
+          <% }) %>
+        <% } else { %>
+        <div style="padding:24px;text-align:center;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);">No data yet. Run <code style="background:var(--color-bg-3);padding:1px 5px;border-radius:3px;">npm run cache</code></div>
+        <% } %>
       </div>
 
-      <!-- Mobile tabs — hidden on desktop via CSS -->
-      <div id="activity-tabs">
-        <button class="activity-tab active" onclick="activityTab('commits')">Commits</button>
-        <button class="activity-tab" onclick="activityTab('contributors')">Contributors</button>
-      </div>
-
-      <div id="activity-grid">
-
-        <!-- Commits list -->
-        <div id="activity-panel-commits" style="border:1px solid var(--color-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;">
-          <div style="padding:10px 14px;border-bottom:1px solid var(--color-border);background:var(--color-bg-3);flex-shrink:0;">
-            <span style="font-size:11px;font-family:var(--font-mono);font-weight:500;color:var(--color-text-2);">Recent commits</span>
-          </div>
-          <div class="activity-scroll">
-            <% if (allCommits.length) { %>
-              <% allCommits.slice(0,14).forEach(function(commit) { %>
-              <div class="commit-row" data-commit='<%- JSON.stringify({sha:commit.sha,msg:commit.commit.message,author:commit.commit.author.name,date:commit.commit.author.date,avatar:commit.author?commit.author.avatar_url:"",repo:commit._repo,url:commit.html_url}).replace(/'/g,"&#39;") %>'
-                style="display:flex;align-items:flex-start;gap:9px;padding:9px 14px;border-bottom:1px solid var(--color-border);cursor:pointer;"
-                onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background=''">
-                <img src="<%= commit.author ? commit.author.avatar_url : '' %>" alt="" loading="lazy" style="width:18px;height:18px;border-radius:50%;flex-shrink:0;background:var(--color-bg-3);margin-top:1px;" onerror="this.style.display='none'">
-                <div style="flex:1;min-width:0;">
-                  <p style="font-size:11px;color:var(--color-text-1);margin:0 0 3px;line-height:1.4;overflow-wrap:break-word;word-break:break-word;"><%= commit.commit.message.split('\n')[0] %></p>
-                  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-                    <span style="font-size:9px;color:var(--color-text-3);font-family:var(--font-mono);"><%= commit.commit.author.name %></span>
-                    <span style="font-size:9px;font-family:var(--font-mono);color:var(--color-text-4);padding:0 4px;border:1px solid var(--color-border);border-radius:3px;"><%= commit._repo %></span>
-                    <span style="font-size:9px;font-family:var(--font-mono);color:var(--color-text-4);"><%= relativeDate(commit.commit.author.date) %></span>
-                  </div>
-                </div>
-                <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);flex-shrink:0;"><%= commit.sha.slice(0,7) %></span>
-              </div>
-              <% }) %>
-            <% } else { %>
-            <div style="padding:24px;text-align:center;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);">No data. Run <code style="background:var(--color-bg-3);padding:1px 5px;border-radius:3px;">npm run cache</code></div>
-            <% } %>
-          </div>
-        </div>
-
-        <!-- Contributors list -->
-        <div id="activity-panel-contributors" style="border:1px solid var(--color-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;">
-          <div style="padding:10px 14px;border-bottom:1px solid var(--color-border);background:var(--color-bg-3);flex-shrink:0;display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-size:11px;font-family:var(--font-mono);font-weight:500;color:var(--color-text-2);">Contributors</span>
-            <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);"><%= (_stats.contributors || 0) %> total</span>
-          </div>
-          <div class="activity-scroll">
-            <% if (githubCache.contributors && githubCache.contributors.length) { %>
-              <%
-                var totalContribs = githubCache.contributors.reduce(function(s,c){ return s + (c.contributions||0); }, 0);
-              %>
-              <% githubCache.contributors.forEach(function(c, i) { %>
-              <%
-                var barPct = totalContribs > 0 ? Math.round((c.contributions / totalContribs) * 100) : 0;
-              %>
-              <div class="contrib-row" data-contrib='<%- JSON.stringify({login:c.login,name:c.name,bio:c.bio,company:c.company,avatar:c.avatar_url,url:c.html_url,contributions:c.contributions}).replace(/'/g,"&#39;") %>'
-                style="display:flex;align-items:center;gap:9px;padding:8px 14px;border-bottom:1px solid var(--color-border);cursor:pointer;"
-                onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background=''">
-                <img src="<%= c.avatar_url %>" alt="<%= c.login %>" loading="lazy"
-                  style="width:<%= i===0?'22px':'17px' %>;height:<%= i===0?'22px':'17px' %>;border-radius:5px;border:1px solid var(--color-border);background:var(--color-bg-3);flex-shrink:0;">
-                <div style="flex:1;min-width:0;">
-                  <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:3px;">
-                    <span style="font-size:<%= i===0?'12px':'11px' %>;font-weight:<%= i===0?'600':'500' %>;color:var(--color-text-1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><%= c.name || c.login %></span>
-                    <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);flex-shrink:0;"><%= c.contributions %></span>
-                  </div>
-                  <div style="height:2px;background:var(--color-border);border-radius:999px;overflow:hidden;">
-                    <div style="height:100%;width:<%= barPct %>%;background:var(--color-text-1);border-radius:999px;opacity:0.5;"></div>
-                  </div>
-                </div>
-              </div>
-              <% }) %>
-            <% } else { %>
-            <div style="padding:24px;text-align:center;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);">No data. Run <code style="background:var(--color-bg-3);padding:1px 5px;border-radius:3px;">npm run cache</code></div>
-            <% } %>
-          </div>
-        </div>
-
-      </div>
     </div>
   </section>
 
@@ -895,8 +642,8 @@ const pageDescription = site.description;
     <div class="spa-section-inner" style="position:relative;z-index:1;">
 
       <div style="margin-bottom:clamp(16px,2vw,24px);">
-        <h2 style="font-size:clamp(18px,2.5vw,26px);font-weight:600;color:var(--color-text-1);letter-spacing:-0.03em;margin:0 0 4px;">The team</h2>
-        <p style="font-size:12px;color:var(--color-text-3);margin:0;">Everyone who contributed to the panel and daemon.</p>
+        <h2 style="font-size:clamp(20px,2.8vw,30px);font-weight:700;color:var(--color-text-1);letter-spacing:-0.035em;margin:0;">The humans behind the code</h2>
+        <p style="font-size:var(--text-secondary);color:var(--color-text-3);margin:6px 0 0;">No AI was harmed in the making of this panel. Probably.</p>
       </div>
 
       <%
@@ -1239,12 +986,12 @@ const pageDescription = site.description;
     var html = '';
 
     if (stepId === 'mode') {
-      html += '<p style="font-size:13px;color:var(--color-text-2);line-height:1.6;margin:0 0 14px;">The installer sets up Node.js, Docker, the panel, and optionally the daemon on your Linux server.</p>';
+      html += '<p style="font-size:13px;color:var(--color-text-2);line-height:1.6;margin:0 0 14px;">This script installs Node.js, Docker, the panel, and optionally the daemon. All on your Linux server. No cloud required.</p>';
       html += '<div style="display:flex;flex-direction:column;gap:8px;">';
       var opts = [
-        { val:'both',   label:'Panel + Daemon', desc:'Full setup — panel UI and the daemon that runs game containers.' },
-        { val:'panel',  label:'Panel only',      desc:'Install the web panel. Add the daemon separately later.'        },
-        { val:'daemon', label:'Daemon only',      desc:'Install the daemon on a node that already has a panel.'        },
+        { val:'both',   label:'Panel + Daemon', desc:'The full package. Panel UI and the daemon that actually runs your game containers.' },
+        { val:'panel',  label:'Panel only',      desc:'Just the web panel. You can add the daemon later when you are ready.'        },
+        { val:'daemon', label:'Daemon only',      desc:'Install the daemon on a machine that already has a panel talking to it.'        },
       ];
       opts.forEach(function(o) {
         var active = ans.mode === o.val;
@@ -1272,7 +1019,7 @@ const pageDescription = site.description;
       ]);
 
     } else if (stepId === 'admin') {
-      html += '<p style="font-size:12px;color:var(--color-text-3);line-height:1.6;margin:0 0 14px;">First account becomes admin. Registration locks after setup.</p>';
+      html += '<p style="font-size:12px;color:var(--color-text-3);line-height:1.6;margin:0 0 14px;">First account gets admin. After setup, new signups go through the normal registration flow.</p>';
       html += fieldGroup([
         { label: 'Email',    input: textInput('wiz-email', 'email',    ans.email, 'admin@example.com') },
         { label: 'Username', input: textInput('wiz-user',  'text',     ans.user,  'admin') },
@@ -1280,7 +1027,7 @@ const pageDescription = site.description;
       ]);
 
     } else if (stepId === 'daemon-setup') {
-      html += '<p style="font-size:12px;color:var(--color-text-3);line-height:1.6;margin:0 0 14px;">Auth key comes from the panel after install — Nodes → create node.</p>';
+      html += '<p style="font-size:12px;color:var(--color-text-3);line-height:1.6;margin:0 0 14px;">Grab the auth key from the panel after install. Go to Nodes, create a node, copy the key.</p>';
       html += fieldGroup([
         { label: 'Panel address',  input: textInput('wiz-panel-addr',  'text',   ans.panelAddr,  '127.0.0.1 or your panel domain') },
         { label: 'Daemon port',    input: textInput('wiz-daemon-port', 'number', ans.daemonPort, '3002') },
@@ -1288,7 +1035,7 @@ const pageDescription = site.description;
       ]);
 
     } else if (stepId === 'addons') {
-      html += '<p style="font-size:12px;color:var(--color-text-3);line-height:1.6;margin:0 0 14px;">Optional — installed into the panel after the main setup completes.</p>';
+      html += '<p style="font-size:12px;color:var(--color-text-3);line-height:1.6;margin:0 0 14px;">Extras. These get installed after the main setup finishes. Skip if you want to keep it simple.</p>';
       html += '<div style="display:flex;flex-direction:column;gap:8px;">';
       var addonsOpts = [
         { id:'modrinth',  name:'Modrinth Store', desc:'Browse and install Minecraft mods from Modrinth inside the panel.' },
@@ -1315,7 +1062,7 @@ const pageDescription = site.description;
 
     } else if (stepId === 'result') {
       var cmd = buildCommand();
-      html += '<p style="font-size:12px;color:var(--color-text-3);margin:0 0 12px;">Run this as root on your server.</p>';
+      html += '<p style="font-size:12px;color:var(--color-text-3);margin:0 0 12px;">Copy this, paste it on your server as root. Done.</p>';
       html += '<div class="code-block" style="position:relative;background:var(--color-bg-input);border:1px solid var(--color-border);border-radius:9px;padding:14px 16px;">'
         + '<code id="inst-cmd" style="font-size:11px;color:var(--color-text-1);font-family:var(--font-mono);line-height:1.7;display:block;white-space:pre-wrap;word-break:break-all;padding-right:52px;">' + cmd + '</code>'
         + '<button class="copy-btn" style="position:absolute;top:10px;right:10px;font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);background:var(--color-bg-2);border:1px solid var(--color-border);padding:5px 10px;border-radius:6px;display:flex;align-items:center;gap:4px;cursor:pointer;">'
@@ -1343,12 +1090,12 @@ const pageDescription = site.description;
   }
 
   var stepTitles = {
-    'mode':         ['Step',    'What do you want to install?'],
-    'panel-setup':  ['Panel',   'Name and port'],
-    'admin':        ['Panel',   'Admin account'],
-    'daemon-setup': ['Daemon',  'Connection settings'],
-    'addons':       ['Addons',  'Any addons to include?'],
-    'result':       ['Install', 'Your command'],
+    'mode':         ['Step 1',    'What are we installing today?'],
+    'panel-setup':  ['Panel',     'Name your creation'],
+    'admin':        ['Panel',     'Admin account (first one gets the crown)'],
+    'daemon-setup': ['Daemon',    'How does it talk to the panel?'],
+    'addons':       ['Addons',    'Extra features? Yes please.'],
+    'result':       ['Install',   'Your one-liner is ready'],
   };
 
   function summaryLine(label, val) {
@@ -1824,111 +1571,21 @@ const pageDescription = site.description;
 </script>
 
 <script>
-// Install section — tab switcher (mobile) + video pause on hide
+// Install section — toggle wizard
 (function() {
-  var wizPanel   = document.getElementById('install-panel-wizard');
-  var vidPanel   = document.getElementById('install-panel-video');
-  var videoBody  = document.getElementById('video-body');
-  var tabWizard  = document.getElementById('tab-wizard');
-  var tabVideo   = document.getElementById('tab-video');
+  var wizPanel  = document.getElementById('install-panel-wizard');
+  var wizToggle = document.getElementById('wiz-toggle');
+  var wizIcon   = document.getElementById('wiz-toggle-icon');
+  var wizOpen   = false;
 
-  var VIDEO_ID = (function() {
-    var url = '<%= site.installVideoUrl || "" %>';
-    var m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);
-    return m ? m[1] : '';
-  })();
-
-  function injectIframe() {
-    if (!videoBody || videoBody.querySelector('iframe')) return;
-    var iframe = document.createElement('iframe');
-    iframe.src = 'https://www.youtube.com/embed/' + VIDEO_ID + '?rel=0&enablejsapi=1';
-    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-    iframe.allowFullscreen = true;
-    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-    iframe.style.cssText = 'width:100%;height:100%;border:none;display:block;';
-    videoBody.appendChild(iframe);
+  if (wizToggle && wizPanel) {
+    wizToggle.addEventListener('click', function() {
+      wizOpen = !wizOpen;
+      wizPanel.style.display = wizOpen ? '' : 'none';
+      if (wizIcon) wizIcon.style.transform = wizOpen ? 'rotate(180deg)' : '';
+      if (wizOpen && typeof sounds !== 'undefined') sounds.play('toggle');
+    });
   }
-
-  function pauseVideo() {
-    if (!videoBody) return;
-    var iframe = videoBody.querySelector('iframe');
-    if (iframe) iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-  }
-
-  function isDesktop() { return window.innerWidth >= 860; }
-
-  function applyLayout() {
-    if (isDesktop()) {
-      // Desktop: always show both, no tabs needed
-      if (wizPanel) wizPanel.style.display = '';
-      if (vidPanel) vidPanel.style.display = '';
-      if (VIDEO_ID) injectIframe();
-    } else {
-      // Mobile: respect current active tab, default to wizard
-      var activeTab = (tabVideo && tabVideo.classList.contains('active')) ? 'video' : 'wizard';
-      showTab(activeTab, false);
-    }
-  }
-
-  function showTab(which, sound) {
-    var showWiz = which === 'wizard';
-    if (wizPanel) wizPanel.style.display = showWiz ? '' : 'none';
-    if (vidPanel) vidPanel.style.display = showWiz ? 'none' : '';
-    if (tabWizard) tabWizard.classList.toggle('active', showWiz);
-    if (tabVideo)  tabVideo.classList.toggle('active', !showWiz);
-    if (showWiz) {
-      pauseVideo();
-    } else {
-      if (VIDEO_ID) injectIframe();
-    }
-    if (sound && typeof sounds !== 'undefined') sounds.play('toggle');
-  }
-
-  window.installTab = function(which) {
-    if (isDesktop()) return;
-    showTab(which, true);
-  };
-
-  applyLayout();
-
-  var lastDesktop = isDesktop();
-  window.addEventListener('resize', function() {
-    var nowDesktop = isDesktop();
-    if (nowDesktop === lastDesktop) return;
-    lastDesktop = nowDesktop;
-    applyLayout();
-  });
-})();
-</script>
-
-<script>
-// Activity section — desktop layout guard (both panels always visible on mobile via scroll)
-(function() {
-  var panels = {
-    commits:      document.getElementById('activity-panel-commits'),
-    contributors: document.getElementById('activity-panel-contributors'),
-  };
-
-  function isMobile() { return window.innerWidth < 700; }
-
-  function applyActivityLayout() {
-    // Both panels always visible — mobile uses horizontal scroll, desktop uses grid
-    if (panels.commits)      panels.commits.style.display      = '';
-    if (panels.contributors) panels.contributors.style.display  = '';
-  }
-
-  // Keep activityTab as a no-op in case any other code references it
-  window.activityTab = function() {};
-
-  applyActivityLayout();
-
-  var lastMob = isMobile();
-  window.addEventListener('resize', function() {
-    var nowMob = isMobile();
-    if (nowMob === lastMob) return;
-    lastMob = nowMob;
-    applyActivityLayout();
-  });
 })();
 </script>
 
@@ -2077,37 +1734,6 @@ const pageDescription = site.description;
     .catch(function() {});
 })();
 </script>
-
-<% if (!site.ytVidIFrame && site.ytURL) { %>
-<script>
-// Load YouTube thumbnail for the video placeholder panel
-(function() {
-  var thumb = document.getElementById('video-thumb');
-  if (!thumb) return;
-  var ytUrl = '<%= site.ytURL %>';
-  var m = ytUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);
-  if (!m) return;
-  var id = m[1];
-  // Try maxresdefault first, fall back to hqdefault
-  var src = 'https://i.ytimg.com/vi/' + id + '/maxresdefault.jpg';
-  thumb.src = src;
-  thumb.onload = function() {
-    thumb.style.display = 'block';
-    void thumb.offsetHeight;
-    thumb.style.opacity = '1';
-  };
-  thumb.onerror = function() {
-    thumb.src = 'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg';
-    thumb.onload = function() {
-      thumb.style.display = 'block';
-      void thumb.offsetHeight;
-      thumb.style.opacity = '1';
-    };
-    thumb.onerror = function() {};
-  };
-})();
-</script>
-<% } %>
 
 </body>
 </html>

@@ -485,11 +485,6 @@ async function build() {
   await fs.outputFile(path.join(DIST, 'index.html'), indexHtml);
   console.log('  index.html');
 
-  // registry/index.html
-  const registryHtml = await renderTemplate(path.join(TEMPLATES, 'registry.ejs'), base);
-  await fs.outputFile(path.join(DIST, 'registry', 'index.html'), registryHtml);
-  console.log('  registry/index.html');
-
   // docs/index.html
   const docsIndexHtml = await renderTemplate(
     path.join(TEMPLATES, 'docs', 'index.ejs'),

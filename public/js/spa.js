@@ -122,8 +122,8 @@
     }
   }, { passive: true });
 
-  // Section nav dots injected into #right-strip
-  var strip = document.getElementById('right-strip');
+  // Section nav dots injected into #left-strip
+  var strip = document.getElementById('left-strip');
   if (strip) {
     var divider = document.createElement('div');
     divider.style.cssText = 'width:20px;height:1px;background:var(--color-border);margin:6px 0;flex-shrink:0;';

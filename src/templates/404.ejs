@@ -161,7 +161,7 @@ const siteBase = (site.siteUrl || '').replace(/\/$/, '');
   // GitHub Pages 404 SPA redirect trick:
   // If the URL looks like it should resolve to a known route, redirect there.
   var path = window.location.pathname;
-  var routes = ['/docs', '/blog', '/registry'];
+  var routes = ['/docs', '/blog'];
   for (var i = 0; i < routes.length; i++) {
     if (path.indexOf(routes[i]) !== -1) {
       // Already on a valid base path — stay, show 404

@@ -1,7 +1,7 @@
 ---
-author: thavanish
+author: Thavanish
 date: 2026-03-19
-updated: 2026-05-13
+updated: 2026-06-16
 title: Addon Development
 description: Build addons that extend the panel without touching core code.
 order: 2
@@ -13,21 +13,15 @@ Addons live in `storage/addons/`. When the panel starts, it loads every enabled 
 
 ---
 
-## Folder structure
+## Quick start
 
-```
-my-addon/
-├── package.json
-├── index.ts
-├── views/
-│   └── main.ejs
-└── lib/
-    └── helpers.ts
+### 1. Create the addon directory
+
+```bash
+mkdir -p panel/storage/addons/my-addon/views
 ```
 
----
-
-## package.json
+### 2. Create `package.json`
 
 ```json
 {
@@ -36,24 +30,14 @@ my-addon/
   "description": "What this addon does",
   "author": "your-name",
   "main": "index.ts",
-  "router": "/my-addon",
-  "enabled": true,
-  "migrations": [
-    {
-      "name": "my_addon_v1_create_items",
-      "sql": "CREATE TABLE IF NOT EXISTS MyAddonItems (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)"
-    }
-  ]
+  "router": "/my-addon"
 }
 ```
 
-- `main` is the entry point. If you skip it, the panel uses `index.ts`.
-- `router` is the base path for the addon routes.
-- `migrations` are SQL statements that run once when the addon is enabled.
+- `main` — the entry point. Defaults to `index.ts`.
+- `router` — the base URL path for all routes in this addon.
 
----
-
-## Entry point
+### 3. Create the entry point
 
 ```typescript
 import { Router } from 'express';
@@ -76,16 +60,94 @@ export default function(router: Router, api: any) {
         }
       });
     } catch (error) {
-      logger.error('addon page failed', error);
+      logger.error('addon error', error);
       res.status(500).send('something broke');
     }
   });
 }
 ```
 
+### 4. Create a view
+
+```html
+<%- include(components.header, { title: 'My Addon', user: user }) %>
+
+<main class="h-screen m-auto">
+  <div class="flex h-screen">
+    <div class="w-60 h-full">
+      <%- include(components.template) %>
+    </div>
+    <div class="flex-1 p-6 overflow-y-auto pt-16">
+      <div class="px-8 mt-5">
+        <h1 class="text-base font-medium text-white">My Addon</h1>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include(components.footer) %>
+```
+
+### 5. Enable it
+
+Restart the panel, then go to **Admin > Addons** and enable your addon. Visit it at `/my-addon`.
+
+---
+
+## Folder structure
+
+```
+my-addon/
+├── package.json
+├── index.ts
+├── views/
+│   ├── desktop/
+│   │   └── main.ejs
+│   ├── mobile/
+│   │   └── main.ejs
+│   └── main.ejs          ← shared fallback
+├── public/
+│   ├── css/
+│   ├── js/
+│   └── img/
+└── lib/
+    └── helpers.ts
+```
+
+Place templates in `views/desktop/` and `views/mobile/` for viewport-specific layouts. If only one version exists, put it in `views/` as a shared fallback.
+
+---
+
+## package.json reference
+
+```json
+{
+  "name": "My Addon",
+  "version": "1.0.0",
+  "description": "What this addon does",
+  "author": "your-name",
+  "main": "index.ts",
+  "router": "/my-addon",
+  "enabled": true,
+  "migrations": [
+    {
+      "name": "my_addon_v1_create_items",
+      "sql": "CREATE TABLE IF NOT EXISTS MyAddonItems (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)"
+    }
+  ]
+}
+```
+
+- `main` — entry point file. Defaults to `index.ts`.
+- `router` — base URL path for all routes.
+- `enabled` — whether the addon loads by default. Default: `true`.
+- `migrations` — SQL statements that run once when the addon is first enabled.
+
 ---
 
 ## Addon API reference
+
+The second argument passed to your default function gives you access to everything the panel exposes.
 
 ### Core
 
@@ -93,7 +155,10 @@ export default function(router: Router, api: any) {
 - `prisma` — Prisma client connected to the panel database
 - `addonPath` — absolute path to your addon folder
 - `viewsPath` — absolute path to your addon's `views/` folder
-- `getComponentPath(path)` — returns the path to a panel layout component
+- `desktopViewsPath` — absolute path to `views/desktop/`
+- `mobileViewsPath` — absolute path to `views/mobile/`
+- `getComponentPath(path)` — returns the absolute path to a panel layout component
+- `renderView(viewName, data?, isMobile?)` — render a view template manually
 
 ### User utilities
 
@@ -116,9 +181,9 @@ export default function(router: Router, api: any) {
 ```typescript
 api.ui.addSidebarItem({
   id:      'my-addon',
-  label:   'My Addon',
+  name:    'My Addon',
   icon:    '<svg ...></svg>',
-  url:     '/my-addon',
+  link:    '/my-addon',
   section: 'main',
   order:   50
 });
@@ -126,28 +191,20 @@ api.ui.addSidebarItem({
 
 ---
 
-## Views
+## Database access
 
-Views are EJS templates. Keep them in line with the panel layout components and avoid reinventing the page shell.
+Addons have full access to the database through Prisma:
 
-```html
-<%- include(components.header, { title: 'My Addon', user: user }) %>
+```typescript
+// Read
+const users = await api.prisma.users.findMany();
 
-<main class="h-screen m-auto">
-  <div class="flex h-screen">
-    <div class="w-60 h-full">
-      <%- include(components.template) %>
-    </div>
-    <div class="flex-1 p-6 overflow-y-auto pt-16">
-      <div class="px-8 mt-5">
-        <h1 class="text-base font-medium text-white">My Addon</h1>
-      </div>
-    </div>
-  </div>
-</main>
-
-<%- include(components.footer) %>
+// Write (for tables created by your migrations, use raw SQL)
+const results = await api.prisma.$queryRaw`SELECT * FROM MyAddonItems`;
+await api.prisma.$executeRaw`INSERT INTO MyAddonItems (name) VALUES (${name})`;
 ```
+
+For tables defined by your addon's migrations (not in the Prisma schema), use `$queryRaw` and `$executeRaw`.
 
 ---
 
@@ -157,8 +214,8 @@ Views are EJS templates. Keep them in line with the panel layout components and 
 cd /var/www/panel/storage/addons/
 git clone https://github.com/you/your-addon.git your-addon
 cd your-addon
-npm install
-npm run build
+pnpm install
+pnpm run build
 systemctl restart airlink-panel
 ```
 
