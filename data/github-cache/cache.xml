@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cache>
-  <generatedAt>2026-06-15T09:55:59.204Z</generatedAt>
+  <generatedAt>2026-06-16T09:21:31.600Z</generatedAt>
   <stats>
     <panelStars>59</panelStars>
     <daemonStars>13</daemonStars>
@@ -14,7 +14,7 @@
     <contributors>15</contributors>
   </stats>
   <versions>
-    <panel>2.0.0-beta-rc2</panel>
+    <panel>2.0.0</panel>
     <daemon>3.0.0-beta-rc1</daemon>
     <panelRelease>2.0.0-rc1</panelRelease>
     <daemonRelease>v3.0.0-beta.rc1</daemonRelease>
@@ -36,7 +36,7 @@
       <company>airlinklabs</company>
       <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       <htmlUrl>https://github.com/thavanish</htmlUrl>
-      <contributions>246</contributions>
+      <contributions>254</contributions>
     </contributor>
     <contributor>
       <login>achul123</login>
@@ -160,6 +160,113 @@ Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
   </contributors>
   <panelCommits>
     <commit>
+      <sha>c97556119de9e052bb3911b60b928290a56adaaa</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/c97556119de9e052bb3911b60b928290a56adaaa</htmlUrl>
+      <message>ci(release): bump version to 2.0.0</message>
+      <author>
+        <name>github-actions[bot]</name>
+        <date>2026-06-15T15:21:16Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/in/15368?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>c733a3fd7336cc68ec369d001af660ea9f94f397</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/c733a3fd7336cc68ec369d001af660ea9f94f397</htmlUrl>
+      <message>ci: add version bump workflow
+
+- Removed .github/ from .gitignore (needed for workflows)
+- Auto-bumps patch version on every human commit to main
+- Manual workflow_dispatch to set exact version
+- Skips bot commits and its own commits (chore(release):, ci: version bump)
+- Updates package.json, README.md, and docs/specsheet.md</message>
+      <author>
+        <name>thavanish</name>
+        <date>2026-06-15T15:20:01Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>0e926bd0d1cc14d6a55c1eda208a32c3573842e1</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/0e926bd0d1cc14d6a55c1eda208a32c3573842e1</htmlUrl>
+      <message>fix: update docs to match current state, remove all em dashes
+
+- Updated Features.md: pnpm instead of npm, correct daemon port (3002)
+- Updated README.md: professional docs with -_- references
+- Updated specsheet.md: removed all em dashes
+- Replaced all em dashes with dashes across all MD files
+- Added DB path to storage/ in all config references</message>
+      <author>
+        <name>thavanish</name>
+        <date>2026-06-15T15:13:02Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>40303eccc1d2086fcd9ce382f46e6c104d3edad0</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/40303eccc1d2086fcd9ce382f46e6c104d3edad0</htmlUrl>
+      <message>feat: dead code deletion + lint fixes + TUI console improvements
+
+- Deleted packetGenerator.ts (dead code, never imported)
+- Deleted createPlayerStatsTable.ts (exported but never called)
+- Deleted queueer.ts (duplicate of delayQueue.ts)
+- Fixed all lint errors: empty blocks, useless assignments, preserve-caught-error
+- Removed unused Port interface and imageVariables from server.ts
+- Added xterm web-links addon to desktop and mobile console
+- Documented binary frame pass-through in serverConsole.ts</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-06-15T14:57:08Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>8858afc50f752e9389a08700b3e2a9676b2da7f7</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/8858afc50f752e9389a08700b3e2a9676b2da7f7</htmlUrl>
+      <message>feat: security hardening + TypeScript strict cleanup
+
+- CSRF: removed fallback-secret, fails hard without SESSION_SECRET
+- HMAC: nonce required on all panel→daemon requests, versioned payload
+- Session store: fixed all any casts, typed with express-session types
+- Error pages: removed (req as any).cookies cast
+- Translation: removed (req as any) casts, added Request augmentation
+- Player stats: typed port array
+- Auth util: fixed useless assignment, typed permissions
+- Created daemon.ts types, admin Zod schemas, validation middleware</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-06-15T14:56:59Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>f1208cd142ef81ad2e02ae6c16288c2e6c66a711</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/f1208cd142ef81ad2e02ae6c16288c2e6c66a711</htmlUrl>
+      <message>feat: add API specsheet, update README, move DB to storage/
+
+- Created docs/specsheet.md with complete route catalog (138 HTTP + 4 WS)
+- Updated README.md with professional docs, dev setup, config reference
+- Moved SQLite database to storage/dev.db (was ./dev.db)
+- Updated .env, example.env, installer.sh for new DB path
+- Added storage/ dir auto-creation in db.ts
+- Added ES2022.Error lib for Error.cause support
+- Added tsx as dev dependency, removed ts-node</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-06-15T14:56:52Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>fc659e006ce7bfb7b2c4b59029cb29418a00a820</sha>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/fc659e006ce7bfb7b2c4b59029cb29418a00a820</htmlUrl>
+      <message>feat:add new sidebar tree more animtions icons etc..</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-06-15T12:12:53Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
       <sha>bf348075c1dff8a3b87fadff5b9f13ab98ec560d</sha>
       <htmlUrl>https://github.com/airlinklabs/panel/commit/bf348075c1dff8a3b87fadff5b9f13ab98ec560d</htmlUrl>
       <message>rebase:migrate to latest dependencies and u0date syntax and unify ui across mobile and desktop and fix bugs tho its still a bit buggy but is definately usable</message>
@@ -239,78 +346,42 @@ Please don&apos;t email me, if you need to email me@evokerking.dev</bio>
         <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
       </author>
     </commit>
-    <commit>
-      <sha>b06f22a7ca912954aae14e2823171bc3a3406787</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/b06f22a7ca912954aae14e2823171bc3a3406787</htmlUrl>
-      <message>Update PRODUCT.md</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-05-30T16:43:27Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>7dbc808335ab3e8f1040ff75f832a977bc198eb1</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/7dbc808335ab3e8f1040ff75f832a977bc198eb1</htmlUrl>
-      <message>chore:forgot to edit the front facing text of uri</message>
-      <author>
-        <name>i guess so ?</name>
-        <date>2026-05-30T16:36:05Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>5e5460846401710b00e638d2696fa24736c6fedb</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/5e5460846401710b00e638d2696fa24736c6fedb</htmlUrl>
-      <message>chore:update uri to new uri of the website</message>
-      <author>
-        <name>i guess so ?</name>
-        <date>2026-05-30T16:35:03Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>13162ea8e408db23e7e7a9393256434238982de1</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/13162ea8e408db23e7e7a9393256434238982de1</htmlUrl>
-      <message>edit: update PRODUCT.md using a claude agent using impeccable for future reference</message>
-      <author>
-        <name>i guess so ?</name>
-        <date>2026-05-30T16:33:11Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>17aa9f64be042dd371c4e04c8cc8cca88e3cfc0c</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/17aa9f64be042dd371c4e04c8cc8cca88e3cfc0c</htmlUrl>
-      <message>Cleanup: clean up ui codebase slightly and clean up ts files code too</message>
-      <author>
-        <name>i guess so ?</name>
-        <date>2026-05-30T15:48:25Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>5743ab38d5acab71a03a4fca373232f8481e25b8</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/5743ab38d5acab71a03a4fca373232f8481e25b8</htmlUrl>
-      <message>chore:remove artifact</message>
-      <author>
-        <name>thavanish</name>
-        <date>2026-05-12T04:54:47Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>8984b2aa89e1acd38103315b89ddef4335e12e71</sha>
-      <htmlUrl>https://github.com/airlinklabs/panel/commit/8984b2aa89e1acd38103315b89ddef4335e12e71</htmlUrl>
-      <message>chore:this sounded too shit so changed it</message>
-      <author>
-        <name>thavanish</name>
-        <date>2026-05-11T11:56:16Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
   </panelCommits>
   <daemonCommits>
+    <commit>
+      <sha>982a49f9ab6ac0a7ab1fd25a68897bdc430a3416</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/982a49f9ab6ac0a7ab1fd25a68897bdc430a3416</htmlUrl>
+      <message>ci: add version bump workflow
+
+- Auto-bumps patch version on every human commit to main
+- Manual workflow_dispatch to set exact version
+- Skips bot commits and its own commits (chore(release):, ci: version bump)
+- Updates package.json and README.md</message>
+      <author>
+        <name>thavanish</name>
+        <date>2026-06-15T15:19:37Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>b3b21a56cd4957dd64a64e2d65a49694c73e5ca7</sha>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/b3b21a56cd4957dd64a64e2d65a49694c73e5ca7</htmlUrl>
+      <message>feat: daemon security hardening + tests + README update
+
+- HMAC: nonce required on all requests, versioned payload (v1)
+- Path jail: added BackupPathError, resolveBackupPath helper
+- Config: removed dangerous default key, added entropy check
+- WS auth: locked extractAuthKey to args[0] only, added assertAuthic type guard
+- Docker: extracted buildInitScript as pure function, added zsh/fish support
+- Created errors.ts with ApiErrorCode union and apiError() factory
+- Added 32 tests: HMAC (7), path jail (9), init script (10), existing (6)
+- Updated README with professional docs, API reference, security overview</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-06-15T14:57:17Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
+      </author>
+    </commit>
     <commit>
       <sha>05045f079bf290b8c8aab231a5cdf0ce6b83c992</sha>
       <htmlUrl>https://github.com/airlinklabs/daemon/commit/05045f079bf290b8c8aab231a5cdf0ce6b83c992</htmlUrl>
@@ -489,26 +560,6 @@ Known issues: sending commands from panel not working, stop and restart not work
       <author>
         <name>Thavanish brijesh</name>
         <date>2026-04-16T08:50:58Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>f3f58508f89e90d32abe47496aaa7dc1f1707bfd</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/f3f58508f89e90d32abe47496aaa7dc1f1707bfd</htmlUrl>
-      <message>chore: remove added creits tag from json</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-04-13T12:54:49Z</date>
-        <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
-      </author>
-    </commit>
-    <commit>
-      <sha>67219f68d3f85b1e798f654e896b5ec279dbb9e6</sha>
-      <htmlUrl>https://github.com/airlinklabs/daemon/commit/67219f68d3f85b1e798f654e896b5ec279dbb9e6</htmlUrl>
-      <message>fix:make ui actually work and fix bugs and add credits to all files and updates deps</message>
-      <author>
-        <name>Thavanish brijesh</name>
-        <date>2026-04-13T12:40:51Z</date>
         <avatarUrl>https://avatars.githubusercontent.com/u/256001212?v=4</avatarUrl>
       </author>
     </commit>
