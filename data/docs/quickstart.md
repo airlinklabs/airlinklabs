@@ -102,9 +102,7 @@ The node should show online within a few seconds.
 
 ## Architecture
 
-```diagram
-Browser ──▶ Panel (Express, port 3000) ──HTTP/HMAC──▶ Daemon (Bun, port 3002) ──▶ Docker containers
-```
+<(flow title="Request flow" steps="Browser→Panel:HTTP/cookies,Panel→Daemon:HMAC-signed HTTP,Daemon→Docker:Container API")>
 
 - **Panel**: Express.js web app. HTML via EJS templates, JSON APIs. SQLite via Prisma.
 - **Daemon**: Bun HTTP server on each node. Manages Docker containers, files, and SFTP.

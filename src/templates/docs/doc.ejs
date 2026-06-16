@@ -10,14 +10,16 @@ const pageDescription = currentDoc.description || site.description;
   .doc-layout {
     min-height: 100vh;
     display: flex;
-    padding: clamp(32px,5vw,72px) clamp(20px,4vw,56px) clamp(32px,5vw,72px) clamp(20px,4vw,56px);
+    padding: clamp(32px,5vw,72px) clamp(16px,4vw,56px) clamp(32px,5vw,72px) clamp(16px,4vw,56px);
     box-sizing: border-box;
-    gap: clamp(32px,5vw,72px);
+    gap: clamp(24px,5vw,72px);
   }
 
   @media (max-width: 600px) {
     .doc-layout {
       padding-bottom: 84px;
+      padding-left: 16px;
+      padding-right: 16px;
     }
   }
 

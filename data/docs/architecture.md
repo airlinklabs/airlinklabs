@@ -10,17 +10,7 @@ order: 5
 
 AirLink has three layers: the panel (web app), the daemon (per-node agent), and Docker containers (game servers). The panel talks to daemons over HTTP. Daemons talk to Docker over its local API.
 
-```diagram
-┌──────────────┐      HTTP/HMAC       ┌──────────────┐      Docker API      ┌──────────────┐
-│   Browser    │ ──────────────────▶  │ Panel (Bun)  │ ──────────────────▶  │ Daemon (Bun) │
-│              │ ◀─── session/cookie  │  Port 3000   │ ◀─── JSON responses  │  Port 3002   │
-└──────────────┘                      └──────────────┘                      └──────┬───────┘
-                                                                                    │
-                                                                              ┌─────▼──────┐
-                                                                              │   Docker   │
-                                                                              │ Containers │
-                                                                              └────────────┘
-```
+<(flow title="Architecture overview" steps="Browser→Panel:HTTP/cookies,Panel→Daemon:HMAC-signed HTTP,Daemon→Docker:Container API")>
 
 <(counter value=3 label="runtime layers")>
 
@@ -80,17 +70,7 @@ The daemon checks the IP allowlist first, then Basic Auth, then the HMAC signatu
 
 When you click "Start" on a server:
 
-1. Browser sends `POST /server/:id/power/start` to the panel
-2. Panel verifies your session and server access
-3. Panel looks up the node's daemon URL and key
-4. Panel signs the request with HMAC-SHA256
-5. Panel sends `POST /container/start` to the daemon
-6. Daemon verifies the HMAC and Basic Auth
-7. Daemon calls the Docker API to start the container
-8. Docker starts the process inside the container
-9. Daemon returns the container status to the panel
-10. Panel updates the server status in the database
-11. Panel returns the result to the browser
+<(flow title="Server start request" steps="Browser:POST /server/:id/power/start,Panel:Verify session+access,Panel:Sign request with HMAC,Panel:POST /container/start to daemon,Daemon:Verify HMAC+Basic Auth,Daemon:Call Docker API,Daemon:Return status to panel,Panel:Update database,Panel:Return result to browser")>
 
 ---
 
@@ -110,16 +90,7 @@ When the session ends, the container is destroyed. No permanent SFTP server runs
 
 Addons extend the panel without modifying core files. They live in `storage/addons/` and are loaded at startup.
 
-```diagram
-┌─────────────┐     loads     ┌──────────────┐
-│ Panel core  │ ────────────▶ │ Addon (JS)   │
-│             │               │              │
-│  Express    │◀── register ──│  Router      │
-│  Router     │               │  Sidebar     │
-│  Prisma     │◀── query ─────│  Migrations  │
-│  Logger     │◀── write ─────│  Routes      │
-└─────────────┘               └──────────────┘
-```
+<(flow title="Addon loading" steps="Panel core:Scan storage/addons/,Panel core:Load package.json,Panel core:Run migrations,Panel core:Import entry point,Addon:Register routes,Addon:Register sidebar items")>
 
 Each addon gets:
 

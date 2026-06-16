@@ -508,6 +508,12 @@ button:active, a:active {
 }
 
 /* ── Prose (docs / blog) ────────────────────────────────────────────────────── */
+.prose {
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
 .prose h1 { font-size: 1.5rem;   font-weight: 600; color: var(--color-text-1); letter-spacing: -0.025em; margin-bottom: 0.5rem; }
 .prose h2 { font-size: 1.125rem; font-weight: 600; color: var(--color-text-1); letter-spacing: -0.02em;  margin: 2rem 0 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); }
 .prose h3 { font-size: 1rem;     font-weight: 600; color: var(--color-text-1); margin: 1.5rem 0 0.5rem; }
@@ -516,6 +522,14 @@ button:active, a:active {
 .prose ul li { font-size: 0.875rem; color: var(--color-text-2); line-height: 1.75; margin-bottom: 0.25rem; }
 .prose a  { color: var(--color-text-1); text-decoration: underline; text-underline-offset: 3px; }
 .prose hr { border: none; border-top: 1px solid var(--color-border); margin: 2rem 0; }
+.prose strong { color: var(--color-text-1); font-weight: 600; }
+.prose blockquote {
+  border-left: 3px solid var(--color-border);
+  padding-left: 16px;
+  margin: 1.5rem 0;
+  color: var(--color-text-3);
+  font-style: italic;
+}
 .prose pre {
   background: var(--color-bg);
   border: 1px solid var(--color-border);
@@ -572,6 +586,56 @@ button:active, a:active {
 
 .prose-copy-btn:hover  { transform: translateY(-1px); color: var(--color-text-1); }
 .prose-copy-btn:active { transform: scale(0.94); }
+
+/* prose tables */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.8125rem;
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.prose thead {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.prose th {
+  text-align: left;
+  padding: 10px 12px;
+  font-weight: 600;
+  color: var(--color-text-1);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.prose td {
+  padding: 10px 12px;
+  color: var(--color-text-2);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+
+.prose tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.prose td code {
+  font-size: 0.6875rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .prose table {
+    font-size: 0.75rem;
+  }
+  .prose th,
+  .prose td {
+    padding: 8px 10px;
+  }
+}
 
 /* prose embedded images */
 .prose-figure {
@@ -1089,6 +1153,14 @@ img[loading="lazy"][style*="display:none"] {
   color: var(--color-text-2);
   background: transparent;
   border: none;
+  white-space: pre;
+}
+
+@media (max-width: 600px) {
+  .prose-diagram pre {
+    font-size: 10px;
+    padding: 14px;
+  }
 }
 
 /* ── Flow diagram ───────────────────────────────────────────────────────────── */
@@ -1159,6 +1231,18 @@ img[loading="lazy"][style*="display:none"] {
   opacity: 0;
   transform: translateX(-8px);
   transition: opacity 300ms cubic-bezier(0.16, 1, 0.3, 1), transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .prose-flow-step {
+    font-size: 11px;
+    gap: 6px;
+  }
+  .prose-flow-node {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
 }
 
 .prose-flow.revealed .prose-flow-step {
@@ -1201,6 +1285,15 @@ img[loading="lazy"][style*="display:none"] {
   border: 1px solid var(--color-border);
   border-radius: 10px;
   background: var(--color-bg-2);
+}
+
+@media (max-width: 600px) {
+  .prose-counter {
+    padding: 12px;
+  }
+  .prose-counter-val {
+    font-size: 22px;
+  }
 }
 
 .prose-counter-val {
