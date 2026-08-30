@@ -1,319 +1,170 @@
+<%- include('../partials/head', { pageTitle: currentDoc.title, pageDescription: currentDoc.description, rootPrefix: '../../../' }) %>
+<%- include('../partials/nav', { pageTitle: currentDoc.title, rootPrefix: '../../../' }) %>
+
 <%
-const rootPrefix = '../../';
-const pageTitle = currentDoc.title;
-const pageDescription = currentDoc.description || site.description;
+  // Find prev/next docs by order
+  var currentIdx = docPages.findIndex(function(d) { return d.slug === currentDoc.slug; });
+  var prevDoc = currentIdx > 0 ? docPages[currentIdx - 1] : null;
+  var nextDoc = currentIdx < docPages.length - 1 ? docPages[currentIdx + 1] : null;
 %>
-<%- include('./partials/head', { site, underConstruction, rootPrefix, pageTitle, pageDescription }) %>
-<%- include('./partials/nav', { site, underConstruction, rootPrefix, docPages, pageTitle }) %>
 
-<style>
-  .doc-layout {
-    min-height: 100vh;
-    display: flex;
-    padding: clamp(32px,5vw,72px) clamp(16px,4vw,56px) clamp(32px,5vw,72px) clamp(16px,4vw,56px);
-    box-sizing: border-box;
-    gap: clamp(24px,5vw,72px);
-  }
-
-  @media (max-width: 600px) {
-    .doc-layout {
-      padding-bottom: 84px;
-      padding-left: 16px;
-      padding-right: 16px;
-    }
-  }
-
-  @media (min-width: 860px) {
-    .doc-layout {
-      margin-left: 60px;
-    }
-  }
-
-  .doc-sidebar {
-    display: none;
-    width: 200px;
-    flex-shrink: 0;
-    position: sticky;
-    top: clamp(32px,5vw,72px);
-    align-self: flex-start;
-  }
-
-  @media (min-width: 860px) {
-    .doc-sidebar { display: block; }
-  }
-
-  .doc-sidebar-label {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: var(--color-text-4);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin: 0 0 10px;
-  }
-
-  .docs-search {
-    width: 100%;
-    padding: 8px 10px;
-    font-size: 12px;
-    font-family: var(--font-mono);
-    background: var(--color-bg-2);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    color: var(--color-text-1);
-    outline: none;
-    margin-bottom: 16px;
-    box-sizing: border-box;
-  }
-
-  .docs-search::placeholder { color: var(--color-text-4); }
-  .docs-search:focus { border-color: var(--color-text-3); }
-
-  .doc-sidebar-link {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 9px 10px;
-    border-radius: 8px;
-    text-decoration: none;
-    margin-bottom: 2px;
-    transition: background 120ms;
-  }
-
-  .doc-sidebar-link:hover { background: var(--color-bg-hover); }
-
-  .doc-sidebar-link--active {
-    background: var(--color-bg-2);
-    border: 1px solid var(--color-border);
-  }
-
-  .doc-sidebar-link .bar {
-    width: 2px;
-    min-height: 16px;
-    border-radius: 999px;
-    background: var(--color-border-input);
-    flex-shrink: 0;
-    margin-top: 3px;
-    align-self: stretch;
-  }
-
-  .doc-sidebar-link--active .bar {
-    background: var(--color-accent, var(--color-text-1));
-  }
-
-  .doc-sidebar-link .title {
-    font-size: 12px;
-    color: var(--color-text-3);
-    line-height: 1.4;
-  }
-
-  .doc-sidebar-link--active .title {
-    color: var(--color-text-1);
-    font-weight: 500;
-  }
-
-  .doc-sidebar-link .desc {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: var(--color-text-4);
-    margin-top: 2px;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .doc-main {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .doc-toc {
-    display: none;
-    width: 180px;
-    flex-shrink: 0;
-    position: sticky;
-    top: clamp(80px,8vw,120px);
-    align-self: flex-start;
-    padding-left: 16px;
-    border-left: 1px solid var(--color-border);
-  }
-
-  @media (min-width: 1100px) {
-    .doc-toc { display: block; }
-  }
-
-  .doc-toc-label {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: var(--color-text-4);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin: 0 0 10px;
-  }
-
-  .doc-toc-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .doc-toc-item {
-    margin: 0;
-  }
-
-  .doc-toc-item a {
-    display: block;
-    font-size: 12px;
-    color: var(--color-text-3);
-    text-decoration: none;
-    padding: 3px 0;
-    line-height: 1.4;
-    transition: color 120ms;
-  }
-
-  .doc-toc-item a:hover {
-    color: var(--color-text-1);
-  }
-
-  .doc-toc-level-3 { padding-left: 12px; }
-  .doc-toc-level-4 { padding-left: 24px; }
-
-  .doc-toc-level-3 a,
-  .doc-toc-level-4 a {
-    font-size: 11px;
-  }
-
-  .back-to-top {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 1px solid var(--color-border);
-    background: var(--color-bg-2);
-    color: var(--color-text-3);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 200ms, color 200ms;
-    z-index: 100;
-  }
-
-  .back-to-top.visible {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .back-to-top:hover {
-    color: var(--color-text-1);
-  }
-
-  html { scroll-behavior: smooth; }
-</style>
-
-<div class="doc-layout">
-
-  <aside class="doc-sidebar">
-    <input type="text" id="docs-search" placeholder="Search docs..." class="docs-search">
-    <p class="doc-sidebar-label">Documentation</p>
-    <% docPages.forEach(function(doc) { %>
-    <a href="<%= rootPrefix %>docs/<%= doc.slug %>/"
-      class="doc-sidebar-link <%= doc.slug === currentDoc.slug ? 'doc-sidebar-link--active' : '' %>">
-      <span class="bar"></span>
-      <div style="min-width:0;">
-        <p class="title"><%= doc.title %></p>
-        <% if (doc.description && doc.slug !== currentDoc.slug) { %><p class="desc"><%= doc.description %></p><% } %>
+<div class="docs-shell">
+  <!-- Sidebar -->
+  <aside class="docs-sidebar">
+    <div class="docs-sidebar-header">
+      <a href="<%= rootPrefix %>" class="docs-sidebar-logo">
+        <img src="<%= rootPrefix %>public/assets/icon.png" alt="" width="22" height="22">
+        AirLink
+      </a>
+      <div class="docs-sidebar-search">
+        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="doc-search" placeholder="Search docs..." autocomplete="off">
       </div>
-    </a>
-    <% }) %>
+    </div>
+    <nav class="docs-sidebar-nav" id="doc-sidebar-nav">
+      <% var sidebarSections = {}; %>
+      <% docPages.forEach(function(doc) { %>
+        <% if (!sidebarSections[doc.section]) sidebarSections[doc.section] = []; %>
+        <% sidebarSections[doc.section].push(doc); %>
+      <% }); %>
+      <% Object.keys(sidebarSections).sort(function(a, b) { return sidebarSections[a][0].order - sidebarSections[b][0].order; }).forEach(function(section) { %>
+        <div class="docs-sidebar-section-label"><%= section %></div>
+        <% sidebarSections[section].forEach(function(doc) { %>
+          <a href="<%= rootPrefix %>docs/<%= doc.slug %>/" class="docs-sidebar-link<%= doc.slug === currentDoc.slug ? ' active' : '' %>" data-doc-title="<%= doc.title.toLowerCase() %>" data-doc-desc="<%= doc.description.toLowerCase() %>">
+            <%= doc.title %>
+          </a>
+        <% }); %>
+      <% }); %>
+    </nav>
   </aside>
 
-  <main class="doc-main">
+  <!-- Main content -->
+  <main class="docs-main">
+    <div class="docs-content" id="page-content">
+      <!-- Breadcrumb -->
+      <div class="doc-breadcrumb">
+        <a href="<%= rootPrefix %>docs/">Docs</a>
+        <span class="sep">/</span>
+        <span><%= currentDoc.section %></span>
+        <span class="sep">/</span>
+        <span style="color:var(--color-text-2);"><%= currentDoc.title %></span>
+      </div>
 
-    <div style="padding:0 0 clamp(20px,3vw,40px);border-bottom:1px solid var(--color-border);margin-bottom:clamp(24px,3vw,48px);">
-
-      <a href="<%= rootPrefix %>docs/"
-        style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);text-decoration:none;margin-bottom:clamp(16px,2.5vw,28px);"
-        onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'">
-        <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-        Docs
-      </a>
-
-      <% if (currentDoc.section) { %>
-      <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-4);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 6px;"><%= currentDoc.section %></p>
-      <% } %>
-      <h1 style="font-size:clamp(22px,3.5vw,36px);font-weight:600;color:var(--color-text-1);letter-spacing:-0.03em;margin:0 0 12px;"><%= currentDoc.title %></h1>
-      <% if (currentDoc.description) { %>
-      <p style="font-size:14px;color:var(--color-text-3);line-height:1.65;margin:0 0 12px;"><%= currentDoc.description %></p>
-      <% } %>
-      <% if (currentDoc.author || currentDoc.date) { %>
-      <div style="display:flex;align-items:center;gap:8px;font-size:11px;font-family:var(--font-mono);color:var(--color-text-4);">
-        <% if (currentDoc.author) { %>
-        <img src="https://github.com/<%= currentDoc.author %>.png?size=20" alt="" loading="lazy" style="width:16px;height:16px;border-radius:50%;background:var(--color-bg-3);" onerror="this.style.display='none'">
-        <span style="color:var(--color-text-3);"><%= currentDoc.author %></span>
+      <!-- Header -->
+      <div class="doc-header">
+        <span class="doc-section-badge"><%= currentDoc.section %></span>
+        <h1 class="doc-title"><%= currentDoc.title %></h1>
+        <% if (currentDoc.description) { %>
+          <p class="doc-desc"><%= currentDoc.description %></p>
         <% } %>
-        <% if (currentDoc.date) { %>
-        <% if (currentDoc.author) { %><span>·</span><% } %>
-        <span><%= currentDoc.date %></span>
+        <% if (currentDoc.author || currentDoc.date) { %>
+          <div class="doc-meta">
+            <% if (currentDoc.author) { %><span>by <%= currentDoc.author %></span><% } %>
+            <% if (currentDoc.date) { %><span><%= currentDoc.date %></span><% } %>
+          </div>
         <% } %>
       </div>
-      <% } %>
+
+      <!-- Article content -->
+      <article class="prose" id="doc-article">
+        <%- currentDoc.content %>
+      </article>
+
+      <!-- Prev / Next -->
+      <div class="doc-prev-next">
+        <% if (prevDoc) { %>
+          <a href="<%= rootPrefix %>docs/<%= prevDoc.slug %>/">
+            <span class="label">&larr; Previous</span>
+            <span class="title"><%= prevDoc.title %></span>
+          </a>
+        <% } else { %><div></div><% } %>
+        <% if (nextDoc) { %>
+          <a href="<%= rootPrefix %>docs/<%= nextDoc.slug %>/" class="next">
+            <span class="label">Next &rarr;</span>
+            <span class="title"><%= nextDoc.title %></span>
+          </a>
+        <% } else { %><div></div><% } %>
+      </div>
     </div>
-
-    <article class="prose">
-      <%- currentDoc.content %>
-    </article>
-
-    <%
-      var currentIdx = docPages.findIndex(function(d) { return d.slug === currentDoc.slug; });
-      var prev = currentIdx > 0 ? docPages[currentIdx - 1] : null;
-      var next = currentIdx < docPages.length - 1 ? docPages[currentIdx + 1] : null;
-    %>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:clamp(32px,4vw,56px);padding-top:24px;border-top:1px solid var(--color-border);">
-      <% if (prev) { %>
-      <a href="<%= rootPrefix %>docs/<%= prev.slug %>/"
-        style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--color-text-3);text-decoration:none;"
-        onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'">
-        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-        <%= prev.title %>
-      </a>
-      <% } else { %><div></div><% } %>
-      <% if (next) { %>
-      <a href="<%= rootPrefix %>docs/<%= next.slug %>/"
-        style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--color-text-3);text-decoration:none;"
-        onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'">
-        <%= next.title %>
-        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-      <% } else { %><div></div><% } %>
-    </div>
-
   </main>
 
+  <!-- TOC (right sidebar) -->
   <% if (currentDoc.headings && currentDoc.headings.length > 0) { %>
-  <aside class="doc-toc">
-    <p class="doc-toc-label">On this page</p>
-    <ul class="doc-toc-list">
-      <% currentDoc.headings.forEach(function(h) { %>
-      <li class="doc-toc-item doc-toc-level-<%= h.level %>">
-        <a href="#<%= h.id %>"><%= h.text %></a>
-      </li>
-      <% }) %>
-    </ul>
+  <aside class="doc-toc" id="doc-toc">
+    <div class="doc-toc-title">On this page</div>
+    <% currentDoc.headings.forEach(function(h) { %>
+      <a href="#<%= h.id %>" class="doc-toc-link toc-h<%= h.level %>" data-toc-id="<%= h.id %>"><%= h.text %></a>
+    <% }); %>
   </aside>
   <% } %>
 
+  <!-- Back to top -->
+  <button class="doc-back-top" id="doc-back-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+  </button>
 </div>
 
-<button class="back-to-top" id="back-to-top" aria-label="Back to top">
-  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-</button>
+<script>
+// ── Scroll-spy: highlight active TOC link ────────────────────────────────
+(function () {
+  var toc = document.getElementById('doc-toc');
+  if (!toc) return;
+  var tocLinks = toc.querySelectorAll('.doc-toc-link');
+  var ids = Array.from(tocLinks).map(function (l) { return l.dataset.tocId; });
+  var targets = ids.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+  if (!targets.length) return;
 
-<script src="<%= rootPrefix %>public/js/main.js"></script>
-</body>
-</html>
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        var id = entry.target.id;
+        tocLinks.forEach(function (link) {
+          link.classList.toggle('active', link.dataset.tocId === id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  targets.forEach(function (t) { observer.observe(t); });
+})();
+
+// ── Back to top button ──────────────────────────────────────────────────
+(function () {
+  var btn = document.getElementById('doc-back-top');
+  if (!btn) return;
+  window.addEventListener('scroll', function () {
+    btn.classList.toggle('visible', window.scrollY > 300);
+  }, { passive: true });
+})();
+
+// ── Sidebar search ──────────────────────────────────────────────────────
+(function () {
+  var input = document.getElementById('doc-search');
+  var nav = document.getElementById('doc-sidebar-nav');
+  if (!input || !nav) return;
+
+  var links = nav.querySelectorAll('.docs-sidebar-link');
+  var sections = nav.querySelectorAll('.docs-sidebar-section-label');
+
+  input.addEventListener('input', function () {
+    var q = input.value.toLowerCase().trim();
+    links.forEach(function (link) {
+      var match = !q || link.dataset.docTitle.includes(q) || link.dataset.docDesc.includes(q);
+      link.style.display = match ? '' : 'none';
+    });
+    sections.forEach(function (label) {
+      var next = label.nextElementSibling;
+      var hasVisible = false;
+      while (next && !next.classList.contains('docs-sidebar-section-label')) {
+        if (next.classList.contains('docs-sidebar-link') && next.style.display !== 'none') {
+          hasVisible = true;
+        }
+        next = next.nextElementSibling;
+      }
+      label.style.display = hasVisible || !q ? '' : 'none';
+    });
+  });
+})();
+</script>
+
+<%- include('../partials/footer', { rootPrefix: '../../../' }) %>

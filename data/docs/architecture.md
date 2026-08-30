@@ -1,131 +1,166 @@
 ---
-author: Thavanish
-date: 2026-06-16
-title: Architecture
-description: How the panel, daemon, and Docker containers fit together.
-order: 5
+title: "System Architecture"
+description: "Hub-and-spoke model, module system, and data flow."
+section: "Architecture"
+order: 70
 ---
+
+
+# System Architecture
 
 ## Overview
 
-AirLink has three layers: the panel (web app), the daemon (per-node agent), and Docker containers (game servers). The panel talks to daemons over HTTP. Daemons talk to Docker over its local API.
+Airlink uses a hub-and-spoke model. The panel (this codebase) is the central hub that stores all state in PostgreSQL and caches hot data in Redis. One or more daemon nodes run on separate machines and execute the actual container operations (start, stop, file I/O, backups, etc.). The panel communicates with daemons over HTTP using a shared API key.
 
-<(flow title="Architecture overview" steps="Browser→Panel:HTTP/cookies,Panel→Daemon:HMAC-signed HTTP,Daemon→Docker:Container API")>
+```
+┌─────────────┐      HTTP/API key      ┌──────────────┐
+│   Browser    │◄──────────────────────►│    Panel     │
+│  (Web UI)    │                        │  (Express)   │
+└─────────────┘                        └──────┬───────┘
+                                              │
+                                    ┌─────────┴─────────┐
+                                    │   PostgreSQL       │
+                                    │   Redis            │
+                                    └─────────┬─────────┘
+                                              │ HTTP
+                              ┌───────────────┼───────────────┐
+                              │               │               │
+                        ┌─────┴─────┐   ┌─────┴─────┐   ┌─────┴─────┐
+                        │  Node A   │   │  Node B   │   │  Node C   │
+                        │  Daemon   │   │  Daemon   │   │  Daemon   │
+                        │  Docker   │   │  Docker   │   │  Docker   │
+                        └───────────┘   └───────────┘   └───────────┘
+```
 
-<(counter value=3 label="runtime layers")>
+## Module System
 
----
+Every feature is a module (a TypeScript object with an `info` block and a `router` factory function). Modules are registered in `src/modules/registry.ts` in a fixed order. The module loader iterates this list and mounts each router onto the Express app at startup.
 
-## Panel
+```
+src/modules/
+├── registry.ts          # Static, ordered list of all modules
+├── admin/               # Admin panel routes (18 modules)
+├── api/                 # API routes
+│   ├── v2/              # V2 REST API
+│   ├── Alternative/     # Alternative API
+│   └── client/          # Client API
+├── auth/                # Login, register, password reset
+├── core/                # Core middleware, settings, session
+├── realtime/            # WebSocket server
+└── user/                # User-facing routes (11 modules)
+```
 
-Express.js web app. Serves HTML via EJS templates and JSON APIs. Stores data in SQLite via Prisma. Runs on Node.js or Bun.
+Module loading order matters for route precedence. Admin routes load first, then API routes, then auth, core, realtime, and user routes.
 
-The panel handles:
+## Request Lifecycle
 
-- User authentication and sessions
-- Server creation, deletion, and power control
-- File management (via daemon proxy)
-- Admin settings, users, nodes, images
-- Addon loading and routing
-- REST API with scoped keys
+1. Express receives HTTP request
+2. Middleware chain runs: session parser, CSRF check, rate limiter, IP ban check
+3. Route handler matches
+4. Auth middleware (`isAuthenticated`) verifies session or API key
+5. Handler executes business logic (Prisma queries, daemon HTTP calls)
+6. Response sent as JSON (API) or rendered EJS template (pages)
 
----
+For daemon operations, the panel makes outbound HTTP requests to the node's daemon port (default 3001). The daemon key authenticates these requests.
 
-## Daemon
+## Data Flow
 
-Bun HTTP server running on each node. Manages Docker containers, files, and SFTP. One daemon per machine.
+### Server Operations
 
-The daemon handles:
+When a user clicks "Start" on a server:
 
-- Container lifecycle (install, start, stop, kill, delete)
-- Filesystem operations (list, read, write, upload, download)
+1. Panel validates user owns the server (or is admin/sub-user with permission)
+2. Panel looks up the node the server is assigned to
+3. Panel sends `POST /server/{uuid}/power` to the node's daemon
+4. Daemon executes `docker start` on the container
+5. Panel returns success to the browser
+6. Browser can poll `/api/v2/servers/:id/status` for container state
+
+### File Operations
+
+File operations go through the daemon's file API:
+
+1. Panel receives file request from browser
+2. Panel forwards to daemon: `GET/POST/DELETE /servers/{uuid}/files/...`
+3. Daemon performs the filesystem operation in the server's container
+4. Panel streams the response back
+
+### Backups
+
+1. Panel tells daemon to create backup: `POST /servers/{uuid}/backup`
+2. Daemon creates a zip of the server directory
+3. Panel can track progress via polling endpoints
+4. Backups are stored on the node's filesystem (or S3 if configured)
+
+## Authentication Layers
+
+The panel supports multiple authentication methods, all resolved in `src/handlers/utils/auth/`:
+
+- Session auth (browser cookies via express-session, stored in Redis)
+- API key auth (Bearer token in Authorization header)
+- WebAuthn (passkey-based 2FA, FIDO2)
+- TOTP (time-based one-time passwords, authenticator apps)
+
+See [api/authentication.md](api/authentication.md) for details.
+
+## Permission System
+
+Permissions are hierarchical and dot-separated. A wildcard `.*` grants all sub-permissions. The system has two layers:
+
+1. User roles (database-driven roles with a JSON array of permission strings)
+2. Sub-user permissions (per-server permissions granted by server owners)
+
+See [admin/roles-and-permissions.md](admin/roles-and-permissions.md) for the full permission tree.
+
+## Key Services
+
+| Service           | File                              | Purpose                      |
+| ----------------- | --------------------------------- | ---------------------------- |
+| `daemonService`   | `src/services/daemonService.ts`   | HTTP client for node daemons |
+| `serverService`   | `src/services/serverService.ts`   | Server lifecycle operations  |
+| `backupService`   | `src/services/backupService.ts`   | Backup creation/restore      |
+| `databaseService` | `src/services/databaseService.ts` | Database host management     |
+| `fileService`     | `src/services/fileService.ts`     | File operations              |
+| `scheduleService` | `src/services/scheduleService.ts` | Cron job execution           |
+| `nodeService`     | `src/services/nodeService.ts`     | Node health and stats        |
+| `userService`     | `src/services/userService.ts`     | User CRUD and limits         |
+| `roleService`     | `src/services/roleService.ts`     | Role management              |
+| `settingsService` | `src/services/settingsService.ts` | Panel settings               |
+| `subuserService`  | `src/services/subuserService.ts`  | Sub-user management          |
+| `startupService`  | `src/services/startupService.ts`  | Server startup config        |
+| `jobQueue`        | `src/services/jobQueue.ts`        | Background job processing    |
+| `realtimePubSub`  | `src/services/realtimePubSub.ts`  | WebSocket pub/sub            |
+
+## Caching
+
+Redis is used for:
+
+- Session storage (all user sessions)
+- Settings cache (panel settings read frequently, updated rarely)
+- Node cache (node connection state)
+- Security cache (rate limiting, banned IPs, login attempts)
+- Search cache (search results cached 30 seconds per user+query)
+
+Cache invalidation happens on write operations (e.g., updating settings clears the settings cache).
+
+## Realtime
+
+The panel includes a WebSocket server (`src/modules/realtime/`) for:
+
+- Server console output streaming
+- Server status updates
+- Activity notifications
+
+WebSocket connections are authenticated via the user's session.
+
+## Background Jobs
+
+The `jobQueue` service handles background tasks:
+
+- Server installation after creation
 - Backup creation and restore
-- On-demand SFTP sessions
-- Minecraft server queries
+- Scheduled task execution
+- Player stats collection
+- Image cache refresh
 
-<(counter value=2 label="daemon responsibilities")>
-
----
-
-## HMAC protocol
-
-Every panel-to-daemon request is signed. The flow:
-
-<(flow title="Request authentication" steps="Panel:Generate timestamp+nonce,Panel:HMAC-SHA256 sign,Panel:Send request,Daemon:Check IP allowlist,Daemon:Verify Basic Auth,Daemon:Validate HMAC,Daemon:Reject replay via nonce set")>
-
-Each request includes:
-
-- `X-Airlink-Timestamp` — ISO timestamp of when the request was signed
-- `X-Airlink-Nonce` — random string, rejected if seen before (replay protection)
-- `X-Airlink-Signature` — HMAC-SHA256 of `method + path + timestamp + nonce + body` signed with the daemon key
-- `Authorization: Basic` — base64 encoded `Airlink:<daemon-key>`
-
-The daemon checks the IP allowlist first, then Basic Auth, then the HMAC signature, then the nonce. If any step fails, the request is rejected.
-
-<(counter value=4 label="auth layers")>
-
----
-
-## Request lifecycle
-
-When you click "Start" on a server:
-
-<(flow title="Server start request" steps="Browser:POST /server/:id/power/start,Panel:Verify session+access,Panel:Sign request with HMAC,Panel:POST /container/start to daemon,Daemon:Verify HMAC+Basic Auth,Daemon:Call Docker API,Daemon:Return status to panel,Panel:Update database,Panel:Return result to browser")>
-
----
-
-## SFTP
-
-SFTP sessions are created on demand. The daemon spins up an isolated `atmoz/sftp` container with:
-
-- A randomly assigned port
-- Short-lived credentials
-- Access to the server's volume
-
-When the session ends, the container is destroyed. No permanent SFTP server runs on the node.
-
----
-
-## Addon system
-
-Addons extend the panel without modifying core files. They live in `storage/addons/` and are loaded at startup.
-
-<(flow title="Addon loading" steps="Panel core:Scan storage/addons/,Panel core:Load package.json,Panel core:Run migrations,Panel core:Import entry point,Addon:Register routes,Addon:Register sidebar items")>
-
-Each addon gets:
-
-- An Express router for custom routes
-- Prisma access for database queries
-- The panel logger
-- UI registration (sidebar items, server menu items)
-- Migration support for custom tables
-
-See [Addon Development](/docs/addon-development) for the full reference.
-
----
-
-## Database
-
-The panel uses Prisma ORM with SQLite by default. MySQL and PostgreSQL are also supported.
-
-Core tables (managed by Prisma migrations):
-
-- `Users` — accounts, passwords, 2FA
-- `Servers` — server configs, resource limits, node assignments
-- `Nodes` — daemon addresses, keys, connection status
-- `Images` — Docker images, startup commands, env vars
-- `Folders` — user-created server groupings
-- `ApiKeys` — scoped API tokens
-- `AddonMigration` — tracks which addon migrations have run
-
-Addon-created tables are managed by the addon's own migrations and are not part of the Prisma schema.
-
----
-
-## Port defaults
-
-| Service | Port | Notes |
-|---------|------|-------|
-| Panel | 3000 | Configurable via `PORT` in `.env` |
-| Daemon | 3002 | Configurable per node |
-| SFTP | Random | Assigned per session by the daemon |
+Jobs are processed sequentially with retry logic.

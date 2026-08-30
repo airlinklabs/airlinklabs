@@ -5,6 +5,23 @@ import { marked } from "marked";
 import fm from "front-matter";
 import { fileURLToPath } from "url";
 
+// Configure marked to add IDs to headings for deep-linking
+marked.use({
+  renderer: {
+    heading({ tokens, depth }: { tokens: any[]; depth: number }) {
+      const text = tokens.map((t: any) => t.raw || t.text || "").join("");
+      const id = text
+        .toLowerCase()
+        .replace(/<[^>]+>/g, "")
+        .replace(/[^a-z0-9\s-]/g, "")
+        .trim()
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-");
+      return `<h${depth} id="${id}">${tokens.map((t: any) => t.raw || t.text || "").join("")}</h${depth}>`;
+    },
+  },
+});
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "../../");
 const DIST = path.join(ROOT, "dist");
@@ -709,17 +726,17 @@ async function build() {
   };
 
   // index.html
-  const indexHtml = await renderTemplate(
-    path.join(TEMPLATES, "index.ejs"),
-    base,
-  );
+  const indexHtml = await renderTemplate(path.join(TEMPLATES, "index.ejs"), {
+    ...base,
+    rootPrefix: "",
+  });
   await fs.outputFile(path.join(DIST, "index.html"), indexHtml);
   console.log("  index.html");
 
   // docs/index.html
   const docsIndexHtml = await renderTemplate(
     path.join(TEMPLATES, "docs", "index.ejs"),
-    { ...base, firstDoc: docPages[0] || null },
+    { ...base, rootPrefix: "../../", firstDoc: docPages[0] || null },
   );
   await fs.outputFile(path.join(DIST, "docs", "index.html"), docsIndexHtml);
   console.log("  docs/index.html");
@@ -728,7 +745,7 @@ async function build() {
   for (const doc of docPages) {
     const docHtml = await renderTemplate(
       path.join(TEMPLATES, "docs", "doc.ejs"),
-      { ...base, currentDoc: doc },
+      { ...base, rootPrefix: "../../../", currentDoc: doc },
     );
     await fs.outputFile(
       path.join(DIST, "docs", doc.slug, "index.html"),
@@ -740,7 +757,11 @@ async function build() {
   // blog/index.html — announcements list, newest first
   const blogIndexHtml = await renderTemplate(
     path.join(TEMPLATES, "blog", "index.ejs"),
-    { ...base, announcements: [...announcements].reverse() },
+    {
+      ...base,
+      rootPrefix: "../../",
+      announcements: [...announcements].reverse(),
+    },
   );
   await fs.outputFile(path.join(DIST, "blog", "index.html"), blogIndexHtml);
   console.log("  blog/index.html");
@@ -749,7 +770,7 @@ async function build() {
   for (const post of announcements) {
     const postHtml = await renderTemplate(
       path.join(TEMPLATES, "blog", "post.ejs"),
-      { ...base, post },
+      { ...base, rootPrefix: "../../../", post },
     );
     await fs.outputFile(
       path.join(DIST, "blog", post.slug, "index.html"),
@@ -759,10 +780,10 @@ async function build() {
   }
 
   // 404.html — GitHub Pages serves this for any unmatched path
-  const notFoundHtml = await renderTemplate(
-    path.join(TEMPLATES, "404.ejs"),
-    base,
-  );
+  const notFoundHtml = await renderTemplate(path.join(TEMPLATES, "404.ejs"), {
+    ...base,
+    rootPrefix: "",
+  });
   await fs.outputFile(path.join(DIST, "404.html"), notFoundHtml);
   console.log("  404.html");
 
