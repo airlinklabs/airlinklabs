@@ -61,49 +61,4 @@
 <div class="uc-bar"><%= underConstruction.badge %>: <%= underConstruction.message %></div>
 <% } %>
 
-<!-- Loading screen -->
-<div id="loading-screen">
-  <div id="loading-inner">
-    <img src="<%= rootPrefix %>public/assets/icon.png" alt="" width="32" height="32"
-      fetchpriority="high"
-      onerror="this.style.display='none'">
-    <span id="loading-title">AirLink</span>
-    <div id="loading-spinner"></div>
-    <span id="loading-msg"></span>
-  </div>
-</div>
-
-<script>
-(function () {
-  var msgs = [
-    'Loading assets',
-    'Fetching styles',
-    'Preparing page',
-    'Almost there',
-  ];
-  var el = document.getElementById('loading-msg');
-  var i  = 0;
-  if (!el) return;
-  el.textContent = msgs[0];
-  var t = setInterval(function () {
-    i = (i + 1) % msgs.length;
-    el.style.opacity = '0';
-    setTimeout(function () {
-      el.textContent   = msgs[i];
-      el.style.opacity = '1';
-    }, 160);
-  }, 900);
-  // Clear on either load or DOMContentLoaded to avoid getting stuck
-  function stop() { clearInterval(t); }
-  if (document.readyState === 'complete') {
-    stop();
-  } else {
-    window.addEventListener('load', stop, { once: true });
-    window.addEventListener('DOMContentLoaded', function () {
-      setTimeout(stop, 3000);
-    }, { once: true });
-  }
-})();
-</script>
-
 <script src="<%= rootPrefix %>public/js/sounds.js"></script>

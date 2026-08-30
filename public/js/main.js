@@ -271,11 +271,10 @@ document.addEventListener("click", function (e) {
   });
 })();
 
-// ── Loading screen + staggered hero reveal ────────────────────────────────────
+// ── Hero staggered reveal ───────────────────────────────────────────────────
 (function () {
   var EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
   var SPRING = "cubic-bezier(0.34, 1.12, 0.64, 1)";
-  var screen = document.getElementById("loading-screen");
   var content = document.getElementById("page-content");
 
   function staggerIn(els, baseDelay) {
@@ -297,16 +296,6 @@ document.addEventListener("click", function (e) {
   }
 
   function reveal() {
-    if (screen) {
-      screen.style.transition = "opacity 280ms " + EASE;
-      screen.style.opacity = "0";
-      setTimeout(function () {
-        screen.style.display = "none";
-      }, 300);
-    }
-
-    var delay = screen ? 240 : 0;
-
     // Non-SPA pages — fade up the whole content block
     if (content) {
       content.style.opacity = "0";
@@ -317,7 +306,7 @@ document.addEventListener("click", function (e) {
           "opacity 380ms " + EASE + ", transform 380ms " + SPRING;
         content.style.opacity = "1";
         content.style.transform = "translateY(0)";
-      }, delay);
+      }, 40);
       return;
     }
 
@@ -331,7 +320,7 @@ document.addEventListener("click", function (e) {
         document.querySelector("#hero-left > div:last-child"),
         document.getElementById("hero-mockup"),
       ],
-      delay,
+      40,
     );
   }
 
@@ -343,8 +332,7 @@ document.addEventListener("click", function (e) {
     });
   }
 
-  // Outgoing internal navigation — page is already painted so switch loading screen
-  // to frosted glass mode before showing it
+  // Outgoing internal navigation — smooth fade-out then navigate
   document.addEventListener("click", function (e) {
     var a = e.target.closest("a[href]");
     if (!a) return;
@@ -366,26 +354,12 @@ document.addEventListener("click", function (e) {
       content.style.transform = "translateY(-8px)";
     }
 
-    function go() {
-      window.location.href = href;
-    }
-
-    if (screen) {
-      setTimeout(
-        function () {
-          screen.classList.add("glass");
-          screen.style.display = "flex";
-          screen.style.opacity = "0";
-          screen.style.transition = "opacity 160ms " + EASE;
-          void screen.offsetHeight;
-          screen.style.opacity = "1";
-          setTimeout(go, 200);
-        },
-        content ? 160 : 0,
-      );
-    } else {
-      setTimeout(go, content ? 200 : 0);
-    }
+    setTimeout(
+      function () {
+        window.location.href = href;
+      },
+      content ? 200 : 0,
+    );
   });
 })();
 
