@@ -2,6 +2,13 @@
 const rootPrefix = '../';
 const pageTitle = 'Docs';
 const pageDescription = 'AirLink Panel documentation.';
+
+const sections = {};
+(docPages || []).forEach(function(doc) {
+  var s = doc.section || 'General';
+  if (!sections[s]) sections[s] = [];
+  sections[s].push(doc);
+});
 %>
 <%- include('./partials/head', { site, underConstruction, rootPrefix, pageTitle, pageDescription }) %>
 <%- include('./partials/nav', { site, underConstruction, rootPrefix, docPages, pageTitle }) %>
@@ -51,6 +58,23 @@ const pageDescription = 'AirLink Panel documentation.';
     margin: 0 0 10px;
   }
 
+  .docs-search {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 12px;
+    font-family: var(--font-mono);
+    background: var(--color-bg-2);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    color: var(--color-text-1);
+    outline: none;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+  }
+
+  .docs-search::placeholder { color: var(--color-text-4); }
+  .docs-search:focus { border-color: var(--color-text-3); }
+
   .docs-sidebar-link {
     display: flex;
     align-items: flex-start;
@@ -96,12 +120,71 @@ const pageDescription = 'AirLink Panel documentation.';
     flex: 1;
     min-width: 0;
   }
+
+  .docs-section-group {
+    margin-bottom: clamp(32px,4vw,56px);
+  }
+
+  .docs-section-title {
+    font-size: clamp(14px,2vw,18px);
+    font-weight: 600;
+    color: var(--color-text-1);
+    letter-spacing: -0.02em;
+    margin: 0 0 clamp(12px,1.5vw,20px);
+    padding: 8px 14px;
+    background: var(--color-bg-2);
+    border-radius: 8px;
+    border-left: 3px solid var(--color-text-3);
+  }
+
+  .docs-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: clamp(10px,1.5vw,16px);
+  }
+
+  .docs-card {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 18px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    text-decoration: none;
+    transition: border-color 200ms, box-shadow 200ms;
+  }
+
+  .docs-card:hover {
+    border-color: var(--color-text-3);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .docs-card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-1);
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .docs-card-desc {
+    font-size: 12px;
+    color: var(--color-text-3);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 859px) {
+    .docs-card-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 
 <div class="docs-layout">
 
   <% if (docPages && docPages.length) { %>
   <aside class="docs-sidebar">
+    <input type="text" id="docs-search" placeholder="Search docs..." class="docs-search">
     <p class="docs-sidebar-label">Documentation</p>
     <% docPages.forEach(function(doc) { %>
     <a href="<%= rootPrefix %>docs/<%= doc.slug %>/" class="docs-sidebar-link">
@@ -123,21 +206,19 @@ const pageDescription = 'AirLink Panel documentation.';
     </div>
 
     <% if (docPages && docPages.length) { %>
-    <div>
-      <% docPages.forEach(function(doc) { %>
-      <a href="<%= rootPrefix %>docs/<%= doc.slug %>/"
-        style="display:flex;align-items:flex-start;justify-content:space-between;gap:24px;padding:18px 0;border-bottom:1px solid var(--color-border);text-decoration:none;transition:padding-left 150ms;"
-        onmouseover="this.style.paddingLeft='8px'" onmouseout="this.style.paddingLeft='0'">
-        <div style="flex:1;min-width:0;">
-          <h2 style="font-size:14px;font-weight:600;color:var(--color-text-1);letter-spacing:-0.01em;margin:0 0 4px;"><%= doc.title %></h2>
-          <% if (doc.description) { %>
-          <p style="font-size:12px;color:var(--color-text-3);margin:0;line-height:1.5;"><%= doc.description %></p>
-          <% } %>
+      <% Object.entries(sections).forEach(function([section, docs]) { %>
+      <div class="docs-section-group">
+        <h2 class="docs-section-title"><%= section %></h2>
+        <div class="docs-card-grid">
+          <% docs.forEach(function(doc) { %>
+          <a href="<%= rootPrefix %>docs/<%= doc.slug %>/" class="docs-card">
+            <h3 class="docs-card-title"><%= doc.title %></h3>
+            <% if (doc.description) { %><p class="docs-card-desc"><%= doc.description %></p><% } %>
+          </a>
+          <% }) %>
         </div>
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--color-text-4);flex-shrink:0;margin-top:2px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
+      </div>
       <% }) %>
-    </div>
     <% } else { %>
     <p style="font-size:13px;font-family:var(--font-mono);color:var(--color-text-3);">No doc pages yet.</p>
     <% } %>

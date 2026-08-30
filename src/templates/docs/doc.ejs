@@ -51,6 +51,23 @@ const pageDescription = currentDoc.description || site.description;
     margin: 0 0 10px;
   }
 
+  .docs-search {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 12px;
+    font-family: var(--font-mono);
+    background: var(--color-bg-2);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    color: var(--color-text-1);
+    outline: none;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+  }
+
+  .docs-search::placeholder { color: var(--color-text-4); }
+  .docs-search:focus { border-color: var(--color-text-3); }
+
   .doc-sidebar-link {
     display: flex;
     align-items: flex-start;
@@ -80,7 +97,7 @@ const pageDescription = currentDoc.description || site.description;
   }
 
   .doc-sidebar-link--active .bar {
-    background: var(--color-text-1);
+    background: var(--color-accent, var(--color-text-1));
   }
 
   .doc-sidebar-link .title {
@@ -110,11 +127,99 @@ const pageDescription = currentDoc.description || site.description;
     flex: 1;
     min-width: 0;
   }
+
+  .doc-toc {
+    display: none;
+    width: 180px;
+    flex-shrink: 0;
+    position: sticky;
+    top: clamp(80px,8vw,120px);
+    align-self: flex-start;
+    padding-left: 16px;
+    border-left: 1px solid var(--color-border);
+  }
+
+  @media (min-width: 1100px) {
+    .doc-toc { display: block; }
+  }
+
+  .doc-toc-label {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--color-text-4);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 10px;
+  }
+
+  .doc-toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .doc-toc-item {
+    margin: 0;
+  }
+
+  .doc-toc-item a {
+    display: block;
+    font-size: 12px;
+    color: var(--color-text-3);
+    text-decoration: none;
+    padding: 3px 0;
+    line-height: 1.4;
+    transition: color 120ms;
+  }
+
+  .doc-toc-item a:hover {
+    color: var(--color-text-1);
+  }
+
+  .doc-toc-level-3 { padding-left: 12px; }
+  .doc-toc-level-4 { padding-left: 24px; }
+
+  .doc-toc-level-3 a,
+  .doc-toc-level-4 a {
+    font-size: 11px;
+  }
+
+  .back-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-2);
+    color: var(--color-text-3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms, color 200ms;
+    z-index: 100;
+  }
+
+  .back-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .back-to-top:hover {
+    color: var(--color-text-1);
+  }
+
+  html { scroll-behavior: smooth; }
 </style>
 
 <div class="doc-layout">
 
   <aside class="doc-sidebar">
+    <input type="text" id="docs-search" placeholder="Search docs..." class="docs-search">
     <p class="doc-sidebar-label">Documentation</p>
     <% docPages.forEach(function(doc) { %>
     <a href="<%= rootPrefix %>docs/<%= doc.slug %>/"
@@ -139,7 +244,9 @@ const pageDescription = currentDoc.description || site.description;
         Docs
       </a>
 
-      <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 10px;">Documentation</p>
+      <% if (currentDoc.section) { %>
+      <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-4);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 6px;"><%= currentDoc.section %></p>
+      <% } %>
       <h1 style="font-size:clamp(22px,3.5vw,36px);font-weight:600;color:var(--color-text-1);letter-spacing:-0.03em;margin:0 0 12px;"><%= currentDoc.title %></h1>
       <% if (currentDoc.description) { %>
       <p style="font-size:14px;color:var(--color-text-3);line-height:1.65;margin:0 0 12px;"><%= currentDoc.description %></p>
@@ -188,7 +295,24 @@ const pageDescription = currentDoc.description || site.description;
 
   </main>
 
+  <% if (currentDoc.headings && currentDoc.headings.length > 0) { %>
+  <aside class="doc-toc">
+    <p class="doc-toc-label">On this page</p>
+    <ul class="doc-toc-list">
+      <% currentDoc.headings.forEach(function(h) { %>
+      <li class="doc-toc-item doc-toc-level-<%= h.level %>">
+        <a href="#<%= h.id %>"><%= h.text %></a>
+      </li>
+      <% }) %>
+    </ul>
+  </aside>
+  <% } %>
+
 </div>
+
+<button class="back-to-top" id="back-to-top" aria-label="Back to top">
+  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
 
 <script src="<%= rootPrefix %>public/js/main.js"></script>
 </body>
