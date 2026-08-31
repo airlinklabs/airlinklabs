@@ -242,7 +242,7 @@ dd {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 7px 16px;
   font-size: 13px;
   font-weight: 500;
@@ -266,7 +266,7 @@ dd {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 7px 16px;
   font-size: 13px;
   font-weight: 500;
@@ -377,8 +377,8 @@ dd {
 
 /* ── Focus ring — universal ────────────────────────────────────────────────── */
 :where(button, a, input, select, textarea):focus-visible {
-  outline: 2px solid var(--color-text-3);
-  outline-offset: 2px;
+  outline: 2px solid var(--color-text-1);
+  outline-offset: 3px;
 }
 
 /* ── Modal / overlay system ────────────────────────────────────────────────── */
@@ -1518,7 +1518,7 @@ a:active {
   flex-direction: column;
   padding: 18px;
   border: 1px solid var(--color-border);
-  border-radius: 12px;
+  border-radius: 8px;
   background: var(--color-bg-2);
   text-decoration: none;
   transition:
@@ -2039,7 +2039,7 @@ img[loading="lazy"][style*="display:none"] {
   padding: 16px;
   background: var(--color-bg-3);
   border: 1px solid var(--color-border);
-  border-radius: 12px;
+  border-radius: 8px;
   text-decoration: none;
   color: var(--color-text-1);
   transition:
@@ -2300,18 +2300,6 @@ img[loading="lazy"][style*="display:none"] {
   background: var(--color-text-1);
   color: var(--color-bg);
 }
-html {
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-text-4) var(--color-bg);
-}
-html::-webkit-scrollbar {
-  width: 10px;
-}
-html::-webkit-scrollbar-thumb {
-  background: var(--color-text-4);
-  border: 3px solid var(--color-bg);
-  border-radius: 10px;
-}
 .docs-shell {
   background: var(--color-bg);
 }
@@ -2319,7 +2307,7 @@ html::-webkit-scrollbar-thumb {
   width: 260px;
   background: var(--color-nav-bg);
   border-right: 2px solid var(--hub-line);
-  border-radius: 0 12px 12px 0;
+  border-radius: 0;
   padding: 12px 10px;
 }
 .site-sidebar-header {
@@ -2500,16 +2488,12 @@ html::-webkit-scrollbar-thumb {
 }
 .hero-bg {
   position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100vw;
-  height: 100%;
+  inset: 0;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.4;
-  filter: blur(6px);
+  opacity: 0.8;
+  filter: blur(8px);
   z-index: 0;
   pointer-events: none;
 }
@@ -2549,7 +2533,7 @@ html::-webkit-scrollbar-thumb {
   justify-content: center;
   padding: 7px 16px;
   border: 1px solid #424242;
-  border-radius: 12px;
+  border-radius: 8px;
   color: #d0d0d0;
   font-size: 13px;
   font-weight: 500;
@@ -2569,7 +2553,7 @@ html::-webkit-scrollbar-thumb {
   padding: 12px 16px;
   background: var(--color-bg-3);
   border: 1px solid var(--color-border);
-  border-radius: 10px;
+  border-radius: 6px;
   font-family: var(--font-mono);
   font-size: 13px;
   color: var(--color-text-1);
@@ -2585,21 +2569,25 @@ html::-webkit-scrollbar-thumb {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 6px 10px;
+  padding: 4px 8px;
   border: none;
-  border-radius: 6px;
-  background: var(--color-bg-hover);
+  border-radius: 4px;
+  background: transparent;
   color: var(--color-text-3);
   font-family: var(--font-mono);
   font-size: 11px;
+  line-height: 1;
   cursor: pointer;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
   transition:
     color 150ms,
     background 150ms;
 }
 .install-code .copy-btn:hover {
   color: var(--color-text-1);
-  background: var(--color-bg-3);
+  background: var(--color-bg-2);
 }
 .install-note {
   margin-top: 12px;
@@ -2627,7 +2615,7 @@ html::-webkit-scrollbar-thumb {
   padding: 18px;
   background: var(--color-bg-2);
   border: 1px solid var(--color-border);
-  border-radius: 16px;
+  border-radius: 10px;
   box-shadow: 0 20px 44px -28px rgba(0, 0, 0, 0.85);
 }
 .hub-system::before {
@@ -2731,6 +2719,10 @@ html::-webkit-scrollbar-thumb {
   align-items: center;
   padding: 20px 4px;
   border-bottom: 1px solid var(--hub-line);
+  transition:
+    padding var(--dur-quick) var(--ease-standard),
+    margin var(--dur-quick) var(--ease-standard),
+    background var(--dur-quick) var(--ease-standard);
 }
 .project-row:hover {
   background: var(--color-bg-2);
@@ -2743,7 +2735,7 @@ html::-webkit-scrollbar-thumb {
   place-items: center;
   width: 42px;
   height: 42px;
-  border-radius: 12px;
+  border-radius: 7px;
   border-width: 0.5px;
   border-style: solid;
   background: var(--color-text-1);
@@ -2794,6 +2786,10 @@ html::-webkit-scrollbar-thumb {
   gap: 18px;
   padding: 18px 4px;
   border-bottom: 1px solid var(--hub-line);
+  transition:
+    padding var(--dur-quick) var(--ease-standard),
+    margin var(--dur-quick) var(--ease-standard),
+    background var(--dur-quick) var(--ease-standard);
 }
 .hub-list-row:hover,
 .docs-list-row:hover {
@@ -2825,6 +2821,9 @@ html::-webkit-scrollbar-thumb {
 .hub-arrow,
 .docs-list-row svg {
   color: var(--color-text-3);
+  transition:
+    color var(--dur-quick) var(--ease-standard),
+    transform var(--dur-quick) var(--ease-standard);
 }
 .hub-list-row:hover .hub-arrow,
 .docs-list-row:hover svg {
@@ -2962,6 +2961,9 @@ html::-webkit-scrollbar-thumb {
     gap: 42px;
     padding: 80px 0 58px;
   }
+  .hero-bg {
+    inset: 0;
+  }
   .hub-system {
     max-width: 480px;
   }
@@ -3018,3 +3020,5 @@ html::-webkit-scrollbar-thumb {
     display: none;
   }
 }
+
+/* ~ https://github.com/thavanish edited this shitty code */

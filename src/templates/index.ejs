@@ -10,35 +10,32 @@
           sidebarLinks: homeSidebarLinks, sidebarSectionLabel: 'Explore' }) %>
           <main class="docs-main">
             <div class="hub-content" id="page-content">
+          <!--  <div class="hero-bg" style="background-image:url('<%= rootPrefix %>public/assets/airlink-hero.png')"
+                  aria-hidden="true"></div> in works -->
               <section class="hub-hero" id="start" data-animate="blur">
-                <div class="hero-bg" style="background-image:url('<%= rootPrefix %>public/assets/airlink-hero.png')"
-                  aria-hidden="true"></div>
                 <div>
-                  <p class="hub-overline">Open-source</p>
-                  <h1>Game server management<br>that actually works.</h1>
-                  <p class="hub-lede">Manage servers across nodes from one panel. The daemon handles containers, files,
-                    and operations on each machine. Self-hosted, no vendor lock.</p>
+                  <p class="hub-overline">Self-hosted · MIT licensed</p>
+                  <h1>Game server management<br>built for operators.</h1>
+                  <p class="hub-lede">Panel lives in your browser. Daemon lives on each node. Install takes minutes,
+                    runs indefinitely, and you own every bit of it.</p>
                   <div class="hub-actions"><a href="#install" class="btn-primary">Install AirLink <svg width="16"
                         height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" viewBox="0 0 24 24">
                         <path d="M12 5v14" />
                         <path d="m19 12-7 7-7-7" />
                       </svg></a><a href="docs/" class="btn-secondary">Read the docs</a></div>
+                      
                 </div>
               </section>
               <section class="hub-section" id="install" data-animate="fade-up">
                 <div class="hub-section-heading">
-                  <h2>Install</h2>
-                  <p>Runs on Ubuntu, Debian, Fedora, RHEL, Arch, and Alpine. Installs Panel, Daemon, Node.js, and
-                    Docker. Interactive TUI guides you through setup.</p>
+                  <h2>One command, everything.</h2>
+                  <p>Runs on Ubuntu, Debian, Fedora, RHEL, Arch, and Alpine. Installs the panel, daemon, Node.js, and
+                    Docker. An interactive TUI walks you through each step.</p>
                 </div>
                 <div class="install-block">
                   <div class="install-code">
                     <code>curl -sSL https://raw.githubusercontent.com/airlinklabs/panel/refs/heads/main/installer.sh | bash</code>
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                      <rect x="9" y="9" width="13" height="13" rx="2" />
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                    </svg></button>
                   </div>
                   <p class="install-note">Or install panel only, daemon only, or just addons. Run with
                     <code>--help</code> for flags.
@@ -164,3 +161,4 @@
             </div>
           </main>
       </div>
+<%# ~ https://github.com/thavanish edited this shitty code %>
