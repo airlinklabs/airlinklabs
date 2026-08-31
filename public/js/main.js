@@ -78,10 +78,18 @@
       localStorage.setItem("theme", t);
     } catch (e) {}
     document.querySelectorAll(".theme-icon-sun").forEach(function (el) {
-      el.style.display = t === "light" ? "" : "none";
+      el.classList.toggle("theme-icon--hidden", t !== "light");
     });
     document.querySelectorAll(".theme-icon-moon").forEach(function (el) {
-      el.style.display = t !== "light" ? "" : "none";
+      el.classList.toggle("theme-icon--hidden", t === "light");
+    });
+    // Update aria-pressed on theme toggle buttons
+    document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
+      btn.setAttribute("aria-pressed", t === "light" ? "true" : "false");
+      btn.setAttribute(
+        "aria-label",
+        t === "light" ? "Switch to dark mode" : "Switch to light mode",
+      );
     });
   }
 
@@ -105,14 +113,24 @@
   function syncMute() {
     var muted = typeof sounds !== "undefined" && sounds.isMuted();
     document.querySelectorAll(".mute-state-on").forEach(function (el) {
-      el.style.display = muted ? "none" : "";
+      el.classList.toggle("mute-icon--hidden", muted);
     });
     document.querySelectorAll(".mute-state-off").forEach(function (el) {
-      el.style.display = muted ? "" : "none";
+      el.classList.toggle("mute-icon--hidden", !muted);
     });
     var btn = document.getElementById("mute-btn");
     if (btn)
       btn.style.color = muted ? "var(--color-text-4)" : "var(--color-text-3)";
+    // Update aria-pressed on all mute buttons
+    document
+      .querySelectorAll("#mute-btn, #mute-btn-mobile")
+      .forEach(function (b) {
+        b.setAttribute("aria-pressed", muted ? "true" : "false");
+        b.setAttribute(
+          "aria-label",
+          muted ? "Unmute sound effects" : "Mute sound effects",
+        );
+      });
   }
 
   syncMute();

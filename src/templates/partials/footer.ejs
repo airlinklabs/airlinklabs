@@ -9,14 +9,14 @@
       .footer-link:hover { color:var(--color-text-1); }
       .footer-col-head { font-size:10px; font-family:var(--font-mono); color:var(--color-text-3); text-transform:uppercase; letter-spacing:0.1em; margin:0 0 12px; }
     </style>
-    <div id="footer-grid">
+    <div id="footer-grid" data-animate-group>
 
       <div>
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
           <img src="<%= rootPrefix %>public/assets/icon.png" alt="AirLink" loading="lazy" style="width:18px;height:18px;border-radius:4px;" onerror="this.style.display='none'">
           <span style="font-size:13px;font-weight:600;color:var(--color-text-1);letter-spacing:-0.01em;"><%= site.title %></span>
         </div>
-        <p style="font-size:12px;color:var(--color-text-3);line-height:1.65;margin:0;max-width:220px;">Open-source game server panel. MIT licensed.</p>
+        <p style="font-size:12px;color:var(--color-text-3);line-height:1.65;margin:0;max-width:220px;text-wrap:pretty;">Open-source game server panel. MIT licensed.</p>
       </div>
 
       <div>
@@ -50,7 +50,7 @@
 
     <div style="border-top:1px solid var(--color-border);padding-top:20px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;">
       <p style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);margin:0;">MIT License · AirlinkLabs</p>
-      <p style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);margin:0;"><%= site.versionLabel %></p>
+      <p style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);margin:0;"><span class="badge"><%= site.versionLabel %></span></p>
     </div>
 
   </div>

@@ -55,8 +55,8 @@
     <% if (typeof sidebarSectionLabel !== 'undefined' && sidebarSectionLabel) { %>
       <div class="site-sidebar-section-label"><%= sidebarSectionLabel %></div>
     <% } %>
-    <% sidebarLinks.forEach(function(link) { %>
-      <a href="<%= link.href %>" class="site-section-link<%= link.active ? ' active' : '' %>" data-search-text="<%= (link.label || '').toLowerCase() %>">
+    <% sidebarLinks.forEach(function(link, i) { %>
+      <a href="<%= link.href %>" class="site-section-link<%= link.active ? ' active' : '' %>" data-search-text="<%= (link.label || '').toLowerCase() %>" data-animate="fade" data-animate-delay="<%= Math.min(i * 40, 400) %>">
         <%= link.label %>
       </a>
     <% }); %>
