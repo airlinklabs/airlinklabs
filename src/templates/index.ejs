@@ -1,8 +1,8 @@
 <% const rootPrefix='' ; const pageTitle=null; const
   pageDescription='AirLink - open-source game server management. Panel and Daemon, install and run in minutes.' ; var
   homeSidebarLinks=[ { label: 'Start here' , href: '#start' , active: false }, { label: 'Install' , href: '#install' ,
-  active: false }, { label: 'Projects' , href: '#projects' , active: false }, { label: 'Documentation' ,
-  href: '#documentation' , active: false }, { label: 'Latest updates' , href: '#updates' , active: false } ]; var
+  active: false }, { label: 'Projects' , href: '#projects' , active: false }, { label: 'History' ,
+  href: '#history' , active: false }, { label: 'Contributors' , href: '#contributors' , active: false } ]; var
   latestDocs=(docPages || []).slice(0, 5); var latestPosts=(announcements || []).slice(0, 4); %>
   <%- include('./partials/head', { site, underConstruction, rootPrefix, pageTitle, pageDescription }) %>
     <%- include('./partials/nav', { site, underConstruction, rootPrefix, docPages, pageTitle }) %>
@@ -86,79 +86,26 @@
                       </svg></span>
                   </a></div>
               </section>
-              <section class="hub-section" id="documentation" data-animate="fade-up">
-                <div class="hub-section-heading hub-section-heading--split">
-                  <div>
-                    <h2>Documentation</h2>
-                    <p>Setup, configuration, API reference, architecture.</p>
-                  </div><a class="text-link" href="docs/">All docs <svg width="16" height="16" fill="none"
-                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                      viewBox="0 0 24 24">
-                      <path d="M5 12h14" />
-                      <path d="m12 5 7 7-7 7" />
-                    </svg></a>
+              <section class="hub-section" id="history" data-animate="fade-up">
+                <div class="hub-section-heading">
+                  <h2>History</h2>
+                  <p>Recent commits across panel and daemon.</p>
                 </div>
-                <div class="hub-list" data-animate-group>
-                  <% latestDocs.forEach(function(doc) { %><a href="docs/<%= doc.slug %>/" class="hub-list-row">
-                      <div>
-                        <p class="hub-list-title">
-                          <%= doc.title %>
-                        </p>
-                        <p class="hub-list-description">
-                          <%= doc.description %>
-                        </p>
-                      </div><span class="hub-list-meta">
-                        <%= doc.section %>
-                      </span><span class="hub-arrow" aria-hidden="true"><svg width="16" height="16" fill="none"
-                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                          viewBox="0 0 24 24">
-                          <path d="M5 12h14" />
-                          <path d="m12 5 7 7-7 7" />
-                        </svg></span>
-                    </a>
-                    <% }); %>
+                <div class="hub-list" id="commit-list" data-animate-group>
+                  <p class="hub-empty">Loading commits...</p>
                 </div>
               </section>
-              <section class="hub-section" id="updates" data-animate="fade-up">
-                <div class="hub-section-heading hub-section-heading--split">
-                  <div>
-                    <h2>Blog</h2>
-                    <p>Release notes, guides, and progress.</p>
-                  </div><a class="text-link" href="blog/">All posts <svg width="16" height="16" fill="none"
-                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                      viewBox="0 0 24 24">
-                      <path d="M5 12h14" />
-                      <path d="m12 5 7 7-7 7" />
-                    </svg></a>
+              <section class="hub-section" id="contributors" data-animate="fade-up">
+                <div class="hub-section-heading">
+                  <h2>Contributors</h2>
+                  <p>People who built AirLink.</p>
                 </div>
-                <% if (latestPosts.length) { %>
-                  <div class="hub-list" data-animate-group>
-                    <% latestPosts.forEach(function(post) { var postDate=post.date ? new
-                      Date(post.date).toLocaleDateString('en-US', { month: 'short' , day: 'numeric' , year: 'numeric' })
-                      : '' ; %><a href="blog/<%= post.slug %>/" class="hub-list-row">
-                        <div>
-                          <p class="hub-list-title">
-                            <%= post.title %>
-                          </p>
-                          <p class="hub-list-description">
-                            <%= post.author || 'AirlinkLabs' %>
-                          </p>
-                        </div><span class="hub-list-meta">
-                          <%= postDate %>
-                        </span><span class="hub-arrow" aria-hidden="true"><svg width="16" height="16" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            viewBox="0 0 24 24">
-                            <path d="M5 12h14" />
-                            <path d="m12 5 7 7-7 7" />
-                          </svg></span>
-                      </a>
-                      <% }); %>
-                  </div>
-                  <% } else { %>
-                    <p class="hub-empty">No posts yet. Watch the repos for updates.</p>
-                    <% } %>
+                <div class="contrib-grid" id="contrib-grid">
+                  <p class="hub-empty">Loading contributors...</p>
+                </div>
               </section>
             </div>
           </main>
       </div>
+<script src="<%= rootPrefix %>public/js/github-db.js"></script>
 <%# ~ https://github.com/thavanish edited this shitty code %>

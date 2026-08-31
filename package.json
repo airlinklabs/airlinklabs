@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "tsx src/scripts/build.ts && npm run tw",
+    "build": "npm run cache && tsx src/scripts/build.ts && npm run tw",
     "tw": "npx @tailwindcss/cli -i src/input.css -o dist/public/css/styles.css --minify",
     "tw:watch": "npx @tailwindcss/cli -i src/input.css -o dist/public/css/styles.css --watch",
     "dev": "tsx src/scripts/dev.ts",
@@ -11,13 +11,16 @@
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.3.1",
+    "better-sqlite3": "^13.0.3",
     "ejs": "^3.1.10",
     "front-matter": "^4.0.2",
     "fs-extra": "^11.3.0",
     "marked": "^18.0.5",
+    "sql.js": "^1.14.2",
     "tailwindcss": "^4.3.1"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
     "@types/ejs": "^3.1.5",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.15.3",

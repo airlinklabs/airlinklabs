@@ -1,11 +1,13 @@
 import fs from "fs-extra";
 import path from "path";
 import { fileURLToPath } from "url";
+import Database from "better-sqlite3";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "../../");
 const CACHE_DIR = path.join(ROOT, "data", "github-cache");
 const CACHE_FILE = path.join(CACHE_DIR, "cache.xml");
+const DB_FILE = path.join(ROOT, "public", "assets", "github.db");
 
 const GH_TOKEN = process.env.GH_TOKEN || "";
 const PANEL_REPO = process.env.PANEL_REPO || "AirlinkLabs/panel";
@@ -361,8 +363,91 @@ async function run() {
 
   await fs.writeFile(CACHE_FILE, xml, "utf-8");
 
+  // ── Write SQLite db ──────────────────────────────────────────────────────
+  await fs.ensureDir(path.dirname(DB_FILE));
+  const db = new Database(DB_FILE);
+  db.pragma("journal_mode = WAL");
+  db.exec(`
+    DROP TABLE IF EXISTS commits;
+    DROP TABLE IF EXISTS contributors;
+    DROP TABLE IF EXISTS meta;
+    CREATE TABLE commits (
+      sha TEXT PRIMARY KEY,
+      repo TEXT NOT NULL,
+      message TEXT,
+      author_name TEXT,
+      author_date TEXT,
+      author_avatar TEXT,
+      html_url TEXT
+    );
+    CREATE TABLE contributors (
+      login TEXT PRIMARY KEY,
+      name TEXT,
+      avatar_url TEXT,
+      html_url TEXT,
+      contributions INTEGER DEFAULT 0,
+      bio TEXT,
+      company TEXT
+    );
+    CREATE TABLE meta (
+      key TEXT PRIMARY KEY,
+      value TEXT
+    );
+  `);
+
+  const insertCommit = db.prepare(
+    "INSERT OR REPLACE INTO commits (sha, repo, message, author_name, author_date, author_avatar, html_url) VALUES (?, ?, ?, ?, ?, ?, ?)",
+  );
+  const insertContrib = db.prepare(
+    "INSERT OR REPLACE INTO contributors (login, name, avatar_url, html_url, contributions, bio, company) VALUES (?, ?, ?, ?, ?, ?, ?)",
+  );
+  const insertMeta = db.prepare(
+    "INSERT OR REPLACE INTO meta (key, value) VALUES (?, ?)",
+  );
+
+  const writeCommitsTx = db.transaction(
+    (repo: string, commits: Record<string, unknown>[]) => {
+      for (const raw of commits) {
+        const commit = raw["commit"] as Record<string, unknown>;
+        const author = commit["author"] as Record<string, unknown>;
+        const ghAuthor = raw["author"] as Record<string, unknown> | null;
+        insertCommit.run(
+          String(raw["sha"] || ""),
+          repo,
+          String(commit?.["message"] || ""),
+          String(author?.["name"] || ""),
+          String(author?.["date"] || ""),
+          String(ghAuthor?.["avatar_url"] || ""),
+          String(raw["html_url"] || ""),
+        );
+      }
+    },
+  );
+
+  writeCommitsTx("panel", (panelCommits as Record<string, unknown>[]) || []);
+  writeCommitsTx("daemon", (daemonCommits as Record<string, unknown>[]) || []);
+
+  for (const c of contributors) {
+    insertContrib.run(
+      c.login,
+      c.name,
+      c.avatar_url,
+      c.html_url,
+      c.contributions,
+      c.bio,
+      c.company,
+    );
+  }
+
+  insertMeta.run("generatedAt", new Date().toISOString());
+  insertMeta.run("totalStars", String(panelStars + daemonStars));
+  insertMeta.run("totalForks", String(panelForks + daemonForks));
+  insertMeta.run("totalContributors", String(contributors.length));
+
+  db.close();
+
   const summary = `stars:${panelStars + daemonStars} forks:${panelForks + daemonForks} issues:${panelIssues + daemonIssues} contributors:${contributors.length} addons:${addons.length}`;
-  console.log(`\nWrote cache.xml — ${summary}`);
+  console.log(`\nWrote cache.xml + github.db — ${summary}`);
   await fs.writeFile(path.join(CACHE_DIR, "summary.txt"), summary, "utf-8");
 }
 
