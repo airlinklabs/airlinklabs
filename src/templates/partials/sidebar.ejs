@@ -36,8 +36,19 @@
 
   </nav>
 
-  <!-- Page-specific section links (passed as sidebarLinks array) -->
-  <% if (typeof sidebarLinks !== 'undefined' && sidebarLinks && sidebarLinks.length) { %>
+  <!-- Page-specific section links OR doc TOC -->
+  <% if (typeof docHeadings !== 'undefined' && docHeadings && docHeadings.length) { %>
+  <!-- Doc TOC — shown when viewing a specific doc page -->
+  <div class="site-sidebar-divider"></div>
+  <nav class="site-sidebar-section">
+    <div class="site-sidebar-section-label">On this page</div>
+    <% docHeadings.forEach(function(h, i) { %>
+      <a href="#<%= h.id %>" class="site-section-link toc-h<%= h.level %>" data-toc-id="<%= h.id %>" data-animate="fade" data-animate-delay="<%= Math.min(i * 40, 400) %>">
+        <%= h.text %>
+      </a>
+    <% }); %>
+  </nav>
+  <% } else if (typeof sidebarLinks !== 'undefined' && sidebarLinks && sidebarLinks.length) { %>
   <div class="site-sidebar-divider"></div>
   <nav class="site-sidebar-section">
     <% if (typeof sidebarSectionLabel !== 'undefined' && sidebarSectionLabel) { %>

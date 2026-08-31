@@ -30,7 +30,7 @@
 %>
 
 <div class="docs-shell">
-  <%- include('../partials/sidebar', { rootPrefix: rootPrefix, currentPage: 'docs', sidebarLinks: sidebarLinks, sidebarSectionLabel: 'Documentation' }) %>
+  <%- include('../partials/sidebar', { rootPrefix: rootPrefix, currentPage: 'docs', sidebarLinks: sidebarLinks, sidebarSectionLabel: 'Documentation', docHeadings: currentDoc.headings || [] }) %>
 
   <!-- Main content -->
   <main class="docs-main">
@@ -81,29 +81,13 @@
       </div>
     </div>
   </main>
-
-  <!-- TOC (right sidebar) -->
-  <% if (currentDoc.headings && currentDoc.headings.length > 0) { %>
-  <aside class="doc-toc" id="doc-toc">
-    <div class="doc-toc-title">On this page</div>
-    <% currentDoc.headings.forEach(function(h) { %>
-      <a href="#<%= h.id %>" class="doc-toc-link toc-h<%= h.level %>" data-toc-id="<%= h.id %>"><%= h.text %></a>
-    <% }); %>
-  </aside>
-  <% } %>
-
-  <!-- Back to top -->
-  <button class="doc-back-top" id="doc-back-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
-  </button>
 </div>
 
 <script>
-// ── Scroll-spy: highlight active TOC link ────────────────────────────────
+// ── Scroll-spy: highlight active TOC link in sidebar ──────────────────────
 (function () {
-  var toc = document.getElementById('doc-toc');
-  if (!toc) return;
-  var tocLinks = toc.querySelectorAll('.doc-toc-link');
+  var tocLinks = document.querySelectorAll('.site-section-link[data-toc-id]');
+  if (!tocLinks.length) return;
   var ids = Array.from(tocLinks).map(function (l) { return l.dataset.tocId; });
   var targets = ids.map(function (id) { return document.getElementById(id); }).filter(Boolean);
   if (!targets.length) return;
@@ -120,31 +104,6 @@
   }, { rootMargin: '-20% 0px -70% 0px' });
 
   targets.forEach(function (t) { observer.observe(t); });
-})();
-
-// ── Back to top button ──────────────────────────────────────────────────
-(function () {
-  var btn = document.getElementById('doc-back-top');
-  if (!btn) return;
-  window.addEventListener('scroll', function () {
-    btn.classList.toggle('visible', window.scrollY > 300);
-  }, { passive: true });
-})();
-
-// ── Sidebar search ──────────────────────────────────────────────────────
-(function () {
-  var input = document.getElementById('doc-search');
-  var nav = document.getElementById('doc-sidebar-nav');
-  if (!input || !nav) return;
-
-  var links = nav.querySelectorAll('.site-section-link');
-  input.addEventListener('input', function () {
-    var q = input.value.toLowerCase().trim();
-    links.forEach(function (link) {
-      var text = link.dataset.searchText || link.textContent.toLowerCase();
-      link.style.display = (!q || text.includes(q)) ? '' : 'none';
-    });
-  });
 })();
 </script>
 
