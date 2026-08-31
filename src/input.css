@@ -2076,8 +2076,7 @@ img[loading="lazy"][style*="display:none"] {
 }
 
 .docs-content {
-  max-width: 780px;
-  margin: 0 auto;
+  max-width: 100%;
   padding: 40px 48px 80px;
 }
 
