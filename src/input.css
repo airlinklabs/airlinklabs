@@ -58,6 +58,131 @@
   --color-info-bg: rgba(37, 99, 235, 0.08);
 }
 
+/* ── Motion tokens — panel-identical ────────────────────────────────────────── */
+:root {
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+
+  --dur-instant: 80ms;
+  --dur-quick: 150ms;
+  --dur-default: 200ms;
+  --dur-enter: 320ms;
+  --dur-exit: 180ms;
+  --dur-stagger: 40ms;
+}
+
+/* ── data-animate attribute system ─────────────────────────────────────────── */
+[data-animate].will-animate {
+  opacity: 0;
+}
+[data-animate="fade-up"].will-animate {
+  opacity: 0;
+  transform: translateY(12px);
+}
+[data-animate="fade-down"].will-animate {
+  opacity: 0;
+  transform: translateY(-12px);
+}
+[data-animate="slide-left"].will-animate {
+  opacity: 0;
+  transform: translateX(16px);
+}
+[data-animate="scale"].will-animate {
+  opacity: 0;
+  transform: scale(0.96);
+}
+[data-animate="blur"].will-animate {
+  opacity: 0;
+  filter: blur(6px);
+}
+
+[data-animate].motion-visible {
+  animation-duration: var(--dur-enter);
+  animation-timing-function: var(--ease-standard);
+  animation-fill-mode: both;
+}
+[data-animate="fade"].motion-visible {
+  animation-name: motion-fade-in;
+}
+[data-animate="fade-up"].motion-visible {
+  animation-name: motion-slide-up;
+}
+[data-animate="slide-left"].motion-visible {
+  animation-name: motion-slide-left;
+}
+[data-animate="scale"].motion-visible {
+  animation-name: motion-scale-in;
+}
+[data-animate="blur"].motion-visible {
+  animation-name: motion-blur-in;
+}
+
+[data-animate-group].will-animate > * {
+  opacity: 0;
+}
+
+@keyframes motion-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes motion-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes motion-slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes motion-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes motion-blur-in {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-animate].will-animate {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  [data-animate].motion-visible {
+    animation: none !important;
+  }
+}
+
 /* ── Reset & base ──────────────────────────────────────────────────────────── */
 *,
 *::before,
@@ -120,6 +245,233 @@ button {
 code,
 pre {
   font-family: var(--font-mono);
+}
+
+/* ── Typography tightening ─────────────────────────────────────────────────── */
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+p,
+li,
+dd {
+  text-wrap: pretty;
+}
+
+/* ── Buttons — panel-identical semantics ───────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 12px;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  background: var(--color-text-1);
+  color: var(--color-bg);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: opacity var(--dur-quick) var(--ease-standard);
+}
+.btn-primary:hover:not(:disabled) {
+  opacity: 0.86;
+}
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 12px;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  background: var(--color-bg-2);
+  color: var(--color-text-2);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition:
+    background var(--dur-quick) var(--ease-standard),
+    color var(--dur-quick) var(--ease-standard);
+}
+.btn-secondary:hover:not(:disabled) {
+  background: var(--color-bg-hover);
+  color: var(--color-text-1);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 8px;
+  padding: 6px;
+  background: transparent;
+  color: var(--color-text-3);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition:
+    background var(--dur-quick) var(--ease-standard),
+    color var(--dur-quick) var(--ease-standard);
+}
+.btn-ghost:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-text-1);
+}
+
+/* ── Badges ────────────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--color-bg-2);
+  color: var(--color-text-3);
+  border: 1px solid var(--color-border);
+}
+.badge-success {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  border-color: transparent;
+}
+.badge-warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+  border-color: transparent;
+}
+.badge-danger {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  border-color: transparent;
+}
+.badge-info {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+  border-color: transparent;
+}
+
+/* ── Card surface ──────────────────────────────────────────────────────────── */
+.surface {
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+}
+.surface-raised {
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+/* ── Input field ───────────────────────────────────────────────────────────── */
+.input-field {
+  width: 100%;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-family: inherit;
+  background: var(--color-bg-input, var(--color-bg-2));
+  border: 1px solid var(--color-border-input, var(--color-border));
+  color: var(--color-text-1);
+  outline: none;
+  transition:
+    border-color var(--dur-instant) var(--ease-standard),
+    box-shadow var(--dur-instant) var(--ease-standard);
+}
+.input-field::placeholder {
+  color: var(--color-text-4);
+}
+.input-field:focus {
+  border-color: var(--color-text-3);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
+}
+
+/* ── Focus ring — universal ────────────────────────────────────────────────── */
+:where(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid var(--color-text-3);
+  outline-offset: 2px;
+}
+
+/* ── Modal / overlay system ────────────────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-exit) var(--ease-decelerate);
+}
+.overlay.overlay--open {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity var(--dur-enter) var(--ease-standard);
+}
+.modal {
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  max-width: 480px;
+  width: 100%;
+  transform: translateY(10px) scale(0.97);
+  transition: transform var(--dur-enter) cubic-bezier(0.34, 1.1, 0.64, 1);
+}
+.overlay.overlay--open .modal {
+  transform: none;
+}
+
+/* ── Section eyebrow ───────────────────────────────────────────────────────── */
+.section-eyebrow {
+  font-size: 10px;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  color: var(--color-text-4);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ── Empty state ───────────────────────────────────────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--color-text-4);
+}
+.empty-state svg {
+  width: 32px;
+  height: 32px;
+  opacity: 0.4;
+}
+.empty-state p {
+  font-size: 13px;
+}
+
+/* ── Copy button feedback ──────────────────────────────────────────────────── */
+.copy-btn[data-copied="true"] {
+  color: var(--color-success);
 }
 
 /* ── Color transitions — every element gets these cheaply ──────────────────── */

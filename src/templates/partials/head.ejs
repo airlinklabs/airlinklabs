@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title><%= pageTitle ? pageTitle + ' — ' + site.title : site.title + ' — ' + site.description.split('.')[0] %></title>
   <meta name="description" content="<%= pageDescription || site.description %>">
+  <meta name="theme-color" content="#161616" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f5f5f5" media="(prefers-color-scheme: light)">
   <link rel="icon" href="<%= rootPrefix %>public/assets/favicon.ico" type="image/x-icon">
   <link rel="icon" href="<%= rootPrefix %>public/assets/icon.png"   type="image/png" sizes="any">
 
@@ -62,3 +64,4 @@
 <% } %>
 
 <script src="<%= rootPrefix %>public/js/sounds.js"></script>
+<script src="<%= rootPrefix %>public/js/motion.js" defer></script>
