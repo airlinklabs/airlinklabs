@@ -5,7 +5,6 @@ section: "Architecture"
 order: 70
 ---
 
-
 # System Architecture
 
 ## Overview

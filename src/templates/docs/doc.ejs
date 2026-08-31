@@ -1,5 +1,5 @@
-<%- include('../partials/head', { pageTitle: currentDoc.title, pageDescription: currentDoc.description, rootPrefix: '../../../' }) %>
-<%- include('../partials/nav', { pageTitle: currentDoc.title, rootPrefix: '../../../' }) %>
+<%- include('../partials/head', { pageTitle: currentDoc.title, pageDescription: currentDoc.description, rootPrefix: rootPrefix }) %>
+<%- include('../partials/nav', { pageTitle: currentDoc.title, rootPrefix: rootPrefix }) %>
 
 <%
   // Find prev/next docs by order
@@ -23,6 +23,7 @@
         label: doc.title,
         href: rootPrefix + 'docs/' + doc.slug + '/',
         active: doc.slug === currentDoc.slug,
+        section: doc.section,
         searchText: doc.title.toLowerCase() + ' ' + doc.description.toLowerCase()
       });
     });
@@ -106,5 +107,3 @@
   targets.forEach(function (t) { observer.observe(t); });
 })();
 </script>
-
-

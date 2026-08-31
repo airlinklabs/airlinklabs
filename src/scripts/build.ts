@@ -57,6 +57,7 @@ type Announcement = {
   authorGithub: string;
   pinned: boolean;
   content: string;
+  headings: { id: string; text: string; level: number }[];
 };
 
 function titleToSlug(title: string): string {
@@ -640,6 +641,7 @@ async function loadAnnouncements(): Promise<Announcement[]> {
         `../../public/assets/blog/${slug}`,
       );
       let content = await renderMarkdown(bodyWithImages);
+      const headings = extractHeadings(content);
 
       return {
         slug,
@@ -649,6 +651,7 @@ async function loadAnnouncements(): Promise<Announcement[]> {
         authorGithub: parsed.attributes.authorGithub || "",
         pinned: parsed.attributes.pinned === true,
         content,
+        headings,
       };
     }),
   );
@@ -736,7 +739,7 @@ async function build() {
   // docs/index.html
   const docsIndexHtml = await renderTemplate(
     path.join(TEMPLATES, "docs", "index.ejs"),
-    { ...base, rootPrefix: "../../", firstDoc: docPages[0] || null },
+    { ...base, rootPrefix: "../", firstDoc: docPages[0] || null },
   );
   await fs.outputFile(path.join(DIST, "docs", "index.html"), docsIndexHtml);
   console.log("  docs/index.html");
@@ -745,7 +748,7 @@ async function build() {
   for (const doc of docPages) {
     const docHtml = await renderTemplate(
       path.join(TEMPLATES, "docs", "doc.ejs"),
-      { ...base, rootPrefix: "../../../", currentDoc: doc },
+      { ...base, rootPrefix: "../../", currentDoc: doc },
     );
     await fs.outputFile(
       path.join(DIST, "docs", doc.slug, "index.html"),

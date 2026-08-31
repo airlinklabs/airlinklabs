@@ -1,147 +1,59 @@
-<%- include('../partials/head', { pageTitle: 'Documentation', pageDescription: 'Everything you need to set up, configure, and manage your AirLink panel.', rootPrefix: '../../' }) %>
-<%- include('../partials/nav', { pageTitle: 'Documentation', rootPrefix: '../../' }) %>
-
-<%
-  // Build sidebar links grouped by section
-  var sections = {};
-  docPages.forEach(function(doc) {
-    if (!sections[doc.section]) sections[doc.section] = [];
-    sections[doc.section].push(doc);
-  });
-  var sortedSectionNames = Object.keys(sections).sort(function(a, b) {
-    return sections[a][0].order - sections[b][0].order;
-  });
-  var sidebarLinks = [];
-  sortedSectionNames.forEach(function(section) {
-    sections[section].forEach(function(doc) {
-      sidebarLinks.push({
-        label: doc.title,
-        href: rootPrefix + 'docs/' + doc.slug + '/',
-        active: false,
-        searchText: doc.title.toLowerCase() + ' ' + doc.description.toLowerCase()
-      });
-    });
-  });
-
-  // Pick recommended docs: first 4 from earliest sections
-  var recommendedDocs = [];
-  sortedSectionNames.forEach(function(section) {
-    if (recommendedDocs.length >= 4) return;
-    sections[section].forEach(function(doc) {
-      if (recommendedDocs.length < 4) recommendedDocs.push(doc);
-    });
-  });
-%>
-
-<div class="docs-shell">
-  <%- include('../partials/sidebar', { rootPrefix: rootPrefix, currentPage: 'docs', sidebarLinks: sidebarLinks, sidebarSectionLabel: 'Documentation' }) %>
-
-  <main class="docs-main">
-    <div class="docs-content" id="page-content">
-      <div class="doc-header" data-animate="fade-up">
-        <h1 class="doc-title" style="font-size:32px;margin-bottom:4px;">Documentation</h1>
-        <p class="doc-desc">Everything you need to set up, configure, and manage your AirLink panel.</p>
+<%- include('../partials/head', { site, underConstruction, pageTitle: 'Documentation' ,
+  pageDescription: 'Guides and reference for the AirLink community.' , rootPrefix: rootPrefix }) %>
+  <%- include('../partials/nav', { site, underConstruction, pageTitle: 'Documentation' , rootPrefix: rootPrefix,
+    docPages: docPages }) %>
+    <% var sections={}; docPages.forEach(function(doc) { (sections[doc.section] ||=[]).push(doc); }); var
+      names=Object.keys(sections).sort(function(a,b) { return sections[a][0].order - sections[b][0].order; }); var
+      sidebarLinks=docPages.map(function(doc) { return { label: doc.title, href: rootPrefix + 'docs/' + doc.slug + '/' ,
+      active: false, section: doc.section }; }); %>
+      <div class="docs-shell"><%- include('../partials/sidebar', { rootPrefix: rootPrefix, currentPage: 'docs' ,
+          sidebarLinks: sidebarLinks, sidebarSectionLabel: 'Documentation' }) %>
+          <main class="docs-main">
+            <div class="docs-content docs-index" id="page-content">
+              <header class="docs-index-header" data-animate="fade-up">
+                <h1>Documentation</h1>
+                <p>Practical guides and reference material for running and contributing to AirLink.</p><label
+                  class="docs-search"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"
+                    viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="m20 20-3.5-3.5" />
+                  </svg><input type="search" id="docs-search-input" placeholder="Search documentation"
+                    autocomplete="off"><kbd id="search-kbd">Ctrl K</kbd></label>
+              </header>
+              <div id="docs-list">
+                <% names.forEach(function(section) { %>
+                  <section class="docs-group">
+                    <h2>
+                      <%= section %>
+                    </h2>
+                    <div class="docs-list">
+                      <% sections[section].forEach(function(doc) { %><a href="<%= rootPrefix %>docs/<%= doc.slug %>/"
+                          class="docs-list-row"
+                          data-search-text="<%= (doc.title + ' ' + doc.description + ' ' + doc.section).toLowerCase() %>">
+                          <div>
+                            <p>
+                              <%= doc.title %>
+                            </p><span>
+                              <%= doc.description %>
+                            </span>
+                          </div><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"
+                            viewBox="0 0 24 24">
+                            <path d="M5 12h14m-6-6 6 6-6 6" />
+                          </svg>
+                        </a>
+                        <% }); %>
+                    </div>
+                  </section>
+                  <% }); %>
+              </div>
+              <div id="docs-search-no-results" class="empty-state" style="display:none"><svg width="32" height="32"
+                  fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="m20 20-3.5-3.5" />
+                </svg>
+                <p>No results found. Try a different search term.</p>
+              </div>
+            </div>
+          </main>
       </div>
-
-      <!-- Search bar -->
-      <div style="margin-bottom:clamp(20px,3vw,32px);position:relative;">
-        <input type="text" id="docs-search-input" class="input-field" placeholder="Search docs..."
-          style="width:100%;padding-left:36px;">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
-          style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--color-text-3);pointer-events:none;">
-          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-        </svg>
-      </div>
-
-      <!-- Recommended -->
-      <% if (recommendedDocs.length) { %>
-        <div style="margin-bottom:clamp(20px,3vw,36px);">
-          <p class="section-eyebrow" style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 12px;display:flex;align-items:center;gap:7px;">
-            <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-            Recommended
-          </p>
-          <div data-animate-group style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:12px;">
-            <% recommendedDocs.forEach(function(doc) { %>
-              <a href="<%= rootPrefix %>docs/<%= doc.slug %>/" class="blog-card docs-card"
-                data-search-text="<%= doc.title %> <%= doc.description %> <%= doc.section %>">
-                <p class="post-title"><%= doc.title %></p>
-                <div style="display:flex;align-items:center;gap:8px;margin-top:auto;">
-                  <% if (doc.author) { %>
-                    <span style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);"><%= doc.author %></span>
-                  <% } else { %>
-                    <span style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);">AirlinkLabs</span>
-                  <% } %>
-                  <span style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-4);">· <%= doc.section %></span>
-                </div>
-              </a>
-            <% }); %>
-          </div>
-        </div>
-      <% } %>
-
-      <!-- All docs grouped by section -->
-      <% sortedSectionNames.forEach(function(section) { %>
-        <div>
-          <p class="docs-section-heading section-eyebrow" style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 12px;display:flex;align-items:center;gap:7px;"><%= section %></p>
-          <div class="docs-card-grid" data-animate-group style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:12px;">
-            <% sections[section].forEach(function(doc) { %>
-              <a href="<%= rootPrefix %>docs/<%= doc.slug %>/" class="blog-card docs-card"
-                data-search-text="<%= doc.title %> <%= doc.description %> <%= doc.section %>">
-                <p class="post-title"><%= doc.title %></p>
-                <div style="display:flex;align-items:center;gap:8px;margin-top:auto;">
-                  <% if (doc.author) { %>
-                    <span style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);"><%= doc.author %></span>
-                  <% } else { %>
-                    <span style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);">AirlinkLabs</span>
-                  <% } %>
-                  <span style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-4);">· <%= doc.section %></span>
-                </div>
-              </a>
-            <% }); %>
-          </div>
-        </div>
-      <% }); %>
-
-    </div>
-  </main>
-</div>
-
-<script>
-// Sidebar search
-(function () {
-  var input = document.getElementById('doc-search');
-  if (!input) return;
-  var links = document.querySelectorAll('.site-section-link');
-  input.addEventListener('input', function () {
-    var q = input.value.toLowerCase().trim();
-    links.forEach(function (link) {
-      var text = link.dataset.searchText || link.textContent.toLowerCase();
-      link.style.display = (!q || text.includes(q)) ? '' : 'none';
-    });
-  });
-})();
-
-// Main search
-(function() {
-  var input = document.getElementById('docs-search-input');
-  if (!input) return;
-  var cards = document.querySelectorAll('.docs-card');
-  input.addEventListener('input', function() {
-    var q = input.value.toLowerCase().trim();
-    cards.forEach(function(card) {
-      var text = (card.dataset.searchText || card.textContent).toLowerCase();
-      card.style.display = (!q || text.includes(q)) ? '' : 'none';
-    });
-    // Also hide section headings if all their cards are hidden
-    document.querySelectorAll('.docs-section-heading').forEach(function(h) {
-      var grid = h.nextElementSibling;
-      if (grid && grid.classList.contains('docs-card-grid')) {
-        var visible = grid.querySelectorAll('.docs-card[style=""],.docs-card:not([style])');
-        h.style.display = (!q || visible.length > 0) ? '' : 'none';
-      }
-    });
-  });
-})();
-</script>
+      <script>(function () { var kbd = document.getElementById('search-kbd'); if (kbd && navigator.platform && /Mac|iPhone|iPad|iPod/.test(navigator.platform)) { kbd.textContent = '⌘ K' } var input = document.getElementById('docs-search-input'); var noResults = document.getElementById('docs-search-no-results'); if (!input) return; input.addEventListener('input', function () { var q = input.value.toLowerCase().trim(); var visibleCount = 0; document.querySelectorAll('.docs-list-row').forEach(function (row) { var visible = !q || row.dataset.searchText.includes(q); row.hidden = !visible; if (visible) visibleCount++ }); document.querySelectorAll('.docs-group').forEach(function (group) { group.hidden = !!q && !group.querySelector('.docs-list-row:not([hidden])') }); if (noResults) { noResults.style.display = visibleCount === 0 && q.length > 0 ? '' : 'none' } }); document.addEventListener('keydown', function (e) { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); input.focus() } }) })();</script>

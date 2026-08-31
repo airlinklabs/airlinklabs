@@ -76,7 +76,7 @@ document.addEventListener("click", function (e) {
   if (!btn) return;
   e.stopPropagation();
 
-  var block = btn.closest(".code-block");
+  var block = btn.closest(".code-block") || btn.closest(".install-code");
   if (!block) return;
 
   var text = Array.from(block.querySelectorAll("code"))
@@ -90,11 +90,9 @@ document.addEventListener("click", function (e) {
     btn.innerHTML =
       '<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Copied';
     btn.style.color = "var(--color-success)";
-    btn.style.borderColor = "var(--color-success)";
     setTimeout(function () {
       btn.innerHTML = orig;
       btn.style.color = "";
-      btn.style.borderColor = "";
     }, 2000);
   });
 });
@@ -134,6 +132,7 @@ document.addEventListener("click", function (e) {
   if (!overlay) return;
 
   var pendingHref = "";
+  var triggerElement = null;
 
   function isExternal(href) {
     try {
@@ -144,19 +143,48 @@ document.addEventListener("click", function (e) {
     }
   }
 
-  function openRedirect(href) {
+  function openRedirect(href, trigger) {
     pendingHref = href;
+    triggerElement = trigger || null;
     try {
       domainEl.textContent = new URL(href).hostname;
     } catch (e) {
       domainEl.textContent = href;
     }
     overlay.classList.add("open");
+    confirmBtn.focus();
   }
 
   function closeRedirect() {
     overlay.classList.remove("open");
     pendingHref = "";
+    if (triggerElement) {
+      triggerElement.focus();
+      triggerElement = null;
+    }
+  }
+
+  function trapFocus(e) {
+    if (!overlay.classList.contains("open")) return;
+    var focusable = overlay.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+    );
+    if (focusable.length === 0) return;
+    var first = focusable[0];
+    var last = focusable[focusable.length - 1];
+    if (e.key === "Tab") {
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
   }
 
   document.addEventListener("click", function (e) {
@@ -165,7 +193,7 @@ document.addEventListener("click", function (e) {
     var href = a.getAttribute("href");
     if (!href || !isExternal(href)) return;
     e.preventDefault();
-    openRedirect(href);
+    openRedirect(href, a);
   });
 
   cancelBtn.addEventListener("click", closeRedirect);
@@ -174,6 +202,7 @@ document.addEventListener("click", function (e) {
     overlay.classList.remove("open");
     if (pendingHref) window.open(pendingHref, "_blank", "noopener,noreferrer");
     pendingHref = "";
+    triggerElement = null;
   });
 
   overlay.addEventListener("click", function (e) {
@@ -184,6 +213,7 @@ document.addEventListener("click", function (e) {
     if (!overlay.classList.contains("open")) return;
     if (e.key === "Escape") closeRedirect();
     if (e.key === "Enter") confirmBtn.click();
+    trapFocus(e);
   });
 })();
 
@@ -248,6 +278,34 @@ document.addEventListener("click", function (e) {
     });
   }
 
+  // Scroll to #start on home page load
+  if (
+    window.location.pathname === "/" ||
+    window.location.pathname === "/index.html"
+  ) {
+    var startEl = document.getElementById("start");
+    if (startEl) {
+      setTimeout(function () {
+        window.scrollTo({ top: startEl.offsetTop - 80, behavior: "instant" });
+      }, 60);
+    }
+  }
+
+  // Smooth scroll with offset for anchor links
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var href = a.getAttribute("href");
+    if (!href || href === "#") return;
+    var target = document.querySelector(href);
+    if (!target) return;
+    e.preventDefault();
+    var offset = 80;
+    var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({ top: top, behavior: "smooth" });
+    history.pushState(null, "", href);
+  });
+
   // Outgoing internal navigation — smooth fade-out then navigate
   document.addEventListener("click", function (e) {
     var a = e.target.closest("a[href]");
@@ -283,14 +341,27 @@ document.addEventListener("click", function (e) {
 (function () {
   var search = document.getElementById("docs-search");
   if (!search) return;
+
+  var noResultsEl = document.getElementById("docs-search-no-results");
+
   search.addEventListener("input", function (e) {
     var q = e.target.value.toLowerCase();
-    document
-      .querySelectorAll(".doc-sidebar-link, .docs-sidebar-link")
-      .forEach(function (el) {
-        var text = el.textContent.toLowerCase();
-        el.style.display = text.includes(q) ? "" : "none";
-      });
+    var links = document.querySelectorAll(
+      ".doc-sidebar-link, .docs-sidebar-link",
+    );
+    var visibleCount = 0;
+
+    links.forEach(function (el) {
+      var text = el.textContent.toLowerCase();
+      var visible = text.includes(q);
+      el.style.display = visible ? "" : "none";
+      if (visible) visibleCount++;
+    });
+
+    if (noResultsEl) {
+      noResultsEl.style.display =
+        visibleCount === 0 && q.length > 0 ? "" : "none";
+    }
   });
 })();
 
@@ -313,8 +384,6 @@ document.addEventListener("click", function (e) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 })();
-
-// ~ https://github.com/thavanish edited this shitty code
 
 // ── Scroll-triggered animations (flow diagrams + counters) ────────────────────
 (function () {
@@ -382,5 +451,51 @@ document.addEventListener("click", function (e) {
 
   targets.forEach(function (el) {
     observer.observe(el);
+  });
+})();
+
+// ── Home page scroll-spy: highlight sidebar section on scroll ─────────────
+(function () {
+  var tocLinks = document.querySelectorAll(".site-section-link[data-toc-id]");
+  if (!tocLinks.length) return;
+  var ids = Array.from(tocLinks).map(function (l) {
+    return l.dataset.tocId;
+  });
+  var targets = ids
+    .map(function (id) {
+      return document.getElementById(id);
+    })
+    .filter(Boolean);
+  if (!targets.length) return;
+
+  var scrollTimeout;
+  var userScrolled = false;
+
+  function onScroll() {
+    userScrolled = true;
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(function () {
+      userScrolled = false;
+    }, 1500);
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var id = entry.target.id;
+          tocLinks.forEach(function (link) {
+            link.classList.toggle("active", link.dataset.tocId === id);
+          });
+        }
+      });
+    },
+    { rootMargin: "-20% 0px -70% 0px" },
+  );
+
+  targets.forEach(function (t) {
+    observer.observe(t);
   });
 })();

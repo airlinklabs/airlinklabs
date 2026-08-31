@@ -127,9 +127,7 @@
       },
       {
         "title": "Run database migrations",
-        "commands": [
-          "npm run migrate:deploy"
-        ]
+        "commands": ["npm run migrate:deploy"]
       },
       {
         "title": "Start with pm2",
@@ -151,16 +149,11 @@
       },
       {
         "title": "Configure environment",
-        "commands": [
-          "cp example.env .env"
-        ]
+        "commands": ["cp example.env .env"]
       },
       {
         "title": "Install dependencies and build",
-        "commands": [
-          "npm install",
-          "npm run build"
-        ]
+        "commands": ["npm install", "npm run build"]
       },
       {
         "title": "Start with pm2",
@@ -197,15 +190,13 @@
         },
         {
           "title": "Clone the addon",
-          "commands": ["git clone --branch modrinth-addon https://github.com/g-flame-oss/airlink-addons.git modrinth-store"]
+          "commands": [
+            "git clone --branch modrinth-addon https://github.com/g-flame-oss/airlink-addons.git modrinth-store"
+          ]
         },
         {
           "title": "Install and build",
-          "commands": [
-            "cd modrinth-store",
-            "npm install",
-            "npm run build"
-          ]
+          "commands": ["cd modrinth-store", "npm install", "npm run build"]
         },
         {
           "title": "Restart the panel",
@@ -239,15 +230,13 @@
         },
         {
           "title": "Clone the addon",
-          "commands": ["git clone --branch parachute https://github.com/g-flame-oss/airlink-addons.git parachute"]
+          "commands": [
+            "git clone --branch parachute https://github.com/g-flame-oss/airlink-addons.git parachute"
+          ]
         },
         {
           "title": "Install and build",
-          "commands": [
-            "cd parachute",
-            "npm install",
-            "npm run build"
-          ]
+          "commands": ["cd parachute", "npm install", "npm run build"]
         },
         {
           "title": "Add environment variables to panel .env",
