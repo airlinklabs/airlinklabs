@@ -210,6 +210,131 @@ var homeSidebarLinks = [
       grid-template-columns: repeat(3, 1fr) !important;
     }
   }
+
+  /* ── Hero ──────────────────────────────────────────────────────── */
+  .hero-badge { display:inline-flex; align-items:center; gap:6px; font-size:11px; font-family:var(--font-mono); color:var(--color-text-3); border:1px solid var(--color-border); background:var(--color-bg-2); padding:3px 11px; border-radius:999px; margin-bottom:clamp(16px,2.5vw,28px); }
+  .hero-badge-dot { width:5px; height:5px; border-radius:50%; background:var(--color-success); flex-shrink:0; }
+  .hero-title { font-size:clamp(36px,6vw,72px); font-weight:700; color:var(--color-text-1); line-height:1.02; letter-spacing:-0.045em; margin:0 0 clamp(12px,2vw,20px); }
+  .hero-desc { font-size:var(--text-secondary); color:var(--color-text-2); line-height:1.65; margin:0 0 clamp(18px,2.5vw,28px); max-width:400px; }
+  .hero-ctas { display:flex; flex-wrap:wrap; gap:9px; margin-bottom:clamp(14px,2vw,22px); }
+  .hero-stats { display:flex; flex-wrap:wrap; gap:8px; padding-top:clamp(14px,2vw,22px); border-top:1px solid var(--color-border); }
+  .hero-stat { display:inline-flex; align-items:center; gap:7px; border:1px solid var(--color-border); background:var(--color-bg-2); border-radius:999px; padding:6px 14px 6px 10px; }
+  .hero-stat-val { font-size:12px; font-weight:600; color:var(--color-text-1); font-family:var(--font-mono); letter-spacing:-0.02em; }
+  .hero-stat-label { font-size:10px; color:var(--color-text-3); font-family:var(--font-mono); }
+  .hero-stat-icon { flex-shrink:0; }
+  .hero-window { border-radius:12px; overflow:hidden; border:1px solid var(--color-border); background:var(--color-bg-2); aspect-ratio:16/10; transition:transform 220ms cubic-bezier(0.4,0,0.2,1),box-shadow 220ms cubic-bezier(0.4,0,0.2,1); }
+  .hero-window:hover { transform:translateY(-3px); box-shadow:0 16px 40px rgba(0,0,0,0.18); }
+  .hero-titlebar { background:var(--color-bg-3); border-bottom:1px solid var(--color-border); padding:9px 12px; display:flex; align-items:center; gap:5px; user-select:none; }
+  .hero-win-title { flex:1; font-size:11px; font-family:var(--font-mono); color:var(--color-text-3); text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding:0 6px; }
+  .hero-img-area { position:relative; width:100%; height:calc(100% - 35px); background:var(--color-bg-3); }
+  .hero-img-area img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top; display:none; transition:opacity 220ms; }
+  .hero-img-ph { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px; color:var(--color-text-4); font-size:11px; font-family:var(--font-mono); text-align:center; }
+  .hero-tray { display:none; background:var(--color-bg-2); overflow-x:auto; scrollbar-width:none; padding:14px 16px; gap:8px; flex-direction:row; align-items:center; justify-content:center; width:100%; box-sizing:border-box; flex-wrap:wrap; }
+
+  /* ── Section headers ───────────────────────────────────────────── */
+  .section-header { margin-bottom:clamp(14px,1.8vw,24px); }
+  .section-title { font-size:clamp(20px,2.8vw,30px); font-weight:700; color:var(--color-text-1); letter-spacing:-0.035em; margin:0; }
+  .section-subtitle { font-size:var(--text-secondary); color:var(--color-text-3); margin:6px 0 0; }
+  .section-bg-alt { background:var(--color-bg-2); }
+
+  /* ── Feature cards ─────────────────────────────────────────────── */
+  .feat-icon-box { width:28px; height:28px; display:flex; align-items:center; justify-content:center; border:1px solid var(--color-border); border-radius:7px; background:var(--color-bg-3); color:var(--color-text-2); flex-shrink:0; margin-top:1px; }
+  .feat-text { flex:1; min-width:0; }
+  .feat-title-row { display:flex; align-items:center; gap:8px; margin-bottom:3px; }
+  .feat-title { font-size:12px; font-weight:600; color:var(--color-text-1); margin:0; letter-spacing:-0.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .feat-badge { font-size:9px; font-family:var(--font-mono); color:var(--color-text-3); background:var(--color-bg-3); border:1px solid var(--color-border); padding:1px 5px; border-radius:4px; flex-shrink:0; }
+  .feat-desc { font-size:11px; color:var(--color-text-3); line-height:1.5; margin:0; }
+  .feat-arrow { color:var(--color-text-4); flex-shrink:0; margin-top:3px; }
+  .feat-sq-icon { color:var(--color-text-2); }
+
+  /* ── Install ───────────────────────────────────────────────────── */
+  .install-cmd { font-size:12px; font-family:var(--font-mono); color:var(--color-text-1); line-height:1.7; display:block; white-space:pre-wrap; word-break:break-all; padding-right:60px; }
+  .wiz-toggle-btn { display:inline-flex; align-items:center; gap:6px; font-size:11px; font-family:var(--font-mono); color:var(--color-text-3); background:transparent; border:1px solid var(--color-border); padding:6px 14px; border-radius:999px; cursor:pointer; }
+  .wiz-toggle-btn:hover { color:var(--color-text-1); border-color:var(--color-border-input); }
+  .wiz-toggle-icon { transition:transform 160ms; }
+  .wiz-link { display:inline-flex; align-items:center; gap:6px; font-size:11px; font-family:var(--font-mono); color:var(--color-text-3); text-decoration:none; }
+  .wiz-link:hover { color:var(--color-text-1); }
+  .wiz-dots { display:flex; gap:6px; margin-bottom:20px; align-items:center; }
+  .wiz-summary { display:none; margin-bottom:16px; padding:12px 14px; background:var(--color-bg-2); border:1px solid var(--color-border); border-radius:10px; }
+  .wiz-card { background:var(--color-bg-2); border:1px solid var(--color-border); border-radius:12px; overflow:hidden; }
+  .wiz-card-header { padding:16px 18px; border-bottom:1px solid var(--color-border); }
+  .wiz-card-label { font-size:10px; font-family:var(--font-mono); color:var(--color-text-3); text-transform:uppercase; letter-spacing:0.08em; margin:0 0 3px; }
+  .wiz-card-title { font-size:15px; font-weight:600; color:var(--color-text-1); letter-spacing:-0.01em; margin:0; }
+  .wiz-card-body { padding:18px; }
+  .wiz-card-footer { padding:14px 18px; border-top:1px solid var(--color-border); display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .wiz-btn-back { font-size:12px; font-family:var(--font-mono); color:var(--color-text-3); background:transparent; border:1px solid var(--color-border); padding:8px 18px; border-radius:999px; cursor:pointer; display:none; }
+  .wiz-btn-back:hover { color:var(--color-text-1); border-color:var(--color-border-input); }
+  .wiz-btn-next { font-size:12px; font-weight:500; font-family:var(--font-mono); color:var(--color-bg); background:var(--color-text-1); border:none; padding:8px 22px; border-radius:999px; cursor:pointer; }
+
+  /* ── Activity ──────────────────────────────────────────────────── */
+  .activity-stats { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:clamp(16px,2vw,24px); }
+  .activity-stat { display:inline-flex; align-items:center; gap:7px; border:1px solid var(--color-border); background:var(--color-bg); border-radius:999px; padding:6px 14px; }
+  .activity-stat-icon { color:var(--color-text-2); flex-shrink:0; }
+  .commit-list { border:1px solid var(--color-border); border-radius:12px; overflow:hidden; }
+  .commit-row { display:flex; align-items:center; gap:10px; padding:10px 14px; border-bottom:1px solid var(--color-border); cursor:pointer; }
+  .commit-row:last-child { border-bottom:none; }
+  .commit-row:hover { background:var(--color-bg-hover); }
+  .commit-avatar { width:20px; height:20px; border-radius:50%; flex-shrink:0; background:var(--color-bg-3); }
+  .commit-msg { flex:1; min-width:0; }
+  .commit-msg p { font-size:12px; color:var(--color-text-1); margin:0; line-height:1.4; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .commit-repo { font-size:10px; font-family:var(--font-mono); color:var(--color-text-3); white-space:nowrap; flex-shrink:0; }
+  .commit-time { font-size:10px; font-family:var(--font-mono); color:var(--color-text-4); white-space:nowrap; flex-shrink:0; }
+  .activity-empty { padding:24px; text-align:center; font-size:11px; font-family:var(--font-mono); color:var(--color-text-3); }
+  .activity-empty code { background:var(--color-bg-3); padding:1px 5px; border-radius:3px; }
+
+  /* ── Team ──────────────────────────────────────────────────────── */
+  .team-section { position:relative; overflow:hidden; }
+  .team-canvas { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+  .team-content { position:relative; z-index:1; }
+  .team-card { display:flex; flex-direction:column; align-items:center; gap:10px; padding:clamp(14px,2vw,22px); border:1px solid var(--color-border); border-radius:12px; background:var(--color-bg-2); cursor:pointer; }
+  .team-card:hover { background:var(--color-bg-hover); border-color:var(--color-border-input); transform:translateY(-2px); }
+  .team-card-avatar { border-radius:10px; border:1px solid var(--color-border); background:var(--color-bg-3); }
+  .team-card-text { text-align:center; width:100%; }
+  .team-card-name { font-size:13px; font-weight:600; color:var(--color-text-1); margin:0 0 2px; letter-spacing:-0.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .team-card-role { font-size:11px; font-family:var(--font-mono); color:var(--color-text-3); margin:0 0 5px; }
+  .team-card-bio { font-size:10px; color:var(--color-text-3); line-height:1.45; margin:0 0 4px; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+  .team-card-meta { display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap; }
+  .team-card-meta span { font-size:10px; font-family:var(--font-mono); color:var(--color-text-4); }
+  .team-others-card { display:flex; flex-direction:column; align-items:center; gap:5px; padding:10px 6px; background:var(--color-bg-2); cursor:pointer; }
+  .team-others-card:hover { background:var(--color-bg-hover); }
+  .team-others-avatar { border-radius:6px; border:1px solid var(--color-border); background:var(--color-bg-3); }
+  .team-others-login { font-size:9px; font-family:var(--font-mono); color:var(--color-text-3); margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; text-align:center; }
+
+  /* ── Modals (shared popup internals) ───────────────────────────── */
+  .modal-header { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:14px; }
+  .modal-header-row { display:flex; align-items:center; gap:9px; }
+  .modal-avatar { border-radius:50%; background:var(--color-bg-3); flex-shrink:0; }
+  .modal-author { font-size:12px; font-weight:600; color:var(--color-text-1); margin:0 0 2px; }
+  .modal-date { font-size:10px; font-family:var(--font-mono); color:var(--color-text-3); margin:0; }
+  .modal-message { font-size:13px; color:var(--color-text-1); line-height:1.6; margin:0 0 14px; overflow-wrap:break-word; word-break:break-word; }
+  .modal-footer { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .modal-sha { font-size:11px; font-family:var(--font-mono); color:var(--color-text-3); background:var(--color-bg-3); border:1px solid var(--color-border); padding:2px 8px; border-radius:5px; }
+  .modal-repo-tag { font-size:10px; font-family:var(--font-mono); color:var(--color-text-4); padding:1px 6px; border:1px solid var(--color-border); border-radius:4px; }
+  .modal-link { font-size:11px; font-family:var(--font-mono); color:var(--color-text-3); text-decoration:none; margin-left:auto; }
+  .modal-link:hover { color:var(--color-text-1); }
+  .modal-close-btn { width:26px; height:26px; display:flex; align-items:center; justify-content:center; border:1px solid var(--color-border); border-radius:8px; color:var(--color-text-3); background:transparent; cursor:pointer; flex-shrink:0; }
+  .modal-close-btn:hover { background:var(--color-bg-hover); }
+
+  /* ── Fullscreen hero ───────────────────────────────────────────── */
+  .fs-titlebar { background:var(--color-bg-3); border-bottom:1px solid var(--color-border); padding:10px 14px; display:flex; align-items:center; gap:6px; user-select:none; }
+  .fs-win-title { flex:1; font-size:11px; font-family:var(--font-mono); color:var(--color-text-3); text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding:0 8px; }
+  .fs-nav-btn { width:24px; height:24px; border-radius:6px; border:1px solid var(--color-border); background:transparent; color:var(--color-text-3); cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .fs-nav-btn:hover { background:var(--color-bg-hover); color:var(--color-text-1); }
+  .fs-img-area { position:relative; aspect-ratio:16/9; background:var(--color-bg-3); overflow:hidden; }
+  .fs-img-area img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top; display:none; }
+  .fs-placeholder { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px; color:var(--color-text-4); font-size:11px; font-family:var(--font-mono); }
+
+  /* ── Feature modal ─────────────────────────────────────────────── */
+  .feat-modal-media { aspect-ratio:16/9; background:var(--color-bg-3); border-radius:14px 14px 0 0; overflow:hidden; position:relative; border-bottom:1px solid var(--color-border); }
+  .feat-modal-media img { width:100%; height:100%; object-fit:cover; object-position:top; display:none; }
+  .feat-modal-ph { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px; color:var(--color-text-4); font-size:11px; font-family:var(--font-mono); }
+  .feat-modal-header { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:14px 18px; border-bottom:1px solid var(--color-border); }
+  .feat-modal-header-inner { display:flex; align-items:center; gap:9px; }
+  .feat-modal-icon { width:26px; height:26px; display:flex; align-items:center; justify-content:center; border:1px solid var(--color-border); border-radius:8px; background:var(--color-bg-3); color:var(--color-text-2); flex-shrink:0; }
+  .feat-modal-title { font-size:14px; font-weight:600; color:var(--color-text-1); letter-spacing:-0.01em; margin:0; }
+  .feat-modal-body { padding:16px 18px; }
+  .feat-modal-desc { font-size:13px; color:var(--color-text-2); line-height:1.7; margin:0 0 8px; }
+  .feat-modal-long { font-size:12px; color:var(--color-text-3); line-height:1.7; margin:0; }
 </style>
 
 <div class="docs-shell">
@@ -225,20 +350,20 @@ var homeSidebarLinks = [
       <div id="hero-grid">
         <div id="hero-left">
 
-          <div style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);border:1px solid var(--color-border);background:var(--color-bg-2);padding:3px 11px;border-radius:999px;margin-bottom:clamp(16px,2.5vw,28px);">
-            <span style="width:5px;height:5px;border-radius:50%;background:var(--color-success);flex-shrink:0;"></span>
+          <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
             Open source &bull; MIT &bull; <%= site.versionLabel %>
           </div>
 
-          <h1 style="font-size:clamp(36px,6vw,72px);font-weight:700;color:var(--color-text-1);line-height:1.02;letter-spacing:-0.045em;margin:0 0 clamp(12px,2vw,20px);">
+          <h1 class="hero-title">
             AirLink.
           </h1>
 
-          <p style="font-size:var(--text-secondary);color:var(--color-text-2);line-height:1.65;margin:0 0 clamp(18px,2.5vw,28px);max-width:400px;">
+          <p class="hero-desc">
             Game servers, served cold. Open-source panel that runs where you tell it to. No vendor lock, no surprises.
           </p>
 
-          <div style="display:flex;flex-wrap:wrap;gap:9px;margin-bottom:clamp(14px,2vw,22px);">
+          <div class="hero-ctas">
             <a href="#spa-install" class="btn-primary">Get started</a>
             <a href="<%= rootPrefix %>docs/" class="btn-secondary">
               <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
@@ -255,64 +380,61 @@ var homeSidebarLinks = [
           </div>
 
           <!-- Stat pills with SVG icons -->
-          <div style="display:flex;flex-wrap:wrap;gap:8px;padding-top:clamp(14px,2vw,22px);border-top:1px solid var(--color-border);">
+          <div class="hero-stats">
 
-            <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg-2);border-radius:999px;padding:6px 14px 6px 10px;">
-              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-warning);flex-shrink:0;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              <span style="font-size:12px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);letter-spacing:-0.02em;"><%= (githubCache.stats&&githubCache.stats.totalStars) ? githubCache.stats.totalStars : '—' %></span>
-              <span style="font-size:10px;color:var(--color-text-3);font-family:var(--font-mono);">stars</span>
+            <div class="hero-stat">
+              <svg class="hero-stat-icon" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-warning);"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <span class="hero-stat-val"><%= (githubCache.stats&&githubCache.stats.totalStars) ? githubCache.stats.totalStars : '—' %></span>
+              <span class="hero-stat-label">stars</span>
             </div>
 
-            <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg-2);border-radius:999px;padding:6px 14px 6px 10px;">
-              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-success);flex-shrink:0;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              <span style="font-size:12px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);letter-spacing:-0.02em;"><%= (githubCache.stats&&githubCache.stats.contributors) ? githubCache.stats.contributors : '—' %></span>
-              <span style="font-size:10px;color:var(--color-text-3);font-family:var(--font-mono);">contributors</span>
+            <div class="hero-stat">
+              <svg class="hero-stat-icon" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-success);"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <span class="hero-stat-val"><%= (githubCache.stats&&githubCache.stats.contributors) ? githubCache.stats.contributors : '—' %></span>
+              <span class="hero-stat-label">contributors</span>
             </div>
 
-            <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg-2);border-radius:999px;padding:6px 14px 6px 10px;">
-              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-text-3);flex-shrink:0;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-              <span style="font-size:12px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);letter-spacing:-0.02em;">2</span>
-              <span style="font-size:10px;color:var(--color-text-3);font-family:var(--font-mono);">repos</span>
+            <div class="hero-stat">
+              <svg class="hero-stat-icon" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-text-3);"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              <span class="hero-stat-val">2</span>
+              <span class="hero-stat-label">repos</span>
             </div>
 
-            <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg-2);border-radius:999px;padding:6px 14px 6px 10px;">
-              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-success);flex-shrink:0;"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
-              <span id="hero-install-count" style="font-size:12px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);letter-spacing:-0.02em;">—</span>
-              <span style="font-size:10px;color:var(--color-text-3);font-family:var(--font-mono);">installs</span>
+            <div class="hero-stat">
+              <svg class="hero-stat-icon" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-success);"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+              <span id="hero-install-count" class="hero-stat-val">—</span>
+              <span class="hero-stat-label">installs</span>
             </div>
 
           </div>
         </div>
 
         <!-- ── Hero window ─────────────────────────────────────────── -->
-        <div id="hero-window"
-          style="border-radius:12px;overflow:hidden;border:1px solid var(--color-border);background:var(--color-bg-2);aspect-ratio:16/10;transition:transform 220ms cubic-bezier(0.4,0,0.2,1),box-shadow 220ms cubic-bezier(0.4,0,0.2,1);"
-          onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 16px 40px rgba(0,0,0,0.18)'"
-          onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
+        <div id="hero-window" class="hero-window">
 
           <!-- Title bar -->
-          <div id="hero-titlebar" style="background:var(--color-bg-3);border-bottom:1px solid var(--color-border);padding:9px 12px;display:flex;align-items:center;gap:5px;user-select:none;">
+          <div id="hero-titlebar" class="hero-titlebar">
             <!-- Traffic lights -->
-            <button id="hw-close"    title="Close"    aria-label="Close window"    style="width:11px;height:11px;border-radius:50%;background:#ff5f57;border:none;cursor:pointer;flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center;" onmouseover="hwBtnHover(this,'close',true)"    onmouseout="hwBtnHover(this,'close',false)"></button>
-            <button id="hw-minimize" title="Minimize" aria-label="Minimize window" style="width:11px;height:11px;border-radius:50%;background:#febc2e;border:none;cursor:pointer;flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center;" onmouseover="hwBtnHover(this,'minimize',true)" onmouseout="hwBtnHover(this,'minimize',false)"></button>
-            <button id="hw-maximize" title="Maximize" aria-label="Maximize window" style="width:11px;height:11px;border-radius:50%;background:#28c840;border:none;cursor:pointer;flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center;" onmouseover="hwBtnHover(this,'maximize',true)" onmouseout="hwBtnHover(this,'maximize',false)"></button>
+            <button id="hw-close"    class="hw-btn hw-btn-close"   title="Close"    aria-label="Close window"></button>
+            <button id="hw-minimize" class="hw-btn hw-btn-minimize" title="Minimize" aria-label="Minimize window"></button>
+            <button id="hw-maximize" class="hw-btn hw-btn-maximize" title="Maximize" aria-label="Maximize window"></button>
 
             <!-- Window title -->
-            <span id="hero-win-title" style="flex:1;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 6px;"></span>
+            <span id="hero-win-title" class="hero-win-title"></span>
           </div>
 
           <!-- Image area -->
-          <div id="hero-img-area" style="position:relative;width:100%;height:calc(100% - 35px);background:var(--color-bg-3);">
-            <img id="hero-img-dark"  src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:none;transition:opacity 220ms cubic-bezier(0.4,0,0.2,1);">
-            <img id="hero-img-light" src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:none;transition:opacity 220ms cubic-bezier(0.4,0,0.2,1);">
-            <div id="hero-img-ph" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--color-text-4);font-size:11px;font-family:var(--font-mono);text-align:center;">
+          <div id="hero-img-area" class="hero-img-area">
+            <img id="hero-img-dark"  src="" alt="" class="">
+            <img id="hero-img-light" src="" alt="" class="">
+            <div id="hero-img-ph" class="hero-img-ph">
               <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="opacity:.3;"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
               <span id="hero-img-ph-label" style="opacity:.4;"></span>
             </div>
           </div>
 
           <!-- Minimize tray — hidden by default, shown when window is minimized -->
-          <div id="hero-tray" style="display:none;background:var(--color-bg-2);overflow-x:auto;scrollbar-width:none;padding:14px 16px;gap:8px;flex-direction:row;align-items:center;justify-content:center;width:100%;box-sizing:border-box;flex-wrap:wrap;">
+          <div id="hero-tray" class="hero-tray">
           </div>
         </div>
       </div>
@@ -321,11 +443,11 @@ var homeSidebarLinks = [
   </section>
 
   <!-- ── Features ──────────────────────────────────────────────── -->
-  <section id="features" class="home-section" style="background:var(--color-bg-2);">
+  <section id="features" class="home-section section-bg-alt">
     <div class="home-content">
 
-      <div style="margin-bottom:clamp(14px,1.8vw,24px);">
-        <h2 style="font-size:clamp(20px,2.8vw,30px);font-weight:700;color:var(--color-text-1);letter-spacing:-0.035em;margin:0;">Everything you get</h2>
+      <div class="section-header">
+        <h2 class="section-title">Everything you get</h2>
       </div>
 
       <%
@@ -356,9 +478,7 @@ var homeSidebarLinks = [
           data-feature-long="<%= f.longDescription %>"
           data-feature-icon="<%= f.icon %>"
           class="<%= isHero ? 'feat-hero' : 'feat-card' %>"
-          tabindex="0" role="button"
-          onmouseover="this.querySelector('.feat-info')?this.querySelector('.feat-info').style.background='var(--color-bg-hover)':this.style.background='var(--color-bg-hover)'"
-          onmouseout="this.querySelector('.feat-info')?this.querySelector('.feat-info').style.background='':this.style.background='var(--color-bg-2)'">
+          tabindex="0" role="button">
 
           <% if (isHero) { %>
           <!-- GIF strip — dark/light variants, placeholder shown when both fail -->
@@ -381,34 +501,34 @@ var homeSidebarLinks = [
           </div>
           <!-- Info row below GIF -->
           <div class="feat-info" style="background:var(--color-bg-2);">
-            <div style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:1px solid var(--color-border);border-radius:7px;background:var(--color-bg-3);color:var(--color-text-2);flex-shrink:0;margin-top:1px;">
+            <div class="feat-icon-box">
               <%- featureIcon(f.icon) %>
             </div>
-            <div style="flex:1;min-width:0;">
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
-                <h3 style="font-size:12px;font-weight:600;color:var(--color-text-1);margin:0;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><%= f.title %></h3>
-                <span style="font-size:9px;font-family:var(--font-mono);color:var(--color-text-3);background:var(--color-bg-3);border:1px solid var(--color-border);padding:1px 5px;border-radius:4px;flex-shrink:0;">core</span>
+            <div class="feat-text">
+              <div class="feat-title-row">
+                <h3 class="feat-title"><%= f.title %></h3>
+                <span class="feat-badge">core</span>
               </div>
-              <p style="font-size:11px;color:var(--color-text-3);line-height:1.5;margin:0;"><%= f.description %></p>
+              <p class="feat-desc"><%= f.description %></p>
             </div>
-            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--color-text-4);flex-shrink:0;margin-top:3px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <svg class="feat-arrow" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </div>
 
           <% } else { %>
           <!-- Normal row card -->
-          <div style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:1px solid var(--color-border);border-radius:7px;background:var(--color-bg-3);color:var(--color-text-2);flex-shrink:0;margin-top:1px;">
+          <div class="feat-icon-box">
             <%- featureIcon(f.icon) %>
           </div>
-          <div style="flex:1;min-width:0;">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
-              <h3 style="font-size:12px;font-weight:600;color:var(--color-text-1);margin:0;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><%= f.title %></h3>
+          <div class="feat-text">
+            <div class="feat-title-row">
+              <h3 class="feat-title"><%= f.title %></h3>
               <% if (f.primary) { %>
-              <span style="font-size:9px;font-family:var(--font-mono);color:var(--color-text-3);background:var(--color-bg-3);border:1px solid var(--color-border);padding:1px 5px;border-radius:4px;flex-shrink:0;">core</span>
+              <span class="feat-badge">core</span>
               <% } %>
             </div>
-            <p style="font-size:11px;color:var(--color-text-3);line-height:1.5;margin:0;"><%= f.description %></p>
+            <p class="feat-desc"><%= f.description %></p>
           </div>
-          <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--color-text-4);flex-shrink:0;margin-top:3px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <svg class="feat-arrow" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           <% } %>
 
         </div>
@@ -425,10 +545,8 @@ var homeSidebarLinks = [
           data-feature-desc="<%= f.description %>"
           data-feature-long="<%= f.longDescription %>"
           data-feature-icon="<%= f.icon %>"
-          tabindex="0" role="button"
-          onmouseover="this.style.background='var(--color-bg-hover)';this.style.borderColor='var(--color-border-input)'"
-          onmouseout="this.style.background='var(--color-bg-2)';this.style.borderColor='var(--color-border)'">
-          <div style="color:var(--color-text-2);"><%- featureIcon(f.icon) %></div>
+          tabindex="0" role="button">
+          <div class="feat-sq-icon"><%- featureIcon(f.icon) %></div>
           <span><%= mobileShortNames[f.id] || f.title %></span>
         </div>
         <% }) %>
@@ -441,15 +559,15 @@ var homeSidebarLinks = [
   <section id="install" class="home-section">
     <div class="home-content">
 
-      <div style="margin-bottom:clamp(16px,2vw,28px);">
-        <h2 style="font-size:clamp(20px,2.8vw,30px);font-weight:700;color:var(--color-text-1);letter-spacing:-0.035em;margin:0;">One command. That's it.</h2>
-        <p style="font-size:var(--text-secondary);color:var(--color-text-3);margin:6px 0 0;">Copy, paste, done. We timed it: faster than making coffee.</p>
+      <div class="section-header">
+        <h2 class="section-title">One command. That's it.</h2>
+        <p class="section-subtitle">Copy, paste, done. We timed it: faster than making coffee.</p>
       </div>
 
       <!-- One-liner command -->
-      <div style="position:relative;background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:12px;padding:16px 18px;margin-bottom:16px;">
-        <code id="install-cmd" style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-1);line-height:1.7;display:block;white-space:pre-wrap;word-break:break-all;padding-right:60px;">bash &lt;(curl -s https://raw.githubusercontent.com/airlinklabs/panel/refs/heads/main/installer.sh)</code>
-        <button id="install-copy" class="copy-btn" style="position:absolute;top:12px;right:12px;font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);background:var(--color-bg-3);border:1px solid var(--color-border);padding:5px 10px;border-radius:6px;display:flex;align-items:center;gap:4px;cursor:pointer;"
+      <div class="surface" style="position:relative;padding:16px 18px;margin-bottom:16px;">
+        <code id="install-cmd" class="install-cmd">bash &lt;(curl -s https://raw.githubusercontent.com/airlinklabs/panel/refs/heads/main/installer.sh)</code>
+        <button id="install-copy" class="copy-btn" style="position:absolute;top:12px;right:12px;"
           onclick="navigator.clipboard.writeText(document.getElementById('install-cmd').textContent).then(function(){document.getElementById('install-copy').textContent='Copied';setTimeout(function(){document.getElementById('install-copy').innerHTML='<svg width=\\'10\\' height=\\'10\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'2\\' viewBox=\\'0 0 24 24\\'><rect x=\\'9\\' y=\\'9\\' width=\\'13\\' height=\\'13\\' rx=\\'2\\'/><path d=\\'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\\'/></svg>Copy'},1500)})">
           <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy
         </button>
@@ -457,14 +575,12 @@ var homeSidebarLinks = [
 
       <!-- Customize toggle -->
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
-        <button id="wiz-toggle" type="button" style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);background:transparent;border:1px solid var(--color-border);padding:6px 14px;border-radius:999px;cursor:pointer;"
-          onmouseover="this.style.color='var(--color-text-1)';this.style.borderColor='var(--color-border-input)'"
-          onmouseout="this.style.color='var(--color-text-3)';this.style.borderColor='var(--color-border)'">
-          <svg id="wiz-toggle-icon" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:transform 160ms;"><path d="M6 9l6 6 6-6"/></svg>
+        <button id="wiz-toggle" type="button" class="wiz-toggle-btn">
+          <svg id="wiz-toggle-icon" class="wiz-toggle-icon" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
           Customize install
         </button>
         <% if (site.ytURL) { %>
-        <a href="<%= site.ytURL %>" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);text-decoration:none;" onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'">
+        <a href="<%= site.ytURL %>" target="_blank" rel="noopener" class="wiz-link">
           <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
           Watch walkthrough
         </a>
@@ -473,25 +589,20 @@ var homeSidebarLinks = [
 
       <!-- Wizard (hidden by default) -->
       <div id="install-panel-wizard" style="display:none;">
-        <div id="wiz-dots" style="display:flex;gap:6px;margin-bottom:20px;align-items:center;"></div>
-        <div id="wiz-summary" style="display:none;margin-bottom:16px;padding:12px 14px;background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:10px;"></div>
-        <div id="wiz-card" style="background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:12px;overflow:hidden;">
-          <div id="wiz-step-header" style="padding:16px 18px;border-bottom:1px solid var(--color-border);">
-            <p id="wiz-step-label" style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.08em;margin:0 0 3px;"></p>
-            <h3 id="wiz-step-title" style="font-size:15px;font-weight:600;color:var(--color-text-1);letter-spacing:-0.01em;margin:0;"></h3>
+        <div id="wiz-dots" class="wiz-dots"></div>
+        <div id="wiz-summary" class="wiz-summary"></div>
+        <div id="wiz-card" class="wiz-card">
+          <div id="wiz-step-header" class="wiz-card-header">
+            <p id="wiz-step-label" class="wiz-card-label"></p>
+            <h3 id="wiz-step-title" class="wiz-card-title"></h3>
           </div>
-          <div id="wiz-step-body" style="padding:18px;"></div>
-          <div style="padding:14px 18px;border-top:1px solid var(--color-border);display:flex;align-items:center;justify-content:space-between;gap:10px;">
-            <button id="wiz-back" type="button"
-              style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-3);background:transparent;border:1px solid var(--color-border);padding:8px 18px;border-radius:999px;cursor:pointer;display:none;"
-              onmouseover="this.style.color='var(--color-text-1)';this.style.borderColor='var(--color-border-input)'"
-              onmouseout="this.style.color='var(--color-text-3)';this.style.borderColor='var(--color-border)'">
+          <div id="wiz-step-body" class="wiz-card-body"></div>
+          <div class="wiz-card-footer">
+            <button id="wiz-back" type="button" class="wiz-btn-back">
               Back
             </button>
             <div></div>
-            <button id="wiz-next" type="button"
-              style="font-size:12px;font-weight:500;font-family:var(--font-mono);color:var(--color-bg);background:var(--color-text-1);border:none;padding:8px 22px;border-radius:999px;cursor:pointer;"
-              onmouseover="this.style.opacity='0.82'" onmouseout="this.style.opacity='1'">
+            <button id="wiz-next" type="button" class="wiz-btn-next">
               Next →
             </button>
           </div>
@@ -502,12 +613,12 @@ var homeSidebarLinks = [
   </section>
 
   <!-- ── Activity ──────────────────────────────────────────────── -->
-  <section id="activity" class="home-section" style="background:var(--color-bg-2);">
+  <section id="activity" class="home-section section-bg-alt">
     <div class="home-content">
 
-      <div style="margin-bottom:clamp(16px,2vw,24px);">
-        <h2 style="font-size:clamp(20px,2.8vw,30px);font-weight:700;color:var(--color-text-1);letter-spacing:-0.035em;margin:0;">We ship code, not promises</h2>
-        <p style="font-size:var(--text-secondary);color:var(--color-text-3);margin:6px 0 0;">Real commits from real humans. No ghost writes.</p>
+      <div class="section-header">
+        <h2 class="section-title">We ship code, not promises</h2>
+        <p class="section-subtitle">Real commits from real humans. No ghost writes.</p>
       </div>
 
       <%
@@ -516,27 +627,27 @@ var homeSidebarLinks = [
       %>
 
       <!-- Stats row -->
-      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:clamp(16px,2vw,24px);">
-        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg);border-radius:999px;padding:6px 14px;">
-          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-text-2);flex-shrink:0;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <span style="font-size:12px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);"><%- _stats.totalStars || '—' %></span>
-          <span style="font-size:10px;color:var(--color-text-3);font-family:var(--font-mono);">stars</span>
+      <div class="activity-stats">
+        <div class="activity-stat">
+          <svg class="activity-stat-icon" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span class="hero-stat-val"><%- _stats.totalStars || '—' %></span>
+          <span class="hero-stat-label">stars</span>
         </div>
-        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg);border-radius:999px;padding:6px 14px;">
-          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-text-2);flex-shrink:0;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          <span style="font-size:12px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);"><%- _stats.contributors || '—' %></span>
-          <span style="font-size:10px;color:var(--color-text-3);font-family:var(--font-mono);">contributors</span>
+        <div class="activity-stat">
+          <svg class="activity-stat-icon" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span class="hero-stat-val"><%- _stats.contributors || '—' %></span>
+          <span class="hero-stat-label">contributors</span>
         </div>
-        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg);border-radius:999px;padding:6px 14px;">
-          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-text-2);flex-shrink:0;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-          <span style="font-size:12px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);"><%- _stats.totalForks || '—' %></span>
-          <span style="font-size:10px;color:var(--color-text-3);font-family:var(--font-mono);">forks</span>
+        <div class="activity-stat">
+          <svg class="activity-stat-icon" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          <span class="hero-stat-val"><%- _stats.totalForks || '—' %></span>
+          <span class="hero-stat-label">forks</span>
         </div>
         <% if (_versions.panelRelease) { %>
-        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-bg);border-radius:999px;padding:6px 14px;">
-          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="color:var(--color-text-2);flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
-          <span style="font-size:12px;font-weight:600;color:var(--color-text-1);font-family:var(--font-mono);"><%- _versions.panelRelease %></span>
-          <span style="font-size:10px;color:var(--color-text-3);font-family:var(--font-mono);">latest</span>
+        <div class="activity-stat">
+          <svg class="activity-stat-icon" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="hero-stat-val"><%- _versions.panelRelease %></span>
+          <span class="hero-stat-label">latest</span>
         </div>
         <% } %>
       </div>
@@ -560,23 +671,21 @@ var homeSidebarLinks = [
       %>
 
       <!-- Recent commits -->
-      <div style="border:1px solid var(--color-border);border-radius:12px;overflow:hidden;">
+      <div class="commit-list">
         <% if (allCommits.length) { %>
           <% allCommits.slice(0,8).forEach(function(commit) { %>
           <div class="commit-row" data-commit='<%- JSON.stringify({sha:commit.sha,msg:commit.commit.message,author:commit.commit.author.name,date:commit.commit.author.date,avatar:commit.author?commit.author.avatar_url:"",repo:commit._repo,url:commit.html_url}).replace(/'/g,"&#39;") %>'
-            tabindex="0" role="button"
-            style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--color-border);cursor:pointer;"
-            onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background=''">
-            <img src="<%= commit.author ? commit.author.avatar_url : '' %>" alt="" loading="lazy" style="width:20px;height:20px;border-radius:50%;flex-shrink:0;background:var(--color-bg-3);" onerror="this.style.display='none'">
-            <div style="flex:1;min-width:0;">
-              <p style="font-size:12px;color:var(--color-text-1);margin:0;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><%= commit.commit.message.split('\n')[0] %></p>
+            tabindex="0" role="button">
+            <img src="<%= commit.author ? commit.author.avatar_url : '' %>" alt="" loading="lazy" class="commit-avatar" onerror="this.style.display='none'">
+            <div class="commit-msg">
+              <p><%= commit.commit.message.split('\n')[0] %></p>
             </div>
-            <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);white-space:nowrap;flex-shrink:0;"><%= commit._repo %></span>
-            <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-4);white-space:nowrap;flex-shrink:0;"><%= relativeDate(commit.commit.author.date) %></span>
+            <span class="commit-repo"><%= commit._repo %></span>
+            <span class="commit-time"><%= relativeDate(commit.commit.author.date) %></span>
           </div>
           <% }) %>
         <% } else { %>
-        <div style="padding:24px;text-align:center;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);">No data yet. Run <code style="background:var(--color-bg-3);padding:1px 5px;border-radius:3px;">npm run cache</code></div>
+        <div class="activity-empty">No data yet. Run <code>npm run cache</code></div>
         <% } %>
       </div>
 
@@ -586,23 +695,23 @@ var homeSidebarLinks = [
   <!-- Commit detail popup -->
   <div id="commit-overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="commit-modal-title">
     <div id="commit-modal" class="modal" style="padding:20px;max-width:480px;">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;">
-        <div style="display:flex;align-items:center;gap:9px;">
-          <img id="cm-avatar" src="" alt="" loading="lazy" style="width:28px;height:28px;border-radius:50%;background:var(--color-bg-3);flex-shrink:0;" onerror="this.style.display='none'">
+      <div class="modal-header">
+        <div class="modal-header-row">
+          <img id="cm-avatar" src="" alt="" loading="lazy" class="modal-avatar" style="width:28px;height:28px;" onerror="this.style.display='none'">
           <div>
-            <p id="cm-author" style="font-size:12px;font-weight:600;color:var(--color-text-1);margin:0 0 2px;"></p>
-            <p id="cm-date"   style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);margin:0;"></p>
+            <p id="cm-author" class="modal-author"></p>
+            <p id="cm-date"   class="modal-date"></p>
           </div>
         </div>
-        <button id="cm-close" style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;border:1px solid var(--color-border);border-radius:8px;color:var(--color-text-3);background:transparent;cursor:pointer;flex-shrink:0;" onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background=''">
+        <button id="cm-close" class="modal-close-btn">
           <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
         </button>
       </div>
-      <p id="cm-message" style="font-size:13px;color:var(--color-text-1);line-height:1.6;margin:0 0 14px;overflow-wrap:break-word;word-break:break-word;"></p>
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-        <code id="cm-sha" style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);background:var(--color-bg-3);border:1px solid var(--color-border);padding:2px 8px;border-radius:5px;"></code>
-        <span id="cm-repo" style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-4);padding:1px 6px;border:1px solid var(--color-border);border-radius:4px;"></span>
-        <a id="cm-link" href="#" target="_blank" rel="noopener" style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);text-decoration:none;margin-left:auto;" onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'">View on GitHub →</a>
+      <p id="cm-message" class="modal-message"></p>
+      <div class="modal-footer">
+        <code id="cm-sha" class="modal-sha"></code>
+        <span id="cm-repo" class="modal-repo-tag"></span>
+        <a id="cm-link" href="#" target="_blank" rel="noopener" class="modal-link">View on GitHub →</a>
       </div>
     </div>
   </div>
@@ -611,13 +720,13 @@ var homeSidebarLinks = [
   <div id="contrib-overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="contrib-modal-title">
     <div id="contrib-modal" class="modal" style="padding:22px;max-width:360px;">
       <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;">
-        <img id="cp-avatar" src="" alt="" loading="lazy" style="width:52px;height:52px;border-radius:12px;border:1px solid var(--color-border);background:var(--color-bg-3);flex-shrink:0;" onerror="this.style.background='var(--color-bg-3)'">
+        <img id="cp-avatar" src="" alt="" loading="lazy" class="modal-avatar" style="width:52px;height:52px;border-radius:12px;border:1px solid var(--color-border);" onerror="this.style.background='var(--color-bg-3)'">
         <div style="flex:1;min-width:0;">
-          <p id="cp-name"    style="font-size:15px;font-weight:600;color:var(--color-text-1);margin:0 0 2px;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></p>
+          <p id="cp-name"    class="team-card-name" style="font-size:15px;letter-spacing:-0.01em;"></p>
           <p id="cp-login"   style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);margin:0 0 4px;"></p>
           <p id="cp-company" style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-4);margin:0;"></p>
         </div>
-        <button id="cp-close" style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;border:1px solid var(--color-border);border-radius:8px;color:var(--color-text-3);background:transparent;cursor:pointer;flex-shrink:0;" onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background=''">
+        <button id="cp-close" class="modal-close-btn">
           <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
         </button>
       </div>
@@ -628,19 +737,19 @@ var homeSidebarLinks = [
           <span id="cp-commits" style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-2);font-weight:600;"></span>
           <span style="font-size:11px;color:var(--color-text-3);">commits</span>
         </div>
-        <a id="cp-link" href="#" target="_blank" rel="noopener" style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);text-decoration:none;margin-left:auto;" onmouseover="this.style.color='var(--color-text-1)'" onmouseout="this.style.color='var(--color-text-3)'">View on GitHub →</a>
+        <a id="cp-link" href="#" target="_blank" rel="noopener" class="modal-link">View on GitHub →</a>
       </div>
     </div>
   </div>
 
   <!-- ── Team ──────────────────────────────────────────────────── -->
-  <section id="team" class="home-section" style="position:relative;overflow:hidden;">
-    <canvas id="team-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;" aria-hidden="true"></canvas>
-    <div class="home-content" style="position:relative;z-index:1;">
+  <section id="team" class="home-section team-section">
+    <canvas id="team-canvas" class="team-canvas" aria-hidden="true"></canvas>
+    <div class="home-content team-content">
 
-      <div style="margin-bottom:clamp(16px,2vw,24px);">
-        <h2 style="font-size:clamp(20px,2.8vw,30px);font-weight:700;color:var(--color-text-1);letter-spacing:-0.035em;margin:0;">The humans behind the code</h2>
-        <p style="font-size:var(--text-secondary);color:var(--color-text-3);margin:6px 0 0;">No AI was harmed in the making of this panel. Probably.</p>
+      <div class="section-header">
+        <h2 class="section-title">The humans behind the code</h2>
+        <p class="section-subtitle">No AI was harmed in the making of this panel. Probably.</p>
       </div>
 
       <%
@@ -666,27 +775,25 @@ var homeSidebarLinks = [
              var company     = cached.company ? cached.company.replace(/^@/, '') : '';
              var contribs    = cached.contributions || null;
         %>
-        <div class="contrib-row" data-contrib='<%- JSON.stringify({login:m.login,name:displayName,bio:bio,company:company,avatar:"https://github.com/"+m.login+".png",url:"https://github.com/"+m.login,contributions:contribs||0}).replace(/'/g,"&#39;") %>'
-          tabindex="0" role="button"
-          style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:clamp(14px,2vw,22px);border:1px solid var(--color-border);border-radius:12px;background:var(--color-bg-2);cursor:pointer;"
-          onmouseover="this.style.background='var(--color-bg-hover)';this.style.borderColor='var(--color-border-input)';this.style.transform='translateY(-2px)'"
-          onmouseout="this.style.background='var(--color-bg-2)';this.style.borderColor='var(--color-border)';this.style.transform=''">
+        <div class="contrib-row team-card" data-contrib='<%- JSON.stringify({login:m.login,name:displayName,bio:bio,company:company,avatar:"https://github.com/"+m.login+".png",url:"https://github.com/"+m.login,contributions:contribs||0}).replace(/'/g,"&#39;") %>'
+          tabindex="0" role="button">
           <img src="https://github.com/<%= m.login %>.png" alt="<%= displayName %>"
             loading="lazy"
-            style="width:clamp(40px,5vw,52px);height:clamp(40px,5vw,52px);border-radius:10px;border:1px solid var(--color-border);background:var(--color-bg-3);"
+            class="team-card-avatar"
+            style="width:clamp(40px,5vw,52px);height:clamp(40px,5vw,52px);"
             onerror="this.style.background='var(--color-bg-3)'">
-          <div style="text-align:center;width:100%;">
-            <p style="font-size:13px;font-weight:600;color:var(--color-text-1);margin:0 0 2px;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><%= displayName %></p>
-            <p style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);margin:0 0 5px;"><%= m.role %></p>
+          <div class="team-card-text">
+            <p class="team-card-name"><%= displayName %></p>
+            <p class="team-card-role"><%= m.role %></p>
             <% if (bio) { %>
-            <p style="font-size:10px;color:var(--color-text-3);line-height:1.45;margin:0 0 4px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;"><%= bio %></p>
+            <p class="team-card-bio"><%= bio %></p>
             <% } %>
-            <div style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;">
+            <div class="team-card-meta">
               <% if (company) { %>
-              <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-4);">@<%= company %></span>
+              <span>@<%= company %></span>
               <% } %>
               <% if (contribs) { %>
-              <span style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-4);"><%= contribs %> commits</span>
+              <span><%= contribs %> commits</span>
               <% } %>
             </div>
           </div>
@@ -700,15 +807,14 @@ var homeSidebarLinks = [
         <% if (otherContributors.length) { %>
         <div id="team-others">
           <% otherContributors.forEach(function(c) { %>
-          <div class="contrib-row" data-contrib='<%- JSON.stringify({login:c.login,name:c.name,bio:c.bio,company:c.company,avatar:c.avatar_url,url:c.html_url,contributions:c.contributions}).replace(/'/g,"&#39;") %>'
+          <div class="contrib-row team-others-card" data-contrib='<%- JSON.stringify({login:c.login,name:c.name,bio:c.bio,company:c.company,avatar:c.avatar_url,url:c.html_url,contributions:c.contributions}).replace(/'/g,"&#39;") %>'
             tabindex="0" role="button"
-            title="<%= c.name || c.login %> — <%= c.contributions %> commits"
-            style="display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 6px;background:var(--color-bg-2);cursor:pointer;"
-            onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background='var(--color-bg-2)'">
+            title="<%= c.name || c.login %> — <%= c.contributions %> commits">
             <img src="<%= c.avatar_url %>" alt="<%= c.login %>"
               loading="lazy"
-              style="width:28px;height:28px;border-radius:6px;border:1px solid var(--color-border);background:var(--color-bg-3);">
-            <p style="font-size:9px;font-family:var(--font-mono);color:var(--color-text-3);margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-align:center;"><%= c.login %></p>
+              class="team-others-avatar"
+              style="width:28px;height:28px;">
+            <p class="team-others-login"><%= c.login %></p>
           </div>
           <% }) %>
         </div>
@@ -726,29 +832,25 @@ var homeSidebarLinks = [
   <div style="width:100%;max-width:1100px;" class="modal" id="hero-fs-inner">
 
     <!-- Fullscreen title bar -->
-    <div style="background:var(--color-bg-3);border-bottom:1px solid var(--color-border);padding:10px 14px;display:flex;align-items:center;gap:6px;user-select:none;">
-      <button id="hw-fs-close"    title="Close"    aria-label="Close"    style="width:11px;height:11px;border-radius:50%;background:#ff5f57;border:none;cursor:pointer;flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center;" onmouseover="hwFsBtnHover(this,'close',true)"    onmouseout="hwFsBtnHover(this,'close',false)"></button>
-      <button id="hw-fs-minimize" title="Minimize" aria-label="Minimize" style="width:11px;height:11px;border-radius:50%;background:#febc2e;border:none;cursor:pointer;flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center;" onmouseover="hwFsBtnHover(this,'minimize',true)" onmouseout="hwFsBtnHover(this,'minimize',false)"></button>
+    <div class="fs-titlebar">
+      <button id="hw-fs-close"    class="hw-btn hw-btn-close"   title="Close"    aria-label="Close"></button>
+      <button id="hw-fs-minimize" class="hw-btn hw-btn-minimize" title="Minimize" aria-label="Minimize"></button>
       <div style="width:11px;height:11px;border-radius:50%;background:#28c840;opacity:.35;flex-shrink:0;"></div>
-      <span id="hero-fs-title" style="flex:1;font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 8px;"></span>
+      <span id="hero-fs-title" class="fs-win-title"></span>
       <!-- Arrow navigation -->
-      <button id="hw-fs-prev" title="Previous image" aria-label="Previous image"
-        style="width:24px;height:24px;border-radius:6px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;"
-        onmouseover="this.style.background='var(--color-bg-hover)';this.style.color='var(--color-text-1)'" onmouseout="this.style.background='transparent';this.style.color='var(--color-text-3)'">
+      <button id="hw-fs-prev" title="Previous image" aria-label="Previous image" class="fs-nav-btn">
         <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
-      <button id="hw-fs-next" title="Next image" aria-label="Next image"
-        style="width:24px;height:24px;border-radius:6px;border:1px solid var(--color-border);background:transparent;color:var(--color-text-3);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;"
-        onmouseover="this.style.background='var(--color-bg-hover)';this.style.color='var(--color-text-1)'" onmouseout="this.style.background='transparent';this.style.color='var(--color-text-3)'">
+      <button id="hw-fs-next" title="Next image" aria-label="Next image" class="fs-nav-btn">
         <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
       </button>
     </div>
 
     <!-- Fullscreen image area -->
-    <div style="position:relative;aspect-ratio:16/9;background:var(--color-bg-3);overflow:hidden;">
-      <img id="hero-fs-img-dark"  src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:none;">
-      <img id="hero-fs-img-light" src="" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:none;">
-      <div id="hero-fs-ph" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--color-text-4);font-size:11px;font-family:var(--font-mono);">
+    <div class="fs-img-area">
+      <img id="hero-fs-img-dark"  src="" alt="">
+      <img id="hero-fs-img-light" src="" alt="">
+      <div id="hero-fs-ph" class="fs-placeholder">
         <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="opacity:.3;"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
       </div>
     </div>
@@ -761,29 +863,29 @@ var homeSidebarLinks = [
   <div id="feat-modal" class="modal" style="max-width:620px;max-height:85vh;overflow-y:auto;overscroll-behavior:contain;">
 
     <!-- GIF preview -->
-    <div id="feat-modal-media" style="aspect-ratio:16/9;background:var(--color-bg-3);border-radius:14px 14px 0 0;overflow:hidden;position:relative;border-bottom:1px solid var(--color-border);">
-      <img id="feat-modal-gif" src="" alt="" style="width:100%;height:100%;object-fit:cover;object-position:top;display:none;">
-      <div id="feat-modal-gif-ph" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--color-text-4);font-size:11px;font-family:var(--font-mono);">
+    <div id="feat-modal-media" class="feat-modal-media">
+      <img id="feat-modal-gif" src="" alt="">
+      <div id="feat-modal-gif-ph" class="feat-modal-ph">
         <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="opacity:.3;"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
         <span id="feat-modal-gif-label" style="opacity:.4;"></span>
       </div>
     </div>
 
     <!-- Header -->
-    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--color-border);">
-      <div style="display:flex;align-items:center;gap:9px;">
-        <div id="feat-modal-icon" style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;border:1px solid var(--color-border);border-radius:8px;background:var(--color-bg-3);color:var(--color-text-2);flex-shrink:0;"></div>
-        <h3 id="feat-modal-title" style="font-size:14px;font-weight:600;color:var(--color-text-1);letter-spacing:-0.01em;margin:0;"></h3>
+    <div class="feat-modal-header">
+      <div class="feat-modal-header-inner">
+        <div id="feat-modal-icon" class="feat-modal-icon"></div>
+        <h3 id="feat-modal-title" class="feat-modal-title"></h3>
       </div>
-      <button id="feat-modal-close" style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;border:1px solid var(--color-border);border-radius:8px;color:var(--color-text-3);background:transparent;cursor:pointer;flex-shrink:0;" onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background=''">
+      <button id="feat-modal-close" class="modal-close-btn">
         <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
     </div>
 
     <!-- Body -->
-    <div style="padding:16px 18px;">
-      <p id="feat-modal-desc" style="font-size:13px;color:var(--color-text-2);line-height:1.7;margin:0 0 8px;"></p>
-      <p id="feat-modal-long" style="font-size:12px;color:var(--color-text-3);line-height:1.7;margin:0;"></p>
+    <div class="feat-modal-body">
+      <p id="feat-modal-desc" class="feat-modal-desc"></p>
+      <p id="feat-modal-long" class="feat-modal-long"></p>
     </div>
   </div>
 </div>
