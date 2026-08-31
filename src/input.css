@@ -444,7 +444,7 @@ dd {
   font-size: 10px;
   font-weight: 500;
   font-family: var(--font-mono);
-  color: var(--color-text-4);
+  color: var(--color-text-3);
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
@@ -458,7 +458,7 @@ dd {
   gap: 8px;
   padding: 40px 20px;
   text-align: center;
-  color: var(--color-text-4);
+  color: var(--color-text-3);
 }
 .empty-state svg {
   width: 32px;
@@ -1142,7 +1142,7 @@ a:active {
 .prose-caption {
   font-size: 0.72rem;
   font-family: var(--font-mono);
-  color: var(--color-text-4);
+  color: var(--color-text-3);
   margin-top: 8px;
   text-align: center;
   display: block;
@@ -1200,7 +1200,7 @@ a:active {
 .prose-chart-val {
   font-size: 10px;
   font-family: var(--font-mono);
-  color: var(--color-text-4);
+  color: var(--color-text-3);
   text-align: right;
 }
 
@@ -1232,7 +1232,7 @@ a:active {
 .prose-progress-val {
   font-size: 11px;
   font-family: var(--font-mono);
-  color: var(--color-text-4);
+  color: var(--color-text-3);
 }
 
 .prose-progress-track {
@@ -1546,7 +1546,7 @@ a:active {
 .blog-post-row .post-date {
   font-size: 11px;
   font-family: var(--font-mono);
-  color: var(--color-text-4);
+  color: var(--color-text-3);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1819,7 +1819,7 @@ img[loading="lazy"][style*="display:none"] {
 }
 
 .prose-flow-label {
-  color: var(--color-text-4);
+  color: var(--color-text-3);
   font-size: 11px;
 }
 
@@ -1855,7 +1855,7 @@ img[loading="lazy"][style*="display:none"] {
 .prose-counter-label {
   font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--color-text-4);
+  color: var(--color-text-3);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -1994,7 +1994,7 @@ img[loading="lazy"][style*="display:none"] {
   padding: 10px 14px 4px;
   font-size: 11px;
   font-weight: 500;
-  color: var(--color-text-4);
+  color: var(--color-text-3);
 }
 
 .site-section-link {
@@ -2028,7 +2028,7 @@ img[loading="lazy"][style*="display:none"] {
   border-top: 1px solid var(--color-border);
   font-size: 11px;
   font-family: var(--font-mono);
-  color: var(--color-text-4);
+  color: var(--color-text-3);
   display: flex;
   align-items: center;
   gap: 6px;
@@ -2036,7 +2036,7 @@ img[loading="lazy"][style*="display:none"] {
 }
 
 .site-sidebar-footer a {
-  color: var(--color-text-4);
+  color: var(--color-text-3);
   text-decoration: none;
 }
 
@@ -2087,7 +2087,7 @@ img[loading="lazy"][style*="display:none"] {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--color-text-4);
+  color: var(--color-text-3);
   margin: 32px 0 12px;
   padding-bottom: 8px;
   border-bottom: 1px solid var(--color-border);
@@ -2146,7 +2146,7 @@ img[loading="lazy"][style*="display:none"] {
   display: inline-block;
   font-size: 10px;
   font-family: var(--font-mono);
-  color: var(--color-text-4);
+  color: var(--color-text-3);
   background: var(--color-bg-hover);
   padding: 2px 8px;
   border-radius: 4px;
@@ -2167,7 +2167,7 @@ img[loading="lazy"][style*="display:none"] {
   gap: 6px;
   font-size: 12px;
   font-family: var(--font-mono);
-  color: var(--color-text-4);
+  color: var(--color-text-3);
   margin-bottom: 16px;
 }
 
@@ -2221,7 +2221,7 @@ img[loading="lazy"][style*="display:none"] {
   margin-top: 12px;
   font-size: 11px;
   font-family: var(--font-mono);
-  color: var(--color-text-4);
+  color: var(--color-text-3);
 }
 
 /* ── TOC (right sidebar) ───────────────────────────────────────────────── */
@@ -2241,7 +2241,7 @@ img[loading="lazy"][style*="display:none"] {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--color-text-4);
+  color: var(--color-text-3);
   margin-bottom: 10px;
 }
 
@@ -2249,7 +2249,7 @@ img[loading="lazy"][style*="display:none"] {
   display: block;
   padding: 4px 0;
   font-size: 12px;
-  color: var(--color-text-4);
+  color: var(--color-text-3);
   text-decoration: none;
   border-left: 2px solid transparent;
   padding-left: 10px;
@@ -2285,7 +2285,7 @@ img[loading="lazy"][style*="display:none"] {
   display: inline-flex;
   align-items: center;
   margin-left: 6px;
-  color: var(--color-text-4);
+  color: var(--color-text-3);
   opacity: 0;
   text-decoration: none;
   transition:
@@ -2336,7 +2336,7 @@ img[loading="lazy"][style*="display:none"] {
 .doc-prev-next .label {
   font-size: 10px;
   font-family: var(--font-mono);
-  color: var(--color-text-4);
+  color: var(--color-text-3);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin-bottom: 4px;

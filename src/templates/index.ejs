@@ -357,6 +357,7 @@ var homeSidebarLinks = [
           data-feature-long="<%= f.longDescription %>"
           data-feature-icon="<%= f.icon %>"
           class="<%= isHero ? 'feat-hero' : 'feat-card' %>"
+          tabindex="0" role="button"
           onmouseover="this.querySelector('.feat-info')?this.querySelector('.feat-info').style.background='var(--color-bg-hover)':this.style.background='var(--color-bg-hover)'"
           onmouseout="this.querySelector('.feat-info')?this.querySelector('.feat-info').style.background='':this.style.background='var(--color-bg-2)'">
 
@@ -425,6 +426,7 @@ var homeSidebarLinks = [
           data-feature-desc="<%= f.description %>"
           data-feature-long="<%= f.longDescription %>"
           data-feature-icon="<%= f.icon %>"
+          tabindex="0" role="button"
           onmouseover="this.style.background='var(--color-bg-hover)';this.style.borderColor='var(--color-border-input)'"
           onmouseout="this.style.background='var(--color-bg-2)';this.style.borderColor='var(--color-border)'">
           <div style="color:var(--color-text-2);"><%- featureIcon(f.icon) %></div>
@@ -563,6 +565,7 @@ var homeSidebarLinks = [
         <% if (allCommits.length) { %>
           <% allCommits.slice(0,8).forEach(function(commit) { %>
           <div class="commit-row" data-commit='<%- JSON.stringify({sha:commit.sha,msg:commit.commit.message,author:commit.commit.author.name,date:commit.commit.author.date,avatar:commit.author?commit.author.avatar_url:"",repo:commit._repo,url:commit.html_url}).replace(/'/g,"&#39;") %>'
+            tabindex="0" role="button"
             style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--color-border);cursor:pointer;"
             onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background=''">
             <img src="<%= commit.author ? commit.author.avatar_url : '' %>" alt="" loading="lazy" style="width:20px;height:20px;border-radius:50%;flex-shrink:0;background:var(--color-bg-3);" onerror="this.style.display='none'">
@@ -665,6 +668,7 @@ var homeSidebarLinks = [
              var contribs    = cached.contributions || null;
         %>
         <div class="contrib-row" data-contrib='<%- JSON.stringify({login:m.login,name:displayName,bio:bio,company:company,avatar:"https://github.com/"+m.login+".png",url:"https://github.com/"+m.login,contributions:contribs||0}).replace(/'/g,"&#39;") %>'
+          tabindex="0" role="button"
           style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:clamp(14px,2vw,22px);border:1px solid var(--color-border);border-radius:12px;background:var(--color-bg-2);cursor:pointer;"
           onmouseover="this.style.background='var(--color-bg-hover)';this.style.borderColor='var(--color-border-input)';this.style.transform='translateY(-2px)'"
           onmouseout="this.style.background='var(--color-bg-2)';this.style.borderColor='var(--color-border)';this.style.transform=''">
@@ -698,6 +702,7 @@ var homeSidebarLinks = [
         <div id="team-others">
           <% otherContributors.forEach(function(c) { %>
           <div class="contrib-row" data-contrib='<%- JSON.stringify({login:c.login,name:c.name,bio:c.bio,company:c.company,avatar:c.avatar_url,url:c.html_url,contributions:c.contributions}).replace(/'/g,"&#39;") %>'
+            tabindex="0" role="button"
             title="<%= c.name || c.login %> — <%= c.contributions %> commits"
             style="display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 6px;background:var(--color-bg-2);cursor:pointer;"
             onmouseover="this.style.background='var(--color-bg-hover)'" onmouseout="this.style.background='var(--color-bg-2)'">
@@ -804,6 +809,25 @@ var homeSidebarLinks = [
   var iconMap = {};
   <% features.forEach(function(f) { %>iconMap['<%= f.id %>'] = '<%- featureIcon(f.icon).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'') %>';<% }) %>
 
+  var _featPrevFocus = null;
+
+  function trapFocus(overlayEl, modalEl) {
+    var focusable = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (!focusable.length) return;
+    var first = focusable[0];
+    var last = focusable[focusable.length - 1];
+    function handler(e) {
+      if (e.key !== 'Tab') return;
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    }
+    overlayEl._trapHandler = handler;
+    overlayEl.addEventListener('keydown', handler);
+  }
+
   function openModal(card) {
     var id = card.dataset.featureId || '';
     iconEl.innerHTML    = iconMap[id] || '';
@@ -828,12 +852,18 @@ var homeSidebarLinks = [
     };
     gifImg.src = gifSrc;
 
+    _featPrevFocus = document.activeElement;
     overlay.classList.add('overlay--open');
+    trapFocus(overlay, modal);
+    var firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (firstFocusable) firstFocusable.focus();
     if (typeof sounds !== 'undefined') sounds.play('modalOpen');
   }
 
   function closeModal() {
     overlay.classList.remove('overlay--open');
+    if (overlay._trapHandler) { overlay.removeEventListener('keydown', overlay._trapHandler); overlay._trapHandler = null; }
+    if (_featPrevFocus) { _featPrevFocus.focus(); _featPrevFocus = null; }
     if (typeof sounds !== 'undefined') sounds.play('modalClose');
   }
 
@@ -1417,14 +1447,36 @@ var homeSidebarLinks = [
     loadImage(currentIndex);
   }
 
+  var _fsPrevFocus = null;
+
+  function trapFocus(overlayEl, modalEl) {
+    var focusable = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (!focusable.length) return;
+    var first = focusable[0];
+    var last = focusable[focusable.length - 1];
+    function handler(e) {
+      if (e.key !== 'Tab') return;
+      if (e.shiftKey) { if (document.activeElement === first) { e.preventDefault(); last.focus(); } }
+      else { if (document.activeElement === last) { e.preventDefault(); first.focus(); } }
+    }
+    overlayEl._trapHandler = handler;
+    overlayEl.addEventListener('keydown', handler);
+  }
+
   function openFullscreen() {
     loadFsImage(currentIndex);
+    _fsPrevFocus = document.activeElement;
     fsOverlay.classList.add('overlay--open');
+    trapFocus(fsOverlay, fsInner);
+    var firstFocusable = fsInner.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (firstFocusable) firstFocusable.focus();
     if (typeof sounds !== 'undefined') sounds.play('modalOpen');
   }
 
   function closeFullscreen() {
     fsOverlay.classList.remove('overlay--open');
+    if (fsOverlay._trapHandler) { fsOverlay.removeEventListener('keydown', fsOverlay._trapHandler); fsOverlay._trapHandler = null; }
+    if (_fsPrevFocus) { _fsPrevFocus.focus(); _fsPrevFocus = null; }
     if (typeof sounds !== 'undefined') sounds.play('modalClose');
   }
 
@@ -1630,6 +1682,22 @@ var homeSidebarLinks = [
 
   var EASE = 'cubic-bezier(0.4,0,0.2,1)';
 
+  var _cmPrevFocus = null;
+
+  function trapFocus(overlayEl, modalEl) {
+    var focusable = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (!focusable.length) return;
+    var first = focusable[0];
+    var last = focusable[focusable.length - 1];
+    function handler(e) {
+      if (e.key !== 'Tab') return;
+      if (e.shiftKey) { if (document.activeElement === first) { e.preventDefault(); last.focus(); } }
+      else { if (document.activeElement === last) { e.preventDefault(); first.focus(); } }
+    }
+    overlayEl._trapHandler = handler;
+    overlayEl.addEventListener('keydown', handler);
+  }
+
   function openCommit(data) {
     document.getElementById('cm-avatar').src   = data.avatar || '';
     document.getElementById('cm-author').textContent = data.author || '';
@@ -1638,12 +1706,18 @@ var homeSidebarLinks = [
     document.getElementById('cm-sha').textContent    = data.sha ? data.sha.slice(0,40) : '';
     document.getElementById('cm-repo').textContent   = data.repo || '';
     document.getElementById('cm-link').href          = data.url  || '#';
+    _cmPrevFocus = document.activeElement;
     overlay.classList.add('overlay--open');
+    trapFocus(overlay, modal);
+    var firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (firstFocusable) firstFocusable.focus();
     if (typeof sounds !== 'undefined') sounds.play('modalOpen');
   }
 
   function closeCommit() {
     overlay.classList.remove('overlay--open');
+    if (overlay._trapHandler) { overlay.removeEventListener('keydown', overlay._trapHandler); overlay._trapHandler = null; }
+    if (_cmPrevFocus) { _cmPrevFocus.focus(); _cmPrevFocus = null; }
     if (typeof sounds !== 'undefined') sounds.play('modalClose');
   }
 
@@ -1667,6 +1741,22 @@ var homeSidebarLinks = [
   var closeBtn  = document.getElementById('cp-close');
   if (!overlay || !modal) return;
 
+  var _cpPrevFocus = null;
+
+  function trapFocus(overlayEl, modalEl) {
+    var focusable = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (!focusable.length) return;
+    var first = focusable[0];
+    var last = focusable[focusable.length - 1];
+    function handler(e) {
+      if (e.key !== 'Tab') return;
+      if (e.shiftKey) { if (document.activeElement === first) { e.preventDefault(); last.focus(); } }
+      else { if (document.activeElement === last) { e.preventDefault(); first.focus(); } }
+    }
+    overlayEl._trapHandler = handler;
+    overlayEl.addEventListener('keydown', handler);
+  }
+
   function openContrib(data) {
     document.getElementById('cp-avatar').src           = data.avatar || '';
     document.getElementById('cp-name').textContent    = data.name   || data.login || '';
@@ -1675,12 +1765,18 @@ var homeSidebarLinks = [
     document.getElementById('cp-bio').textContent     = data.bio    || '';
     document.getElementById('cp-commits').textContent = data.contributions || '0';
     document.getElementById('cp-link').href           = data.url    || '#';
+    _cpPrevFocus = document.activeElement;
     overlay.classList.add('overlay--open');
+    trapFocus(overlay, modal);
+    var firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (firstFocusable) firstFocusable.focus();
     if (typeof sounds !== 'undefined') sounds.play('modalOpen');
   }
 
   function closeContrib() {
     overlay.classList.remove('overlay--open');
+    if (overlay._trapHandler) { overlay.removeEventListener('keydown', overlay._trapHandler); overlay._trapHandler = null; }
+    if (_cpPrevFocus) { _cpPrevFocus.focus(); _cpPrevFocus = null; }
     if (typeof sounds !== 'undefined') sounds.play('modalClose');
   }
 
