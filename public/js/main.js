@@ -70,88 +70,6 @@
   }
 })();
 
-// ── Theme ─────────────────────────────────────────────────────────────────────
-(function () {
-  function applyTheme(t) {
-    document.documentElement.className = t;
-    try {
-      localStorage.setItem("theme", t);
-    } catch (e) {}
-    document.querySelectorAll(".theme-icon-sun").forEach(function (el) {
-      el.classList.toggle("theme-icon--hidden", t !== "light");
-    });
-    document.querySelectorAll(".theme-icon-moon").forEach(function (el) {
-      el.classList.toggle("theme-icon--hidden", t === "light");
-    });
-    // Update aria-pressed on theme toggle buttons
-    document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
-      btn.setAttribute("aria-pressed", t === "light" ? "true" : "false");
-      btn.setAttribute(
-        "aria-label",
-        t === "light" ? "Switch to dark mode" : "Switch to light mode",
-      );
-    });
-  }
-
-  var saved = "dark";
-  try {
-    saved = localStorage.getItem("theme") || "dark";
-  } catch (e) {}
-  applyTheme(saved);
-
-  document.addEventListener("click", function (e) {
-    if (!e.target.closest("[data-theme-toggle]")) return;
-    var next =
-      document.documentElement.className === "light" ? "dark" : "light";
-    applyTheme(next);
-    if (typeof sounds !== "undefined") sounds.play("themeToggle");
-  });
-})();
-
-// ── Mute button sync ──────────────────────────────────────────────────────────
-(function () {
-  function syncMute() {
-    var muted = typeof sounds !== "undefined" && sounds.isMuted();
-    document.querySelectorAll(".mute-state-on").forEach(function (el) {
-      el.classList.toggle("mute-icon--hidden", muted);
-    });
-    document.querySelectorAll(".mute-state-off").forEach(function (el) {
-      el.classList.toggle("mute-icon--hidden", !muted);
-    });
-    var btn = document.getElementById("mute-btn");
-    if (btn)
-      btn.style.color = muted ? "var(--color-text-4)" : "var(--color-text-3)";
-    // Update aria-pressed on all mute buttons
-    document
-      .querySelectorAll("#mute-btn, #mute-btn-mobile")
-      .forEach(function (b) {
-        b.setAttribute("aria-pressed", muted ? "true" : "false");
-        b.setAttribute(
-          "aria-label",
-          muted ? "Unmute sound effects" : "Mute sound effects",
-        );
-      });
-  }
-
-  syncMute();
-
-  var muteBtn = document.getElementById("mute-btn");
-  if (muteBtn) {
-    muteBtn.addEventListener("click", function () {
-      if (typeof sounds !== "undefined") sounds.toggle();
-      syncMute();
-    });
-  }
-
-  var muteBtnMobile = document.getElementById("mute-btn-mobile");
-  if (muteBtnMobile) {
-    muteBtnMobile.addEventListener("click", function () {
-      if (typeof sounds !== "undefined") sounds.toggle();
-      syncMute();
-    });
-  }
-})();
-
 // ── Copy buttons (installer wizard code blocks) ───────────────────────────────
 document.addEventListener("click", function (e) {
   var btn = e.target.closest(".copy-btn");
@@ -168,7 +86,6 @@ document.addEventListener("click", function (e) {
     .join("\n");
 
   navigator.clipboard.writeText(text).then(function () {
-    if (typeof sounds !== "undefined") sounds.play("copy");
     var orig = btn.innerHTML;
     btn.innerHTML =
       '<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Copied';
@@ -195,7 +112,6 @@ document.addEventListener("click", function (e) {
   var text = pre ? pre.textContent || "" : "";
 
   navigator.clipboard.writeText(text.trim()).then(function () {
-    if (typeof sounds !== "undefined") sounds.play("copy");
     var orig = btn.innerHTML;
     btn.innerHTML =
       '<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Copied';
@@ -207,21 +123,6 @@ document.addEventListener("click", function (e) {
       btn.style.borderColor = "";
     }, 2000);
   });
-});
-
-// ── Click sounds ──────────────────────────────────────────────────────────────
-document.addEventListener("click", function (e) {
-  if (typeof sounds === "undefined") return;
-  var el = e.target.closest(
-    "a[href], button, [data-feature-id], [data-clickable]",
-  );
-  if (!el) return;
-  if (el.closest("[data-theme-toggle]")) return;
-  if (el.closest(".copy-btn")) return;
-  if (el.closest(".prose-copy-btn")) return;
-  if (el.id === "mute-btn" || el.id === "mute-btn-mobile") return;
-  if (el.id === "redirect-confirm" || el.id === "redirect-cancel") return;
-  sounds.play("click");
 });
 
 // ── Redirect confirmation popup ───────────────────────────────────────────────
@@ -251,13 +152,11 @@ document.addEventListener("click", function (e) {
       domainEl.textContent = href;
     }
     overlay.classList.add("open");
-    if (typeof sounds !== "undefined") sounds.play("modalOpen");
   }
 
   function closeRedirect() {
     overlay.classList.remove("open");
     pendingHref = "";
-    if (typeof sounds !== "undefined") sounds.play("modalClose");
   }
 
   document.addEventListener("click", function (e) {
@@ -272,7 +171,6 @@ document.addEventListener("click", function (e) {
   cancelBtn.addEventListener("click", closeRedirect);
 
   confirmBtn.addEventListener("click", function () {
-    if (typeof sounds !== "undefined") sounds.play("click");
     overlay.classList.remove("open");
     if (pendingHref) window.open(pendingHref, "_blank", "noopener,noreferrer");
     pendingHref = "";

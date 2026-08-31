@@ -31,33 +31,6 @@
   --color-info-bg: rgba(96, 165, 250, 0.1);
 }
 
-/* Light mode — matches AirLink panel */
-.light {
-  --color-bg: #f5f5f5;
-  --color-bg-2: #eeeeee;
-  --color-bg-3: #ffffff;
-  --color-bg-hover: #ebebeb;
-  --color-bg-input: #ffffff;
-  --color-nav-bg: #ffffff;
-
-  --color-border: #d8d8d8;
-  --color-border-input: #c8c8c8;
-
-  --color-text-1: #0a0a0a;
-  --color-text-2: #404040;
-  --color-text-3: #575757;
-  --color-text-4: #737373;
-
-  --color-success: #15803d;
-  --color-success-bg: rgba(21, 128, 61, 0.08);
-  --color-warning: #b45309;
-  --color-warning-bg: rgba(180, 83, 9, 0.08);
-  --color-danger: #dc2626;
-  --color-danger-bg: rgba(220, 38, 38, 0.08);
-  --color-info: #2563eb;
-  --color-info-bg: rgba(37, 99, 235, 0.08);
-}
-
 /* ── Motion tokens — panel-identical ────────────────────────────────────────── */
 :root {
   --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
@@ -633,10 +606,6 @@ a:active {
   box-shadow: 0 0 0 3px rgba(240, 240, 240, 0.06);
   outline: none;
 }
-.light #wiz-step-body input:focus {
-  box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.07);
-}
-
 /* Wizard option rows */
 [onclick^="wizModeChange"],
 [onclick^="wizToggleAddon"] {
@@ -724,12 +693,6 @@ a:active {
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.28);
 }
 
-.light #left-strip {
-  background: rgba(240, 240, 237, 0.88);
-  border-color: rgba(0, 0, 0, 0.08);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
-}
-
 .nav-strip-item {
   display: flex;
   align-items: center;
@@ -781,14 +744,6 @@ a:active {
   align-items: stretch;
 }
 
-.light #mobile-bar {
-  background: rgba(240, 240, 237, 0.78);
-  border-color: rgba(0, 0, 0, 0.09);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-}
-
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
   #mobile-bar {
     bottom: max(12px, calc(env(safe-area-inset-bottom) + 8px));
@@ -823,28 +778,8 @@ a:active {
   margin: 8px 3px;
   height: calc(100% - 16px);
 }
-.light .mob-item--active {
-  background: rgba(0, 0, 0, 0.06);
-}
 .mob-item--active span {
   font-weight: 600;
-}
-
-/* ── Icon crossfade ─────────────────────────────────────────────────────────── */
-.theme-icon-sun,
-.theme-icon-moon,
-.mute-state-on,
-.mute-state-off {
-  transition:
-    opacity 180ms var(--ease-standard),
-    transform 180ms var(--ease-standard);
-}
-.theme-icon--hidden,
-.mute-icon--hidden {
-  opacity: 0;
-  transform: rotate(-30deg) scale(0.8);
-  pointer-events: none;
-  position: absolute;
 }
 
 /* ── Credit line ────────────────────────────────────────────────────────────── */
@@ -1012,9 +947,6 @@ a:active {
   padding: 14px 16px;
   overflow-x: auto;
   margin-bottom: 1rem;
-}
-.light .prose pre {
-  background: var(--color-bg-3);
 }
 .prose pre code {
   font-size: 0.75rem;
@@ -1356,10 +1288,6 @@ a:active {
   opacity: 0;
   pointer-events: none;
   transition: opacity 180ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.light #redirect-overlay {
-  background: rgba(0, 0, 0, 0.34);
 }
 
 #redirect-overlay.open {
@@ -2021,50 +1949,6 @@ img[loading="lazy"][style*="display:none"] {
   color: var(--color-text-1);
   background: var(--color-bg-hover);
   font-weight: 500;
-}
-
-.site-sidebar-footer {
-  padding: 14px 16px;
-  border-top: 1px solid var(--color-border);
-  font-size: 11px;
-  font-family: var(--font-mono);
-  color: var(--color-text-3);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.site-sidebar-footer a {
-  color: var(--color-text-3);
-  text-decoration: none;
-}
-
-.site-sidebar-footer a:hover {
-  color: var(--color-text-2);
-}
-
-.credit-dot {
-  opacity: 0.4;
-}
-
-/* ── Site footer ──────────────────────────────────────────────────────── */
-.site-footer {
-  border-top: 1px solid var(--color-border);
-  background: var(--color-nav-bg);
-  margin-left: 224px;
-}
-
-.site-footer-inner {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: clamp(32px, 5vw, 64px) clamp(20px, 4vw, 48px);
-}
-
-@media (max-width: 860px) {
-  .site-footer {
-    margin-left: 0;
-  }
 }
 
 /* ── Main content area ─────────────────────────────────────────────────── */

@@ -32,15 +32,6 @@
   <link rel="stylesheet" href="<%= rootPrefix %>public/css/styles.css">
   <link rel="preload" as="image" href="<%= rootPrefix %>public/assets/icon.png">
 
-  <!-- Prevent theme flash — must run before first paint -->
-  <script>
-    (function () {
-      var t = 'dark';
-      try { t = localStorage.getItem('theme') || 'dark'; } catch (e) {}
-      document.documentElement.className = t;
-    })();
-  </script>
-
   <% if (underConstruction && underConstruction.enabled) { %>
   <style>
     .uc-bar {
@@ -63,5 +54,4 @@
 <div class="uc-bar"><%= underConstruction.badge %>: <%= underConstruction.message %></div>
 <% } %>
 
-<script src="<%= rootPrefix %>public/js/sounds.js"></script>
 <script src="<%= rootPrefix %>public/js/motion.js" defer></script>

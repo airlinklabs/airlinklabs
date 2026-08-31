@@ -856,14 +856,12 @@ var homeSidebarLinks = [
     trapFocus(overlay, modal);
     var firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
     if (firstFocusable) firstFocusable.focus();
-    if (typeof sounds !== 'undefined') sounds.play('modalOpen');
   }
 
   function closeModal() {
     overlay.classList.remove('overlay--open');
     if (overlay._trapHandler) { overlay.removeEventListener('keydown', overlay._trapHandler); overlay._trapHandler = null; }
     if (_featPrevFocus) { _featPrevFocus.focus(); _featPrevFocus = null; }
-    if (typeof sounds !== 'undefined') sounds.play('modalClose');
   }
 
   document.querySelectorAll('[data-feature-id]').forEach(function(card) {
@@ -1204,14 +1202,12 @@ var homeSidebarLinks = [
   window.wizModeChange = function(val) {
     ans.mode = val;
     animateStepBody(0, function() { return renderStep('mode'); });
-    if (typeof sounds !== 'undefined') sounds.play('select');
   };
 
   window.wizToggleAddon = function(id) {
     var idx = ans.addons.indexOf(id);
     if (idx === -1) ans.addons.push(id); else ans.addons.splice(idx, 1);
     animateStepBody(0, function() { return renderStep('addons'); });
-    if (typeof sounds !== 'undefined') sounds.play('toggle');
   };
 
   nextBtn.addEventListener('click', function() {
@@ -1224,7 +1220,7 @@ var homeSidebarLinks = [
       stepDirection = 1;
       currentStep++;
       render();
-      if (typeof sounds !== 'undefined') sounds.play(isResultStep ? 'wizResult' : 'wizNext');
+
     }
   });
 
@@ -1235,7 +1231,7 @@ var homeSidebarLinks = [
       stepDirection = -1;
       currentStep--;
       render();
-      if (typeof sounds !== 'undefined') sounds.play('wizBack');
+
     }
   });
 
@@ -1420,7 +1416,6 @@ var homeSidebarLinks = [
       tray.style.opacity = '1';
       if (btnMaximize) btnMaximize.style.opacity = '0.35';
     }, 160);
-    if (typeof sounds !== 'undefined') sounds.play('toggle');
   }
 
   function restoreWindow() {
@@ -1438,7 +1433,6 @@ var homeSidebarLinks = [
       if (btnMaximize) btnMaximize.style.opacity = '1';
       loadImage(currentIndex);
     }, 120);
-    if (typeof sounds !== 'undefined') sounds.play('toggle');
   }
 
   function openNextImage() {
@@ -1469,14 +1463,12 @@ var homeSidebarLinks = [
     trapFocus(fsOverlay, fsInner);
     var firstFocusable = fsInner.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
     if (firstFocusable) firstFocusable.focus();
-    if (typeof sounds !== 'undefined') sounds.play('modalOpen');
   }
 
   function closeFullscreen() {
     fsOverlay.classList.remove('overlay--open');
     if (fsOverlay._trapHandler) { fsOverlay.removeEventListener('keydown', fsOverlay._trapHandler); fsOverlay._trapHandler = null; }
     if (_fsPrevFocus) { _fsPrevFocus.focus(); _fsPrevFocus = null; }
-    if (typeof sounds !== 'undefined') sounds.play('modalClose');
   }
 
   // Traffic light — Close: close window (fade out), then open next image
@@ -1618,7 +1610,6 @@ var homeSidebarLinks = [
       wizOpen = !wizOpen;
       wizPanel.style.display = wizOpen ? '' : 'none';
       if (wizIcon) wizIcon.style.transform = wizOpen ? 'rotate(180deg)' : '';
-      if (wizOpen && typeof sounds !== 'undefined') sounds.play('toggle');
     });
   }
 })();
@@ -1710,14 +1701,12 @@ var homeSidebarLinks = [
     trapFocus(overlay, modal);
     var firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
     if (firstFocusable) firstFocusable.focus();
-    if (typeof sounds !== 'undefined') sounds.play('modalOpen');
   }
 
   function closeCommit() {
     overlay.classList.remove('overlay--open');
     if (overlay._trapHandler) { overlay.removeEventListener('keydown', overlay._trapHandler); overlay._trapHandler = null; }
     if (_cmPrevFocus) { _cmPrevFocus.focus(); _cmPrevFocus = null; }
-    if (typeof sounds !== 'undefined') sounds.play('modalClose');
   }
 
   document.addEventListener('click', function (e) {
@@ -1769,14 +1758,12 @@ var homeSidebarLinks = [
     trapFocus(overlay, modal);
     var firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
     if (firstFocusable) firstFocusable.focus();
-    if (typeof sounds !== 'undefined') sounds.play('modalOpen');
   }
 
   function closeContrib() {
     overlay.classList.remove('overlay--open');
     if (overlay._trapHandler) { overlay.removeEventListener('keydown', overlay._trapHandler); overlay._trapHandler = null; }
     if (_cpPrevFocus) { _cpPrevFocus.focus(); _cpPrevFocus = null; }
-    if (typeof sounds !== 'undefined') sounds.play('modalClose');
   }
 
   document.addEventListener('click', function (e) {
