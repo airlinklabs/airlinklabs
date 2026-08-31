@@ -6,37 +6,31 @@
   var currentIdx = docPages.findIndex(function(d) { return d.slug === currentDoc.slug; });
   var prevDoc = currentIdx > 0 ? docPages[currentIdx - 1] : null;
   var nextDoc = currentIdx < docPages.length - 1 ? docPages[currentIdx + 1] : null;
+
+  // Build sidebar links grouped by section
+  var sidebarSections = {};
+  docPages.forEach(function(doc) {
+    if (!sidebarSections[doc.section]) sidebarSections[doc.section] = [];
+    sidebarSections[doc.section].push(doc);
+  });
+  var sortedSectionNames = Object.keys(sidebarSections).sort(function(a, b) {
+    return sidebarSections[a][0].order - sidebarSections[b][0].order;
+  });
+  var sidebarLinks = [];
+  sortedSectionNames.forEach(function(section) {
+    sidebarSections[section].forEach(function(doc) {
+      sidebarLinks.push({
+        label: doc.title,
+        href: rootPrefix + 'docs/' + doc.slug + '/',
+        active: doc.slug === currentDoc.slug,
+        searchText: doc.title.toLowerCase() + ' ' + doc.description.toLowerCase()
+      });
+    });
+  });
 %>
 
 <div class="docs-shell">
-  <!-- Sidebar -->
-  <aside class="docs-sidebar">
-    <div class="docs-sidebar-header">
-      <a href="<%= rootPrefix %>" class="docs-sidebar-logo">
-        <img src="<%= rootPrefix %>public/assets/icon.png" alt="" width="22" height="22">
-        AirLink
-      </a>
-      <div class="docs-sidebar-search">
-        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="text" id="doc-search" placeholder="Search docs..." autocomplete="off">
-      </div>
-    </div>
-    <nav class="docs-sidebar-nav" id="doc-sidebar-nav">
-      <% var sidebarSections = {}; %>
-      <% docPages.forEach(function(doc) { %>
-        <% if (!sidebarSections[doc.section]) sidebarSections[doc.section] = []; %>
-        <% sidebarSections[doc.section].push(doc); %>
-      <% }); %>
-      <% Object.keys(sidebarSections).sort(function(a, b) { return sidebarSections[a][0].order - sidebarSections[b][0].order; }).forEach(function(section) { %>
-        <div class="docs-sidebar-section-label"><%= section %></div>
-        <% sidebarSections[section].forEach(function(doc) { %>
-          <a href="<%= rootPrefix %>docs/<%= doc.slug %>/" class="docs-sidebar-link<%= doc.slug === currentDoc.slug ? ' active' : '' %>" data-doc-title="<%= doc.title.toLowerCase() %>" data-doc-desc="<%= doc.description.toLowerCase() %>">
-            <%= doc.title %>
-          </a>
-        <% }); %>
-      <% }); %>
-    </nav>
-  </aside>
+  <%- include('../partials/sidebar', { rootPrefix: rootPrefix, currentPage: 'docs', sidebarLinks: sidebarLinks, sidebarSectionLabel: 'Documentation' }) %>
 
   <!-- Main content -->
   <main class="docs-main">
@@ -143,25 +137,12 @@
   var nav = document.getElementById('doc-sidebar-nav');
   if (!input || !nav) return;
 
-  var links = nav.querySelectorAll('.docs-sidebar-link');
-  var sections = nav.querySelectorAll('.docs-sidebar-section-label');
-
+  var links = nav.querySelectorAll('.site-section-link');
   input.addEventListener('input', function () {
     var q = input.value.toLowerCase().trim();
     links.forEach(function (link) {
-      var match = !q || link.dataset.docTitle.includes(q) || link.dataset.docDesc.includes(q);
-      link.style.display = match ? '' : 'none';
-    });
-    sections.forEach(function (label) {
-      var next = label.nextElementSibling;
-      var hasVisible = false;
-      while (next && !next.classList.contains('docs-sidebar-section-label')) {
-        if (next.classList.contains('docs-sidebar-link') && next.style.display !== 'none') {
-          hasVisible = true;
-        }
-        next = next.nextElementSibling;
-      }
-      label.style.display = hasVisible || !q ? '' : 'none';
+      var text = link.dataset.searchText || link.textContent.toLowerCase();
+      link.style.display = (!q || text.includes(q)) ? '' : 'none';
     });
   });
 })();

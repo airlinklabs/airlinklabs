@@ -7,167 +7,114 @@ const siteBase = (site.siteUrl || '').replace(/\/$/, '');
 <%- include('./partials/head', { site, underConstruction, rootPrefix, pageTitle, pageDescription }) %>
 <%- include('./partials/nav', { site, underConstruction, rootPrefix, docPages, pageTitle }) %>
 
-<style>
-  #not-found {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: clamp(40px, 8vw, 100px) clamp(20px, 4vw, 48px);
-    box-sizing: border-box;
-  }
+<div class="docs-shell">
+  <%- include('./partials/sidebar', { rootPrefix: rootPrefix, currentPage: '', sidebarLinks: [], sidebarSectionLabel: '' }) %>
 
-  #not-found-inner {
-    max-width: 420px;
-    width: 100%;
-  }
+  <main class="docs-main">
+    <div class="docs-content" id="page-content">
+      <style>
+        #not-found {
+          min-height: 60vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        #not-found-inner { max-width: 420px; width: 100%; }
+        #not-found-code {
+          font-size: clamp(64px, 14vw, 120px);
+          font-weight: 700;
+          color: var(--color-text-1);
+          letter-spacing: -0.06em;
+          line-height: 1;
+          margin: 0 0 4px;
+          font-family: var(--font-mono);
+          opacity: 0.08;
+          user-select: none;
+        }
+        #not-found-title {
+          font-size: clamp(18px, 3vw, 26px);
+          font-weight: 600;
+          color: var(--color-text-1);
+          letter-spacing: -0.03em;
+          margin: 0 0 10px;
+        }
+        #not-found-desc {
+          font-size: 13px;
+          color: var(--color-text-3);
+          line-height: 1.7;
+          margin: 0 0 clamp(24px, 4vw, 36px);
+          max-width: 340px;
+        }
+        #not-found-path {
+          font-size: 11px;
+          font-family: var(--font-mono);
+          color: var(--color-text-4);
+          background: var(--color-bg-2);
+          border: 1px solid var(--color-border);
+          border-radius: 6px;
+          padding: 6px 12px;
+          display: inline-block;
+          margin-bottom: clamp(24px, 4vw, 36px);
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .not-found-links { display: flex; flex-wrap: wrap; gap: 8px; }
+        .not-found-link-primary {
+          display: inline-flex; align-items: center; gap: 6px;
+          font-size: 12px; font-weight: 500;
+          background: var(--color-text-1); color: var(--color-bg);
+          padding: 8px 20px; border-radius: 999px; text-decoration: none;
+          transition: opacity 140ms;
+        }
+        .not-found-link-primary:hover { opacity: 0.82; }
+        .not-found-link-secondary {
+          display: inline-flex; align-items: center; gap: 6px;
+          font-size: 12px; font-weight: 500;
+          color: var(--color-text-2); border: 1px solid var(--color-border);
+          padding: 8px 20px; border-radius: 999px; text-decoration: none;
+          transition: background 140ms, color 140ms, border-color 140ms;
+        }
+        .not-found-link-secondary:hover {
+          background: var(--color-bg-hover); color: var(--color-text-1); border-color: var(--color-border-input);
+        }
+      </style>
 
-  #not-found-code {
-    font-size: clamp(64px, 14vw, 120px);
-    font-weight: 700;
-    color: var(--color-text-1);
-    letter-spacing: -0.06em;
-    line-height: 1;
-    margin: 0 0 4px;
-    font-family: var(--font-mono);
-    opacity: 0.08;
-    user-select: none;
-  }
-
-  #not-found-title {
-    font-size: clamp(18px, 3vw, 26px);
-    font-weight: 600;
-    color: var(--color-text-1);
-    letter-spacing: -0.03em;
-    margin: 0 0 10px;
-  }
-
-  #not-found-desc {
-    font-size: 13px;
-    color: var(--color-text-3);
-    line-height: 1.7;
-    margin: 0 0 clamp(24px, 4vw, 36px);
-    max-width: 340px;
-  }
-
-  #not-found-path {
-    font-size: 11px;
-    font-family: var(--font-mono);
-    color: var(--color-text-4);
-    background: var(--color-bg-2);
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-    padding: 6px 12px;
-    display: inline-block;
-    margin-bottom: clamp(24px, 4vw, 36px);
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .not-found-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .not-found-link-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    font-weight: 500;
-    background: var(--color-text-1);
-    color: var(--color-bg);
-    padding: 8px 20px;
-    border-radius: 999px;
-    text-decoration: none;
-    transition: opacity 140ms;
-  }
-
-  .not-found-link-primary:hover { opacity: 0.82; }
-
-  .not-found-link-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--color-text-2);
-    border: 1px solid var(--color-border);
-    padding: 8px 20px;
-    border-radius: 999px;
-    text-decoration: none;
-    transition: background 140ms, color 140ms, border-color 140ms;
-  }
-
-  .not-found-link-secondary:hover {
-    background: var(--color-bg-hover);
-    color: var(--color-text-1);
-    border-color: var(--color-border-input);
-  }
-</style>
-
-<div id="page-content">
-  <div id="not-found">
-    <div id="not-found-inner">
-
-      <p id="not-found-code" aria-hidden="true">404</p>
-
-      <h1 id="not-found-title">Page not found</h1>
-      <p id="not-found-desc">The URL you followed doesn't exist or was moved. Check the address, or use one of the links below.</p>
-
-      <code id="not-found-path"></code>
-
-      <div class="not-found-links">
-        <a id="link-home" href="<%= siteBase %>/" class="not-found-link-primary">
-          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          Home
-        </a>
-        <a id="link-docs" href="<%= siteBase %>/docs/" class="not-found-link-secondary">Docs</a>
-        <a id="link-blog" href="<%= siteBase %>/blog/" class="not-found-link-secondary">Blog</a>
+      <div id="not-found">
+        <div id="not-found-inner">
+          <p id="not-found-code" aria-hidden="true">404</p>
+          <h1 id="not-found-title">Page not found</h1>
+          <p id="not-found-desc">The URL you followed doesn't exist or was moved. Check the address, or use one of the links below.</p>
+          <code id="not-found-path"></code>
+          <div class="not-found-links">
+            <a id="link-home" href="<%= siteBase %>/" class="not-found-link-primary">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              Home
+            </a>
+            <a id="link-docs" href="<%= siteBase %>/docs/" class="not-found-link-secondary">Docs</a>
+            <a id="link-blog" href="<%= siteBase %>/blog/" class="not-found-link-secondary">Blog</a>
+          </div>
+        </div>
       </div>
-
     </div>
-  </div>
+  </main>
 </div>
 
-<%- include('./partials/footer', { site, rootPrefix, docPages }) %>
+<%- include('./partials/footer', { rootPrefix: rootPrefix }) %>
 
 <script>
 (function () {
   var siteBase = '<%= siteBase %>';
-  // Load scripts with correct base path
-  var soundsScript = document.createElement('script');
-  soundsScript.src = siteBase + 'public/js/sounds.js';
-  document.head.appendChild(soundsScript);
-  
-  var mainScript = document.createElement('script');
-  mainScript.src = siteBase + 'public/js/main.js';
-  document.head.appendChild(mainScript);
-
   var el = document.getElementById('not-found-path');
   if (el) el.textContent = window.location.pathname || '/';
 
-  // Fix nav links to be absolute for GitHub Pages sub-path hosting
   var home = document.getElementById('link-home');
   var docs = document.getElementById('link-docs');
   var blog = document.getElementById('link-blog');
   if (home) home.href = siteBase + '/';
   if (docs) docs.href = siteBase + '/docs/';
   if (blog) blog.href = siteBase + '/blog/';
-
-  // GitHub Pages 404 SPA redirect trick:
-  // If the URL looks like it should resolve to a known route, redirect there.
-  var path = window.location.pathname;
-  var routes = ['/docs', '/blog'];
-  for (var i = 0; i < routes.length; i++) {
-    if (path.indexOf(routes[i]) !== -1) {
-      // Already on a valid base path — stay, show 404
-      break;
-    }
-  }
 })();
 </script>
 

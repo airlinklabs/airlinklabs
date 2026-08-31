@@ -1,202 +1,71 @@
-<% const rootPrefix='../../' ; const pageTitle=post.title; const pageDescription=post.title + ' — ' + site.title
-  + ' announcement.' ; const wordCount=post.content.replace(/<[^>]+>/g, '').split(/\s+/).filter(Boolean).length;
+<%
+  const rootPrefix = '../../';
+  const pageTitle = post.title;
+  const pageDescription = post.title + ' — ' + site.title + ' announcement.';
+  const wordCount = post.content.replace(/<[^>]+>/g, '').split(/\s+/).filter(Boolean).length;
   const readMins = Math.max(1, Math.round(wordCount / 200));
-  %>
-  <%- include('./partials/head', { site, underConstruction, rootPrefix, pageTitle, pageDescription }) %>
-    <%- include('./partials/nav', { site, underConstruction, rootPrefix, docPages, pageTitle }) %>
+%>
+<%- include('../partials/head', { site, underConstruction, rootPrefix, pageTitle, pageDescription }) %>
+<%- include('../partials/nav', { site, underConstruction, rootPrefix, docPages, pageTitle }) %>
 
-      <style>
-        .post-layout {
-          min-height: 100vh;
-          padding: clamp(32px, 5vw, 72px) clamp(16px, 4vw, 56px) clamp(32px, 5vw, 72px) clamp(16px, 4vw, 56px);
-          box-sizing: border-box;
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: clamp(20px, 4vw, 48px);
-        }
+<%
+  // Build sidebar links from announcements
+  var sidebarLinks = [];
+  if (announcements && announcements.length) {
+    announcements.forEach(function(p) {
+      sidebarLinks.push({
+        label: p.title,
+        href: rootPrefix + 'blog/' + p.slug + '/',
+        active: p.slug === post.slug,
+        searchText: p.title.toLowerCase()
+      });
+    });
+  }
+%>
 
-        @media (max-width: 600px) {
-          .post-layout {
-            padding-bottom: 84px;
-            padding-left: 16px;
-            padding-right: 16px;
-          }
-        }
+<div class="docs-shell">
+  <%- include('../partials/sidebar', { rootPrefix: rootPrefix, currentPage: 'blog', sidebarLinks: sidebarLinks, sidebarSectionLabel: 'All posts' }) %>
 
-        @media (min-width: 860px) {
-          .post-layout {
-            grid-template-columns: 240px 1fr;
-            align-items: start;
-            margin-left: 60px;
-          }
-        }
+  <main class="docs-main">
+    <div class="docs-content" id="page-content">
 
-        .blog-sidebar {
-          display: none;
-          flex-direction: column;
-          gap: 8px;
-        }
-
-        @media (min-width: 860px) {
-          .blog-sidebar {
-            display: flex;
-            position: sticky;
-            top: clamp(32px, 5vw, 72px);
-            max-height: calc(100vh - clamp(32px, 5vw, 72px) * 2);
-            overflow-y: auto;
-          }
-        }
-
-        .blog-sidebar-label {
-          font-size: 11px;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          color: var(--color-text-4);
-          margin: 0 0 12px;
-          padding: 0 12px;
-        }
-
-        .blog-sidebar-link {
-          display: flex;
-          align-items: flex-start;
-          gap: 10px;
-          padding: 8px 12px;
-          border-radius: 6px;
-          text-decoration: none;
-          color: var(--color-text-2);
-          transition: background 140ms, color 140ms;
-          font-size: 13px;
-        }
-
-        .blog-sidebar-link:hover {
-          background: var(--color-bg-hover);
-          color: var(--color-text-1);
-        }
-
-        .blog-sidebar-link .dot {
-          display: inline-block;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: var(--color-text-4);
-          flex-shrink: 0;
-          margin-top: 4px;
-          transition: background 140ms;
-        }
-
-        .blog-sidebar-link:hover .dot {
-          background: var(--color-text-1);
-        }
-
-        .blog-sidebar-link .title {
-          margin: 0 0 4px;
-          font-weight: 500;
-          color: inherit;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-        }
-
-        .blog-sidebar-link .date {
-          margin: 0;
-          font-size: 11px;
-          color: var(--color-text-4);
-          font-family: var(--font-mono);
-        }
-
-        .post-inner {
-          max-width: 100%;
-          width: 100%;
-        }
-
-        .post-header {
-          padding: 0 0 clamp(20px, 3vw, 36px);
-          border-bottom: 1px solid var(--color-border);
-          margin-bottom: clamp(20px, 3vw, 36px);
-        }
-      </style>
-
-      <div class="post-layout">
-
-        <!-- Sidebar: post list for desktop navigation -->
-        <% if (announcements && announcements.length) { %>
-          <aside class="blog-sidebar">
-            <p class="blog-sidebar-label">All posts</p>
-            <% announcements.forEach(function(post) { %>
-              <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="blog-sidebar-link">
-                <span class="dot"></span>
-                <div style="min-width:0;">
-                  <p class="title">
-                    <%= post.title %>
-                  </p>
-                  <% if (post.date) { %>
-                    <p class="date">
-                      <%= post.date %>
-                    </p>
-                    <% } %>
-                </div>
-              </a>
-              <% }) %>
-          </aside>
-          <% } %>
-
-            <div class="post-inner">
-
-              <div class="post-header">
-                <a href="<%= rootPrefix %>blog/" class="post-back-link">
-                  <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M19 12H5M12 5l-7 7 7 7" />
-                  </svg>
-                  Blog
-                </a>
-
-                <h1
-                  style="font-size:clamp(20px,3.5vw,34px);font-weight:600;color:var(--color-text-1);letter-spacing:-0.03em;margin:0 0 16px;overflow-wrap:break-word;word-break:break-word;">
-                  <%= post.title %>
-                </h1>
-
-                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-                  <% if (post.authorGithub) { %>
-                    <img src="https://github.com/<%= post.authorGithub %>.png?size=40" alt="" loading="lazy"
-                      style="width:22px;height:22px;border-radius:50%;background:var(--color-bg-3);flex-shrink:0;"
-                      onerror="this.style.display='none'">
-                    <% } %>
-                      <span style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-2);">
-                        <%= post.author || 'AirlinkLabs' %>
-                      </span>
-                      <% if (post.date) { %>
-                        <span style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-4);">·</span>
-                        <span style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-3);">
-                          <%= post.date %>
-                        </span>
-                        <% } %>
-                          <span style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-4);">·</span>
-                          <span style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-3);">
-                            <%= readMins %> min read
-                          </span>
-                </div>
-              </div>
-
-              <article class="prose">
-                <%- post.content %>
-              </article>
-
-              <div style="margin-top:clamp(32px,5vw,56px);padding-top:20px;border-top:1px solid var(--color-border);">
-                <a href="<%= rootPrefix %>blog/" class="post-back-link">
-                  <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M19 12H5M12 5l-7 7 7 7" />
-                  </svg>
-                  All posts
-                </a>
-              </div>
-
-            </div>
+      <div class="doc-breadcrumb">
+        <a href="<%= rootPrefix %>blog/">Blog</a>
+        <span class="sep">/</span>
+        <span style="color:var(--color-text-2);"><%= post.title %></span>
       </div>
 
-      <script src="<%= rootPrefix %>public/js/main.js"></script>
-      </body>
+      <div class="doc-header">
+        <h1 class="doc-title"><%= post.title %></h1>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px;">
+          <% if (post.authorGithub) { %>
+            <img src="https://github.com/<%= post.authorGithub %>.png?size=40" alt="" loading="lazy"
+              style="width:22px;height:22px;border-radius:50%;background:var(--color-bg-3);flex-shrink:0;"
+              onerror="this.style.display='none'">
+          <% } %>
+          <span style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-2);"><%= post.author || 'AirlinkLabs' %></span>
+          <% if (post.date) { %>
+            <span style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-4);">·</span>
+            <span style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-3);"><%= post.date %></span>
+          <% } %>
+          <span style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-4);">·</span>
+          <span style="font-size:12px;font-family:var(--font-mono);color:var(--color-text-3);"><%= readMins %> min read</span>
+        </div>
+      </div>
 
-      </html>
+      <article class="prose">
+        <%- post.content %>
+      </article>
+
+      <div style="margin-top:clamp(32px,5vw,56px);padding-top:20px;border-top:1px solid var(--color-border);">
+        <a href="<%= rootPrefix %>blog/" class="doc-prev-next-link">
+          <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          All posts
+        </a>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<%- include('../partials/footer', { rootPrefix: rootPrefix }) %>

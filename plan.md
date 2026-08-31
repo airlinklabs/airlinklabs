@@ -1,279 +1,154 @@
-# AirLink Home Docs Redesign
+# Plan: Universal Sidebar + Home Redesign
 
-## Problem
+## Goal
 
-1. `docs/` has 24 markdown files (features, admin, API, config, dev) — build only reads `data/docs/` (6 files). Feature docs never appear on the site.
-2. Current docs UI doesn't match the AirLink panel's monochrome, compact, card-based design language.
-3. Docs lack proper section grouping — all 6 current docs land in "General".
+All pages share one sidebar layout (like docs). Universal nav links at top. Footer follows sidebar. Home page redesigned to match the new docs aesthetic. Good mobile.
 
-## Goals
+## Current State
 
-- All 24+ docs visible and navigable on the site
-- Design matches AirLink panel: Inter font, monochrome dark-first palette, `--theme-*` tokens, compact cards, sidebar + TOC
-- Every doc and every h2/h3 heading is deep-linkable
-- Sections group docs logically (Features, Administration, API, Configuration, Development)
+- **Docs**: 3-column layout (sidebar + content + TOC). Sidebar has logo, search, section-grouped doc links
+- **Blog index/post**: Has its own separate sidebar with doc/blog section links. Different layout
+- **Home**: SPA with `#spa-root` fullscreen fixed container. No sidebar. Hero/features/install/activity/team sections
+- **404**: Simple centered content, no sidebar
+- **Nav (partials/nav.ejs)**: Desktop = left pill strip (`#left-strip`). Mobile = bottom bar (`#mobile-bar`). Both use icon-only links (Home/Docs/Blog)
+- **Footer (partials/footer.ejs)**: Full-width block with grid. Currently overlaps sidebar area on desktop
 
----
-
-## Phase 1: Wire All Docs into the Build
-
-### 1.1 Reorganize `data/docs/` structure
-
-Move the 6 existing `data/docs/*.md` files into subdirectories and add `section` front-matter:
+## Target Architecture
 
 ```
-data/docs/
-├── getting-started/
-│   └── quickstart.md          (section: "Getting Started", order: 1)
-├── features/
-│   ├── servers.md             (section: "Features", order: 10)
-│   ├── users.md               (order: 11)
-│   ├── nodes.md               (order: 12)
-│   ├── databases.md           (order: 13)
-│   ├── backups.md             (order: 14)
-│   ├── files.md               (order: 15)
-│   ├── schedules.md           (order: 16)
-│   ├── console.md             (order: 17)
-│   ├── analytics.md           (order: 18)
-│   ├── addons.md              (order: 19)
-│   ├── images.md              (order: 20)
-│   ├── onboarding.md          (order: 21)
-│   └── settings.md            (order: 22)
-├── admin/
-│   ├── getting-started.md     (section: "Administration", order: 30)
-│   ├── roles-and-permissions.md (order: 31)
-│   ├── security.md            (order: 32)
-│   └── deployment.md          (order: 33)
-├── api/
-│   ├── authentication.md      (section: "API", order: 40)
-│   ├── v2-reference.md        (order: 41)
-│   └── webhooks.md            (order: 42)
-├── configuration/
-│   ├── environment.md         (section: "Configuration", order: 50)
-│   └── redis.md               (order: 51)
-├── development/
-│   ├── contributing.md        (section: "Development", order: 60)
-│   ├── project-structure.md   (order: 61)
-│   ├── database.md            (order: 62)
-│   └── addon-development.md   (moved from root, order: 63)
-└── architecture.md            (section: "Architecture", order: 70)
+┌─────────────┬──────────────────────────┬──────────┐
+│  Sidebar    │  Main Content            │  TOC     │
+│  (fixed)    │  (scrollable)            │ (sticky) │
+│  240px      │  flex: 1                 │  200px   │
+├─────────────┤                          │          │
+│ [Logo]      │  (page content)          │          │
+│ [Home]      │                          │          │
+│ [Docs]      │                          │          │
+│ [Blog]      │                          │          │
+│ [Theme]     │                          │          │
+│ ──────────  │                          │          │
+│ Section     │                          │          │
+│ links...    │                          │          │
+│             │                          │          │
+├─────────────┼──────────────────────────┤          │
+│  Footer     │  (footer content)        │          │
+└─────────────┴──────────────────────────┴──────────┘
 ```
 
-**Steps:**
+On mobile (<860px): sidebar collapses, content full width, no TOC.
 
-- Copy `docs/features/*.md`, `docs/admin/*.md`, `docs/api/*.md`, `docs/configuration/*.md`, `docs/development/*.md` into `data/docs/` subdirectories
-- Ensure every `.md` file has front-matter: `title`, `description`, `section`, `order`
-- Add front-matter to files that don't have it (strip any existing `---` blocks if they conflict)
-- Rename `database-migrations.md` → `data/docs/development/database.md` (update content if needed)
-- Move `api-reference.md` → `data/docs/api/v2-reference.md`
+## Changes
 
-### 1.2 Verify `build.ts` walks subdirectories
+### 1. Create `partials/sidebar.ejs` — universal sidebar partial
 
-The existing `walkDocs()` in `build.ts` already recursively walks `data/docs/` and extracts section from directory name. This should work — section defaults to directory name.
+New file. Contains:
 
-**Verify:** `section` field in front-matter overrides directory name. If a file has `section: "Features"` in front-matter, that takes priority.
+- Logo + "AirLink" at top
+- Universal nav links: Home, Docs, Blog (icon + label)
+- Theme toggle button
+- Sound toggle button
+- Horizontal divider
+- **Slot** for page-specific links (doc pages render their section links here; blog renders its section links here; home can render featured sections or nothing)
 
----
+All pages include this instead of their own sidebar implementations.
 
-## Phase 2: Redesign Docs UI to Match Panel
+### 2. Modify `partials/nav.ejs` — remove desktop pill strip + mobile bar
 
-### 2.1 Update `src/input.css` — Import Panel Theme Tokens
+The nav partial currently renders:
 
-Add panel-compatible theme tokens to the site's CSS. Map the site's existing dark/light variables to the panel's `--theme-*` system:
+- Desktop `#left-strip` (icon-only floating pill)
+- Mobile `#mobile-bar` (frosted glass bottom bar)
+- Credit line (home only)
+- Redirect confirmation modal
 
-**Dark mode (default):**
+All of this gets replaced by the sidebar handling. Keep only:
 
-```css
-:root {
-  --color-bg: #161616;
-  --color-bg-secondary: #1e1e1e;
-  --color-bg-card: #212121;
-  --color-bg-hover: #2a2a2a;
-  --color-text-1: #e0e0e0;
-  --color-text-2: #8a8a8a;
-  --color-text-3: #767676;
-  --color-border: rgba(255, 255, 255, 0.13);
-  --color-border-subtle: rgba(255, 255, 255, 0.08);
-  --color-accent: #ffffff;
-  --color-accent-muted: #0a0a0a;
-  --color-success: #4ade80;
-  --color-info: #60a5fa;
-  --color-warning: #fbbf24;
-  --color-danger: #f87171;
-  --radius: 12px;
-  --radius-sm: 8px;
-  --radius-lg: 16px;
-  --shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
-}
-```
+- Redirect confirmation modal (shared across all pages)
+- Credit line moves to footer
 
-**Light mode:**
+### 3. Modify `partials/footer.ejs` — start after sidebar
 
-```css
-.light {
-  --color-bg: #f5f5f5;
-  --color-bg-secondary: #eeeeee;
-  --color-bg-card: #ffffff;
-  --color-bg-hover: #ebebeb;
-  --color-text-1: #404040;
-  --color-text-2: #575757;
-  --color-text-3: #737373;
-  --color-border: #d8d8d8;
-  --color-border-subtle: #e4e4e4;
-  --color-accent: #0a0a0a;
-  --color-accent-muted: #ffffff;
-  --color-success: #15803d;
-  --color-info: #2563eb;
-  --color-warning: #b45309;
-  --color-danger: #dc2626;
-  --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
-}
-```
+Footer currently uses `max-width:1160px` centered. Change to:
 
-**Font:** Switch from General Sans to Inter Variable (load from `@fontsource-variable/inter` or Fontshare).
+- Desktop: starts at `240px` left offset (after sidebar), full remaining width
+- Mobile: full width, bottom padding for any mobile bottom nav if present
+- Move credit line from nav.ejs into footer
 
-### 2.2 Redesign `docs/index.ejs` — Docs Landing Page
+### 4. Modify `docs/doc.ejs` — use new sidebar partial
 
-Replace current section-grouped cards with a **sidebar + grid** layout matching panel:
+Replace inline sidebar HTML with `include('../partials/sidebar', ...)` call. Pass `docPages` and `currentDoc` for section links.
 
-```
-┌──────────┬──────────────────────────────────────────┐
-│          │  [Section Heading]                        │
-│ Sidebar  │  ┌─────────┐ ┌─────────┐ ┌─────────┐    │
-│ (sticky) │  │ Card    │ │ Card    │ │ Card    │    │
-│          │  │ title   │ │ title   │ │ title   │    │
-│ Search   │  │ desc    │ │ desc    │ │ desc    │    │
-│ ──────── │  │ badge   │ │ badge   │ │ badge   │    │
-│ Getting  │  └─────────┘ └─────────┘ └─────────┘    │
-│ Started  │                                          │
-│ Features │  [Section Heading]                        │
-│ Admin    │  ┌─────────┐ ┌─────────┐                 │
-│ API      │  │ Card    │ │ Card    │                 │
-│ Config   │  └─────────┘ └─────────┘                 │
-│ Dev      │                                          │
-│ Arch     │                                          │
-└──────────┴──────────────────────────────────────────┘
-```
+### 5. Modify `docs/index.ejs` — use new sidebar partial
 
-**Design specs (match panel):**
+Replace inline sidebar HTML with `include('../partials/sidebar', ...)` call. Pass `docPages` for section links.
 
-- Sidebar: `w-56` fixed, `bg-[var(--color-bg)]`, `border-r border-[var(--color-border)]`
-- Sidebar items: `text-[13px]` font, pill-shaped active state (inverted accent bg)
-- Search: `.al-input` styled, `rounded-xl`, search icon
-- Cards: `.al-card` style — `rounded-xl p-3 bg-[var(--color-bg-card)] border border-[var(--color-border)] shadow`
-- Card hover: `translateY(-2px)` lift + `shadow-md`
-- Section headings: `text-[10px] font-semibold uppercase tracking-widest` (`.al-section-label`)
-- Responsive: sidebar hidden < 860px, TOC in dropdown on mobile
+### 6. Modify `blog/index.ejs` — use new sidebar partial + docs-shell layout
 
-### 2.3 Redesign `doc.ejs` — Single Doc Page
+Currently has its own `.blog-layout` with `.blog-sidebar`. Replace with:
 
-Match panel's three-column layout:
+- `docs-shell` layout (same as docs)
+- Sidebar partial with blog section links
+- Main content area
 
-```
-┌──────────┬────────────────────────────┬───────────┐
-│          │  [Breadcrumb]              │           │
-│ Sidebar  │  [Section · Title]         │    TOC    │
-│ (doc nav)│  [Description]             │  (sticky) │
-│          │  [Author · Date]           │           │
-│          │  ────────────────           │  Heading1 │
-│          │  [Article content]         │  Heading2 │
-│          │  prose-styled              │    └─ Sub │
-│          │                            │  Heading3 │
-│          │  [Prev / Next]             │           │
-└──────────┴────────────────────────────┴───────────┘
-```
+### 7. Modify `blog/post.ejs` — use new sidebar partial + docs-shell layout
 
-**Design specs:**
+Same as blog/index — use shared sidebar and docs-shell layout.
 
-- Sidebar: same as panel sidebar, `w-56`, sticky
-- Main content: `prose` class with panel token colors
-- TOC: `w-48` sticky right sidebar, `text-[13px]`, indented sub-headings
-- Active heading highlight on scroll (IntersectionObserver)
-- Breadcrumb: `< Docs > Section > Title` at top
-- Prev/Next: card links at bottom with hover lift
-- Headings: h2/h3 get anchor links (`#` icon on hover), deep-linkable via URL hash
+### 8. Modify `index.ejs` (home) — redesign with sidebar layout
 
-### 2.4 Deep-linkable Headings
+**This is the big one.** Redesign home page to:
 
-In `build.ts`, modify heading extraction to add `id` attributes:
+- Use `docs-shell` layout (sidebar + main content)
+- Remove `#spa-root` fullscreen fixed container
+- Convert SPA sections into scrollable content sections
+- Home sidebar shows: universal nav + "On this page" section links (Hero, Features, Install, Activity, Team)
+- Keep all existing functionality (hero window, feature grid, install wizard, activity/commits, team)
+- Apply impeccable design quality — matching the panel monochrome aesthetic
 
-- h2: `id="slug-of-heading"`
-- h3: `id="slug-of-subheading"`
-- h4: `id="slug-of-subsubheading"`
+### 9. Modify `404.ejs` — use sidebar layout
 
-Use GitHub-style slug generation: lowercase, spaces → hyphens, strip special chars.
+Simple: add sidebar, center 404 content in main area.
 
-In `doc.ejs`, TOC links use `href="#heading-id"` and smooth-scroll.
+### 10. Update `src/input.css`
 
-### 2.5 Update `doc.ejs` TOC Generation
+- `.docs-shell` becomes universal layout class (used by all pages)
+- Add `.site-sidebar` class (replaces `.docs-sidebar` for universal use)
+- Add `.site-sidebar-nav-link` for universal nav links
+- Footer gets left offset on desktop
+- Mobile: sidebar collapses, content full width
+- Remove old `#left-strip`, `#mobile-bar` styles (or keep for backward compat)
+- Remove old `#credit-line` styles (moved to footer)
 
-Already extracts h2-h4 headings. Ensure `id` attributes are set on rendered headings in the prose output. Add scroll-spy IntersectionObserver to highlight active heading.
+### 11. Update `public/js/main.js`
 
----
+- Remove loading screen references (already done)
+- Remove SPA navigation code (click interception, section switching)
+- Keep: hero window interactions, feature modal, commit popups, contributor popups, theme toggle, sounds, search
+- Add: sidebar active state highlighting based on current page
 
-## Phase 3: Polish & Fix
+### 12. Update `src/scripts/build.ts`
 
-### 3.1 Fix Broken Internal Links
+- Pass `currentPage` string to all templates so sidebar can highlight active link
+- Blog templates now use `docs-shell` layout (may need rootPrefix adjustment)
 
-- Scan all doc `.md` files for internal links (`/docs/...`, `[text](/docs/...)`)
-- Update to use slug-based paths that match the new structure
-- Ensure announcement posts link correctly
+## Implementation Order
 
-### 3.2 Update `partials/nav.ejs`
+1. `partials/sidebar.ejs` — create
+2. `src/input.css` — add universal sidebar styles, footer offset, mobile responsive
+3. `docs/doc.ejs` — switch to sidebar partial
+4. `docs/index.ejs` — switch to sidebar partial
+5. `blog/index.ejs` — switch to sidebar + docs-shell layout
+6. `blog/post.ejs` — switch to sidebar + docs-shell layout
+7. `index.ejs` — redesign with sidebar + scrollable content
+8. `404.ejs` — add sidebar
+9. `partials/nav.ejs` — strip to just the redirect modal
+10. `partials/footer.ejs` — adjust for sidebar offset
+11. `public/js/main.js` — clean up SPA code
+12. `src/scripts/build.ts` — pass `currentPage` to templates
+13. Build + verify
+14. Commit + push
 
-- Ensure "Docs" nav link points to `/docs/`
-- Add active state highlighting when on docs pages
+## Open Questions
 
-### 3.3 Code Block Styling
-
-Match panel's code blocks: `bg-[var(--color-bg)]`, `border border-[var(--color-border)]`, monospace font, copy button
-
-### 3.4 Search Enhancement
-
-Current search filters sidebar items. Enhance:
-
-- Full-text search across doc titles + descriptions
-- Keyboard shortcut (Cmd+K or /) to focus search
-- Highlight matching text in results
-
-### 3.5 Mobile Responsiveness
-
-- Sidebar becomes horizontal scrollable tab strip or hamburger menu
-- TOC moves to a dropdown/accordion at top of content
-- Cards go single-column
-- Bottom sheet for section navigation
-
----
-
-## Execution Order
-
-| Step | Task                                                            | Files                                        |
-| ---- | --------------------------------------------------------------- | -------------------------------------------- |
-| 1    | Copy all `docs/*.md` into `data/docs/` with proper front-matter | `data/docs/**/*.md`                          |
-| 2    | Remove old flat files from `data/docs/` root                    | `data/docs/*.md`                             |
-| 3    | Update `src/input.css` theme tokens to match panel              | `src/input.css`                              |
-| 4    | Update font loading in `partials/head.ejs`                      | `src/templates/partials/head.ejs`            |
-| 5    | Redesign `docs/index.ejs` (sidebar + section cards)             | `src/templates/docs/index.ejs`               |
-| 6    | Redesign `doc.ejs` (three-column + deep links + TOC)            | `src/templates/docs/doc.ejs`                 |
-| 7    | Add heading ID generation in `build.ts`                         | `src/scripts/build.ts`                       |
-| 8    | Add scroll-spy JS for TOC highlighting                          | `src/templates/docs/doc.ejs` or `public/js/` |
-| 9    | Fix internal links in all doc `.md` files                       | `data/docs/**/*.md`                          |
-| 10   | Build + test locally                                            | `npm run build`                              |
-| 11   | Push + verify deploy                                            | `git push`                                   |
-
----
-
-## Success Criteria
-
-- [ ] All 24+ docs render as individual pages under `/docs/{slug}/`
-- [ ] Docs landing page shows all docs grouped by section (Features, Admin, API, Config, Dev, Arch)
-- [ ] Each heading (h2/h3) is deep-linkable via URL hash
-- [ ] TOC on doc pages reflects all headings with working links
-- [ ] Dark/light theme matches panel aesthetic (monochrome, compact, Inter font)
-- [ ] Mobile responsive — sidebar collapses, content readable
-- [ ] Search works across all docs
-- [ ] `npm run build` succeeds, `dist/` contains all pages
+- Should blog have a TOC on the right like docs? (blog posts have h2 headings — yes, for consistency)
+- Home page "On this page" sidebar links — should they scroll to sections or be decorative? (Scroll to sections — smooth scroll)
