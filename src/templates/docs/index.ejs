@@ -36,8 +36,8 @@
       </div>
 
       <% sortedSectionNames.forEach(function(section) { %>
-        <h2 class="docs-section-heading"><%= section %></h2>
-        <div class="docs-card-grid">
+        <h2 class="docs-section-heading" data-animate="fade-up"><%= section %></h2>
+        <div class="docs-card-grid" data-animate-group>
           <% sections[section].forEach(function(doc) { %>
             <a href="<%= rootPrefix %>docs/<%= doc.slug %>/" class="docs-card">
               <div class="docs-card-title"><%= doc.title %></div>

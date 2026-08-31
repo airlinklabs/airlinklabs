@@ -67,13 +67,13 @@
       <!-- Prev / Next -->
       <div class="doc-prev-next">
         <% if (prevDoc) { %>
-          <a href="<%= rootPrefix %>docs/<%= prevDoc.slug %>/">
+          <a href="<%= rootPrefix %>docs/<%= prevDoc.slug %>/" class="btn-secondary">
             <span class="label">&larr; Previous</span>
             <span class="title"><%= prevDoc.title %></span>
           </a>
         <% } else { %><div></div><% } %>
         <% if (nextDoc) { %>
-          <a href="<%= rootPrefix %>docs/<%= nextDoc.slug %>/" class="next">
+          <a href="<%= rootPrefix %>docs/<%= nextDoc.slug %>/" class="btn-secondary next">
             <span class="label">Next &rarr;</span>
             <span class="title"><%= nextDoc.title %></span>
           </a>

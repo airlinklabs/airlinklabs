@@ -27,7 +27,7 @@
   <main class="docs-main">
     <div class="docs-content" id="page-content">
 
-      <div class="doc-header">
+      <div class="doc-header" data-animate="fade-up">
         <h1 class="doc-title" style="font-size:32px;margin-bottom:4px;"><%= site.title %> Blog</h1>
         <p class="doc-desc">Announcements and release notes from AirLink.</p>
       </div>
@@ -39,13 +39,13 @@
 
         <% if (pinnedPosts.length) { %>
           <div style="margin-bottom:clamp(20px,3vw,36px);">
-            <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 12px;display:flex;align-items:center;gap:7px;">
+            <p class="section-eyebrow" style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 12px;display:flex;align-items:center;gap:7px;">
               <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
               </svg>
               Pinned
             </p>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:12px;">
+            <div data-animate-group style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:12px;">
               <% pinnedPosts.forEach(function(post) { %>
                 <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="blog-card">
                   <p class="post-title"><%= post.title %></p>
@@ -72,7 +72,7 @@
               <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 4px;">All posts</p>
             <% } %>
             <% regularPosts.forEach(function(post) { %>
-              <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="blog-post-row">
+              <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="blog-post-row" data-animate="fade">
                 <div style="min-width:0;">
                   <p class="post-title"><%= post.title %></p>
                   <div class="post-meta">
