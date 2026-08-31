@@ -474,6 +474,65 @@ dd {
   color: var(--color-success);
 }
 
+/* ── Traffic light buttons ─────────────────────────────────────────────────── */
+.hw-btn {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 150ms var(--ease-standard);
+}
+.hw-btn:hover {
+  opacity: 0.7;
+}
+.hw-btn-close {
+  background: #ff5f57;
+}
+.hw-btn-minimize {
+  background: #febc2e;
+}
+.hw-btn-maximize {
+  background: #28c840;
+}
+
+/* ── Icon button (close, settings) ─────────────────────────────────────────── */
+.btn-icon {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-text-3);
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background var(--dur-quick) var(--ease-standard),
+    color var(--dur-quick) var(--ease-standard);
+}
+.btn-icon:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-text-1);
+}
+
+/* ── Text link with hover ──────────────────────────────────────────────────── */
+.link-hover {
+  color: var(--color-text-3);
+  text-decoration: none;
+  transition: color var(--dur-quick) var(--ease-standard);
+}
+.link-hover:hover {
+  color: var(--color-text-1);
+}
+
 /* ── Color transitions — every element gets these cheaply ──────────────────── */
 *,
 *::before,
@@ -535,6 +594,10 @@ a:active {
   transition-property: transform, box-shadow;
   transition-duration: 260ms;
   transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+#hero-mockup:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
 }
 
 /* Right strip items */
