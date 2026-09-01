@@ -41,8 +41,8 @@
     "installVideoUrl": "https://youtu.be/-rGvbc1sVlI?si=MKfYOisLjJJKPMhe"
   },
   "underConstruction": {
-    "enabled": false,
-    "message": "The site is currently being updated.",
+    "enabled": true,
+    "message": "The site is currently being updated. That means its NOT FINISHED AND IS BEING BUILT!!!!!!",
     "badge": "Under Construction"
   }
 }

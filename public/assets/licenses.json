@@ -1,137 +1,13 @@
 {
-  "generatedAt": "2026-09-01T13:35:33.755Z",
-  "repos": [
-    {
-      "name": "panel",
-      "license": "MIT",
-      "url": "https://github.com/AirlinkLabs/panel/blob/main/LICENSE",
-      "description": ""
-    },
-    {
-      "name": "daemon",
-      "license": "MIT",
-      "url": "https://github.com/AirlinkLabs/daemon/blob/main/LICENSE",
-      "description": ""
-    },
-    {
-      "name": "home",
-      "license": "MIT",
-      "url": "https://github.com/AirlinkLabs/home/blob/main/LICENSE",
-      "description": ""
-    }
-  ],
+  "generatedAt": "2026-09-01T13:53:11.191Z",
+  "repos": [],
   "npm": [
-    {
-      "name": "@aws-sdk/client-s3",
-      "version": "3.1123.0",
-      "license": "Apache-2.0",
-      "repository": "https://www.npmjs.com/package/@aws-sdk/client-s3",
-      "description": "AWS SDK for JavaScript S3 Client for Node.js, Browser and React Native"
-    },
-    {
-      "name": "@aws-sdk/lib-storage",
-      "version": "3.1123.0",
-      "license": "Apache-2.0",
-      "repository": "https://www.npmjs.com/package/@aws-sdk/lib-storage",
-      "description": "Storage higher order operation"
-    },
-    {
-      "name": "@biomejs/biome",
-      "version": "2.5.11",
-      "license": "MIT OR Apache-2.0",
-      "repository": "https://www.npmjs.com/package/@biomejs/biome",
-      "description": "Biome is a toolchain for the web: formatter, linter and more"
-    },
-    {
-      "name": "@dicebear/core",
-      "version": "10.7.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@dicebear/core",
-      "description": "Unique avatars from dozens of styles — deterministic, customizable, vector-based."
-    },
-    {
-      "name": "@dicebear/thumbs",
-      "version": "9.4.2",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@dicebear/thumbs",
-      "description": "Avatar style for DiceBear"
-    },
-    {
-      "name": "@eslint/js",
-      "version": "10.0.1",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@eslint/js",
-      "description": "ESLint JavaScript language implementation"
-    },
-    {
-      "name": "@fontsource-variable/inter",
-      "version": "5.3.0",
-      "license": "OFL-1.1",
-      "repository": "https://www.npmjs.com/package/@fontsource-variable/inter",
-      "description": "Self-host the Inter font in a neatly bundled NPM package."
-    },
-    {
-      "name": "@formkit/auto-animate",
-      "version": "0.10.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@formkit/auto-animate",
-      "description": "Add motion to your apps with a single line of code."
-    },
-    {
-      "name": "@prisma/adapter-pg",
-      "version": "7.10.0",
-      "license": "Apache-2.0",
-      "repository": "https://www.npmjs.com/package/@prisma/adapter-pg",
-      "description": "Prisma's driver adapter for \"pg\""
-    },
-    {
-      "name": "@prisma/client",
-      "version": "7.10.0",
-      "license": "Apache-2.0",
-      "repository": "https://www.npmjs.com/package/@prisma/client",
-      "description": "Prisma Client is an auto-generated, type-safe and modern JavaScript/TypeScript ORM for Node.js that's tailored to your data. Supports PostgreSQL, CockroachDB, MySQL, MariaDB, SQL Server, SQLite & MongoDB databases."
-    },
-    {
-      "name": "@simplewebauthn/browser",
-      "version": "13.3.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@simplewebauthn/browser",
-      "description": "SimpleWebAuthn for Browsers"
-    },
-    {
-      "name": "@simplewebauthn/server",
-      "version": "13.3.3",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@simplewebauthn/server",
-      "description": "SimpleWebAuthn for Servers"
-    },
     {
       "name": "@tailwindcss/cli",
       "version": "4.3.3",
       "license": "MIT",
       "repository": "https://www.npmjs.com/package/@tailwindcss/cli",
       "description": "A utility-first CSS framework for rapidly building custom user interfaces."
-    },
-    {
-      "name": "@tailwindcss/forms",
-      "version": "0.5.11",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@tailwindcss/forms",
-      "description": "A plugin that provides a basic reset for form styles that makes form elements easy to override with utilities."
-    },
-    {
-      "name": "@tanstack/query-core",
-      "version": "5.102.8",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@tanstack/query-core",
-      "description": "The framework agnostic core that powers TanStack Query"
-    },
-    {
-      "name": "@types/adm-zip",
-      "version": "0.5.8",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@types/adm-zip",
-      "description": "TypeScript definitions for adm-zip"
     },
     {
       "name": "@types/better-sqlite3",
@@ -141,53 +17,11 @@
       "description": "TypeScript definitions for better-sqlite3"
     },
     {
-      "name": "@types/compression",
-      "version": "1.8.1",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@types/compression",
-      "description": "TypeScript definitions for compression"
-    },
-    {
-      "name": "@types/cookie-parser",
-      "version": "1.4.10",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@types/cookie-parser",
-      "description": "TypeScript definitions for cookie-parser"
-    },
-    {
-      "name": "@types/dockerode",
-      "version": "4.0.1",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@types/dockerode",
-      "description": "TypeScript definitions for dockerode"
-    },
-    {
       "name": "@types/ejs",
       "version": "3.1.5",
       "license": "MIT",
       "repository": "https://www.npmjs.com/package/@types/ejs",
       "description": "TypeScript definitions for ejs"
-    },
-    {
-      "name": "@types/express",
-      "version": "5.0.6",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@types/express",
-      "description": "TypeScript definitions for express"
-    },
-    {
-      "name": "@types/express-session",
-      "version": "1.19.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@types/express-session",
-      "description": "TypeScript definitions for express-session"
-    },
-    {
-      "name": "@types/express-ws",
-      "version": "3.0.6",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@types/express-ws",
-      "description": "TypeScript definitions for express-ws"
     },
     {
       "name": "@types/fs-extra",
@@ -197,109 +31,11 @@
       "description": "TypeScript definitions for fs-extra"
     },
     {
-      "name": "@types/multer",
-      "version": "2.2.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@types/multer",
-      "description": "TypeScript definitions for multer"
-    },
-    {
       "name": "@types/node",
       "version": "26.4.0",
       "license": "MIT",
       "repository": "https://www.npmjs.com/package/@types/node",
       "description": "TypeScript definitions for node"
-    },
-    {
-      "name": "@types/nodemailer",
-      "version": "8.0.1",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@types/nodemailer",
-      "description": "TypeScript definitions for nodemailer"
-    },
-    {
-      "name": "@types/pg",
-      "version": "8.23.1",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@types/pg",
-      "description": "TypeScript definitions for pg"
-    },
-    {
-      "name": "@types/qrcode",
-      "version": "1.5.6",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@types/qrcode",
-      "description": "TypeScript definitions for qrcode"
-    },
-    {
-      "name": "@types/ssh2",
-      "version": "1.15.5",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@types/ssh2",
-      "description": "TypeScript definitions for ssh2"
-    },
-    {
-      "name": "@types/tar",
-      "version": "7.0.87",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@types/tar",
-      "description": "Stub TypeScript definitions entry for tar, which provides its own types definitions"
-    },
-    {
-      "name": "@types/validator",
-      "version": "13.15.10",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@types/validator",
-      "description": "TypeScript definitions for validator"
-    },
-    {
-      "name": "@types/ws",
-      "version": "8.18.1",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@types/ws",
-      "description": "TypeScript definitions for ws"
-    },
-    {
-      "name": "@xterm/addon-fit",
-      "version": "0.11.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@xterm/addon-fit",
-      "description": "An addon for [xterm.js](https://github.com/xtermjs/xterm.js) that enables fitting the terminal's dimensions to a containing element. This addon requires xterm.js v4+."
-    },
-    {
-      "name": "@xterm/addon-web-links",
-      "version": "0.12.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@xterm/addon-web-links",
-      "description": "An addon for [xterm.js](https://github.com/xtermjs/xterm.js) that enables web links. This addon requires xterm.js v4+."
-    },
-    {
-      "name": "@xterm/xterm",
-      "version": "6.0.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/@xterm/xterm",
-      "description": "Full xterm terminal, in your browser"
-    },
-    {
-      "name": "adm-zip",
-      "version": "0.6.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/adm-zip",
-      "description": "Javascript implementation of zip for nodejs with support for electron original-fs. Allows user to create or extract zip files both in memory or to/from disk"
-    },
-    {
-      "name": "alpinejs",
-      "version": "3.17.1",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/alpinejs",
-      "description": "The rugged, minimal JavaScript framework"
-    },
-    {
-      "name": "bcryptjs",
-      "version": "3.0.3",
-      "license": "BSD-3-Clause",
-      "repository": "https://www.npmjs.com/package/bcryptjs",
-      "description": "Optimized bcrypt in plain JavaScript with zero dependencies, with TypeScript support. Compatible to 'bcrypt'."
     },
     {
       "name": "better-sqlite3",
@@ -309,123 +45,11 @@
       "description": "The fastest and simplest library for SQLite in Node.js."
     },
     {
-      "name": "boxen",
-      "version": "8.0.1",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/boxen",
-      "description": "Create boxes in the terminal"
-    },
-    {
-      "name": "bun-types",
-      "version": "1.4.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/bun-types",
-      "description": "Type definitions and documentation for Bun, an incredibly fast JavaScript runtime"
-    },
-    {
-      "name": "chalk",
-      "version": "6.0.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/chalk",
-      "description": "Terminal string styling done right"
-    },
-    {
-      "name": "chart.js",
-      "version": "4.5.1",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/chart.js",
-      "description": "Simple HTML5 charts using the canvas element."
-    },
-    {
-      "name": "compression",
-      "version": "1.8.1",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/compression",
-      "description": "Node.js compression middleware"
-    },
-    {
-      "name": "connect-redis",
-      "version": "10.0.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/connect-redis",
-      "description": "Redis session store for Connect"
-    },
-    {
-      "name": "cookie-parser",
-      "version": "1.4.7",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/cookie-parser",
-      "description": "Parse HTTP request cookies"
-    },
-    {
-      "name": "cron-parser",
-      "version": "5.10.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/cron-parser",
-      "description": "Node.js library for parsing crontab instructions"
-    },
-    {
-      "name": "csrf-csrf",
-      "version": "4.0.3",
-      "license": "ISC",
-      "repository": "https://www.npmjs.com/package/csrf-csrf",
-      "description": "A utility package to help implement stateless CSRF protection using the Double Submit Cookie Pattern in express."
-    },
-    {
-      "name": "dockerode",
-      "version": "5.0.1",
-      "license": "Apache-2.0",
-      "repository": "https://www.npmjs.com/package/dockerode",
-      "description": "Docker Remote API module."
-    },
-    {
-      "name": "dotenv",
-      "version": "17.4.2",
-      "license": "BSD-2-Clause",
-      "repository": "https://www.npmjs.com/package/dotenv",
-      "description": "Loads environment variables from .env file"
-    },
-    {
       "name": "ejs",
       "version": "6.0.1",
       "license": "Apache-2.0",
       "repository": "https://www.npmjs.com/package/ejs",
       "description": "Embedded JavaScript templates"
-    },
-    {
-      "name": "eslint",
-      "version": "10.9.1",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/eslint",
-      "description": "An AST-based pattern checker for JavaScript."
-    },
-    {
-      "name": "express",
-      "version": "5.2.1",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/express",
-      "description": "Fast, unopinionated, minimalist web framework"
-    },
-    {
-      "name": "express-rate-limit",
-      "version": "8.7.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/express-rate-limit",
-      "description": "Basic IP rate-limiting middleware for Express. Use to limit repeated requests to public APIs and/or endpoints such as password reset."
-    },
-    {
-      "name": "express-session",
-      "version": "1.19.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/express-session",
-      "description": "Simple session middleware for Express"
-    },
-    {
-      "name": "express-ws",
-      "version": "5.0.2",
-      "license": "BSD-2-Clause",
-      "repository": "https://www.npmjs.com/package/express-ws",
-      "description": "WebSocket endpoints for Express applications"
     },
     {
       "name": "front-matter",
@@ -442,109 +66,11 @@
       "description": "fs-extra contains methods that aren't included in the vanilla Node.js fs package. Such as recursive mkdir, copy, and remove."
     },
     {
-      "name": "helmet",
-      "version": "8.3.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/helmet",
-      "description": "help secure Express/Connect apps with various HTTP headers"
-    },
-    {
-      "name": "htmx.org",
-      "version": "2.0.10",
-      "license": "0BSD",
-      "repository": "https://www.npmjs.com/package/htmx.org",
-      "description": "high power tools for html"
-    },
-    {
-      "name": "ioredis",
-      "version": "6.0.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/ioredis",
-      "description": "A robust, performance-focused and full-featured Redis client for Node.js."
-    },
-    {
-      "name": "long",
-      "version": "5.3.2",
-      "license": "Apache-2.0",
-      "repository": "https://www.npmjs.com/package/long",
-      "description": "A Long class for representing a 64-bit two's-complement integer value."
-    },
-    {
-      "name": "lucide",
-      "version": "1.38.0",
-      "license": "ISC",
-      "repository": "https://www.npmjs.com/package/lucide",
-      "description": "A Lucide icon library package for web and javascript applications."
-    },
-    {
       "name": "marked",
       "version": "18.0.11",
       "license": "MIT",
       "repository": "https://www.npmjs.com/package/marked",
       "description": "A markdown parser built for speed"
-    },
-    {
-      "name": "minecraft-status",
-      "version": "1.1.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/minecraft-status",
-      "description": "Node.js module for gathering information about Minecraft Java Edition servers and Minecraft Bedrock Edition servers."
-    },
-    {
-      "name": "monaco-editor",
-      "version": "0.56.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/monaco-editor",
-      "description": "A browser based code editor"
-    },
-    {
-      "name": "multer",
-      "version": "2.3.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/multer",
-      "description": "Middleware for handling `multipart/form-data`."
-    },
-    {
-      "name": "nodemailer",
-      "version": "9.1.0",
-      "license": "MIT-0",
-      "repository": "https://www.npmjs.com/package/nodemailer",
-      "description": "Easy as cake e-mail sending from your Node.js applications"
-    },
-    {
-      "name": "nodemon",
-      "version": "3.1.14",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/nodemon",
-      "description": "Simple monitor script for use during development of a Node.js app."
-    },
-    {
-      "name": "otpauth",
-      "version": "9.5.1",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/otpauth",
-      "description": "One Time Password (HOTP/TOTP) library for Node.js, Deno, Bun and browsers"
-    },
-    {
-      "name": "pg",
-      "version": "8.23.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/pg",
-      "description": "PostgreSQL client - pure javascript & libpq with the same API"
-    },
-    {
-      "name": "pino",
-      "version": "10.3.1",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/pino",
-      "description": "super fast, all natural json logger"
-    },
-    {
-      "name": "pino-pretty",
-      "version": "13.1.3",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/pino-pretty",
-      "description": "Prettifier for Pino log lines"
     },
     {
       "name": "prettier",
@@ -561,53 +87,11 @@
       "description": "A Prettier plugin for Embedded JavaScript Templating (EJS)."
     },
     {
-      "name": "prisma",
-      "version": "8.0.0-rc.12",
-      "license": "Apache-2.0",
-      "repository": "https://www.npmjs.com/package/prisma",
-      "description": "The Prisma CLI: one binary for the ORM, Composer, and the Prisma Developer Platform."
-    },
-    {
-      "name": "protobufjs",
-      "version": "8.8.0",
-      "license": "BSD-3-Clause",
-      "repository": "https://www.npmjs.com/package/protobufjs",
-      "description": "Protocol Buffers for JavaScript & TypeScript."
-    },
-    {
-      "name": "qrcode",
-      "version": "1.5.4",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/qrcode",
-      "description": "QRCode / 2d Barcode api with both server side and client side support using canvas"
-    },
-    {
-      "name": "reconnecting-websocket",
-      "version": "4.4.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/reconnecting-websocket",
-      "description": "Reconnecting WebSocket"
-    },
-    {
-      "name": "ssh2",
-      "version": "1.17.0",
-      "license": "UNKNOWN",
-      "repository": "https://www.npmjs.com/package/ssh2",
-      "description": "SSH2 client and server modules written in pure JavaScript for node.js"
-    },
-    {
       "name": "tailwindcss",
       "version": "4.3.3",
       "license": "MIT",
       "repository": "https://www.npmjs.com/package/tailwindcss",
       "description": "A utility-first CSS framework for rapidly building custom user interfaces."
-    },
-    {
-      "name": "tar",
-      "version": "7.5.22",
-      "license": "BlueOak-1.0.0",
-      "repository": "https://www.npmjs.com/package/tar",
-      "description": "tar for node"
     },
     {
       "name": "tsx",
@@ -622,41 +106,6 @@
       "license": "Apache-2.0",
       "repository": "https://www.npmjs.com/package/typescript",
       "description": "TypeScript is a language for application scale JavaScript development"
-    },
-    {
-      "name": "typescript-eslint",
-      "version": "8.69.0",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/typescript-eslint",
-      "description": "Tooling which enables you to use TypeScript with ESLint"
-    },
-    {
-      "name": "validator",
-      "version": "13.15.35",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/validator",
-      "description": "String validation and sanitization"
-    },
-    {
-      "name": "vitest",
-      "version": "4.1.11",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/vitest",
-      "description": "Next generation testing framework powered by Vite"
-    },
-    {
-      "name": "ws",
-      "version": "8.21.3",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/ws",
-      "description": "Simple to use, blazing fast and thoroughly tested websocket client and server for Node.js"
-    },
-    {
-      "name": "zod",
-      "version": "4.5.4",
-      "license": "MIT",
-      "repository": "https://www.npmjs.com/package/zod",
-      "description": "TypeScript-first schema declaration and validation library with static type inference"
     }
   ],
   "cdn": [
