@@ -465,9 +465,11 @@ function resolveContentImages(html: string, assetBasePath: string): string {
         `</div>`
       );
     }
-
-    // ── flow diagram ──────────────────────────────────────────────────────────
-    // syntax: <(flow title="Request lifecycle" steps="Browser->Panel:HTTP,Panel->Daemon:HMAC")>
+    // ── flow diagram (vertical flowchart) ──────────────────────────────────
+    // syntax: <(flow title="Title" steps="A->B:label,C->D">)
+    // Two formats:
+    //   A->B:label  = transition from A to B with arrow label
+    //   Entity:Action = single step (entity performs action)
     if (first === "flow") {
       let title = "";
       let stepsRaw = "";
@@ -477,56 +479,72 @@ function resolveContentImages(html: string, assetBasePath: string): string {
         if (m3[1] === "title") title = m3[2];
         if (m3[1] === "steps") stepsRaw = m3[2];
       }
-      const steps = stepsRaw
-        .split(",")
-        .map((s) => {
-          const arrowIdx = s.indexOf("->");
-          const colonIdx = s.lastIndexOf(":");
-          // Support both "A->B:label" and "A:B" (source:action) formats
-          if (arrowIdx !== -1) {
-            const from = s.slice(0, arrowIdx).trim();
-            const to = s
-              .slice(arrowIdx + 2, colonIdx === -1 ? undefined : colonIdx)
-              .trim();
-            const label = colonIdx === -1 ? "" : s.slice(colonIdx + 1).trim();
-            return { from, to, label };
-          } else if (colonIdx !== -1) {
-            const from = s.slice(0, colonIdx).trim();
-            const to = s.slice(colonIdx + 1).trim();
-            return { from, to, label: "" };
-          }
-          return null;
-        })
-        .filter(Boolean) as { from: string; to: string; label: string }[];
-      const titleHtml = title ? `<p class="prose-flow-title">${title}</p>` : "";
-      const nodes = new Set<string>();
-      steps.forEach((s) => {
-        nodes.add(s.from);
-        nodes.add(s.to);
-      });
-      const nodeArr = Array.from(nodes);
-      const nodeListHtml = nodeArr
-        .map(
-          (n) =>
-            `<div class="prose-flow-node" data-flow-node="${n}">${n}</div>`,
-        )
-        .join("");
-      const arrowListHtml = steps
-        .map(
-          (s, i) =>
-            `<div class="prose-flow-step" data-flow-step="${i}">` +
-            `<span class="prose-flow-from">${s.from}</span>` +
-            `<span class="prose-flow-arrow">→</span>` +
-            `<span class="prose-flow-to">${s.to}</span>` +
-            (s.label
-              ? `<span class="prose-flow-label">${s.label}</span>`
-              : "") +
-            `</div>`,
-        )
-        .join("");
-      return `<div class="prose-flow" data-flow-steps="${steps.length}">${titleHtml}<div class="prose-flow-nodes">${nodeListHtml}</div><div class="prose-flow-steps">${arrowListHtml}</div></div>`;
-    }
 
+      // Parse steps - each is either a transition (A->B:label) or action (Entity:Action)
+      const steps = stepsRaw.split(",").map((s) => {
+        const arrowIdx = s.indexOf("->");
+        if (arrowIdx !== -1) {
+          // Transition format: A->B:label
+          const colonIdx = s.lastIndexOf(":");
+          const from = s.slice(0, arrowIdx).trim();
+          const to = s
+            .slice(arrowIdx + 2, colonIdx === -1 ? undefined : colonIdx)
+            .trim();
+          const label = colonIdx === -1 ? "" : s.slice(colonIdx + 1).trim();
+          return { type: "transition" as const, from, to, label, text: "" };
+        } else {
+          // Action format: Entity:Action or just Text
+          return {
+            type: "action" as const,
+            from: "",
+            to: "",
+            label: "",
+            text: s.trim(),
+          };
+        }
+      });
+
+      const titleHtml = title ? `<p class="prose-flow-title">${title}</p>` : "";
+
+      // Build vertical flow items - always add arrows between nodes
+      const items: string[] = [];
+      steps.forEach((step, i) => {
+        if (step.type === "transition") {
+          // Transition: from -> arrow -> to
+          items.push(
+            `<div class="prose-flow-item"><div class="prose-flow-node prose-flow-node--entity">${step.from}</div></div>`,
+          );
+          items.push(
+            `<div class="prose-flow-item"><div class="prose-flow-arrow-wrap">` +
+              `<div class="prose-flow-arrow-line"></div>` +
+              (step.label
+                ? `<div class="prose-flow-arrow-label">${step.label}</div>`
+                : "") +
+              `<div class="prose-flow-arrow-head"></div>` +
+              `</div></div>`,
+          );
+          items.push(
+            `<div class="prose-flow-item"><div class="prose-flow-node prose-flow-node--entity">${step.to}</div></div>`,
+          );
+        } else {
+          // Action: single node with arrow after (except last)
+          items.push(
+            `<div class="prose-flow-item"><div class="prose-flow-node">${step.text}</div></div>`,
+          );
+          if (i < steps.length - 1) {
+            items.push(
+              `<div class="prose-flow-item"><div class="prose-flow-arrow-wrap">` +
+                `<div class="prose-flow-arrow-line"></div>` +
+                `<div class="prose-flow-arrow-head"></div>` +
+                `</div></div>`,
+            );
+          }
+        }
+      });
+
+      const flowHtml = `<div class="prose-flow-vertical">${items.join("")}</div>`;
+      return `<div class="prose-flow" data-flow-steps="${steps.length}">${titleHtml}${flowHtml}</div>`;
+    }
     // ── animated counter ──────────────────────────────────────────────────────
     // syntax: <(counter value=42 label="API endpoints")>
     if (first === "counter") {

@@ -470,21 +470,35 @@
   line-height: 1.75;
   margin-bottom: 1rem;
 }
-.prose ul {
-  list-style: disc;
+.prose ul,
+.prose ol {
   padding-left: 1.25rem;
   margin-bottom: 1rem;
 }
-.prose ul li {
+.prose ul {
+  list-style: disc;
+}
+.prose ol {
+  list-style: decimal;
+}
+.prose li {
   font-size: 0.875rem;
   color: var(--color-text-2);
   line-height: 1.75;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.375rem;
+}
+.prose li::marker {
+  color: var(--color-text-4);
 }
 .prose a {
   color: var(--color-text-1);
   text-decoration: underline;
   text-underline-offset: 3px;
+  text-decoration-color: var(--color-text-4);
+  transition: text-decoration-color 150ms;
+}
+.prose a:hover {
+  text-decoration-color: var(--color-text-1);
 }
 .prose hr {
   border: none;
@@ -496,7 +510,7 @@
   font-weight: 600;
 }
 .prose blockquote {
-  border-left: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-text-4);
   padding-left: 16px;
   margin: 1.5rem 0;
   color: var(--color-text-3);
@@ -583,23 +597,27 @@
   display: block;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
 }
 
 .prose thead {
-  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-3);
 }
 
 .prose th {
   text-align: left;
-  padding: 10px 12px;
+  padding: 10px 14px;
   font-weight: 600;
   color: var(--color-text-1);
   font-size: 0.75rem;
   white-space: nowrap;
+  border-bottom: 1px solid var(--color-border);
+  letter-spacing: 0.02em;
 }
 
 .prose td {
-  padding: 10px 12px;
+  padding: 10px 14px;
   color: var(--color-text-2);
   border-bottom: 1px solid var(--color-border);
   vertical-align: top;
@@ -607,6 +625,10 @@
 
 .prose tbody tr:last-child td {
   border-bottom: none;
+}
+
+.prose tbody tr:hover {
+  background: var(--color-bg-2);
 }
 
 .prose td code {
@@ -1171,17 +1193,17 @@ img[loading="lazy"][style*="display:none"] {
   }
 }
 
-/* ── Flow diagram ───────────────────────────────────────────────────────────── */
+/* ── Flow diagram (vertical flowchart) ──────────────────────────────────── */
 .prose-flow {
   margin: 1.5rem 0;
   border: 1px solid var(--color-border);
   border-radius: 10px;
-  padding: 20px;
+  padding: 24px;
   background: var(--color-bg-2);
 }
 
 .prose-flow-title {
-  margin: 0 0 16px;
+  margin: 0 0 20px;
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
@@ -1190,124 +1212,111 @@ img[loading="lazy"][style*="display:none"] {
   color: var(--color-text-3);
 }
 
-.prose-flow-nodes {
+/* Vertical flow container */
+.prose-flow-vertical {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 16px;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
 }
 
-.prose-flow-node {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  padding: 6px 12px;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  background: var(--color-bg-3);
-  color: var(--color-text-2);
+/* Each step: node + optional arrow + label */
+.prose-flow-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 480px;
   opacity: 0;
-  transform: translateY(8px);
+  transform: translateY(12px);
   transition:
     opacity 400ms cubic-bezier(0.16, 1, 0.3, 1),
     transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.prose-flow.revealed .prose-flow-node {
+.prose-flow.revealed .prose-flow-item {
   opacity: 1;
   transform: translateY(0);
 }
 
-.prose-flow.revealed .prose-flow-node:nth-child(1) {
+.prose-flow.revealed .prose-flow-item:nth-child(1) {
   transition-delay: 0ms;
 }
-.prose-flow.revealed .prose-flow-node:nth-child(2) {
-  transition-delay: 80ms;
+.prose-flow.revealed .prose-flow-item:nth-child(2) {
+  transition-delay: 100ms;
 }
-.prose-flow.revealed .prose-flow-node:nth-child(3) {
-  transition-delay: 160ms;
-}
-.prose-flow.revealed .prose-flow-node:nth-child(4) {
-  transition-delay: 240ms;
-}
-.prose-flow.revealed .prose-flow-node:nth-child(5) {
-  transition-delay: 320ms;
-}
-
-.prose-flow-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  border-top: 1px solid var(--color-border);
-  padding-top: 16px;
-}
-
-.prose-flow-step {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--color-text-3);
-  opacity: 0;
-  transform: translateX(-8px);
-  transition:
-    opacity 300ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
-  flex-wrap: wrap;
-}
-
-@media (max-width: 600px) {
-  .prose-flow-step {
-    font-size: 11px;
-    gap: 6px;
-  }
-  .prose-flow-node {
-    font-size: 11px;
-    padding: 5px 10px;
-  }
-}
-
-.prose-flow.revealed .prose-flow-step {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.prose-flow.revealed .prose-flow-step:nth-child(1) {
+.prose-flow.revealed .prose-flow-item:nth-child(3) {
   transition-delay: 200ms;
 }
-.prose-flow.revealed .prose-flow-step:nth-child(2) {
-  transition-delay: 320ms;
+.prose-flow.revealed .prose-flow-item:nth-child(4) {
+  transition-delay: 300ms;
 }
-.prose-flow.revealed .prose-flow-step:nth-child(3) {
-  transition-delay: 440ms;
+.prose-flow.revealed .prose-flow-item:nth-child(5) {
+  transition-delay: 400ms;
 }
-.prose-flow.revealed .prose-flow-step:nth-child(4) {
-  transition-delay: 560ms;
+.prose-flow.revealed .prose-flow-item:nth-child(6) {
+  transition-delay: 500ms;
 }
-.prose-flow.revealed .prose-flow-step:nth-child(5) {
-  transition-delay: 680ms;
+.prose-flow.revealed .prose-flow-item:nth-child(7) {
+  transition-delay: 600ms;
 }
-.prose-flow.revealed .prose-flow-step:nth-child(6) {
-  transition-delay: 800ms;
+.prose-flow.revealed .prose-flow-item:nth-child(8) {
+  transition-delay: 700ms;
 }
 
-.prose-flow-from,
-.prose-flow-to {
-  padding: 3px 8px;
+/* Node box */
+.prose-flow-node {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 12px 18px;
   border: 1px solid var(--color-border);
-  border-radius: 4px;
+  border-radius: 8px;
   background: var(--color-bg-3);
-  color: var(--color-text-2);
+  color: var(--color-text-1);
+  text-align: center;
+  box-sizing: border-box;
 }
 
-.prose-flow-arrow {
+/* Arrow connector between nodes */
+.prose-flow-arrow-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 0;
   color: var(--color-text-4);
 }
 
-.prose-flow-label {
-  color: var(--color-text-3);
-  font-size: 11px;
+.prose-flow-arrow-line {
+  width: 2px;
+  height: 24px;
+  background: var(--color-text-4);
 }
+
+.prose-flow-arrow-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-text-3);
+  padding: 3px 0;
+  text-align: center;
+}
+
+.prose-flow-arrow-head {
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 7px solid var(--color-text-4);
+}
+
+/* Legacy support: hide old horizontal layout if present */
+.prose-flow-nodes,
+.prose-flow-steps {
+  display: none;
+}
+
+/* removed: old prose-flow-arrow/label styles */
 
 /* ── Animated counter ───────────────────────────────────────────────────────── */
 .prose-counter {
@@ -1327,6 +1336,16 @@ img[loading="lazy"][style*="display:none"] {
   }
   .prose-counter-val {
     font-size: 22px;
+  }
+  .prose-flow {
+    padding: 16px;
+  }
+  .prose-flow-node {
+    font-size: 12px;
+    padding: 10px 14px;
+  }
+  .prose-flow-arrow-label {
+    font-size: 9px;
   }
 }
 
