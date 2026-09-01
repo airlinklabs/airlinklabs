@@ -7,7 +7,7 @@ order: 21
 
 # Onboarding System
 
-The onboarding system guides new users through the panel's features on their first login.
+The onboarding system walks new users through the panel's features on their first login.
 
 ## How It Works
 
@@ -64,7 +64,7 @@ This sets both `onboardingCompleted` and `onboardingSkipped` to false, so the us
 The onboarding system uses the following views:
 
 - `views/user/2fa-setup.ejs` (2FA setup step)
-- Other onboarding steps rendered dynamically based on configuration.
+- Other onboarding steps rendered dynamically based on configuration
 
 ## Module
 

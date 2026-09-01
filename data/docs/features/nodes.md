@@ -7,7 +7,7 @@ order: 12
 
 # Node Management
 
-Nodes are machines that run the Airlink daemon and host game server containers. The panel manages nodes centrally and communicates with each daemon over HTTP.
+Nodes are machines that run the Airlink daemon and host game server containers. The panel communicates with each daemon over HTTP.
 
 ## Node Model
 
@@ -116,7 +116,7 @@ Returns CPU, memory, disk usage from the node.
 
 ## Daemon Configuration
 
-When a node is created, the panel generates a configure command that can be used to set up the daemon:
+When a node is created, the panel generates a configure command for daemon setup:
 
 ```
 GET /api/v2/admin/nodes/:id/configure

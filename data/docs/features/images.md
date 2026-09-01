@@ -123,7 +123,7 @@ The panel supports Pterodactyl egg format. The egg parser (`src/handlers/utils/e
 - Detecting Pterodactyl egg JSON files
 - Parsing egg data into the panel's image format
 - Normalizing field names
-- Validating required fields.
+- Validating required fields
 
 ## Image Caching
 

@@ -32,7 +32,7 @@ order: 11
 
 ## Roles
 
-Roles define a set of permissions. Each user has one role. The system includes default roles:
+Roles define a set of permissions. Each user has one role. Default roles:
 
 - admin (full access, system role, cannot be deleted)
 - user (standard user, system role, cannot be deleted)
@@ -58,7 +58,7 @@ Admins have separate "privileged" defaults that are higher.
 
 ## Sub-Users
 
-Server owners can grant other users access to specific servers. Sub-users get fine-grained permissions per server.
+Server owners can grant other users access to specific servers. Sub-users get granular permissions per server.
 
 ### Adding a Sub-User
 

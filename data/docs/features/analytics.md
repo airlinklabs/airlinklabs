@@ -9,7 +9,7 @@ order: 18
 
 ## Activity Logging
 
-Every significant action in the panel is logged to the `ActivityLog` table. This provides an audit trail.
+Every significant action in the panel is logged to the `ActivityLog` table. This creates an audit trail.
 
 ### Activity Log Fields
 
@@ -38,7 +38,7 @@ Activity is viewable in the admin panel at `/admin/activity`. The admin can filt
 
 ## Analytics
 
-The analytics module provides aggregate statistics about the panel.
+The analytics module shows aggregate statistics about the panel.
 
 ### Analytics Summary
 

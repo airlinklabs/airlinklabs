@@ -128,7 +128,7 @@ Activity logs are viewable in the admin panel under Activity. The V2 API does no
 
 ## Future: Webhook Support
 
-The panel architecture supports adding outbound webhooks. The `ActivityLog` table and event taxonomy provide the foundation. A webhook system would:
+The panel architecture supports adding outbound webhooks. The `ActivityLog` table and event taxonomy make this possible. A webhook system would:
 
 1. Let admins register HTTP endpoints to receive event notifications
 2. POST event data as JSON to registered URLs

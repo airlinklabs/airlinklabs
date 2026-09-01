@@ -49,7 +49,7 @@ All user sessions are stored in Redis with a configurable TTL (typically 24 hour
 
 - User ID and profile info
 - Pending 2FA state
-- CSRF tokens.
+- CSRF tokens
 
 ### Cache Entries
 
@@ -67,13 +67,13 @@ Cache entries are invalidated on write operations:
 
 - Updating settings clears the settings cache
 - Creating/updating/deleting images clears the image cache
-- Node changes clear the node cache.
+- Node changes clear the node cache
 
 ## Requirements
 
 - Redis 6+ recommended
 - No special modules required
-- Persistence optional (sessions are recreated on restart).
+- Persistence optional (sessions are recreated on restart)
 
 ## Production Setup
 
@@ -94,7 +94,7 @@ Redis memory usage depends on active sessions and cached data. For most deployme
 - Use TLS if Redis is accessed over a network
 - Set a password
 - Bind to localhost or a private interface
-- Don't expose Redis to the public internet.
+- Don't expose Redis to the public internet
 
 ## Troubleshooting
 
@@ -102,15 +102,15 @@ Redis memory usage depends on active sessions and cached data. For most deployme
 
 - Verify Redis is running: `redis-cli ping`
 - Check the `REDIS_URL` in `.env`
-- Check firewall rules.
+- Check firewall rules
 
 ### Session Issues
 
 - If users are logged out unexpectedly, Redis may have restarted
-- Clear Redis to reset all sessions: `redis-cli FLUSHDB`.
+- Clear Redis to reset all sessions: `redis-cli FLUSHDB`
 
 ### Memory Issues
 
 - Check Redis memory: `redis-cli INFO memory`
 - Increase Redis memory limit
-- Check for session leak (sessions not expiring).
+- Check for session leak (sessions not expiring)

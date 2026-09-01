@@ -83,27 +83,3 @@
     </div>
   </main>
 </div>
-
-<script>
-// ── Scroll-spy: highlight active TOC link in sidebar ──────────────────────
-(function () {
-  var tocLinks = document.querySelectorAll('.site-section-link[data-toc-id]');
-  if (!tocLinks.length) return;
-  var ids = Array.from(tocLinks).map(function (l) { return l.dataset.tocId; });
-  var targets = ids.map(function (id) { return document.getElementById(id); }).filter(Boolean);
-  if (!targets.length) return;
-
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        var id = entry.target.id;
-        tocLinks.forEach(function (link) {
-          link.classList.toggle('active', link.dataset.tocId === id);
-        });
-      }
-    });
-  }, { rootMargin: '-20% 0px -70% 0px' });
-
-  targets.forEach(function (t) { observer.observe(t); });
-})();
-</script>

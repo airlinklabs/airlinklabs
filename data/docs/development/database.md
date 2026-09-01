@@ -243,7 +243,7 @@ pnpm run generate         # Regenerate Prisma client
 
 ## Relations
 
-Key relationships:
+Relationships:
 
 - User to Server (one-to-many, via `ownerId`)
 - Server to Node (many-to-one, via `nodeId`)

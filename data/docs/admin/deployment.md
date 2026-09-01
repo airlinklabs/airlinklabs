@@ -66,11 +66,11 @@ This runs:
 
 ## Docker Deployment
 
-The panel can be containerized. Key considerations:
+The panel can be containerized. Things to keep in mind:
 
 - Mount the `.env` file
 - Ensure PostgreSQL and Redis are accessible
-- Map the port (default 3000).
+- Map the port (default 3000)
 
 ## Daemon Installation
 

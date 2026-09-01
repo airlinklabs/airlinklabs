@@ -27,7 +27,7 @@ Configurable via admin settings:
 - `rateLimitEnabled` (global toggle, default: true)
 - `rateLimitRpm` (requests per minute, default: 100)
 
-Applied at the middleware level before route handlers.
+Applied at the middleware level before route handlers
 
 ### Account Lockout
 
@@ -86,14 +86,14 @@ All API inputs are validated with Zod schemas before processing:
 - Path traversal prevention (`..` blocked)
 - Null byte prevention
 - Type validation
-- Length limits.
+- Length limits
 
 ## API Key Security
 
 - `hashApiKeys` setting hashes API keys in the database
 - Keys have scoped capabilities (e.g., `servers.*`)
 - Keys can be deactivated without deletion
-- Session users bypass capability checks.
+- Session users bypass capability checks
 
 ## Activity Logging
 
@@ -113,7 +113,7 @@ File scanning for suspicious content:
 
 - Basic file scanning
 - VirusTotal integration for malware detection
-- Configurable via `scannerEnabled` setting.
+- Configurable via `scannerEnabled` setting
 
 ## Recommendations
 
@@ -124,4 +124,4 @@ File scanning for suspicious content:
 5. Keep the panel updated
 6. Use `behindReverseProxy: true` if behind a reverse proxy
 7. Review activity logs regularly
-8. Ban IPs of known abusers.
+8. Ban IPs of known abusers

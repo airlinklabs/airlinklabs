@@ -25,11 +25,11 @@ When no users exist in the database, the registration page is accessible. The fi
 | Page         | URL                  | Description                             |
 | ------------ | -------------------- | --------------------------------------- |
 | Overview     | `/admin/overview`    | Dashboard with stats and update checker |
-| Servers      | `/admin/servers`     | Manage all servers                      |
-| Users        | `/admin/users`       | Manage all users                        |
+| Servers      | `/admin/servers`     | Manage servers                          |
+| Users        | `/admin/users`       | Manage users                            |
 | Nodes        | `/admin/nodes`       | Manage nodes and allocations            |
 | Databases    | `/admin/databases`   | Manage database hosts                   |
-| Images       | `/admin/images`      | Manage server images (eggs)             |
+| Images       | `/admin/images`      | Manage server images                    |
 | Locations    | `/admin/locations`   | Manage geographic locations             |
 | Mounts       | `/admin/mounts`      | Manage shared mounts                    |
 | API Keys     | `/admin/apikeys`     | Manage API keys                         |

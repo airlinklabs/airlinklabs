@@ -101,7 +101,7 @@ Admins have separate "privileged" limits that are higher.
 
 ## Sub-User Access
 
-Server owners can grant other users access to specific servers with fine-grained permissions. See [users.md](users.md) for details.
+Server owners can grant other users access to specific servers with granular permissions. See [users.md](users.md) for details.
 
 ## Server Folders
 

@@ -49,6 +49,6 @@ If the server directory is a git repository, the pull operation fetches and merg
 
 ## SFTP
 
-In addition to the web file manager, servers support SFTP access. Each server can have SFTP credentials managed through the `SftpCredential` model. SFTP runs on the node's SFTP port (default 3003).
+Servers also support SFTP access. Each server can have SFTP credentials managed through the `SftpCredential` model. SFTP runs on the node's SFTP port (default 3003).
 
 See the SFTP module (`src/modules/user/sftp.ts`) for SFTP credential management.

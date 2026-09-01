@@ -2,5 +2,6 @@ node_modules/
 dist/
 dist-scripts/
 data/github-cache/summary.txt
+public/assets/github.db
 pnpm-lock.yaml
 .desloppify/

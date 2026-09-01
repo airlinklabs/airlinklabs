@@ -69,4 +69,4 @@ openssl rand -hex 32
 - Use a dedicated Redis instance
 - Set `URL` to your actual panel domain
 - Configure SMTP for email features
-- Configure S3 for backup storage (optional).
+- Configure S3 for backup storage (optional)

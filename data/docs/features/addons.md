@@ -7,7 +7,7 @@ order: 19
 
 # Addon System
 
-Airlink supports addons that extend the panel's functionality. Addons are loaded at startup and can add routes, views, commands, and configuration.
+Airlink supports addons that add features to the panel. Addons are loaded at startup and can add routes, views, commands, and configuration.
 
 ## Addon Model
 
@@ -87,7 +87,7 @@ See [admin/roles-and-permissions.md](../admin/roles-and-permissions.md) for deta
 
 ## Image Store
 
-The panel includes an image store for discovering and installing server image definitions (eggs). The store fetches a catalogue of available images and lets admins install them with one click.
+The panel includes an image store for discovering and installing server image definitions (eggs). The store fetches a catalogue of available images and lets admins install them.
 
 ```
 GET /api/v2/admin/images/store/catalogue

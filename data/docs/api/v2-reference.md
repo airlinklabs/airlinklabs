@@ -1,6 +1,6 @@
 ---
 title: "V2 API Reference"
-description: "Complete REST API reference for all V2 endpoints."
+description: "REST API reference for all V2 endpoints."
 section: "API"
 order: 41
 ---
