@@ -2486,16 +2486,38 @@ img[loading="lazy"][style*="display:none"] {
 .hub-content {
   position: relative;
 }
+/* Hero background:
+   - Left edge  → sidebar right edge (hub-content starts after the 260px sidebar
+                   and has 72px padding, so we pull left by the padding)
+   - Right edge → viewport right edge (pull out by the padding on the other side)
+   - Top        → viewport top (the nav bar sits above docs-shell so we extend upward)
+   - Bottom     → end of hub-hero section (natural since this div lives inside hub-hero)
+   hub-hero already has position:relative so absolute children are clipped to it. */
 .hero-bg {
   position: absolute;
-  inset: 0;
+  left: -72px;                      /* cancel hub-content left padding */
+  right: -72px;                     /* cancel hub-content right padding */
+  top: 0;                           /* top of hub-hero */
+  bottom: 0;                        /* bottom of hub-hero — stops above #install */
   background-size: cover;
-  background-position: center;
+  background-position: center 30%;
   background-repeat: no-repeat;
-  opacity: 0.8;
-  filter: blur(8px);
+  opacity: 0.15;
   z-index: 0;
   pointer-events: none;
+  /* Fade out toward the bottom so it doesn't bleed into the install section */
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 50%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black 50%,
+    transparent 100%
+  );
 }
 .hub-overline {
   display: flex;
@@ -2877,6 +2899,74 @@ img[loading="lazy"][style*="display:none"] {
   font-family: var(--font-mono);
   margin: 2px 0 0;
 }
+
+/* ── Commit row enhancements ───────────────────────────────────────────── */
+.commit-row-main {
+  min-width: 0;
+}
+.commit-row-meta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 5px;
+}
+.commit-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font: 500 9px var(--font-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.commit-tag--panel {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text-2);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.commit-tag--daemon {
+  background: rgba(96, 165, 250, 0.1);
+  color: #60a5fa;
+  border: 1px solid rgba(96, 165, 250, 0.18);
+}
+.commit-sha {
+  color: var(--color-text-4);
+  font: 9px var(--font-mono);
+  letter-spacing: 0.04em;
+}
+
+/* ── Contributor avatar placeholder ───────────────────────────────────── */
+.contrib-avatar-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-bg-3);
+  flex-shrink: 0;
+  display: block;
+}
+
+/* ── Skeleton loading states ──────────────────────────────────────────── */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.8; }
+}
+.hub-skeleton,
+.contrib-card--skeleton {
+  pointer-events: none;
+  cursor: default;
+}
+.skeleton-line {
+  height: 10px;
+  border-radius: 5px;
+  background: var(--color-bg-3);
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+  margin-bottom: 6px;
+}
+.skeleton-line--wide  { width: 72%; }
+.skeleton-line--narrow { width: 35%; }
+.skeleton-line--date  { width: 44px; height: 10px; }
+.skeleton-line--name  { width: 90px; }
+.skeleton-line--count { width: 60px; }
 .docs-index-header {
   max-width: 720px;
   margin-bottom: 54px;
@@ -3005,7 +3095,10 @@ img[loading="lazy"][style*="display:none"] {
     padding: 80px 0 58px;
   }
   .hero-bg {
-    inset: 0;
+    left: -24px;
+    right: -24px;
+    top: 0;
+    bottom: 0;
   }
   .hub-system {
     max-width: 480px;

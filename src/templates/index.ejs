@@ -13,6 +13,7 @@
           <!--  <div class="hero-bg" style="background-image:url('<%= rootPrefix %>public/assets/airlink-hero.png')"
                   aria-hidden="true"></div> in works -->
               <section class="hub-hero" id="start" data-animate="blur">
+                <div class="hero-bg" style="background-image:url('<%= rootPrefix %>public/assets/airlink-hero.png')" aria-hidden="true"></div>
                 <div>
                   <p class="hub-overline">Self-hosted · MIT licensed</p>
                   <h1>Game server management<br>built for operators.</h1>
@@ -24,7 +25,6 @@
                         <path d="M12 5v14" />
                         <path d="m19 12-7 7-7-7" />
                       </svg></a><a href="docs/" class="btn-secondary">Read the docs</a></div>
-                      
                 </div>
               </section>
               <section class="hub-section" id="install" data-animate="fade-up">
@@ -36,6 +36,10 @@
                 <div class="install-block">
                   <div class="install-code">
                     <code>curl -sSL https://raw.githubusercontent.com/airlinklabs/panel/refs/heads/main/installer.sh | bash</code>
+                    <button class="copy-btn" type="button" aria-label="Copy install command">
+                      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      Copy
+                    </button>
                   </div>
                   <p class="install-note">Or install panel only, daemon only, or just addons. Run with
                     <code>--help</code> for flags.
@@ -87,21 +91,27 @@
                   </a></div>
               </section>
               <section class="hub-section" id="history" data-animate="fade-up">
-                <div class="hub-section-heading">
-                  <h2>History</h2>
-                  <p>Recent commits across panel and daemon.</p>
+                <div class="hub-section-heading hub-section-heading--split">
+                  <div>
+                    <h2>History</h2>
+                    <p>Recent commits across panel and daemon, sorted by date.</p>
+                  </div>
+                  <a href="https://github.com/AirlinkLabs/panel/commits" class="text-link" target="_blank" rel="noopener">View all <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="display:inline-block;vertical-align:middle;margin-left:3px"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
                 </div>
                 <div class="hub-list" id="commit-list" data-animate-group>
-                  <p class="hub-empty">Loading commits...</p>
+                  <p class="hub-empty">Loading commits…</p>
                 </div>
               </section>
               <section class="hub-section" id="contributors" data-animate="fade-up">
-                <div class="hub-section-heading">
-                  <h2>Contributors</h2>
-                  <p>People who built AirLink.</p>
+                <div class="hub-section-heading hub-section-heading--split">
+                  <div>
+                    <h2>Contributors</h2>
+                    <p>People who built AirLink. Contributions from panel and daemon combined.</p>
+                  </div>
+                  <a href="https://github.com/AirlinkLabs/panel/graphs/contributors" class="text-link" target="_blank" rel="noopener">View all <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="display:inline-block;vertical-align:middle;margin-left:3px"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
                 </div>
                 <div class="contrib-grid" id="contrib-grid">
-                  <p class="hub-empty">Loading contributors...</p>
+                  <p class="hub-empty">Loading contributors…</p>
                 </div>
               </section>
             </div>
