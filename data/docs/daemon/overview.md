@@ -14,11 +14,18 @@ The daemon is a standalone Node.js application. It does not depend on the panel 
 ## Architecture
 
 ```mermaid
-graph TD
-    A[Panel: Send HTTP request with HMAC signature] --> B[Daemon: Verify HMAC signature]
-    B --> C[Daemon: Check IP allowlist]
-    C --> D[Daemon: Execute container operation]
-    D --> E[Daemon: Return JSON response]
+%%{init: {"theme": "dark", "themeVariables": {"primaryColor": "#1e40af", "primaryTextColor": "#e0e0e0", "primaryBorderColor": "#3b82f6", "lineColor": "#60a5fa", "secondaryColor": "#7c2d12", "tertiaryColor": "#1e3a5f", "fontFamily": "ui-monospace, SF Mono, Fira Code, monospace"}} }%%
+flowchart TD
+    A["Panel: Send HTTP request with HMAC signature"] --> B["Daemon: Verify HMAC signature"]
+    B --> C["Daemon: Check IP allowlist"]
+    C --> D["Daemon: Execute container operation"]
+    D --> E["Daemon: Return JSON response"]
+
+    style A fill:#1e40af,stroke:#3b82f6,color:#e0e0e0,stroke-width:2px
+    style B fill:#7c2d12,stroke:#f97316,color:#e0e0e0,stroke-width:2px
+    style C fill:#7c2d12,stroke:#f97316,color:#e0e0e0,stroke-width:2px
+    style D fill:#7c2d12,stroke:#f97316,color:#e0e0e0,stroke-width:2px
+    style E fill:#7c2d12,stroke:#f97316,color:#e0e0e0,stroke-width:2px
 ```
 
 The daemon communicates with the panel over HTTP using HMAC-SHA256 signed requests. Each request is authenticated, rate-limited, and validated before execution.

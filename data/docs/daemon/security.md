@@ -14,13 +14,22 @@ This document describes the security mechanisms built into the AirLink daemon HT
 The daemon authenticates incoming requests using HMAC-SHA256 signatures. This is the primary auth method for internal API calls.
 
 ```mermaid
-graph TD
-    A[Panel: Build request with timestamp and nonce] --> B[Panel: Sign with HMAC-SHA256]
-    B --> C[Daemon: Check IP allowlist]
-    C --> D[Daemon: Verify Basic Auth]
-    D --> E[Daemon: Recompute HMAC]
-    E --> F[Daemon: Compare signatures]
-    F --> G[Daemon: Check nonce deduplication]
+%%{init: {"theme": "dark", "themeVariables": {"primaryColor": "#1e40af", "primaryTextColor": "#e0e0e0", "primaryBorderColor": "#3b82f6", "lineColor": "#60a5fa", "secondaryColor": "#7c2d12", "tertiaryColor": "#1e3a5f", "fontFamily": "ui-monospace, SF Mono, Fira Code, monospace"}} }%%
+flowchart TD
+    A["Panel: Build request with timestamp and nonce"] --> B["Panel: Sign with HMAC-SHA256"]
+    B --> C["Daemon: Check IP allowlist"]
+    C --> D["Daemon: Verify Basic Auth"]
+    D --> E["Daemon: Recompute HMAC"]
+    E --> F["Daemon: Compare signatures"]
+    F --> G["Daemon: Check nonce deduplication"]
+
+    style A fill:#1e40af,stroke:#3b82f6,color:#e0e0e0,stroke-width:2px
+    style B fill:#1e40af,stroke:#3b82f6,color:#e0e0e0,stroke-width:2px
+    style C fill:#7c2d12,stroke:#f97316,color:#e0e0e0,stroke-width:2px
+    style D fill:#7c2d12,stroke:#f97316,color:#e0e0e0,stroke-width:2px
+    style E fill:#7c2d12,stroke:#f97316,color:#e0e0e0,stroke-width:2px
+    style F fill:#7c2d12,stroke:#f97316,color:#e0e0e0,stroke-width:2px
+    style G fill:#7c2d12,stroke:#f97316,color:#e0e0e0,stroke-width:2px
 ```
 
 ### Protocol

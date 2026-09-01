@@ -53,12 +53,20 @@ missing -> installing -> created -> starting -> running -> stopping -> stopped
 ### Start Sequence
 
 ```mermaid
-graph TD
-    A[Daemon: Remove existing container if present] --> B[Daemon: Pull Docker image]
-    B --> C[Daemon: Create container with config]
-    C --> D[Daemon: Start container]
-    D --> E[Daemon: Apply network throttle]
-    E --> F[Daemon: Begin log capture]
+%%{init: {"theme": "dark", "themeVariables": {"primaryColor": "#1e40af", "primaryTextColor": "#e0e0e0", "primaryBorderColor": "#3b82f6", "lineColor": "#60a5fa", "secondaryColor": "#7c2d12", "tertiaryColor": "#1e3a5f", "fontFamily": "ui-monospace, SF Mono, Fira Code, monospace"}} }%%
+flowchart TD
+    A["Daemon: Remove existing container if present"] --> B["Daemon: Pull Docker image"]
+    B --> C["Daemon: Create container with config"]
+    C --> D["Daemon: Start container"]
+    D --> E["Daemon: Apply network throttle"]
+    E --> F["Daemon: Begin log capture"]
+
+    style A fill:#7c2d12,stroke:#f97316,color:#e0e0e0,stroke-width:2px
+    style B fill:#7c2d12,stroke:#f97316,color:#e0e0e0,stroke-width:2px
+    style C fill:#7c2d12,stroke:#f97316,color:#e0e0e0,stroke-width:2px
+    style D fill:#7c2d12,stroke:#f97316,color:#e0e0e0,stroke-width:2px
+    style E fill:#7c2d12,stroke:#f97316,color:#e0e0e0,stroke-width:2px
+    style F fill:#7c2d12,stroke:#f97316,color:#e0e0e0,stroke-width:2px
 ```
 
 1. Remove existing container if present (name collision)
