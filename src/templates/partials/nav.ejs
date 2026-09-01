@@ -36,13 +36,40 @@ var _links = [
   </div>
 </div>
 
-<!-- Construction warning popup — first visit only -->
+<!-- Construction warning popup — first visit only, gated by package.json -->
+<% if (underConstruction && underConstruction.enabled) { %>
 <div id="construction-overlay" role="dialog" aria-modal="true" aria-labelledby="construction-heading">
   <div id="construction-modal">
-    <h4 id="construction-heading">Under construction</h4>
-    <p>This site is still being built. Some pages may be incomplete or inaccurate.</p>
+    <h4 id="construction-heading"><%= underConstruction.badge || 'Under construction' %></h4>
+    <p><%= underConstruction.message || 'This site is still being built. Some pages may be incomplete or inaccurate.' %></p>
     <div class="redirect-actions">
       <button id="construction-ok" type="button">Got it</button>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<!-- License modal -->
+<div id="license-overlay" role="dialog" aria-modal="true" aria-labelledby="license-heading">
+  <div id="license-modal">
+    <div id="license-header">
+      <h4 id="license-heading">Licenses</h4>
+      <button id="license-close" type="button" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div id="license-confirm" class="license-confirm-hidden">
+      <p id="license-confirm-text"></p>
+      <div class="redirect-actions">
+        <button id="license-confirm-cancel" type="button">Cancel</button>
+        <a id="license-confirm-link" href="#" target="_blank" rel="noopener" class="btn-primary">Open license</a>
+      </div>
+    </div>
+    <div id="license-body">
+      <p class="license-section-label">Organization repositories</p>
+      <div id="license-repos"></div>
+      <p class="license-section-label">npm dependencies</p>
+      <div id="license-npm"></div>
     </div>
   </div>
 </div>

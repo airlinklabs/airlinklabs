@@ -56,6 +56,7 @@
 <div class="uc-bar"><%= underConstruction.badge %>: <%= underConstruction.message %></div>
 <% } %>
 
+<script>window.__underConstruction = <%= (underConstruction && underConstruction.enabled) ? 'true' : 'false' %>;</script>
 <script src="<%= rootPrefix %>public/js/motion.js" defer></script>
 <script src="<%= rootPrefix %>public/js/main.js" defer></script>
 <!-- mermaid: renders ```mermaid graph blocks in docs/blog content -->

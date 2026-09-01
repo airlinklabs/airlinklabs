@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "npm run cache && tsx src/scripts/build.ts && npm run tw",
+    "build": "npm run cache && npm run cache:licenses && tsx src/scripts/build.ts && npm run tw",
     "tw": "npx @tailwindcss/cli -i src/input.css -o dist/public/css/styles.css --minify",
     "tw:watch": "npx @tailwindcss/cli -i src/input.css -o dist/public/css/styles.css --watch",
     "dev": "tsx src/scripts/dev.ts",
-    "cache": "tsx src/scripts/cache-github.ts"
+    "cache": "tsx src/scripts/cache-github.ts",
+    "cache:licenses": "tsx src/scripts/cache-licenses.ts"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.3.1",
@@ -36,10 +37,8 @@
     "githubOrg": "AirlinkLabs",
     "githubPanel": "AirlinkLabs/panel",
     "githubDaemon": "AirlinkLabs/daemon",
-    "discordUrl": "https://discord.gg/D8YbT9rDqz",
-    "installVideoUrl": "https://youtu.be/-rGvbc1sVlI?si=MKfYOisLjJJKPMhe",
-    "ytURL": "https://youtu.be/-rGvbc1sVlI?si=MKfYOisLjJJKPMhe",
-    "ytVidIFrame": false
+    "discordUrl": "https://discord.gg/CmrDB2tRaN",
+    "installVideoUrl": "https://youtu.be/-rGvbc1sVlI?si=MKfYOisLjJJKPMhe"
   },
   "underConstruction": {
     "enabled": false,

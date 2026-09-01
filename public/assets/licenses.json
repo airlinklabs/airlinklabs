@@ -1,0 +1,75 @@
+{
+  "generatedAt": "2026-09-01T12:33:28.760Z",
+  "npm": [
+    {
+      "name": "@tailwindcss/cli",
+      "version": "4.3.3",
+      "license": "MIT",
+      "repository": "https://github.com/tailwindlabs/tailwindcss"
+    },
+    {
+      "name": "airlink-site",
+      "version": "1.0.0",
+      "license": "UNLICENSED",
+      "repository": ""
+    },
+    {
+      "name": "better-sqlite3",
+      "version": "13.0.3",
+      "license": "MIT",
+      "repository": "https://github.com/WiseLibs/better-sqlite3"
+    },
+    {
+      "name": "ejs",
+      "version": "3.1.10",
+      "license": "Apache-2.0",
+      "repository": "https://github.com/mde/ejs"
+    },
+    {
+      "name": "front-matter",
+      "version": "4.0.2",
+      "license": "MIT",
+      "repository": "https://github.com/jxson/front-matter"
+    },
+    {
+      "name": "fs-extra",
+      "version": "11.3.5",
+      "license": "MIT",
+      "repository": "https://github.com/jprichardson/node-fs-extra"
+    },
+    {
+      "name": "marked",
+      "version": "18.0.11",
+      "license": "MIT",
+      "repository": "https://github.com/markedjs/marked"
+    },
+    {
+      "name": "tailwindcss",
+      "version": "4.3.3",
+      "license": "MIT",
+      "repository": "https://github.com/tailwindlabs/tailwindcss"
+    }
+  ],
+  "repos": [
+    {
+      "name": "panel",
+      "license": "MIT",
+      "url": "https://github.com/AirlinkLabs/panel/blob/main/LICENSE"
+    },
+    {
+      "name": "daemon",
+      "license": "MIT",
+      "url": "https://github.com/AirlinkLabs/daemon/blob/main/LICENSE"
+    },
+    {
+      "name": "addons",
+      "license": "UNKNOWN",
+      "url": "https://github.com/AirlinkLabs/addons/blob/main/LICENSE"
+    },
+    {
+      "name": "home",
+      "license": "MIT",
+      "url": "https://github.com/AirlinkLabs/home/blob/main/LICENSE"
+    }
+  ]
+}

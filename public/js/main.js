@@ -243,22 +243,101 @@ document.addEventListener(
   });
 })();
 
-// ── Page load ─────────────────────────────────────────────────────────────
+// ── Page load + Hero entrance animation ───────────────────────────────────
 (function () {
   var EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
   var content = document.getElementById("page-content");
+  var isHome =
+    window.location.pathname === "/" ||
+    window.location.pathname === "/index.html";
 
   // Scroll to #start on home page load
-  if (
-    window.location.pathname === "/" ||
-    window.location.pathname === "/index.html"
-  ) {
+  if (isHome) {
     var startEl = document.getElementById("start");
     if (startEl) {
       setTimeout(function () {
         window.scrollTo({ top: startEl.offsetTop - 80, behavior: "instant" });
       }, 60);
     }
+  }
+
+  // ── Hero entrance sequence (home page only) ───────────────────────────
+  if (isHome) {
+    document.documentElement.classList.add("page-locked");
+
+    var heroViewport = document.querySelector(".hero-viewport");
+    var heroSection = document.querySelector(".hub-hero");
+    var welcomeEl = document.getElementById("hero-welcome");
+    var sections = document.querySelectorAll(
+      ".hub-section, .hero-text-animated",
+    );
+
+    // Defer section reveals
+    sections.forEach(function (s) {
+      s.classList.add("deferred");
+    });
+
+    function runHeroSequence() {
+      // Step 1: Fade in welcome text
+      if (welcomeEl) {
+        welcomeEl.classList.add("visible");
+
+        // Step 2: After delay, fade out welcome
+        setTimeout(function () {
+          welcomeEl.classList.remove("visible");
+          welcomeEl.classList.add("exit");
+
+          // Step 3: After welcome exits, show hero text
+          setTimeout(function () {
+            if (heroSection) heroSection.classList.add("visible");
+
+            // Step 4: After hero text settles, reveal sections + unlock scroll
+            setTimeout(function () {
+              sections.forEach(function (s, i) {
+                setTimeout(function () {
+                  s.classList.add("revealed");
+                }, i * 80);
+              });
+              document.documentElement.classList.remove("page-locked");
+
+              // Step 5: Show construction popup if enabled
+              if (window.__underConstruction) {
+                var overlay = document.getElementById("construction-overlay");
+                if (overlay) {
+                  setTimeout(function () {
+                    overlay.classList.add("open");
+                  }, 400);
+                }
+              }
+            }, 500);
+          }, 500);
+        }, 1400);
+      } else {
+        // No welcome element — just show hero and unlock
+        if (heroSection) heroSection.classList.add("visible");
+        setTimeout(function () {
+          sections.forEach(function (s, i) {
+            setTimeout(function () {
+              s.classList.add("revealed");
+            }, i * 80);
+          });
+          document.documentElement.classList.remove("page-locked");
+          if (window.__underConstruction) {
+            var overlay = document.getElementById("construction-overlay");
+            if (overlay) {
+              setTimeout(function () {
+                overlay.classList.add("open");
+              }, 400);
+            }
+          }
+        }, 300);
+      }
+    }
+
+    // Start sequence after brief paint delay
+    requestAnimationFrame(function () {
+      requestAnimationFrame(runHeroSequence);
+    });
   }
 
   // Smooth scroll with offset for anchor links
@@ -305,6 +384,138 @@ document.addEventListener(
       },
       content ? 180 : 0,
     );
+  });
+})();
+
+// ── License modal ────────────────────────────────────────────────────────
+(function () {
+  var overlay = document.getElementById("license-overlay");
+  var closeBtn = document.getElementById("license-close");
+  var reposEl = document.getElementById("license-repos");
+  var npmEl = document.getElementById("license-npm");
+  var confirmEl = document.getElementById("license-confirm");
+  var confirmText = document.getElementById("license-confirm-text");
+  var confirmLink = document.getElementById("license-confirm-link");
+  var confirmCancel = document.getElementById("license-confirm-cancel");
+  var licenseBtn = document.getElementById("license-btn");
+  if (!overlay || !licenseBtn) return;
+
+  var licenseData = null;
+
+  function openModal() {
+    overlay.classList.add("open");
+    if (!licenseData) loadLicenses();
+  }
+
+  function closeModal() {
+    overlay.classList.remove("open");
+    if (confirmEl) confirmEl.classList.add("license-confirm-hidden");
+  }
+
+  licenseBtn.addEventListener("click", openModal);
+  if (closeBtn) closeBtn.addEventListener("click", closeModal);
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay) closeModal();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && overlay.classList.contains("open")) closeModal();
+  });
+
+  if (confirmCancel) {
+    confirmCancel.addEventListener("click", function () {
+      confirmEl.classList.add("license-confirm-hidden");
+    });
+  }
+
+  function showConfirm(name, url) {
+    if (!confirmEl || !confirmText || !confirmLink) return;
+    confirmText.textContent = 'Open LICENSE for "' + name + '" in a new tab?';
+    confirmLink.href = url;
+    confirmEl.classList.remove("license-confirm-hidden");
+  }
+
+  function loadLicenses() {
+    if (licenseData) return renderLicenses(licenseData);
+    var script = document.querySelector('script[src*="github-db"]');
+    var base = script
+      ? script.src.replace(/public\/js\/.*/, "")
+      : window.location.pathname.replace(/\/[^/]*$/, "/");
+    fetch(base + "public/assets/licenses.json")
+      .then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        licenseData = data;
+        renderLicenses(data);
+      })
+      .catch(function () {
+        if (reposEl)
+          reposEl.innerHTML =
+            '<p style="font-size:12px;color:var(--color-text-3)">License data not available.</p>';
+      });
+  }
+
+  function renderLicenses(data) {
+    if (reposEl && data.repos && data.repos.length) {
+      reposEl.innerHTML = data.repos
+        .map(function (r) {
+          var licenseName = r.license || "Unknown";
+          return (
+            '<div class="license-item">' +
+            '<div class="license-item-info">' +
+            '<div class="license-item-name">' +
+            r.name +
+            "</div>" +
+            "</div>" +
+            '<span class="license-item-badge" data-license-url="' +
+            (r.url || "") +
+            '" data-license-name="' +
+            r.name +
+            '">' +
+            licenseName +
+            "</span>" +
+            "</div>"
+          );
+        })
+        .join("");
+    }
+    if (npmEl && data.npm && data.npm.length) {
+      var sorted = data.npm.slice().sort(function (a, b) {
+        return a.name.localeCompare(b.name);
+      });
+      npmEl.innerHTML = sorted
+        .map(function (p) {
+          return (
+            '<div class="license-item">' +
+            '<div class="license-item-info">' +
+            '<div class="license-item-name">' +
+            p.name +
+            "</div>" +
+            '<div class="license-item-version">' +
+            (p.version || "") +
+            "</div>" +
+            "</div>" +
+            '<span class="license-item-badge" data-license-url="' +
+            (p.repository || "") +
+            '" data-license-name="' +
+            p.name +
+            '">' +
+            (p.license || "Unknown") +
+            "</span>" +
+            "</div>"
+          );
+        })
+        .join("");
+    }
+  }
+
+  document.addEventListener("click", function (e) {
+    var badge = e.target.closest(".license-item-badge");
+    if (!badge) return;
+    var url = badge.getAttribute("data-license-url");
+    var name = badge.getAttribute("data-license-name");
+    if (url) showConfirm(name, url);
   });
 })();
 
@@ -455,19 +666,22 @@ document.addEventListener(
   );
 })();
 
-/* ── Construction warning popup (first visit only) ────────────────────────── */
+/* ── Construction warning popup (first visit only, gated) ─────────────────── */
 (function () {
-  if (!localStorage.getItem("airlink-construction-seen")) {
-    var overlay = document.getElementById("construction-overlay");
-    var okBtn = document.getElementById("construction-ok");
-    if (overlay && okBtn) {
-      requestAnimationFrame(function () {
-        overlay.classList.add("open");
-      });
-      okBtn.addEventListener("click", function () {
-        localStorage.setItem("airlink-construction-seen", "1");
-        overlay.classList.remove("open");
-      });
+  if (!window.__underConstruction) return;
+  // The hero animation sequence handles showing the popup after intro.
+  // This fallback handles the OK button + localStorage persistence.
+  var overlay = document.getElementById("construction-overlay");
+  var okBtn = document.getElementById("construction-ok");
+  if (!overlay || !okBtn) return;
+  okBtn.addEventListener("click", function () {
+    localStorage.setItem("airlink-construction-seen", "1");
+    overlay.classList.remove("open");
+  });
+  // If hero animation didn't run (non-home page), show immediately on first visit
+  if (!document.querySelector(".hero-viewport")) {
+    if (!localStorage.getItem("airlink-construction-seen")) {
+      overlay.classList.add("open");
     }
   }
 })();

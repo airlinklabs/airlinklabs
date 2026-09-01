@@ -13,7 +13,10 @@
               <div class="hero-viewport" id="start">
               <div class="hero-bg" style="background-image:url('<%= rootPrefix %>public/assets/logo.svg')"
                                 aria-hidden="true"></div>%>)
-                <section class="hub-hero" data-animate="blur">
+                <div id="hero-welcome" class="hero-welcome" aria-hidden="true">
+                  <p class="hero-welcome-text">Welcome to Airlinklabs!</p>
+                </div>
+                <section class="hub-hero hero-text-animated" data-animate="blur">
                   <div>
                     <p class="hub-overline">Self-hosted · MIT licensed</p>
                     <h1>Game server management<br>built for operators.</h1>
