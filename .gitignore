@@ -5,3 +5,4 @@ data/github-cache/summary.txt
 public/assets/github.db
 pnpm-lock.yaml
 .desloppify/
+.claude/
