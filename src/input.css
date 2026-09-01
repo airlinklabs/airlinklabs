@@ -243,8 +243,8 @@
     color 150ms;
 }
 .btn-secondary:hover {
-  background: #292929;
-  color: #fff;
+  background: var(--color-bg-hover);
+  color: var(--color-text-1);
 }
 .btn-secondary:active {
   transform: scale(0.96);
@@ -507,6 +507,7 @@
   transition: text-decoration-color 150ms;
 }
 .prose a:hover {
+  color: var(--color-text-1);
   text-decoration-color: var(--color-text-1);
 }
 .prose hr {
@@ -964,6 +965,7 @@
 }
 
 #redirect-confirm:hover {
+  color: var(--color-text-1);
   opacity: 0.82;
 }
 #redirect-confirm:active {
@@ -1014,6 +1016,7 @@
 
 .blog-post-row:hover .post-title,
 .blog-post-row:hover .post-date {
+  color: var(--color-text-1);
   transform: translateX(4px);
 }
 
@@ -1090,6 +1093,7 @@
 }
 
 .blog-card:hover {
+  color: var(--color-text-1);
   background: var(--color-bg-hover);
   border-color: var(--color-border-input);
   transform: translateY(-1px);
@@ -1673,6 +1677,7 @@ img[loading="lazy"][style*="display:none"] {
 }
 
 .doc-prev-next a:hover {
+  color: var(--color-text-1);
   background: var(--color-bg-hover);
   border-color: var(--color-border-input);
   transform: translateY(-1px);
@@ -1940,10 +1945,10 @@ img[loading="lazy"][style*="display:none"] {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background-size: 30%;
+  background-size: 40%;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.12;
+  opacity: 0.2;
   z-index: 0;
   pointer-events: none;
   mask-image: radial-gradient(
@@ -2126,7 +2131,7 @@ img[loading="lazy"][style*="display:none"] {
   margin-left: 6px;
 }
 .text-link:hover {
-  color: #fff;
+  color: var(--color-text-1);
 }
 .project-list,
 .hub-list,
@@ -2198,7 +2203,7 @@ img[loading="lazy"][style*="display:none"] {
   font-family: var(--font-sans);
 }
 .project-row:hover .project-link {
-  color: #f0f0f0;
+  color: var(--color-text-1);
 }
 .hub-list-row,
 .docs-list-row {
@@ -2276,6 +2281,7 @@ img[loading="lazy"][style*="display:none"] {
     transform 180ms cubic-bezier(0.34, 1.1, 0.64, 1);
 }
 .contrib-card:hover {
+  color: var(--color-text-1);
   background: var(--color-bg-hover);
   border-color: var(--color-border-input);
   transform: translateY(-1px);
