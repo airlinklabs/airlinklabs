@@ -94,36 +94,8 @@ systemctl enable --now docker
 git clone https://github.com/airlinklabs/panel.git /var/www/panel
 cd /var/www/panel
 pnpm install
-```
-
-### Configure environment
-
-```bash
-cp example.env .env
-```
-
-Edit `.env` with your database credentials and settings. At minimum, set:
-
-```
-NAME=Airlink
-NODE_ENV=production
-URL=http://your-server-ip:3000
-PORT=3000
-DATABASE_URL=file:/var/www/panel/storage/dev.db
-SESSION_SECRET=<random-hex-string>
-```
-
-Generate a session secret:
-
-```bash
-openssl rand -hex 32
-```
-
-### Build and migrate
-
-```bash
-pnpm run migrate:deploy
-pnpm run build
+pnpm approve-builds --all
+pnpm run setup
 ```
 
 ### Start
