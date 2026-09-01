@@ -34,7 +34,7 @@ jobs:
       - name: Refresh GitHub cache
         run: npm run cache
         env:
-          GH_TOKEN: ${{ secrets.AIRLINK_TOKEN }}
+          GH_TOKEN: ${{ secrets.TOKEN }}
 
       - name: Build site
         run: npm run build
