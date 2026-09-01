@@ -278,60 +278,63 @@ document.addEventListener(
     });
 
     function runHeroSequence() {
-      // Step 1: Fade in welcome text
-      if (welcomeEl) {
-        welcomeEl.classList.add("visible");
+      // Step 0: Wait for hero bg to sink (500ms), then start welcome
+      setTimeout(function () {
+        // Step 1: Fade in welcome text
+        if (welcomeEl) {
+          welcomeEl.classList.add("visible");
 
-        // Step 2: After delay, fade out welcome
-        setTimeout(function () {
-          welcomeEl.classList.remove("visible");
-          welcomeEl.classList.add("exit");
-
-          // Step 3: After welcome exits, show hero text
+          // Step 2: After delay, fade out welcome
           setTimeout(function () {
-            if (heroSection) heroSection.classList.add("visible");
+            welcomeEl.classList.remove("visible");
+            welcomeEl.classList.add("exit");
 
-            // Step 4: After hero text settles, reveal sections + unlock scroll
+            // Step 3: After welcome exits, show hero text
             setTimeout(function () {
-              sections.forEach(function (s, i) {
-                setTimeout(function () {
-                  s.classList.add("revealed");
-                }, i * 80);
-              });
-              document.documentElement.classList.remove("page-locked");
+              if (heroSection) heroSection.classList.add("visible");
 
-              // Step 5: Show construction popup if enabled
-              if (window.__underConstruction) {
-                var overlay = document.getElementById("construction-overlay");
-                if (overlay) {
-                  setTimeout(function () {
-                    overlay.classList.add("open");
-                  }, 400);
-                }
-              }
-            }, 500);
-          }, 500);
-        }, 1400);
-      } else {
-        // No welcome element — just show hero and unlock
-        if (heroSection) heroSection.classList.add("visible");
-        setTimeout(function () {
-          sections.forEach(function (s, i) {
-            setTimeout(function () {
-              s.classList.add("revealed");
-            }, i * 80);
-          });
-          document.documentElement.classList.remove("page-locked");
-          if (window.__underConstruction) {
-            var overlay = document.getElementById("construction-overlay");
-            if (overlay) {
+              // Step 4: After hero text settles, reveal sections + unlock scroll
               setTimeout(function () {
-                overlay.classList.add("open");
-              }, 400);
+                sections.forEach(function (s, i) {
+                  setTimeout(function () {
+                    s.classList.add("revealed");
+                  }, i * 80);
+                });
+                document.documentElement.classList.remove("page-locked");
+
+                // Step 5: Show construction popup if enabled
+                if (window.__underConstruction) {
+                  var overlay = document.getElementById("construction-overlay");
+                  if (overlay) {
+                    setTimeout(function () {
+                      overlay.classList.add("open");
+                    }, 400);
+                  }
+                }
+              }, 500);
+            }, 500);
+          }, 1400);
+        } else {
+          // No welcome element — just show hero and unlock
+          if (heroSection) heroSection.classList.add("visible");
+          setTimeout(function () {
+            sections.forEach(function (s, i) {
+              setTimeout(function () {
+                s.classList.add("revealed");
+              }, i * 80);
+            });
+            document.documentElement.classList.remove("page-locked");
+            if (window.__underConstruction) {
+              var overlay = document.getElementById("construction-overlay");
+              if (overlay) {
+                setTimeout(function () {
+                  overlay.classList.add("open");
+                }, 400);
+              }
             }
-          }
-        }, 300);
-      }
+          }, 300);
+        }
+      }, 500); // Wait for hero bg sinking animation
     }
 
     // Start sequence after brief paint delay
@@ -407,7 +410,10 @@ document.addEventListener(
     overlay.classList.remove("open");
   }
 
-  licenseBtn.addEventListener("click", openModal);
+  licenseBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    openModal();
+  });
   if (closeBtn) closeBtn.addEventListener("click", closeModal);
   overlay.addEventListener("click", function (e) {
     if (e.target === overlay) closeModal();
@@ -443,7 +449,9 @@ document.addEventListener(
     return (
       '<a class="license-item-badge" href="' +
       url +
-      '" target="_blank" rel="noopener">' +
+      '" target="_blank" rel="noopener" data-license-link="' +
+      url +
+      '">' +
       license +
       "</a>"
     );
@@ -451,6 +459,12 @@ document.addEventListener(
 
   function renderLicenses(data) {
     if (reposEl && data.repos && data.repos.length) {
+      var repoDescs = {
+        panel: "Web interface for managing servers, users, nodes, and backups",
+        daemon: "Node agent handling containers, files, and server operations",
+        addons: "Community addon registry and marketplace",
+        home: "Project website and documentation",
+      };
       reposEl.innerHTML = data.repos
         .map(function (r) {
           return (
@@ -459,6 +473,9 @@ document.addEventListener(
             '<div class="license-item-name">' +
             r.name +
             "</div>" +
+            (repoDescs[r.name]
+              ? '<div class="license-item-desc">' + repoDescs[r.name] + "</div>"
+              : "") +
             "</div>" +
             badge(r.name, r.url, r.license || "Unknown") +
             "</div>"
@@ -478,8 +495,8 @@ document.addEventListener(
             '<div class="license-item-name">' +
             p.name +
             "</div>" +
-            '<div class="license-item-version">' +
-            (p.version || "") +
+            '<div class="license-item-version">v' +
+            (p.version || "unknown") +
             "</div>" +
             "</div>" +
             badge(p.name, p.repository, p.license || "Unknown") +
@@ -497,8 +514,9 @@ document.addEventListener(
             '<div class="license-item-name">' +
             c.name +
             "</div>" +
-            '<div class="license-item-version">' +
+            '<div class="license-item-version">v' +
             (c.version || "") +
+            " · loaded from CDN" +
             "</div>" +
             "</div>" +
             badge(c.name, c.url, c.license || "Unknown") +
@@ -508,6 +526,14 @@ document.addEventListener(
         .join("");
     }
   }
+
+  // Close license modal when a badge is clicked so redirect confirmer can handle it
+  overlay.addEventListener("click", function (e) {
+    var link = e.target.closest(".license-item-badge[href]");
+    if (link) {
+      closeModal();
+    }
+  });
 })();
 
 // ── Scroll-triggered animations (flow diagrams + counters) ──────────────────
