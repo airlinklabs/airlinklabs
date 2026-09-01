@@ -107,21 +107,100 @@ document.addEventListener("click", function (e) {
   if (!block) return;
 
   var pre = block.querySelector("pre");
-  var text = pre ? pre.textContent || "" : "";
+  var code = block.querySelector("code");
+  var text = pre ? pre.textContent || "" : code ? code.textContent || "" : "";
 
-  navigator.clipboard.writeText(text.trim()).then(function () {
-    var orig = btn.innerHTML;
-    btn.innerHTML =
-      '<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Copied';
-    btn.style.color = "var(--color-success)";
-    btn.style.borderColor = "var(--color-success)";
-    setTimeout(function () {
-      btn.innerHTML = orig;
-      btn.style.color = "";
-      btn.style.borderColor = "";
-    }, 2000);
-  });
+  function copyAndNotify(txt) {
+    navigator.clipboard
+      .writeText(txt)
+      .then(function () {
+        var orig = btn.innerHTML;
+        btn.innerHTML =
+          '<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Copied';
+        btn.style.color = "var(--color-success)";
+        btn.style.borderColor = "var(--color-success)";
+        setTimeout(function () {
+          btn.innerHTML = orig;
+          btn.style.color = "";
+          btn.style.borderColor = "";
+        }, 2000);
+      })
+      .catch(function () {
+        // fallback: textarea + execCommand
+        var ta = document.createElement("textarea");
+        ta.value = txt;
+        ta.style.cssText = "position:fixed;left:-9999px;top:-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        var orig = btn.innerHTML;
+        btn.innerHTML =
+          '<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Copied';
+        btn.style.color = "var(--color-success)";
+        btn.style.borderColor = "var(--color-success)";
+        setTimeout(function () {
+          btn.innerHTML = orig;
+          btn.style.color = "";
+          btn.style.borderColor = "";
+        }, 2000);
+      });
+  }
+
+  copyAndNotify(text.trim());
 });
+
+// ── Copy button for install section ────────────────────────────────────────
+document.addEventListener(
+  "click",
+  function (e) {
+    var btn = e.target.closest(".install-code .prose-copy-btn");
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    var block = btn.closest(".install-code");
+    if (!block) return;
+    var code = block.querySelector("code");
+    if (!code) return;
+    var text = code.textContent || "";
+
+    function doCopy(txt) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt).then(ok, fail);
+      } else {
+        fail();
+      }
+      function ok() {
+        showCopied(btn);
+      }
+      function fail() {
+        var ta = document.createElement("textarea");
+        ta.value = txt;
+        ta.style.cssText = "position:fixed;left:-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand("copy");
+        } catch (_) {}
+        document.body.removeChild(ta);
+        showCopied(btn);
+      }
+    }
+    function showCopied(b) {
+      var orig = b.innerHTML;
+      b.innerHTML =
+        '<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Copied';
+      b.style.color = "var(--color-success)";
+      setTimeout(function () {
+        b.innerHTML = orig;
+        b.style.color = "";
+      }, 2000);
+    }
+    doCopy(text.trim());
+  },
+  true,
+);
 
 // ── Redirect confirmation popup ───────────────────────────────────────────────
 (function () {

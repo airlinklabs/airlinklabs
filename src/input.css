@@ -2495,10 +2495,10 @@ img[loading="lazy"][style*="display:none"] {
    hub-hero already has position:relative so absolute children are clipped to it. */
 .hero-bg {
   position: absolute;
-  left: -72px;                      /* cancel hub-content left padding */
-  right: -72px;                     /* cancel hub-content right padding */
-  top: 0;                           /* top of hub-hero */
-  bottom: 0;                        /* bottom of hub-hero — stops above #install */
+  left: -72px; /* cancel hub-content left padding */
+  right: -72px; /* cancel hub-content right padding */
+  top: 0; /* top of hub-hero */
+  bottom: 0; /* bottom of hub-hero — stops above #install */
   background-size: cover;
   background-position: center 30%;
   background-repeat: no-repeat;
@@ -2506,12 +2506,7 @@ img[loading="lazy"][style*="display:none"] {
   z-index: 0;
   pointer-events: none;
   /* Fade out toward the bottom so it doesn't bleed into the install section */
-  mask-image: linear-gradient(
-    to bottom,
-    black 0%,
-    black 50%,
-    transparent 100%
-  );
+  mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%);
   -webkit-mask-image: linear-gradient(
     to bottom,
     black 0%,
@@ -2569,9 +2564,7 @@ img[loading="lazy"][style*="display:none"] {
   margin-top: 24px;
 }
 .install-code {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  position: relative;
   padding: 12px 16px;
   background: var(--color-bg-3);
   border: 1px solid var(--color-border);
@@ -2582,34 +2575,14 @@ img[loading="lazy"][style*="display:none"] {
   overflow-x: auto;
 }
 .install-code code {
-  flex: 1;
+  display: block;
   white-space: nowrap;
   min-width: 0;
+  padding-right: 70px;
 }
-.install-code .copy-btn {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
-  border: none;
-  border-radius: 4px;
-  background: transparent;
-  color: var(--color-text-3);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  line-height: 1;
-  cursor: pointer;
-  min-width: 0;
-  min-height: 0;
-  margin: 0;
-  transition:
-    color 150ms,
-    background 150ms;
-}
-.install-code .copy-btn:hover {
-  color: var(--color-text-1);
-  background: var(--color-bg-2);
+.install-code .prose-copy-btn {
+  opacity: 1;
+  pointer-events: auto;
 }
 .install-note {
   margin-top: 12px;
@@ -2922,7 +2895,7 @@ img[loading="lazy"][style*="display:none"] {
 .commit-tag--panel {
   background: rgba(255, 255, 255, 0.08);
   color: var(--color-text-2);
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 .commit-tag--daemon {
   background: rgba(96, 165, 250, 0.1);
@@ -2947,8 +2920,13 @@ img[loading="lazy"][style*="display:none"] {
 
 /* ── Skeleton loading states ──────────────────────────────────────────── */
 @keyframes skeleton-pulse {
-  0%, 100% { opacity: 0.4; }
-  50%       { opacity: 0.8; }
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
 }
 .hub-skeleton,
 .contrib-card--skeleton {
@@ -2962,11 +2940,22 @@ img[loading="lazy"][style*="display:none"] {
   animation: skeleton-pulse 1.4s ease-in-out infinite;
   margin-bottom: 6px;
 }
-.skeleton-line--wide  { width: 72%; }
-.skeleton-line--narrow { width: 35%; }
-.skeleton-line--date  { width: 44px; height: 10px; }
-.skeleton-line--name  { width: 90px; }
-.skeleton-line--count { width: 60px; }
+.skeleton-line--wide {
+  width: 72%;
+}
+.skeleton-line--narrow {
+  width: 35%;
+}
+.skeleton-line--date {
+  width: 44px;
+  height: 10px;
+}
+.skeleton-line--name {
+  width: 90px;
+}
+.skeleton-line--count {
+  width: 60px;
+}
 .docs-index-header {
   max-width: 720px;
   margin-bottom: 54px;
