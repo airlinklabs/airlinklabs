@@ -76,33 +76,16 @@
       return r.json();
     }
 
-    var results = await Promise.allSettled([
-      ghFetch(
-        "https://api.github.com/repos/" + PANEL_REPO + "/commits?per_page=20",
-      ),
-      ghFetch(
-        "https://api.github.com/repos/" + DAEMON_REPO + "/commits?per_page=20",
-      ),
-      ghFetch(
-        "https://api.github.com/repos/" +
-          PANEL_REPO +
-          "/contributors?per_page=100",
-      ),
-      ghFetch(
-        "https://api.github.com/repos/" +
-          DAEMON_REPO +
-          "/contributors?per_page=100",
-      ),
-    ]);
-
-    var panelCommits =
-      results[0].status === "fulfilled" ? results[0].value : [];
-    var daemonCommits =
-      results[1].status === "fulfilled" ? results[1].value : [];
-    var panelContribs =
-      results[2].status === "fulfilled" ? results[2].value : [];
-    var daemonContribs =
-      results[3].status === "fulfilled" ? results[3].value : [];
+    // Fetch all repos in the AirlinkLabs org
+    var repos = [];
+    try {
+      repos = await ghFetch(
+        "https://api.github.com/orgs/AirlinkLabs/repos?per_page=100",
+      );
+    } catch (e) {
+      // Fallback to known repos
+      repos = [{ full_name: PANEL_REPO }, { full_name: DAEMON_REPO }];
+    }
 
     // Tag commits with repo and normalize
     function normalizeCommit(c, repo) {
@@ -120,26 +103,54 @@
       };
     }
 
-    var allCommits = []
-      .concat(
-        panelCommits.map(function (c) {
-          return normalizeCommit(c, "panel");
-        }),
+    // Fetch commits from each repo (limit to keep within rate limits)
+    var commitPromises = (repos || []).slice(0, 10).map(function (repo) {
+      return ghFetch(
+        "https://api.github.com/repos/" +
+          repo.full_name +
+          "/commits?per_page=10",
       )
-      .concat(
-        daemonCommits.map(function (c) {
-          return normalizeCommit(c, "daemon");
-        }),
-      );
+        .then(function (commits) {
+          return {
+            repo: repo.full_name.replace("AirlinkLabs/", ""),
+            commits: commits,
+          };
+        })
+        .catch(function () {
+          return {
+            repo: repo.full_name.replace("AirlinkLabs/", ""),
+            commits: [],
+          };
+        });
+    });
+
+    var repoResults = await Promise.all(commitPromises);
+    var allCommits = [];
+    repoResults.forEach(function (r) {
+      (r.commits || []).forEach(function (c) {
+        allCommits.push(normalizeCommit(c, r.repo));
+      });
+    });
 
     // Sort all commits by date descending
     allCommits.sort(function (a, b) {
       return new Date(b.author_date) - new Date(a.author_date);
     });
 
-    // Merge contributors by login, sum contributions
+    // Fetch contributors from all repos
     var contribMap = {};
-    [panelContribs, daemonContribs].forEach(function (list) {
+    var contribPromises = (repos || []).slice(0, 10).map(function (repo) {
+      return ghFetch(
+        "https://api.github.com/repos/" +
+          repo.full_name +
+          "/contributors?per_page=100",
+      ).catch(function () {
+        return [];
+      });
+    });
+
+    var contribResults = await Promise.all(contribPromises);
+    contribResults.forEach(function (list) {
       (list || []).forEach(function (c) {
         if (!c.login || c.login.indexOf("[bot]") !== -1) return;
         if (contribMap[c.login]) {
@@ -174,55 +185,99 @@
       return;
     }
 
-    var html = "";
-    commits.slice(0, 14).forEach(function (c) {
+    var COMMIT_SHOW = 5;
+
+    function formatDate(c) {
+      if (!c.author_date) return "";
+      var d = new Date(c.author_date);
+      var now = new Date();
+      var diff = Math.floor((now - d) / 1000);
+      if (diff < 60) return "just now";
+      if (diff < 3600) return Math.floor(diff / 60) + "m ago";
+      if (diff < 86400) return Math.floor(diff / 3600) + "h ago";
+      if (diff < 86400 * 30) return Math.floor(diff / 86400) + "d ago";
+      return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    }
+
+    function renderSingle(c) {
       var msg = (c.message || "").split("\n")[0].trim();
       if (msg.length > 82) msg = msg.slice(0, 79) + "…";
       if (!msg) msg = "No commit message";
 
-      var date = "";
-      if (c.author_date) {
-        var d = new Date(c.author_date);
-        var now = new Date();
-        var diff = Math.floor((now - d) / 1000);
-        if (diff < 60) date = "just now";
-        else if (diff < 3600) date = Math.floor(diff / 60) + "m ago";
-        else if (diff < 86400) date = Math.floor(diff / 3600) + "h ago";
-        else if (diff < 86400 * 30) date = Math.floor(diff / 86400) + "d ago";
-        else
-          date = d.toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-          });
-      }
-
-      var repoLabel = c.repo === "panel" ? "Panel" : "Daemon";
-      var repoClass =
-        c.repo === "panel" ? "commit-tag--panel" : "commit-tag--daemon";
+      var date = formatDate(c);
+      var repoLabel = c.repo;
       var sha = (c.sha || "").slice(0, 7);
 
-      html +=
+      var h = "";
+      h +=
         '<a href="' +
         (c.html_url || "#") +
         '" class="hub-list-row" target="_blank" rel="noopener">';
-      html += '<div class="commit-row-main">';
-      html += '<div class="commit-row-meta">';
-      html +=
-        '<span class="commit-tag ' + repoClass + '">' + repoLabel + "</span>";
-      if (sha) html += '<span class="commit-sha">' + sha + "</span>";
-      html += "</div>";
-      html += '<p class="hub-list-title">' + escHtml(msg) + "</p>";
-      html +=
+      h += '<div class="commit-row-main">';
+      h += '<div class="commit-row-meta">';
+      h += '<span class="commit-tag">' + escHtml(repoLabel) + "</span>";
+      if (sha) h += '<span class="commit-sha">' + sha + "</span>";
+      h += "</div>";
+      h += '<p class="hub-list-title">' + escHtml(msg) + "</p>";
+      h +=
         '<p class="hub-list-description">' +
         escHtml(c.author_name || "unknown") +
         "</p>";
-      html += "</div>";
-      html += '<span class="hub-list-meta">' + date + "</span>";
-      html +=
+      h += "</div>";
+      h += '<span class="hub-list-meta">' + date + "</span>";
+      h +=
         '<span class="hub-arrow" aria-hidden="true"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>';
-      html += "</a>";
+      h += "</a>";
+      return h;
+    }
+
+    var html = "";
+    // Show first COMMIT_SHOW commits
+    commits.slice(0, COMMIT_SHOW).forEach(function (c) {
+      html += renderSingle(c);
     });
+
+    // If more commits exist, add a "Show more" button
+    if (commits.length > COMMIT_SHOW) {
+      html += '<div class="commit-more-wrap">';
+      html +=
+        '<button type="button" class="commit-more-btn" id="commit-more-btn">Show ' +
+        (commits.length - COMMIT_SHOW) +
+        " more commits</button>";
+      html += "</div>";
+    }
+
     el.innerHTML = html;
+
+    // Bind the show more button
+    var moreBtn = document.getElementById("commit-more-btn");
+    if (moreBtn) {
+      moreBtn.addEventListener("click", function () {
+        var popup = document.createElement("div");
+        popup.className = "commit-popup-overlay";
+        popup.innerHTML =
+          '<div class="commit-popup">' +
+          '<div class="commit-popup-header">' +
+          "<h3>All commits</h3>" +
+          '<button type="button" class="commit-popup-close" id="commit-popup-close">&times;</button>' +
+          "</div>" +
+          '<div class="commit-popup-list">' +
+          commits.slice(COMMIT_SHOW).map(renderSingle).join("") +
+          "</div>" +
+          "</div>";
+        document.body.appendChild(popup);
+
+        // Close handlers
+        var closeBtn = document.getElementById("commit-popup-close");
+        function closePopup() {
+          popup.remove();
+        }
+        closeBtn.addEventListener("click", closePopup);
+        popup.addEventListener("click", function (e) {
+          if (e.target === popup) closePopup();
+        });
+      });
+    }
   }
 
   // ── Render contributors ─────────────────────────────────────────────────
@@ -235,12 +290,16 @@
       return;
     }
 
+    var coreLogins = ["thavanish", "privt", "achul"];
     var html = "";
     contributors.forEach(function (c) {
+      var isCore = coreLogins.indexOf(c.login) !== -1;
       html +=
         '<a href="' +
         (c.html_url || "#") +
-        '" class="contrib-card" target="_blank" rel="noopener">';
+        '" class="contrib-card' +
+        (isCore ? " contrib-card--core" : "") +
+        '" target="_blank" rel="noopener">';
       if (c.avatar_url) {
         html +=
           '<img src="' +

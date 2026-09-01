@@ -10,6 +10,7 @@ const CACHE_FILE = path.join(CACHE_DIR, "cache.xml");
 const DB_FILE = path.join(ROOT, "public", "assets", "github.db");
 
 const GH_TOKEN = process.env.GH_TOKEN || "";
+const ORG_NAME = "AirlinkLabs";
 const PANEL_REPO = process.env.PANEL_REPO || "AirlinkLabs/panel";
 const DAEMON_REPO = process.env.DAEMON_REPO || "AirlinkLabs/daemon";
 const ADDONS_REPO = "airlinklabs/addons";
@@ -103,8 +104,7 @@ function buildXml(data: {
     bio: string;
     company: string;
   }[];
-  panelCommits: Record<string, unknown>[];
-  daemonCommits: Record<string, unknown>[];
+  allCommits: Record<string, unknown>[];
   addons: ReturnType<typeof fetchAddons> extends Promise<infer T> ? T : never;
 }): string {
   const lines: string[] = [];
@@ -143,33 +143,30 @@ function buildXml(data: {
   }
   lines.push("  </contributors>");
 
-  // Commits — shared helper for both repos
-  function writeCommits(tag: string, commits: Record<string, unknown>[]) {
-    lines.push(`  <${tag}>`);
-    for (const raw of commits) {
-      const commit = raw["commit"] as Record<string, unknown>;
-      const author = commit["author"] as Record<string, unknown>;
-      const ghAuthor = raw["author"] as Record<string, unknown> | null;
-      lines.push("    <commit>");
-      lines.push(`      <sha>${esc(raw["sha"])}</sha>`);
-      lines.push(`      <htmlUrl>${esc(raw["html_url"])}</htmlUrl>`);
-      lines.push(
-        `      <message>${esc(author ? String(commit["message"] || "") : "")}</message>`,
-      );
-      lines.push("      <author>");
-      lines.push(`        <name>${esc(author?.["name"])}</name>`);
-      lines.push(`        <date>${esc(author?.["date"])}</date>`);
-      lines.push(
-        `        <avatarUrl>${esc(ghAuthor?.["avatar_url"] ?? "")}</avatarUrl>`,
-      );
-      lines.push("      </author>");
-      lines.push("    </commit>");
-    }
-    lines.push(`  </${tag}>`);
+  // Commits — write all commits
+  lines.push("  <commits>");
+  for (const raw of data.allCommits) {
+    const commit = raw["commit"] as Record<string, unknown>;
+    const author = commit["author"] as Record<string, unknown>;
+    const ghAuthor = raw["author"] as Record<string, unknown> | null;
+    const repo = (raw["_repo"] as string) || "";
+    lines.push("    <commit>");
+    lines.push(`      <sha>${esc(raw["sha"])}</sha>`);
+    lines.push(`      <repo>${esc(repo)}</repo>`);
+    lines.push(`      <htmlUrl>${esc(raw["html_url"])}</htmlUrl>`);
+    lines.push(
+      `      <message>${esc(author ? String(commit["message"] || "") : "")}</message>`,
+    );
+    lines.push("      <author>");
+    lines.push(`        <name>${esc(author?.["name"])}</name>`);
+    lines.push(`        <date>${esc(author?.["date"])}</date>`);
+    lines.push(
+      `        <avatarUrl>${esc(ghAuthor?.["avatar_url"] ?? "")}</avatarUrl>`,
+    );
+    lines.push("      </author>");
+    lines.push("    </commit>");
   }
-
-  writeCommits("panelCommits", data.panelCommits);
-  writeCommits("daemonCommits", data.daemonCommits);
+  lines.push("  </commits>");
 
   // Addons
   lines.push("  <addons>");
@@ -226,46 +223,71 @@ async function run() {
 
   await fs.ensureDir(CACHE_DIR);
 
-  const [
-    panelRepo,
-    daemonRepo,
-    panelContribs,
-    daemonContribs,
-    panelCommits,
-    daemonCommits,
-  ] = await Promise.all([
+  // Fetch all repos in the org
+  let orgRepos: { full_name: string }[] = [];
+  try {
+    orgRepos = (await ghFetch(
+      `https://api.github.com/orgs/${ORG_NAME}/repos?per_page=100`,
+    )) as { full_name: string }[];
+    console.log(`  Found ${orgRepos.length} repos in ${ORG_NAME}`);
+  } catch {
+    // Fallback to known repos
+    orgRepos = [{ full_name: PANEL_REPO }, { full_name: DAEMON_REPO }];
+  }
+
+  // Also fetch panel/daemon repo info for stats
+  const [panelRepo, daemonRepo] = await Promise.all([
     ghFetch(`https://api.github.com/repos/${PANEL_REPO}`).catch(() => null),
     ghFetch(`https://api.github.com/repos/${DAEMON_REPO}`).catch(() => null),
-    ghFetch(
-      `https://api.github.com/repos/${PANEL_REPO}/contributors?per_page=100`,
-    ).catch(() => []),
-    ghFetch(
-      `https://api.github.com/repos/${DAEMON_REPO}/contributors?per_page=100`,
-    ).catch(() => []),
-    ghFetch(
-      `https://api.github.com/repos/${PANEL_REPO}/commits?per_page=15`,
-    ).catch(() => []),
-    ghFetch(
-      `https://api.github.com/repos/${DAEMON_REPO}/commits?per_page=15`,
-    ).catch(() => []),
   ]);
 
-  // Merge contributors from both repos, skip bots
+  // Fetch commits and contributors from all repos
+  const allCommits: Record<string, unknown>[] = [];
   const contribMap = new Map<string, Record<string, unknown>>();
-  for (const c of [
-    ...(panelContribs as Record<string, unknown>[]),
-    ...(daemonContribs as Record<string, unknown>[]),
-  ]) {
-    const login = c["login"] as string;
-    if (!login || login.includes("[bot]")) continue;
-    if (contribMap.has(login)) {
-      const ex = contribMap.get(login)!;
-      ex["contributions"] =
-        (ex["contributions"] as number) + (c["contributions"] as number);
-    } else {
-      contribMap.set(login, { ...c });
+
+  for (const repo of orgRepos.slice(0, 10)) {
+    const repoName = repo.full_name;
+    console.log(`  Fetching commits from ${repoName}...`);
+
+    const [commits, contribs] = await Promise.all([
+      ghFetch(
+        `https://api.github.com/repos/${repoName}/commits?per_page=10`,
+      ).catch(() => []),
+      ghFetch(
+        `https://api.github.com/repos/${repoName}/contributors?per_page=100`,
+      ).catch(() => []),
+    ]);
+
+    // Tag commits with repo name
+    for (const c of commits as Record<string, unknown>[]) {
+      c["_repo"] = repoName.replace(`${ORG_NAME}/`, "");
+      allCommits.push(c);
+    }
+
+    // Merge contributors
+    for (const c of contribs as Record<string, unknown>[]) {
+      const login = c["login"] as string;
+      if (!login || login.includes("[bot]")) continue;
+      if (contribMap.has(login)) {
+        const ex = contribMap.get(login)!;
+        ex["contributions"] =
+          (ex["contributions"] as number) + (c["contributions"] as number);
+      } else {
+        contribMap.set(login, { ...c });
+      }
     }
   }
+
+  // Sort commits by date descending
+  allCommits.sort((a, b) => {
+    const aDate = (a["commit"] as Record<string, unknown>)?.["author"] as
+      Record<string, unknown> | undefined;
+    const bDate = (b["commit"] as Record<string, unknown>)?.["author"] as
+      Record<string, unknown> | undefined;
+    return ((bDate?.["date"] as string) || "").localeCompare(
+      (aDate?.["date"] as string) || "",
+    );
+  });
 
   // Fetch full GitHub profiles for each contributor
   const contributors: {
@@ -356,8 +378,7 @@ async function run() {
       ),
     },
     contributors,
-    panelCommits: (panelCommits as Record<string, unknown>[]) || [],
-    daemonCommits: (daemonCommits as Record<string, unknown>[]) || [],
+    allCommits,
     addons,
   });
 
@@ -405,27 +426,22 @@ async function run() {
     "INSERT OR REPLACE INTO meta (key, value) VALUES (?, ?)",
   );
 
-  const writeCommitsTx = db.transaction(
-    (repo: string, commits: Record<string, unknown>[]) => {
-      for (const raw of commits) {
-        const commit = raw["commit"] as Record<string, unknown>;
-        const author = commit["author"] as Record<string, unknown>;
-        const ghAuthor = raw["author"] as Record<string, unknown> | null;
-        insertCommit.run(
-          String(raw["sha"] || ""),
-          repo,
-          String(commit?.["message"] || ""),
-          String(author?.["name"] || ""),
-          String(author?.["date"] || ""),
-          String(ghAuthor?.["avatar_url"] || ""),
-          String(raw["html_url"] || ""),
-        );
-      }
-    },
-  );
-
-  writeCommitsTx("panel", (panelCommits as Record<string, unknown>[]) || []);
-  writeCommitsTx("daemon", (daemonCommits as Record<string, unknown>[]) || []);
+  // Write all commits with their repo tag
+  for (const raw of allCommits) {
+    const commit = raw["commit"] as Record<string, unknown>;
+    const author = commit["author"] as Record<string, unknown>;
+    const ghAuthor = raw["author"] as Record<string, unknown> | null;
+    const repo = (raw["_repo"] as string) || "unknown";
+    insertCommit.run(
+      String(raw["sha"] || ""),
+      repo,
+      String(commit?.["message"] || ""),
+      String(author?.["name"] || ""),
+      String(author?.["date"] || ""),
+      String(ghAuthor?.["avatar_url"] || ""),
+      String(raw["html_url"] || ""),
+    );
+  }
 
   for (const c of contributors) {
     insertContrib.run(
