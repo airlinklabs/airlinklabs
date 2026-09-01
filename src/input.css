@@ -1935,20 +1935,19 @@ img[loading="lazy"][style*="display:none"] {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background-size: 50%;
-  background-position: center 30%;
+  background-size: 40%;
+  background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.2;
+  opacity: 0.08;
   z-index: 0;
   pointer-events: none;
-  /* Heavy radial fade on all four sides — edges blend into background */
   mask-image: radial-gradient(
-    ellipse 70% 60% at center,
+    ellipse 60% 55% at center,
     black 0%,
     transparent 100%
   );
   -webkit-mask-image: radial-gradient(
-    ellipse 70% 60% at center,
+    ellipse 60% 55% at center,
     black 0%,
     transparent 100%
   );
