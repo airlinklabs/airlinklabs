@@ -13,11 +13,7 @@
               <header class="docs-index-header" data-animate="fade-up">
                 <h1>Documentation</h1>
                 <p>Practical guides and reference material for running and contributing to AirLink.</p><label
-                  class="docs-search"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"
-                    viewBox="0 0 24 24">
-                    <circle cx="11" cy="11" r="7" />
-                    <path d="m20 20-3.5-3.5" />
-                  </svg><input type="search" id="docs-search-input" placeholder="Search documentation"
+                  class="docs-search"><iconify-icon icon="lucide:search" width="17" height="17"></iconify-icon><input type="search" id="docs-search-input" placeholder="Search documentation"
                     autocomplete="off"><kbd id="search-kbd">Ctrl K</kbd></label>
               </header>
               <div id="docs-list">
@@ -36,21 +32,14 @@
                             </p><span>
                               <%= doc.description %>
                             </span>
-                          </div><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"
-                            viewBox="0 0 24 24">
-                            <path d="M5 12h14m-6-6 6 6-6 6" />
-                          </svg>
+                          </div><iconify-icon icon="lucide:arrow-right" width="16" height="16"></iconify-icon>
                         </a>
                         <% }); %>
                     </div>
                   </section>
                   <% }); %>
               </div>
-              <div id="docs-search-no-results" class="empty-state" style="display:none"><svg width="32" height="32"
-                  fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                  <circle cx="11" cy="11" r="7" />
-                  <path d="m20 20-3.5-3.5" />
-                </svg>
+              <div id="docs-search-no-results" class="empty-state" style="display:none"><iconify-icon icon="lucide:search-x" width="32" height="32"></iconify-icon>
                 <p>No results found. Try a different search term.</p>
               </div>
             </div>

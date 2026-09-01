@@ -40,9 +40,7 @@
         <% if (pinnedPosts.length) { %>
           <div style="margin-bottom:clamp(20px,3vw,36px);">
             <p class="section-eyebrow" style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 12px;display:flex;align-items:center;gap:7px;">
-              <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-              </svg>
+              <iconify-icon icon="lucide:star" width="10" height="10"></iconify-icon>
               Pinned
             </p>
             <div data-animate-group style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:12px;">
@@ -88,7 +86,7 @@
                   <% if (post.date) { %>
                     <span class="post-date"><%= post.date %></span>
                   <% } %>
-                  <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--color-text-4);flex-shrink:0;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  <iconify-icon icon="lucide:arrow-right" width="12" height="12" style="color:var(--color-text-4);flex-shrink:0;"></iconify-icon>
                 </div>
               </a>
             <% }) %>

@@ -436,6 +436,12 @@
 }
 
 /* ── Prose (docs / blog) ────────────────────────────────────────────────────── */
+iconify-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+}
 .prose {
   min-width: 0;
   overflow-wrap: break-word;
