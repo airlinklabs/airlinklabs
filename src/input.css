@@ -184,6 +184,8 @@
 .docs-list-row:hover,
 .project-row:hover,
 .contrib-card:hover {
+  background: var(--color-text-1);
+  color: var(--color-bg);
   transform: translateY(-2px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
@@ -216,7 +218,8 @@
     opacity 150ms;
 }
 .btn-primary:hover {
-  opacity: 0.88;
+  background: var(--color-text-1);
+  color: var(--color-bg);
 }
 .btn-primary:active {
   transform: scale(0.96);
@@ -243,8 +246,8 @@
     color 150ms;
 }
 .btn-secondary:hover {
-  background: var(--color-bg-hover);
-  color: var(--color-text-1);
+  background: var(--color-text-1);
+  color: var(--color-bg);
 }
 .btn-secondary:active {
   transform: scale(0.96);
@@ -594,8 +597,9 @@
 }
 
 .prose-copy-btn:hover {
+  background: var(--color-text-1);
+  color: var(--color-bg);
   transform: translateY(-1px);
-  color: var(--color-text-1);
 }
 .prose-copy-btn:active {
   transform: scale(0.94);
@@ -639,7 +643,8 @@
 }
 
 .prose tbody tr:hover {
-  background: var(--color-bg-2);
+  background: var(--color-text-1);
+  color: var(--color-bg);
 }
 
 .prose td code {
@@ -1087,8 +1092,11 @@
 
 .blog-post-row:hover .post-title,
 .blog-post-row:hover .post-date {
-  color: var(--color-text-1);
+  color: var(--color-bg);
   transform: translateX(4px);
+}
+.blog-post-row:hover .post-meta span {
+  color: var(--color-bg);
 }
 
 .blog-post-row .post-title {
@@ -1164,9 +1172,9 @@
 }
 
 .blog-card:hover {
-  color: var(--color-text-1);
-  background: var(--color-bg-hover);
-  border-color: var(--color-border-input);
+  background: var(--color-text-1);
+  color: var(--color-bg);
+  border-color: var(--color-text-1);
   transform: translateY(-1px);
 }
 
@@ -1182,6 +1190,9 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   word-break: break-word;
+}
+.blog-card:hover .post-title {
+  color: var(--color-bg);
 }
 
 @media (min-width: 640px) {
@@ -1206,7 +1217,8 @@
 }
 
 .post-back-link:hover {
-  color: var(--color-text-1);
+  background: var(--color-text-1);
+  color: var(--color-bg);
 }
 
 /* ── Image loading fade-in ───────────────────────────────────────────────────── */
@@ -1543,8 +1555,8 @@ img[loading="lazy"][style*="display:none"] {
 }
 
 .site-nav-link:hover {
-  color: var(--color-text-1);
-  background: var(--color-bg-hover);
+  background: var(--color-text-1);
+  color: var(--color-bg);
 }
 
 .site-nav-link.active {
@@ -1586,8 +1598,8 @@ img[loading="lazy"][style*="display:none"] {
 }
 
 .site-section-link:hover {
-  color: var(--color-text-1);
-  background: var(--color-bg-hover);
+  background: var(--color-text-1);
+  color: var(--color-bg);
 }
 
 .site-section-link.active {
@@ -1646,7 +1658,8 @@ img[loading="lazy"][style*="display:none"] {
 }
 
 .doc-breadcrumb a:hover {
-  color: var(--color-text-1);
+  background: var(--color-text-1);
+  color: var(--color-bg);
 }
 
 .doc-breadcrumb .sep {
@@ -1720,7 +1733,8 @@ img[loading="lazy"][style*="display:none"] {
 }
 
 .anchor-link:hover {
-  color: var(--color-text-1);
+  background: var(--color-text-1);
+  color: var(--color-bg);
 }
 
 /* ── Prev / Next nav ───────────────────────────────────────────────────── */
@@ -1748,9 +1762,9 @@ img[loading="lazy"][style*="display:none"] {
 }
 
 .doc-prev-next a:hover {
-  color: var(--color-text-1);
-  background: var(--color-bg-hover);
-  border-color: var(--color-border-input);
+  background: var(--color-text-1);
+  color: var(--color-bg);
+  border-color: var(--color-text-1);
   transform: translateY(-1px);
 }
 
@@ -1876,8 +1890,8 @@ img[loading="lazy"][style*="display:none"] {
   animation-delay: 0.25s;
 }
 .site-nav-link:hover {
-  color: var(--color-text-1);
-  background: var(--color-bg-2);
+  background: var(--color-text-1);
+  color: var(--color-bg);
 }
 .site-nav-link.active {
   color: var(--color-bg);
@@ -1967,8 +1981,8 @@ img[loading="lazy"][style*="display:none"] {
     background 150ms;
 }
 .sidebar-social-row a:hover {
-  color: var(--color-text-1);
-  background: var(--color-bg-3);
+  background: var(--color-text-1);
+  color: var(--color-bg);
 }
 .docs-main,
 .site-main {
@@ -2224,7 +2238,8 @@ img[loading="lazy"][style*="display:none"] {
     background var(--dur-quick) var(--ease-standard);
 }
 .project-row:hover {
-  background: var(--color-bg-2);
+  background: var(--color-text-1);
+  color: var(--color-bg);
   padding-left: 14px;
   padding-right: 14px;
   margin: 0 -14px;
@@ -2274,8 +2289,9 @@ img[loading="lazy"][style*="display:none"] {
   font-size: 14px;
   font-family: var(--font-sans);
 }
-.project-row:hover .project-link {
-  color: var(--color-text-1);
+.project-row:hover .project-link,
+.project-row:hover .project-link b {
+  color: var(--color-bg);
 }
 .hub-list-row,
 .docs-list-row {
@@ -2292,7 +2308,8 @@ img[loading="lazy"][style*="display:none"] {
 }
 .hub-list-row:hover,
 .docs-list-row:hover {
-  background: var(--color-bg-2);
+  background: var(--color-text-1);
+  color: var(--color-bg);
   padding-left: 14px;
   padding-right: 14px;
   margin: 0 -14px;
@@ -2312,10 +2329,21 @@ img[loading="lazy"][style*="display:none"] {
   font-size: 12px;
   line-height: 1.45;
 }
+.hub-list-row:hover .hub-list-title,
+.docs-list-row:hover p {
+  color: var(--color-bg);
+}
+.hub-list-row:hover .hub-list-description,
+.docs-list-row:hover span {
+  color: var(--color-bg);
+}
 .hub-list-meta {
   color: var(--color-text-2);
   font: 10px var(--font-mono);
   white-space: nowrap;
+}
+.hub-list-row:hover .hub-list-meta {
+  color: var(--color-bg);
 }
 .hub-arrow,
 .docs-list-row svg {
@@ -2326,7 +2354,7 @@ img[loading="lazy"][style*="display:none"] {
 }
 .hub-list-row:hover .hub-arrow,
 .docs-list-row:hover svg {
-  color: var(--color-text-1);
+  color: var(--color-bg);
   transform: translateX(3px);
 }
 .hub-empty {
@@ -2353,9 +2381,9 @@ img[loading="lazy"][style*="display:none"] {
     transform 180ms cubic-bezier(0.34, 1.1, 0.64, 1);
 }
 .contrib-card:hover {
-  color: var(--color-text-1);
-  background: var(--color-bg-hover);
-  border-color: var(--color-border-input);
+  background: var(--color-text-1);
+  color: var(--color-bg);
+  border-color: var(--color-text-1);
   transform: translateY(-1px);
 }
 .contrib-card img {
@@ -2388,6 +2416,10 @@ img[loading="lazy"][style*="display:none"] {
   font-size: 11px;
   font-family: var(--font-mono);
   margin: 2px 0 0;
+}
+.contrib-card:hover .contrib-name,
+.contrib-card:hover .contrib-count {
+  color: var(--color-bg);
 }
 
 /* ── Commit row enhancements ───────────────────────────────────────────── */
@@ -2446,8 +2478,8 @@ img[loading="lazy"][style*="display:none"] {
     color 150ms;
 }
 .commit-more-btn:hover {
-  background: var(--color-bg-hover);
-  color: var(--color-text-1);
+  background: var(--color-text-1);
+  color: var(--color-bg);
 }
 .commit-popup-overlay {
   position: fixed;
@@ -2495,7 +2527,8 @@ img[loading="lazy"][style*="display:none"] {
   transition: color 150ms;
 }
 .commit-popup-close:hover {
-  color: var(--color-text-1);
+  background: var(--color-text-1);
+  color: var(--color-bg);
 }
 .commit-popup-list {
   overflow-y: auto;
