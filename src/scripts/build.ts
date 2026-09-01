@@ -1,3 +1,4 @@
+// Made by https://github.com/bthavanish
 import ejs from "ejs";
 import fs from "fs-extra";
 import path from "path";

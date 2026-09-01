@@ -1,3 +1,4 @@
+/* Made by https://github.com/bthavanish */
 // motion.js — Progressive animation system
 (function () {
   var prefersReduced = window.matchMedia(

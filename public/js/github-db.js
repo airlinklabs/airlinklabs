@@ -1,3 +1,4 @@
+/* Made by https://github.com/bthavanish */
 // ── GitHub data loader: reads build-time JSON cache ──────────────────────────
 // No runtime API calls, no SQLite, no CDNs. Data is fetched during `npm run cache`.
 (function () {

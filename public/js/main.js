@@ -1,3 +1,4 @@
+/* Made by https://github.com/bthavanish */
 // ── Image fade-in on load ──────────────────────────────────────────────────
 (function () {
   function markLoaded(img) {
@@ -538,6 +539,34 @@ document.addEventListener(
     if (link) {
       closeModal();
     }
+  });
+})();
+
+// ── About modal ─────────────────────────────────────────────────────────────
+(function () {
+  var overlay = document.getElementById("about-overlay");
+  var closeBtn = document.getElementById("about-close");
+  var aboutBtn = document.getElementById("about-btn");
+  if (!overlay || !aboutBtn) return;
+
+  function openModal() {
+    overlay.classList.add("open");
+  }
+
+  function closeModal() {
+    overlay.classList.remove("open");
+  }
+
+  aboutBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    openModal();
+  });
+  if (closeBtn) closeBtn.addEventListener("click", closeModal);
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay) closeModal();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && overlay.classList.contains("open")) closeModal();
   });
 })();
 

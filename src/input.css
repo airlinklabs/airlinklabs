@@ -1,3 +1,4 @@
+/* Made by https://github.com/bthavanish */
 @import "tailwindcss";
 
 /* ── Local font ─────────────────────────────────────────────────────────────── */
@@ -1325,6 +1326,83 @@
 .license-item-badge:hover {
   background: var(--color-text-1);
   color: var(--color-bg);
+}
+
+/* ── About modal ──────────────────────────────────────────────────────────── */
+#about-overlay {
+  z-index: 10000;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  display: none;
+  position: fixed;
+  inset: 0;
+}
+#about-overlay.open {
+  display: flex;
+}
+#about-modal {
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  flex-direction: column;
+  width: 90%;
+  max-width: 400px;
+  transition: transform 0.2s cubic-bezier(0.34, 1.1, 0.64, 1);
+  display: flex;
+  transform: translateY(10px) scale(0.97);
+}
+#about-overlay.open #about-modal {
+  transform: translateY(0) scale(1);
+}
+#about-header {
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px 0;
+  display: flex;
+}
+#about-header h4 {
+  color: var(--color-text-1);
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+#about-close {
+  color: var(--color-text-3);
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  transition:
+    color 0.18s,
+    background 0.18s;
+  display: inline-flex;
+}
+#about-close:hover {
+  color: var(--color-text-1);
+  background: var(--color-bg-hover);
+}
+#about-body {
+  padding: 16px 20px 20px;
+}
+#about-text {
+  color: var(--color-text-2);
+  margin: 0 0 18px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.about-actions {
+  justify-content: center;
+  gap: 10px;
+  display: flex;
+}
+.about-btn {
+  font-size: 12px;
+  gap: 6px;
 }
 
 /* ── Blog page ───────────────────────────────────────────────────────────────── */
