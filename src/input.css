@@ -445,12 +445,6 @@
 }
 
 /* ── Prose (docs / blog) ────────────────────────────────────────────────────── */
-iconify-icon {
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.125em;
-}
 .prose {
   min-width: 0;
   overflow-wrap: break-word;
@@ -2245,16 +2239,14 @@ img[loading="lazy"][style*="display:none"] {
   white-space: nowrap;
 }
 .hub-arrow,
-.docs-list-row svg,
-.docs-list-row iconify-icon {
+.docs-list-row svg {
   color: var(--color-text-3);
   transition:
     color var(--dur-quick) var(--ease-standard),
     transform var(--dur-quick) var(--ease-standard);
 }
 .hub-list-row:hover .hub-arrow,
-.docs-list-row:hover svg,
-.docs-list-row:hover iconify-icon {
+.docs-list-row:hover svg {
   color: var(--color-text-1);
   transform: translateX(3px);
 }
@@ -2336,6 +2328,9 @@ img[loading="lazy"][style*="display:none"] {
   font: 500 9px var(--font-mono);
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text-2);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 .commit-tag--panel {
   background: rgba(255, 255, 255, 0.08);
