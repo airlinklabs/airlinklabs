@@ -454,3 +454,20 @@ document.addEventListener(
     { passive: true },
   );
 })();
+
+/* ── Construction warning popup (first visit only) ────────────────────────── */
+(function () {
+  if (!localStorage.getItem("airlink-construction-seen")) {
+    var overlay = document.getElementById("construction-overlay");
+    var okBtn = document.getElementById("construction-ok");
+    if (overlay && okBtn) {
+      requestAnimationFrame(function () {
+        overlay.classList.add("open");
+      });
+      okBtn.addEventListener("click", function () {
+        localStorage.setItem("airlink-construction-seen", "1");
+        overlay.classList.remove("open");
+      });
+    }
+  }
+})();
