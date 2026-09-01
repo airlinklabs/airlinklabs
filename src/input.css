@@ -1866,15 +1866,26 @@ img[loading="lazy"][style*="display:none"] {
   padding: 12px 8px 3px;
   border-top: 1px solid var(--hub-line);
 }
-.site-sidebar-footer a {
+.sidebar-social-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: var(--color-text-2);
-  font-size: 11px;
+  gap: 12px;
 }
-.site-sidebar-footer a:hover {
+.sidebar-social-row a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: var(--color-text-3);
+  transition:
+    color 150ms,
+    background 150ms;
+}
+.sidebar-social-row a:hover {
   color: var(--color-text-1);
+  background: var(--color-bg-3);
 }
 .docs-main,
 .site-main {
@@ -1890,16 +1901,22 @@ img[loading="lazy"][style*="display:none"] {
   margin: 0 auto;
   padding: 0 72px 100px;
 }
+.hero-viewport {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: calc(-1 * (100vw - 100%) / 2);
+  overflow: hidden;
+}
 .hub-hero {
   position: relative;
-  min-height: calc(100vh - 72px);
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: center;
-  gap: clamp(48px, 9vw, 120px);
-  padding: 70px 0;
-  border-bottom: 1px solid var(--hub-line);
-  overflow: visible;
+  width: 100%;
+  max-width: 960px;
+  padding: 70px 72px;
+  box-sizing: border-box;
 }
 .hub-hero > div {
   position: relative;
@@ -2569,11 +2586,13 @@ img[loading="lazy"][style*="display:none"] {
     padding-left: 24px;
     padding-right: 24px;
   }
+  .hero-viewport {
+    height: auto;
+    min-height: 100vh;
+    padding: 40px 0;
+  }
   .hub-hero {
-    min-height: auto;
-    grid-template-columns: 1fr;
-    gap: 42px;
-    padding: 80px 0 58px;
+    padding: 40px 24px;
   }
   .hero-bg {
     left: -24px;
