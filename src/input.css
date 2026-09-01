@@ -2180,8 +2180,33 @@ img[loading="lazy"][style*="display:none"] {
   color: var(--color-text-3);
 }
 .hub-section {
+  position: relative;
+  overflow: hidden;
   padding: 80px 0;
-  border-bottom: 1px solid var(--hub-line);
+}
+.section-bg {
+  position: absolute;
+  inset: 0;
+  background-size: 30%;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.08;
+  z-index: 0;
+  pointer-events: none;
+  mask-image: radial-gradient(
+    ellipse 55% 50% at center,
+    black 0%,
+    transparent 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 55% 50% at center,
+    black 0%,
+    transparent 100%
+  );
+}
+.hub-section > * {
+  position: relative;
+  z-index: 1;
 }
 .hub-section-heading {
   margin-bottom: 28px;
