@@ -386,17 +386,13 @@ document.addEventListener(
     );
   });
 })();
-
 // ── License modal ────────────────────────────────────────────────────────
 (function () {
   var overlay = document.getElementById("license-overlay");
   var closeBtn = document.getElementById("license-close");
   var reposEl = document.getElementById("license-repos");
   var npmEl = document.getElementById("license-npm");
-  var confirmEl = document.getElementById("license-confirm");
-  var confirmText = document.getElementById("license-confirm-text");
-  var confirmLink = document.getElementById("license-confirm-link");
-  var confirmCancel = document.getElementById("license-confirm-cancel");
+  var cdnEl = document.getElementById("license-cdn");
   var licenseBtn = document.getElementById("license-btn");
   if (!overlay || !licenseBtn) return;
 
@@ -409,7 +405,6 @@ document.addEventListener(
 
   function closeModal() {
     overlay.classList.remove("open");
-    if (confirmEl) confirmEl.classList.add("license-confirm-hidden");
   }
 
   licenseBtn.addEventListener("click", openModal);
@@ -420,19 +415,6 @@ document.addEventListener(
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && overlay.classList.contains("open")) closeModal();
   });
-
-  if (confirmCancel) {
-    confirmCancel.addEventListener("click", function () {
-      confirmEl.classList.add("license-confirm-hidden");
-    });
-  }
-
-  function showConfirm(name, url) {
-    if (!confirmEl || !confirmText || !confirmLink) return;
-    confirmText.textContent = 'Open LICENSE for "' + name + '" in a new tab?';
-    confirmLink.href = url;
-    confirmEl.classList.remove("license-confirm-hidden");
-  }
 
   function loadLicenses() {
     if (licenseData) return renderLicenses(licenseData);
@@ -456,11 +438,21 @@ document.addEventListener(
       });
   }
 
+  function badge(name, url, license) {
+    if (!url) return '<span class="license-item-badge">' + license + "</span>";
+    return (
+      '<a class="license-item-badge" href="' +
+      url +
+      '" target="_blank" rel="noopener">' +
+      license +
+      "</a>"
+    );
+  }
+
   function renderLicenses(data) {
     if (reposEl && data.repos && data.repos.length) {
       reposEl.innerHTML = data.repos
         .map(function (r) {
-          var licenseName = r.license || "Unknown";
           return (
             '<div class="license-item">' +
             '<div class="license-item-info">' +
@@ -468,13 +460,7 @@ document.addEventListener(
             r.name +
             "</div>" +
             "</div>" +
-            '<span class="license-item-badge" data-license-url="' +
-            (r.url || "") +
-            '" data-license-name="' +
-            r.name +
-            '">' +
-            licenseName +
-            "</span>" +
+            badge(r.name, r.url, r.license || "Unknown") +
             "</div>"
           );
         })
@@ -496,27 +482,32 @@ document.addEventListener(
             (p.version || "") +
             "</div>" +
             "</div>" +
-            '<span class="license-item-badge" data-license-url="' +
-            (p.repository || "") +
-            '" data-license-name="' +
-            p.name +
-            '">' +
-            (p.license || "Unknown") +
-            "</span>" +
+            badge(p.name, p.repository, p.license || "Unknown") +
+            "</div>"
+          );
+        })
+        .join("");
+    }
+    if (cdnEl && data.cdn && data.cdn.length) {
+      cdnEl.innerHTML = data.cdn
+        .map(function (c) {
+          return (
+            '<div class="license-item">' +
+            '<div class="license-item-info">' +
+            '<div class="license-item-name">' +
+            c.name +
+            "</div>" +
+            '<div class="license-item-version">' +
+            (c.version || "") +
+            "</div>" +
+            "</div>" +
+            badge(c.name, c.url, c.license || "Unknown") +
             "</div>"
           );
         })
         .join("");
     }
   }
-
-  document.addEventListener("click", function (e) {
-    var badge = e.target.closest(".license-item-badge");
-    if (!badge) return;
-    var url = badge.getAttribute("data-license-url");
-    var name = badge.getAttribute("data-license-name");
-    if (url) showConfirm(name, url);
-  });
 })();
 
 // ── Scroll-triggered animations (flow diagrams + counters) ──────────────────

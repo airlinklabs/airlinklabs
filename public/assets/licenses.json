@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T12:33:28.760Z",
+  "generatedAt": "2026-09-01T12:42:39.517Z",
   "npm": [
     {
       "name": "@tailwindcss/cli",
@@ -70,6 +70,14 @@
       "name": "home",
       "license": "MIT",
       "url": "https://github.com/AirlinkLabs/home/blob/main/LICENSE"
+    }
+  ],
+  "cdn": [
+    {
+      "name": "mermaid",
+      "version": "11",
+      "license": "MIT",
+      "url": "https://github.com/mermaid-js/mermaid/blob/develop/LICENSE"
     }
   ]
 }

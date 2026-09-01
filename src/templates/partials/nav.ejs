@@ -10,9 +10,6 @@ var _links = [
 ];
 %>
 
-<!-- Scroll progress bar -->
-<div id="scroll-progress" aria-hidden="true"></div>
-
 <!-- Mobile: frosted glass pill (hidden on desktop via CSS) -->
 <nav id="mobile-bar" aria-label="Site navigation">
   <% _links.forEach(function (link) { var on = link.key === _active; %>
@@ -58,18 +55,13 @@ var _links = [
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
-    <div id="license-confirm" class="license-confirm-hidden">
-      <p id="license-confirm-text"></p>
-      <div class="redirect-actions">
-        <button id="license-confirm-cancel" type="button">Cancel</button>
-        <a id="license-confirm-link" href="#" target="_blank" rel="noopener" class="btn-primary">Open license</a>
-      </div>
-    </div>
     <div id="license-body">
       <p class="license-section-label">Organization repositories</p>
       <div id="license-repos"></div>
-      <p class="license-section-label">npm dependencies</p>
+      <p class="license-section-label">Dependencies</p>
       <div id="license-npm"></div>
+      <p class="license-section-label">CDN</p>
+      <div id="license-cdn"></div>
     </div>
   </div>
 </div>

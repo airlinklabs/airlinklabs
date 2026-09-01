@@ -178,20 +178,4 @@
   groupEls.forEach(function (el) {
     observer.observe(el);
   });
-
-  // Scroll progress indicator
-  var progressBar = document.getElementById("scroll-progress");
-  if (progressBar) {
-    window.addEventListener(
-      "scroll",
-      function () {
-        var scrollTop = window.scrollY;
-        var docHeight =
-          document.documentElement.scrollHeight - window.innerHeight;
-        var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-        progressBar.style.width = pct + "%";
-      },
-      { passive: true },
-    );
-  }
 })();

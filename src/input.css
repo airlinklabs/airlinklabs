@@ -160,17 +160,6 @@
 }
 
 /* ── Scroll progress bar ──────────────────────────────────────────────────── */
-#scroll-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 2px;
-  width: 0;
-  background: linear-gradient(90deg, var(--color-accent), var(--color-success));
-  z-index: 9999;
-  transition: width 60ms linear;
-  pointer-events: none;
-}
 
 /* ── Micro-interaction: magnetic hover for cards ──────────────────────────── */
 .hub-list-row,
@@ -1283,37 +1272,6 @@
   color: var(--color-text-2);
   white-space: nowrap;
   flex-shrink: 0;
-  cursor: pointer;
-  transition:
-    background 150ms,
-    color 150ms;
-}
-.license-item-badge:hover {
-  background: var(--color-text-1);
-  color: var(--color-bg);
-}
-#license-confirm {
-  padding: 16px 20px;
-  border-top: 1px solid var(--color-border);
-}
-.license-confirm-hidden {
-  display: none;
-}
-#license-confirm-text {
-  font-size: 13px;
-  color: var(--color-text-2);
-  margin: 0 0 12px;
-}
-#license-confirm-link {
-  font-size: 12px;
-  font-weight: 500;
-  font-family: var(--font-mono);
-  color: var(--color-bg);
-  background: var(--color-text-1);
-  border: none;
-  padding: 7px 16px;
-  border-radius: 999px;
-  cursor: pointer;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -1321,10 +1279,9 @@
     background 150ms,
     color 150ms;
 }
-#license-confirm-link:hover {
-  background: var(--color-bg);
-  color: var(--color-text-1);
-  border: 1px solid var(--color-text-1);
+.license-item-badge:hover {
+  background: var(--color-text-1);
+  color: var(--color-bg);
 }
 
 /* ── Blog page ───────────────────────────────────────────────────────────────── */
@@ -2518,6 +2475,7 @@ img[loading="lazy"][style*="display:none"] {
   text-align: center;
   z-index: 5;
   opacity: 0;
+  pointer-events: none;
 }
 
 .hero-welcome-text {

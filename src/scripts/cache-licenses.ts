@@ -21,6 +21,23 @@ interface RepoLicense {
   url: string;
 }
 
+interface CdnLicense {
+  name: string;
+  version: string;
+  license: string;
+  url: string;
+}
+
+// CDN dependencies loaded at runtime (not in package.json)
+const CDN_DEPS: CdnLicense[] = [
+  {
+    name: "mermaid",
+    version: "11",
+    license: "MIT",
+    url: "https://github.com/mermaid-js/mermaid/blob/develop/LICENSE",
+  },
+];
+
 function run(cmd: string): string | null {
   try {
     return execSync(cmd, { cwd: ROOT, encoding: "utf-8", timeout: 60_000 });
@@ -147,6 +164,7 @@ async function run_() {
     generatedAt: new Date().toISOString(),
     npm,
     repos,
+    cdn: CDN_DEPS,
   };
 
   await fs.ensureDir(path.dirname(OUTPUT));
