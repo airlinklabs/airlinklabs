@@ -268,93 +268,125 @@ document.addEventListener(
   }
 
   // ── Hero entrance sequence (home page only) ───────────────────────────
-  if (isHome) {
-    document.documentElement.classList.add("page-locked");
+  // Detect if user came from another page on this site (redirect/hash nav)
+  var isSameSiteNav =
+    document.referrer &&
+    document.referrer.indexOf(window.location.origin) === 0;
 
-    var heroViewport = document.querySelector(".hero-viewport");
-    var heroSection = document.querySelector(".hub-hero");
-    var welcomeEl = document.getElementById("hero-welcome");
+  // Also check navigation type via Performance API (SPA pushState / back/forward)
+  var navEntries = performance.getEntriesByType("navigation");
+  var navType = navEntries.length > 0 ? navEntries[0].type : "navigate";
+  // 'navigate' = fresh load, 'reload' = refresh, 'back_forward' = history nav
+  // For pushState SPA navigations this will be 'navigate' but referrer check above catches them
+
+  var shouldAnimateHero =
+    isHome && !isSameSiteNav && navType !== "back_forward";
+
+  if (isHome) {
     var sidebar = document.querySelector(".site-sidebar");
     var mainContent = document.querySelector(".docs-main, .site-main");
-    var sections = document.querySelectorAll(
-      ".hub-section, .hero-text-animated",
-    );
 
-    // Defer section reveals
-    sections.forEach(function (s) {
-      s.classList.add("deferred");
-    });
+    if (!shouldAnimateHero) {
+      // Redirected from docs/hash/etc — show everything immediately, no cinematic
+      var heroSection = document.querySelector(".hub-hero");
+      if (heroSection) heroSection.classList.add("visible");
+      if (sidebar) sidebar.classList.add("sidebar-visible");
+      if (mainContent) mainContent.classList.add("sidebar-visible");
+      var allSections = document.querySelectorAll(
+        ".hub-section, .hero-text-animated",
+      );
+      allSections.forEach(function (s) {
+        s.classList.add("revealed");
+      });
+    } else {
+      // Direct page load — play full hero entrance sequence
+      document.documentElement.classList.add("page-locked");
 
-    function runHeroSequence() {
-      // Step 0: Wait for hero bg to sink (1000ms), then start welcome
-      setTimeout(function () {
-        // Step 1: Fade in welcome text
-        if (welcomeEl) {
-          welcomeEl.classList.add("visible");
+      var heroViewport = document.querySelector(".hero-viewport");
+      var heroSection = document.querySelector(".hub-hero");
+      var welcomeEl = document.getElementById("hero-welcome");
+      var sections = document.querySelectorAll(
+        ".hub-section, .hero-text-animated",
+      );
 
-          // Step 2: After delay, fade out welcome
-          setTimeout(function () {
-            welcomeEl.classList.remove("visible");
-            welcomeEl.classList.add("exit");
+      // Defer section reveals
+      sections.forEach(function (s) {
+        s.classList.add("deferred");
+      });
 
-            // Step 3: After welcome exits, show hero text
+      function runHeroSequence() {
+        // Step 0: Wait for hero bg to sink (1000ms), then start welcome
+        setTimeout(function () {
+          // Step 1: Fade in welcome text
+          if (welcomeEl) {
+            welcomeEl.classList.add("visible");
+
+            // Step 2: After delay, fade out welcome
             setTimeout(function () {
-              if (heroSection) heroSection.classList.add("visible");
+              welcomeEl.classList.remove("visible");
+              welcomeEl.classList.add("exit");
 
-              // Step 3.5: Slide in sidebar + push content
-              if (sidebar) sidebar.classList.add("sidebar-visible");
-              if (mainContent) mainContent.classList.add("sidebar-visible");
-
-              // Step 4: After hero text settles, reveal sections + unlock scroll
+              // Step 3: After welcome exits, show hero text
               setTimeout(function () {
-                sections.forEach(function (s, i) {
-                  setTimeout(function () {
-                    s.classList.add("revealed");
-                  }, i * 80);
-                });
-                document.documentElement.classList.remove("page-locked");
+                if (heroSection) heroSection.classList.add("visible");
 
-                // Step 5: Show construction popup if enabled
-                if (window.__underConstruction) {
-                  var overlay = document.getElementById("construction-overlay");
-                  if (overlay) {
-                    setTimeout(function () {
-                      overlay.classList.add("open");
-                    }, 400);
-                  }
-                }
-              }, 500);
-            }, 500);
-          }, 1400);
-        } else {
-          // No welcome element — just show hero, sidebar, and unlock
-          if (heroSection) heroSection.classList.add("visible");
-          if (sidebar) sidebar.classList.add("sidebar-visible");
-          if (mainContent) mainContent.classList.add("sidebar-visible");
-          setTimeout(function () {
-            sections.forEach(function (s, i) {
-              setTimeout(function () {
-                s.classList.add("revealed");
-              }, i * 80);
-            });
-            document.documentElement.classList.remove("page-locked");
-            if (window.__underConstruction) {
-              var overlay = document.getElementById("construction-overlay");
-              if (overlay) {
+                // Step 3.5: Slide in sidebar + push content
+                if (sidebar) sidebar.classList.add("sidebar-visible");
+                if (mainContent) mainContent.classList.add("sidebar-visible");
+
+                // Step 4: After hero text settles, reveal sections + unlock scroll
                 setTimeout(function () {
-                  overlay.classList.add("open");
-                }, 400);
-              }
-            }
-          }, 300);
-        }
-      }, 1000); // Wait for hero bg sinking animation
-    }
+                  sections.forEach(function (s, i) {
+                    setTimeout(function () {
+                      s.classList.add("revealed");
+                    }, i * 80);
+                  });
+                  document.documentElement.classList.remove("page-locked");
 
-    // Start sequence after brief paint delay
-    requestAnimationFrame(function () {
-      requestAnimationFrame(runHeroSequence);
-    });
+                  // Step 5: Show construction popup if enabled
+                  if (window.__underConstruction) {
+                    var overlay = document.getElementById(
+                      "construction-overlay",
+                    );
+                    if (overlay) {
+                      setTimeout(function () {
+                        overlay.classList.add("open");
+                      }, 400);
+                    }
+                  }
+                }, 500);
+              }, 500);
+            }, 1400);
+          } else {
+            // No welcome element — just show hero, sidebar, and unlock
+            if (heroSection) heroSection.classList.add("visible");
+            if (sidebar) sidebar.classList.add("sidebar-visible");
+            if (mainContent) mainContent.classList.add("sidebar-visible");
+            setTimeout(function () {
+              sections.forEach(function (s, i) {
+                setTimeout(function () {
+                  s.classList.add("revealed");
+                }, i * 80);
+              });
+              document.documentElement.classList.remove("page-locked");
+              if (window.__underConstruction) {
+                var overlay = document.getElementById("construction-overlay");
+                if (overlay) {
+                  setTimeout(function () {
+                    overlay.classList.add("open");
+                  }, 400);
+                }
+              }
+            }, 300);
+          }
+        }, 1000); // Wait for hero bg sinking animation
+      }
+
+      // Start sequence after brief paint delay
+      requestAnimationFrame(function () {
+        requestAnimationFrame(runHeroSequence);
+      });
+    }
   } else {
     // Non-home pages: show sidebar immediately
     var sidebar = document.querySelector(".site-sidebar");
