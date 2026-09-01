@@ -17,7 +17,7 @@
                   class="docs-search"><iconify-icon icon="lucide:search" width="17" height="17"></iconify-icon><input type="search" id="docs-search-input" placeholder="Search documentation"
                     autocomplete="off"><kbd id="search-kbd">Ctrl K</kbd></label>
               </header>
-              <div id="docs-list">
+              <div id="docs-list" class="page-skeleton">
                 <% names.forEach(function(section) { %>
                   <section class="docs-group">
                     <h2>
@@ -47,3 +47,4 @@
           </main>
       </div>
       <script>(function () { var kbd = document.getElementById('search-kbd'); if (kbd && navigator.platform && /Mac|iPhone|iPad|iPod/.test(navigator.platform)) { kbd.textContent = '⌘ K' } var input = document.getElementById('docs-search-input'); var noResults = document.getElementById('docs-search-no-results'); if (!input) return; input.addEventListener('input', function () { var q = input.value.toLowerCase().trim(); var visibleCount = 0; document.querySelectorAll('.docs-list-row').forEach(function (row) { var visible = !q || row.dataset.searchText.includes(q); row.hidden = !visible; if (visible) visibleCount++ }); document.querySelectorAll('.docs-group').forEach(function (group) { group.hidden = !!q && !group.querySelector('.docs-list-row:not([hidden])') }); if (noResults) { noResults.style.display = visibleCount === 0 && q.length > 0 ? '' : 'none' } }); document.addEventListener('keydown', function (e) { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); input.focus() } }) })();</script>
+      <script>(function() { var el = document.getElementById('docs-list'); if (el) { requestAnimationFrame(function() { requestAnimationFrame(function() { el.classList.remove('page-skeleton'); }); }); } })();</script>

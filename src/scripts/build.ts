@@ -829,7 +829,16 @@ async function build() {
     docPages,
     announcements,
     featureIcon,
+    avatarDataUri: "",
   };
+
+  // Inline bthavanish avatar as data URI
+  const avatarPath = path.join(PUBLIC, "assets", "avatar-bthavanish.png");
+  if (await fs.pathExists(avatarPath)) {
+    const avatarBuf = await fs.readFile(avatarPath);
+    base.avatarDataUri = `data:image/png;base64,${avatarBuf.toString("base64")}`;
+    console.log("  inlined avatar-bthavanish.png as data URI");
+  }
 
   // index.html
   const indexHtml = inlineIcons(

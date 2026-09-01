@@ -41,6 +41,7 @@
 
         <% var pinnedPosts = announcements.filter(function(p) { return p.pinned; }); %>
         <% var regularPosts = announcements.filter(function(p) { return !p.pinned; }); %>
+        <div id="blog-content-wrap" class="page-skeleton">
 
         <% if (pinnedPosts.length) { %>
         <div class="docs-group" data-blog-section>
@@ -77,6 +78,7 @@
           </div>
         </div>
         <% } %>
+        </div>
 
       <% } else { %>
         <p style="font-size:13px;font-family:var(--font-mono);color:var(--color-text-3);padding:40px 0;">No posts yet.</p>
@@ -127,5 +129,17 @@
       input.focus();
     }
   });
+})();
+</script>
+<script>
+(function() {
+  var wrap = document.getElementById('blog-content-wrap');
+  if (wrap) {
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        wrap.classList.remove('page-skeleton');
+      });
+    });
+  }
 })();
 </script>

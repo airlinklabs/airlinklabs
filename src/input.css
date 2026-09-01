@@ -3198,6 +3198,39 @@ img[loading="lazy"][style*="display:none"] {
 .skeleton-line--count {
   width: 60px;
 }
+
+/* Page content skeleton loading (blog + docs) */
+.page-skeleton .docs-list-row,
+.page-skeleton .blog-post-row {
+  pointer-events: none;
+}
+.page-skeleton .docs-list-row > div,
+.page-skeleton .blog-post-row > div {
+  flex: 1;
+}
+.page-skeleton .docs-list-row p,
+.page-skeleton .blog-post-row .post-title {
+  background: var(--color-bg-3);
+  border-radius: 5px;
+  height: 14px;
+  width: 60%;
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+  color: transparent !important;
+}
+.page-skeleton .docs-list-row span,
+.page-skeleton .blog-post-row .post-meta {
+  background: var(--color-bg-3);
+  border-radius: 4px;
+  height: 10px;
+  width: 30%;
+  animation: skeleton-pulse 1.4s ease-in-out infinite 0.2s;
+  color: transparent !important;
+}
+.page-skeleton .docs-list-row iconify-icon,
+.page-skeleton .blog-post-row iconify-icon {
+  opacity: 0.15;
+}
+
 .docs-index-header {
   max-width: 720px;
   margin-bottom: 54px;

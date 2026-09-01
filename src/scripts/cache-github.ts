@@ -498,6 +498,28 @@ async function run() {
   const summary = `stars:${panelStars + daemonStars} forks:${panelForks + daemonForks} issues:${panelIssues + daemonIssues} contributors:${contributors.length} addons:${addons.length}`;
   console.log(`\nWrote cache.xml + github.db + github-data.json — ${summary}`);
   await fs.writeFile(path.join(CACHE_DIR, "summary.txt"), summary, "utf-8");
+
+  // Save bthavanish avatar for inline build
+  const avatarDir = path.join(ROOT, "public", "assets");
+  await fs.ensureDir(avatarDir);
+  const bthavanishContrib = contributors.find((c) => c.login === "bthavanish");
+  const avatarUrl =
+    bthavanishContrib?.avatar_url ||
+    "https://avatars.githubusercontent.com/u/bthavanish";
+  try {
+    const headers: Record<string, string> = {};
+    if (GH_TOKEN) headers["Authorization"] = `Bearer ${GH_TOKEN}`;
+    const res = await fetch(avatarUrl, { headers });
+    if (res.ok) {
+      const buf = Buffer.from(await res.arrayBuffer());
+      await fs.writeFile(path.join(avatarDir, "avatar-bthavanish.png"), buf);
+      console.log(
+        `  saved avatar-bthavanish.png (${(buf.length / 1024).toFixed(1)} KB)`,
+      );
+    }
+  } catch (err) {
+    console.warn("  warn: could not save bthavanish avatar");
+  }
 }
 
 run().catch((err) => {

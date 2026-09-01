@@ -10,7 +10,7 @@
     if (!el) return;
 
     if (!commits || !commits.length) {
-      el.innerHTML = '<p class="hub-empty">No commits found.</p>';
+      // Keep skeleton — don't replace with "No commits found"
       return;
     }
 
@@ -111,7 +111,7 @@
     if (!el) return;
 
     if (!contributors || !contributors.length) {
-      el.innerHTML = '<p class="hub-empty">No contributors found.</p>';
+      // Keep skeleton — don't replace with "No contributors found"
       return;
     }
 
@@ -197,14 +197,7 @@
       renderCommits(data.commits || []);
       renderContributors(data.contributors || []);
     } catch (err) {
-      var commitEl = document.getElementById("commit-list");
-      var contribEl = document.getElementById("contrib-grid");
-      if (commitEl)
-        commitEl.innerHTML =
-          '<p class="hub-empty">Could not load commits. Check back soon.</p>';
-      if (contribEl)
-        contribEl.innerHTML =
-          '<p class="hub-empty">Could not load contributors. Check back soon.</p>';
+      // Keep skeleton loading state on error — don't show "Could not load" text
     }
   }
 
