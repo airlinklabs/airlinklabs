@@ -223,6 +223,11 @@ document.addEventListener(
       if (!isExternal(href)) return;
       e.preventDefault();
       e.stopPropagation();
+      // Close license modal if open so redirect modal is the only one visible
+      var licenseOverlay = document.getElementById("license-overlay");
+      if (licenseOverlay && licenseOverlay.classList.contains("open")) {
+        licenseOverlay.classList.remove("open");
+      }
       openRedirect(href, a);
     },
     true,
@@ -278,7 +283,7 @@ document.addEventListener(
     });
 
     function runHeroSequence() {
-      // Step 0: Wait for hero bg to sink (500ms), then start welcome
+      // Step 0: Wait for hero bg to sink (1000ms), then start welcome
       setTimeout(function () {
         // Step 1: Fade in welcome text
         if (welcomeEl) {
@@ -334,7 +339,7 @@ document.addEventListener(
             }
           }, 300);
         }
-      }, 500); // Wait for hero bg sinking animation
+      }, 1000); // Wait for hero bg sinking animation
     }
 
     // Start sequence after brief paint delay
@@ -711,7 +716,7 @@ document.addEventListener(
   if (prefersReduced) return;
 
   var SEL =
-    ".hub-list-row, .docs-list-row, .project-row, .contrib-card, .blog-card, .blog-post-row, .post-back-link";
+    ".hub-list-row, .docs-list-row, .project-row, .contrib-card, .blog-card, .blog-post-row, .post-back-link, .license-item";
   var elements = document.querySelectorAll(SEL);
   elements.forEach(function (el) {
     function updatePos(e) {
