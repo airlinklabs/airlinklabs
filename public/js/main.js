@@ -274,6 +274,8 @@ document.addEventListener(
     var heroViewport = document.querySelector(".hero-viewport");
     var heroSection = document.querySelector(".hub-hero");
     var welcomeEl = document.getElementById("hero-welcome");
+    var sidebar = document.querySelector(".site-sidebar");
+    var mainContent = document.querySelector(".docs-main, .site-main");
     var sections = document.querySelectorAll(
       ".hub-section, .hero-text-animated",
     );
@@ -299,6 +301,10 @@ document.addEventListener(
             setTimeout(function () {
               if (heroSection) heroSection.classList.add("visible");
 
+              // Step 3.5: Slide in sidebar + push content
+              if (sidebar) sidebar.classList.add("sidebar-visible");
+              if (mainContent) mainContent.classList.add("sidebar-visible");
+
               // Step 4: After hero text settles, reveal sections + unlock scroll
               setTimeout(function () {
                 sections.forEach(function (s, i) {
@@ -321,8 +327,10 @@ document.addEventListener(
             }, 500);
           }, 1400);
         } else {
-          // No welcome element — just show hero and unlock
+          // No welcome element — just show hero, sidebar, and unlock
           if (heroSection) heroSection.classList.add("visible");
+          if (sidebar) sidebar.classList.add("sidebar-visible");
+          if (mainContent) mainContent.classList.add("sidebar-visible");
           setTimeout(function () {
             sections.forEach(function (s, i) {
               setTimeout(function () {
@@ -347,6 +355,12 @@ document.addEventListener(
     requestAnimationFrame(function () {
       requestAnimationFrame(runHeroSequence);
     });
+  } else {
+    // Non-home pages: show sidebar immediately
+    var sidebar = document.querySelector(".site-sidebar");
+    var mainContent = document.querySelector(".docs-main, .site-main");
+    if (sidebar) sidebar.classList.add("sidebar-visible");
+    if (mainContent) mainContent.classList.add("sidebar-visible");
   }
 
   // Smooth scroll with offset for anchor links
