@@ -471,3 +471,32 @@ document.addEventListener(
     }
   }
 })();
+
+// ── Procedural hover fill: cursor-tracking radial gradient ────────────────
+(function () {
+  var prefersReduced = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+  if (prefersReduced) return;
+
+  var SEL =
+    ".hub-list-row, .docs-list-row, .project-row, .contrib-card, .blog-card, .blog-post-row, .post-back-link";
+  var elements = document.querySelectorAll(SEL);
+  elements.forEach(function (el) {
+    function updatePos(e) {
+      var rect = el.getBoundingClientRect();
+      var x = ((e.clientX - rect.left) / rect.width) * 100;
+      var y = ((e.clientY - rect.top) / rect.height) * 100;
+      el.style.setProperty("--mouse-x", x + "%");
+      el.style.setProperty("--mouse-y", y + "%");
+    }
+
+    el.addEventListener("mouseenter", updatePos);
+    el.addEventListener("mousemove", updatePos);
+
+    el.addEventListener("focusin", function () {
+      el.style.setProperty("--mouse-x", "50%");
+      el.style.setProperty("--mouse-y", "50%");
+    });
+  });
+})();
