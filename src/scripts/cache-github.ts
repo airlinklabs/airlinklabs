@@ -9,7 +9,8 @@ const CACHE_DIR = path.join(ROOT, "data", "github-cache");
 const CACHE_FILE = path.join(CACHE_DIR, "cache.xml");
 const DB_FILE = path.join(ROOT, "public", "assets", "github.db");
 
-const GH_TOKEN = process.env.GH_TOKEN || "";
+const GH_TOKEN =
+  process.env.GITHUB_TOKEN || process.env.TOKEN || process.env.GH_TOKEN || "";
 const ORG_NAME = "AirlinkLabs";
 const PANEL_REPO = process.env.PANEL_REPO || "AirlinkLabs/panel";
 const DAEMON_REPO = process.env.DAEMON_REPO || "AirlinkLabs/daemon";
@@ -462,8 +463,39 @@ async function run() {
 
   db.close();
 
+  // ── Write JSON file for client-side consumption ────────────────────────────
+  const jsonData = {
+    commits: allCommits.map((raw) => {
+      const commit = raw["commit"] as Record<string, unknown>;
+      const author = commit?.["author"] as Record<string, unknown> | undefined;
+      const ghAuthor = raw["author"] as Record<string, unknown> | null;
+      return {
+        sha: String(raw["sha"] || ""),
+        repo: String(raw["_repo"] || ""),
+        message: String(author?.["message"] || commit?.["message"] || ""),
+        author_name: String(author?.["name"] || ""),
+        author_date: String(author?.["date"] || ""),
+        author_avatar: String(ghAuthor?.["avatar_url"] || ""),
+        html_url: String(raw["html_url"] || ""),
+      };
+    }),
+    contributors: contributors.map((c) => ({
+      login: c.login,
+      avatar_url: c.avatar_url,
+      html_url: c.html_url,
+      contributions: c.contributions,
+    })),
+    generatedAt: new Date().toISOString(),
+  };
+  const jsonFile = path.join(ROOT, "public", "assets", "github-data.json");
+  await fs.ensureDir(path.dirname(jsonFile));
+  await fs.writeFile(jsonFile, JSON.stringify(jsonData), "utf-8");
+  console.log(
+    `  github-data.json (${(JSON.stringify(jsonData).length / 1024).toFixed(1)} KB)`,
+  );
+
   const summary = `stars:${panelStars + daemonStars} forks:${panelForks + daemonForks} issues:${panelIssues + daemonIssues} contributors:${contributors.length} addons:${addons.length}`;
-  console.log(`\nWrote cache.xml + github.db — ${summary}`);
+  console.log(`\nWrote cache.xml + github.db + github-data.json — ${summary}`);
   await fs.writeFile(path.join(CACHE_DIR, "summary.txt"), summary, "utf-8");
 }
 

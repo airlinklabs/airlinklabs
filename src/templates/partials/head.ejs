@@ -28,13 +28,11 @@
   <meta property="og:image"       content="<%= _ogImage %>">
   <% if (_siteUrl) { %><meta property="og:url" content="<%= _canonical %>"><% } %>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/space-grotesk@5.0.0/index.css">
   <link rel="stylesheet" href="<%= rootPrefix %>public/css/styles.css">
   <link rel="preload" as="image" href="<%= rootPrefix %>public/assets/icon.png">
   <% if (!pageTitle) { %>
   <link rel="preload" as="image" href="<%= rootPrefix %>public/assets/airlink-hero.png">
   <% } %>
-  <script src="https://code.iconify.design/iconify-icon/3.0.0/iconify-icon.min.js" defer></script>
 
   <% if (underConstruction && underConstruction.enabled) { %>
   <style>

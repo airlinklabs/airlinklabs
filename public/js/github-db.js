@@ -1,179 +1,7 @@
-// ── GitHub data loader: SQLite db → API fallback → localStorage cache ─────
+// ── GitHub data loader: reads build-time JSON cache ──────────────────────────
+// No runtime API calls, no SQLite, no CDNs. Data is fetched during `npm run cache`.
 (function () {
-  var PANEL_REPO = "AirlinkLabs/panel";
-  var DAEMON_REPO = "AirlinkLabs/daemon";
-  var DB_URL = "public/assets/github.db";
-  var LS_KEY = "airlink_github_data";
-  var LS_TTL = 10 * 60 * 1000; // 10 min
-
-  var SQL = null;
-
-  // ── Load sql.js from CDN ────────────────────────────────────────────────
-  function loadSqlJs() {
-    return new Promise(function (resolve, reject) {
-      if (window.initSqlJs) {
-        window
-          .initSqlJs({
-            locateFile: function (f) {
-              return (
-                "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.14.2/" + f
-              );
-            },
-          })
-          .then(resolve)
-          .catch(reject);
-        return;
-      }
-      var s = document.createElement("script");
-      s.src =
-        "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.14.2/sql-wasm.js";
-      s.onload = function () {
-        window
-          .initSqlJs({
-            locateFile: function (f) {
-              return (
-                "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.14.2/" + f
-              );
-            },
-          })
-          .then(resolve)
-          .catch(reject);
-      };
-      s.onerror = reject;
-      document.head.appendChild(s);
-    });
-  }
-
-  // ── Safe DB query — returns [] instead of throwing on empty tables ──────
-  function safeQuery(db, sql) {
-    try {
-      var results = db.exec(sql);
-      if (!results || !results.length || !results[0].values) return [];
-      return results[0].values;
-    } catch (e) {
-      return [];
-    }
-  }
-
-  // ── Fetch the built-in .db file ─────────────────────────────────────────
-  async function loadBuiltinDb() {
-    var res = await fetch(DB_URL);
-    if (!res.ok) throw new Error("Failed to fetch " + DB_URL);
-    var buf = await res.arrayBuffer();
-    SQL = await loadSqlJs();
-    return new SQL.Database(new Uint8Array(buf));
-  }
-
-  // ── Fetch fresh data from GitHub API ────────────────────────────────────
-  async function fetchGitHubData() {
-    var headers = {
-      Accept: "application/vnd.github+json",
-      "X-GitHub-Api-Version": "2022-11-28",
-    };
-    async function ghFetch(url) {
-      var r = await fetch(url, { headers });
-      if (!r.ok) throw new Error(r.status + " " + url);
-      return r.json();
-    }
-
-    // Fetch all repos in the AirlinkLabs org
-    var repos = [];
-    try {
-      repos = await ghFetch(
-        "https://api.github.com/orgs/AirlinkLabs/repos?per_page=100",
-      );
-    } catch (e) {
-      // Fallback to known repos
-      repos = [{ full_name: PANEL_REPO }, { full_name: DAEMON_REPO }];
-    }
-
-    // Tag commits with repo and normalize
-    function normalizeCommit(c, repo) {
-      var commit = c.commit || {};
-      var author = commit.author || {};
-      var ghAuthor = c.author || {};
-      return {
-        sha: c.sha || "",
-        repo: repo,
-        message: author.message || commit.message || "",
-        author_name: author.name || "",
-        author_date: author.date || "",
-        author_avatar: ghAuthor.avatar_url || "",
-        html_url: c.html_url || "",
-      };
-    }
-
-    // Fetch commits from each repo (limit to keep within rate limits)
-    var commitPromises = (repos || []).slice(0, 10).map(function (repo) {
-      return ghFetch(
-        "https://api.github.com/repos/" +
-          repo.full_name +
-          "/commits?per_page=10",
-      )
-        .then(function (commits) {
-          return {
-            repo: repo.full_name.replace("AirlinkLabs/", ""),
-            commits: commits,
-          };
-        })
-        .catch(function () {
-          return {
-            repo: repo.full_name.replace("AirlinkLabs/", ""),
-            commits: [],
-          };
-        });
-    });
-
-    var repoResults = await Promise.all(commitPromises);
-    var allCommits = [];
-    repoResults.forEach(function (r) {
-      (r.commits || []).forEach(function (c) {
-        allCommits.push(normalizeCommit(c, r.repo));
-      });
-    });
-
-    // Sort all commits by date descending
-    allCommits.sort(function (a, b) {
-      return new Date(b.author_date) - new Date(a.author_date);
-    });
-
-    // Fetch contributors from all repos
-    var contribMap = {};
-    var contribPromises = (repos || []).slice(0, 10).map(function (repo) {
-      return ghFetch(
-        "https://api.github.com/repos/" +
-          repo.full_name +
-          "/contributors?per_page=100",
-      ).catch(function () {
-        return [];
-      });
-    });
-
-    var contribResults = await Promise.all(contribPromises);
-    contribResults.forEach(function (list) {
-      (list || []).forEach(function (c) {
-        if (!c.login || c.login.indexOf("[bot]") !== -1) return;
-        if (contribMap[c.login]) {
-          contribMap[c.login].contributions += c.contributions;
-        } else {
-          contribMap[c.login] = {
-            login: c.login,
-            avatar_url: c.avatar_url,
-            html_url: c.html_url,
-            contributions: c.contributions,
-          };
-        }
-      });
-    });
-
-    return {
-      commits: allCommits,
-      contributors: Object.values(contribMap).sort(function (a, b) {
-        return b.contributions - a.contributions;
-      }),
-      generatedAt: new Date().toISOString(),
-    };
-  }
+  var DATA_URL = "public/assets/github-data.json";
 
   // ── Render commits ──────────────────────────────────────────────────────
   function renderCommits(commits) {
@@ -232,12 +60,10 @@
     }
 
     var html = "";
-    // Show first COMMIT_SHOW commits
     commits.slice(0, COMMIT_SHOW).forEach(function (c) {
       html += renderSingle(c);
     });
 
-    // If more commits exist, add a "Show more" button
     if (commits.length > COMMIT_SHOW) {
       html += '<div class="commit-more-wrap">';
       html +=
@@ -249,7 +75,6 @@
 
     el.innerHTML = html;
 
-    // Bind the show more button
     var moreBtn = document.getElementById("commit-more-btn");
     if (moreBtn) {
       moreBtn.addEventListener("click", function () {
@@ -267,7 +92,6 @@
           "</div>";
         document.body.appendChild(popup);
 
-        // Close handlers
         var closeBtn = document.getElementById("commit-popup-close");
         function closePopup() {
           popup.remove();
@@ -310,9 +134,7 @@
       }
       html += "<div>";
       html +=
-        '<p class="contrib-name">' +
-        escHtml(c.login || c.name || "unknown") +
-        "</p>";
+        '<p class="contrib-name">' + escHtml(c.login || "unknown") + "</p>";
       var n = c.contributions;
       html +=
         '<p class="contrib-count">' +
@@ -364,105 +186,25 @@
 
   // ── Main ────────────────────────────────────────────────────────────────
   async function main() {
-    // Show skeletons immediately
     showCommitSkeletons();
     showContribSkeletons();
 
-    // 1. Try localStorage cache first (if fresh)
-    var cached = null;
     try {
-      var raw = localStorage.getItem(LS_KEY);
-      if (raw) {
-        cached = JSON.parse(raw);
-        var age = Date.now() - new Date(cached.generatedAt).getTime();
-        if (age < LS_TTL && cached.commits && cached.commits.length) {
-          renderCommits(cached.commits);
-          renderContributors(cached.contributors);
-          // Still refresh in background if older than 2 min
-          if (age > 2 * 60 * 1000) {
-            fetchGitHubData()
-              .then(function (data) {
-                try {
-                  localStorage.setItem(LS_KEY, JSON.stringify(data));
-                } catch (e) {}
-              })
-              .catch(function () {});
-          }
-          return;
-        }
-      }
-    } catch (e) {
-      /* ignore */
+      var res = await fetch(DATA_URL);
+      if (!res.ok) throw new Error("Failed to load " + DATA_URL);
+      var data = await res.json();
+      renderCommits(data.commits || []);
+      renderContributors(data.contributors || []);
+    } catch (err) {
+      var commitEl = document.getElementById("commit-list");
+      var contribEl = document.getElementById("contrib-grid");
+      if (commitEl)
+        commitEl.innerHTML =
+          '<p class="hub-empty">Could not load commits. Check back soon.</p>';
+      if (contribEl)
+        contribEl.innerHTML =
+          '<p class="hub-empty">Could not load contributors. Check back soon.</p>';
     }
-
-    // 2. Try the built-in SQLite DB
-    var dbLoaded = false;
-    try {
-      var db = await loadBuiltinDb();
-      var commitRows = safeQuery(
-        db,
-        "SELECT sha, repo, message, author_name, author_date, author_avatar, html_url FROM commits ORDER BY author_date DESC",
-      );
-      var contribRows = safeQuery(
-        db,
-        "SELECT login, name, avatar_url, html_url, contributions, bio, company FROM contributors ORDER BY contributions DESC",
-      );
-
-      if (commitRows.length > 0 || contribRows.length > 0) {
-        dbLoaded = true;
-        var commits = commitRows.map(function (r) {
-          return {
-            sha: r[0],
-            repo: r[1],
-            message: r[2],
-            author_name: r[3],
-            author_date: r[4],
-            author_avatar: r[5],
-            html_url: r[6],
-          };
-        });
-        var contribs = contribRows.map(function (r) {
-          return {
-            login: r[0],
-            name: r[1],
-            avatar_url: r[2],
-            html_url: r[3],
-            contributions: r[4],
-          };
-        });
-        renderCommits(commits);
-        renderContributors(contribs);
-      }
-    } catch (e) {
-      // DB failed — will fall through to API
-    }
-
-    // 3. Always fetch from GitHub API for fresh data
-    fetchGitHubData()
-      .then(function (data) {
-        try {
-          localStorage.setItem(LS_KEY, JSON.stringify(data));
-        } catch (e) {}
-        renderCommits(data.commits);
-        renderContributors(data.contributors);
-      })
-      .catch(function (err) {
-        // API also failed
-        if (!dbLoaded && cached) {
-          // Last resort: stale cache
-          renderCommits(cached.commits || []);
-          renderContributors(cached.contributors || []);
-        } else if (!dbLoaded && !cached) {
-          var commitEl = document.getElementById("commit-list");
-          var contribEl = document.getElementById("contrib-grid");
-          if (commitEl)
-            commitEl.innerHTML =
-              '<p class="hub-empty">Could not load commits. Check back soon.</p>';
-          if (contribEl)
-            contribEl.innerHTML =
-              '<p class="hub-empty">Could not load contributors. Check back soon.</p>';
-        }
-      });
   }
 
   if (document.readyState === "loading") {

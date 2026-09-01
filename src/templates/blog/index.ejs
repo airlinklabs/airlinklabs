@@ -7,7 +7,6 @@
 <%- include('../partials/nav', { site, underConstruction, rootPrefix, docPages, pageTitle }) %>
 
 <%
-  // Build sidebar links from announcements (newest first)
   var sidebarLinks = [];
   if (announcements && announcements.length) {
     announcements.forEach(function(post) {
@@ -30,6 +29,11 @@
       <header class="docs-index-header" data-animate="fade-up">
         <h1>Blog</h1>
         <p>Announcements and release notes from AirLink.</p>
+        <label class="docs-search">
+          <iconify-icon icon="lucide:search" width="17" height="17"></iconify-icon>
+          <input type="search" id="blog-search-input" placeholder="Search blog posts" autocomplete="off">
+          <kbd id="blog-search-kbd">Ctrl K</kbd>
+        </label>
       </header>
 
       <% if (announcements && announcements.length) { %>
@@ -38,11 +42,12 @@
         <% var regularPosts = announcements.filter(function(p) { return !p.pinned; }); %>
 
         <% if (pinnedPosts.length) { %>
-        <div class="docs-group">
+        <div class="docs-group" data-blog-section>
           <h2>Pinned</h2>
           <div class="docs-list">
             <% pinnedPosts.forEach(function(post) { %>
-            <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="docs-list-row" data-animate="fade">
+            <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="docs-list-row" data-animate="fade"
+               data-search-text="<%= (post.title + ' ' + (post.author || '') + ' ' + (post.description || '')).toLowerCase() %>">
               <div>
                 <p><%= post.title %></p>
                 <span><%= post.author || 'AirlinkLabs' %><% if (post.date) { %> · <%= post.date %><% } %></span>
@@ -55,11 +60,12 @@
         <% } %>
 
         <% if (regularPosts.length) { %>
-        <div class="docs-group">
+        <div class="docs-group" data-blog-section>
           <h2>All posts</h2>
           <div class="docs-list">
             <% regularPosts.forEach(function(post) { %>
-            <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="docs-list-row" data-animate="fade">
+            <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="docs-list-row" data-animate="fade"
+               data-search-text="<%= (post.title + ' ' + (post.author || '') + ' ' + (post.description || '')).toLowerCase() %>">
               <div>
                 <p><%= post.title %></p>
                 <span><%= post.author || 'AirlinkLabs' %><% if (post.date) { %> · <%= post.date %><% } %></span>
@@ -75,6 +81,50 @@
         <p style="font-size:13px;font-family:var(--font-mono);color:var(--color-text-3);padding:40px 0;">No posts yet.</p>
       <% } %>
 
+      <div id="blog-search-no-results" class="empty-state" style="display:none">
+        <iconify-icon icon="lucide:search-x" width="32" height="32"></iconify-icon>
+        <p>No results found. Try a different search term.</p>
+      </div>
+
     </div>
   </main>
 </div>
+
+<script>
+(function () {
+  var kbd = document.getElementById('blog-search-kbd');
+  if (kbd && navigator.platform && /Mac|iPhone|iPad|iPod/.test(navigator.platform)) {
+    kbd.textContent = '\u2318 K';
+  }
+
+  var input = document.getElementById('blog-search-input');
+  var noResults = document.getElementById('blog-search-no-results');
+  if (!input) return;
+
+  input.addEventListener('input', function () {
+    var q = input.value.toLowerCase().trim();
+    var visibleCount = 0;
+
+    document.querySelectorAll('.docs-list-row[data-search-text]').forEach(function (row) {
+      var visible = !q || row.dataset.searchText.includes(q);
+      row.hidden = !visible;
+      if (visible) visibleCount++;
+    });
+
+    document.querySelectorAll('[data-blog-section]').forEach(function (section) {
+      section.hidden = !!q && !section.querySelector('.docs-list-row:not([hidden])');
+    });
+
+    if (noResults) {
+      noResults.style.display = visibleCount === 0 && q.length > 0 ? '' : 'none';
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      input.focus();
+    }
+  });
+})();
+</script>

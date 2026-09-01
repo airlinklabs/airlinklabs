@@ -5,6 +5,69 @@ import { marked } from "marked";
 import fm from "front-matter";
 import { fileURLToPath } from "url";
 
+// ── Build-time Iconify icon inlining ─────────────────────────────────────────
+const iconMapPath = path.join(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "..",
+  "icon-map.json",
+);
+
+interface IconEntry {
+  body: string;
+  width?: number;
+  height?: number;
+}
+
+function loadIconMap(): Record<string, IconEntry> {
+  if (!fs.existsSync(iconMapPath)) return {};
+  const raw = fs.readJSONSync(iconMapPath) as {
+    icons: Record<string, { body: string; width?: number; height?: number }>;
+    aliases?: Record<string, { parent: string }>;
+  };
+  const map: Record<string, IconEntry> = {};
+  // direct icons
+  for (const [name, entry] of Object.entries(raw.icons || {})) {
+    map[name] = { body: entry.body, width: entry.width, height: entry.height };
+  }
+  // aliases → resolve to parent
+  if (raw.aliases) {
+    for (const [alias, info] of Object.entries(raw.aliases)) {
+      if (map[info.parent]) map[alias] = map[info.parent];
+    }
+  }
+  return map;
+}
+
+const ICON_MAP = loadIconMap();
+// Hardcoded aliases for icons that Iconify maps differently
+const ICON_ALIASES: Record<string, string> = {
+  home: "house",
+  "arrows-right-left": "arrow-left-right",
+};
+const ICONIFY_RE =
+  /<iconify-icon\s+icon="([^"]+)"(?:\s+width="(\d+)")?(?:\s+height="(\d+)")?(?:\s+[^>]*)?\s*><\/iconify-icon>/g;
+
+function inlineIcons(html: string): string {
+  return html.replace(
+    ICONIFY_RE,
+    (_match, iconName: string, w?: string, h?: string) => {
+      // Strip prefix (e.g. "lucide:home" → "home") and resolve aliases
+      const shortName = iconName.includes(":")
+        ? iconName.split(":")[1]
+        : iconName;
+      const resolved = ICON_ALIASES[shortName] || shortName;
+      const entry = ICON_MAP[resolved] || ICON_MAP[shortName];
+      if (!entry) {
+        console.warn(`  ⚠ icon "${iconName}" not found in icon map`);
+        return `<span class="icon-missing" aria-hidden="true">?</span>`;
+      }
+      const width = w || String(entry.width || 24);
+      const height = h || String(entry.height || 24);
+      return `<svg width="${width}" height="${height}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${entry.body}</svg>`;
+    },
+  );
+}
+
 // Configure marked to add IDs to headings for deep-linking
 marked.use({
   renderer: {
@@ -744,26 +807,34 @@ async function build() {
   };
 
   // index.html
-  const indexHtml = await renderTemplate(path.join(TEMPLATES, "index.ejs"), {
-    ...base,
-    rootPrefix: "",
-  });
+  const indexHtml = inlineIcons(
+    await renderTemplate(path.join(TEMPLATES, "index.ejs"), {
+      ...base,
+      rootPrefix: "",
+    }),
+  );
   await fs.outputFile(path.join(DIST, "index.html"), indexHtml);
   console.log("  index.html");
 
   // docs/index.html
-  const docsIndexHtml = await renderTemplate(
-    path.join(TEMPLATES, "docs", "index.ejs"),
-    { ...base, rootPrefix: "../", firstDoc: docPages[0] || null },
+  const docsIndexHtml = inlineIcons(
+    await renderTemplate(path.join(TEMPLATES, "docs", "index.ejs"), {
+      ...base,
+      rootPrefix: "../",
+      firstDoc: docPages[0] || null,
+    }),
   );
   await fs.outputFile(path.join(DIST, "docs", "index.html"), docsIndexHtml);
   console.log("  docs/index.html");
 
   // each doc page — output at slug/ (title-derived kebab-case)
   for (const doc of docPages) {
-    const docHtml = await renderTemplate(
-      path.join(TEMPLATES, "docs", "doc.ejs"),
-      { ...base, rootPrefix: "../../", currentDoc: doc },
+    const docHtml = inlineIcons(
+      await renderTemplate(path.join(TEMPLATES, "docs", "doc.ejs"), {
+        ...base,
+        rootPrefix: "../../",
+        currentDoc: doc,
+      }),
     );
     await fs.outputFile(
       path.join(DIST, "docs", doc.slug, "index.html"),
@@ -773,22 +844,24 @@ async function build() {
   }
 
   // blog/index.html — announcements list, newest first
-  const blogIndexHtml = await renderTemplate(
-    path.join(TEMPLATES, "blog", "index.ejs"),
-    {
+  const blogIndexHtml = inlineIcons(
+    await renderTemplate(path.join(TEMPLATES, "blog", "index.ejs"), {
       ...base,
       rootPrefix: "../../",
       announcements: [...announcements].reverse(),
-    },
+    }),
   );
   await fs.outputFile(path.join(DIST, "blog", "index.html"), blogIndexHtml);
   console.log("  blog/index.html");
 
   // each announcement page
   for (const post of announcements) {
-    const postHtml = await renderTemplate(
-      path.join(TEMPLATES, "blog", "post.ejs"),
-      { ...base, rootPrefix: "../../../", post },
+    const postHtml = inlineIcons(
+      await renderTemplate(path.join(TEMPLATES, "blog", "post.ejs"), {
+        ...base,
+        rootPrefix: "../../../",
+        post,
+      }),
     );
     await fs.outputFile(
       path.join(DIST, "blog", post.slug, "index.html"),
@@ -798,10 +871,12 @@ async function build() {
   }
 
   // 404.html — GitHub Pages serves this for any unmatched path
-  const notFoundHtml = await renderTemplate(path.join(TEMPLATES, "404.ejs"), {
-    ...base,
-    rootPrefix: "",
-  });
+  const notFoundHtml = inlineIcons(
+    await renderTemplate(path.join(TEMPLATES, "404.ejs"), {
+      ...base,
+      rootPrefix: "",
+    }),
+  );
   await fs.outputFile(path.join(DIST, "404.html"), notFoundHtml);
   console.log("  404.html");
 
