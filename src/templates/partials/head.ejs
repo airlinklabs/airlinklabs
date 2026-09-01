@@ -51,7 +51,7 @@
   </style>
   <% } %>
 </head>
-<body>
+<body class="<%= pageTitle ? '' : 'page-home' %>">
 
 <% if (underConstruction && underConstruction.enabled) { %>
 <div class="uc-bar"><%= underConstruction.badge %>: <%= underConstruction.message %></div>
