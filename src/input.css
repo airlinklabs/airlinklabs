@@ -1935,18 +1935,21 @@ img[loading="lazy"][style*="display:none"] {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background-size: cover;
+  background-size: 50%;
   background-position: center 30%;
   background-repeat: no-repeat;
-  opacity: 0.15;
+  opacity: 0.2;
   z-index: 0;
   pointer-events: none;
-  /* Fade out toward the bottom so it doesn't bleed into the install section */
-  mask-image: linear-gradient(to bottom, black 0%, black 50%, transparent 100%);
-  -webkit-mask-image: linear-gradient(
-    to bottom,
+  /* Heavy radial fade on all four sides — edges blend into background */
+  mask-image: radial-gradient(
+    ellipse 70% 60% at center,
     black 0%,
-    black 50%,
+    transparent 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 70% 60% at center,
+    black 0%,
     transparent 100%
   );
 }
