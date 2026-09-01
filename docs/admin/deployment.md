@@ -2,7 +2,7 @@
 
 ## System Requirements
 
-- Node.js 18+
+- Node.js 20+
 - PostgreSQL 14+
 - Redis 6+
 - Docker (on each node machine)
@@ -14,30 +14,17 @@
 ```bash
 git clone https://github.com/airlinklabs/panel.git
 cd panel
-pnpm install
+pnpm i
+pnpm approve-builds --all
 ```
 
-### 2. Configure Environment
+### 2. Setup panel
 
 ```bash
-cp example.env .env
+pnpm run setup
 ```
 
-Edit `.env` with your database credentials and settings.
-
-### 3. Build
-
-```bash
-pnpm run build
-```
-
-### 4. Setup Database
-
-```bash
-pnpm run migrate:deploy
-```
-
-### 5. Start
+### 3. Start
 
 ```bash
 pnpm run start
