@@ -457,9 +457,16 @@ document.addEventListener(
       url +
       '" target="_blank" rel="noopener" data-license-link="' +
       url +
-      '">' +
+      '" onclick="event.stopPropagation()">' +
       license +
       "</a>"
+    );
+  }
+
+  function makeRowClickable(html) {
+    return html.replace(
+      /<div class="license-item">/g,
+      '<div class="license-item" style="cursor:pointer" onclick="var a=this.querySelector(\'a[href]\');if(a){a.click()}">',
     );
   }
 
@@ -471,65 +478,75 @@ document.addEventListener(
         addons: "Community addon registry and marketplace",
         home: "Project website and documentation",
       };
-      reposEl.innerHTML = data.repos
-        .map(function (r) {
-          return (
-            '<div class="license-item">' +
-            '<div class="license-item-info">' +
-            '<div class="license-item-name">' +
-            r.name +
-            "</div>" +
-            (repoDescs[r.name]
-              ? '<div class="license-item-desc">' + repoDescs[r.name] + "</div>"
-              : "") +
-            "</div>" +
-            badge(r.name, r.url, r.license || "Unknown") +
-            "</div>"
-          );
-        })
-        .join("");
+      reposEl.innerHTML = makeRowClickable(
+        data.repos
+          .map(function (r) {
+            var desc = repoDescs[r.name] || r.description || "";
+            return (
+              '<div class="license-item">' +
+              '<div class="license-item-info">' +
+              '<div class="license-item-name">' +
+              r.name +
+              "</div>" +
+              (desc
+                ? '<div class="license-item-desc">' + desc + "</div>"
+                : "") +
+              "</div>" +
+              badge(r.name, r.url, r.license || "Unknown") +
+              "</div>"
+            );
+          })
+          .join(""),
+      );
     }
     if (npmEl && data.npm && data.npm.length) {
       var sorted = data.npm.slice().sort(function (a, b) {
         return a.name.localeCompare(b.name);
       });
-      npmEl.innerHTML = sorted
-        .map(function (p) {
-          return (
-            '<div class="license-item">' +
-            '<div class="license-item-info">' +
-            '<div class="license-item-name">' +
-            p.name +
-            "</div>" +
-            '<div class="license-item-version">v' +
-            (p.version || "unknown") +
-            "</div>" +
-            "</div>" +
-            badge(p.name, p.repository, p.license || "Unknown") +
-            "</div>"
-          );
-        })
-        .join("");
+      npmEl.innerHTML = makeRowClickable(
+        sorted
+          .map(function (p) {
+            return (
+              '<div class="license-item">' +
+              '<div class="license-item-info">' +
+              '<div class="license-item-name">' +
+              p.name +
+              "</div>" +
+              '<div class="license-item-version">v' +
+              (p.version || "unknown") +
+              "</div>" +
+              (p.description
+                ? '<div class="license-item-desc">' + p.description + "</div>"
+                : "") +
+              "</div>" +
+              badge(p.name, p.repository, p.license || "Unknown") +
+              "</div>"
+            );
+          })
+          .join(""),
+      );
     }
     if (cdnEl && data.cdn && data.cdn.length) {
-      cdnEl.innerHTML = data.cdn
-        .map(function (c) {
-          return (
-            '<div class="license-item">' +
-            '<div class="license-item-info">' +
-            '<div class="license-item-name">' +
-            c.name +
-            "</div>" +
-            '<div class="license-item-version">v' +
-            (c.version || "") +
-            " · loaded from CDN" +
-            "</div>" +
-            "</div>" +
-            badge(c.name, c.url, c.license || "Unknown") +
-            "</div>"
-          );
-        })
-        .join("");
+      cdnEl.innerHTML = makeRowClickable(
+        data.cdn
+          .map(function (c) {
+            return (
+              '<div class="license-item">' +
+              '<div class="license-item-info">' +
+              '<div class="license-item-name">' +
+              c.name +
+              "</div>" +
+              '<div class="license-item-version">v' +
+              (c.version || "") +
+              " · loaded from CDN" +
+              "</div>" +
+              "</div>" +
+              badge(c.name, c.url, c.license || "Unknown") +
+              "</div>"
+            );
+          })
+          .join(""),
+      );
     }
   }
 

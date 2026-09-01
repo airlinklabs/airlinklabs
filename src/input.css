@@ -1164,7 +1164,6 @@
 
 /* ── License modal ──────────────────────────────────────────────────────── */
 #license-overlay {
-  display: none;
   position: fixed;
   inset: 0;
   z-index: 10000;
@@ -1172,9 +1171,14 @@
   backdrop-filter: blur(4px);
   align-items: center;
   justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
 }
 #license-overlay.open {
-  display: flex;
+  opacity: 1;
+  pointer-events: auto;
 }
 #license-modal {
   background: var(--color-bg-2);
@@ -1185,8 +1189,8 @@
   max-height: 80vh;
   display: flex;
   flex-direction: column;
-  transform: translateY(10px) scale(0.97);
-  transition: transform 200ms cubic-bezier(0.34, 1.1, 0.64, 1);
+  transform: translateY(16px) scale(0.96);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 #license-overlay.open #license-modal {
   transform: translateY(0) scale(1);
@@ -1279,6 +1283,16 @@
 .license-item:hover {
   background: transparent !important;
 }
+.license-item:hover .license-item-name,
+.license-item:hover .license-item-version,
+.license-item:hover .license-item-desc {
+  color: var(--color-bg);
+}
+.license-item:hover .license-item-badge {
+  background: var(--color-bg);
+  color: var(--color-text-1);
+  border-color: var(--color-bg);
+}
 .license-item-info {
   min-width: 0;
   flex: 1;
@@ -1330,17 +1344,21 @@
 
 /* ── About modal ──────────────────────────────────────────────────────────── */
 #about-overlay {
-  z-index: 10000;
-  backdrop-filter: blur(4px);
-  background: rgba(0, 0, 0, 0.6);
-  justify-content: center;
-  align-items: center;
-  display: none;
   position: fixed;
   inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
 }
 #about-overlay.open {
-  display: flex;
+  opacity: 1;
+  pointer-events: auto;
 }
 #about-modal {
   background: var(--color-bg-2);
@@ -1349,9 +1367,9 @@
   flex-direction: column;
   width: 90%;
   max-width: 400px;
-  transition: transform 0.2s cubic-bezier(0.34, 1.1, 0.64, 1);
   display: flex;
-  transform: translateY(10px) scale(0.97);
+  transform: translateY(16px) scale(0.96);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 #about-overlay.open #about-modal {
   transform: translateY(0) scale(1);
@@ -1388,6 +1406,33 @@
 }
 #about-body {
   padding: 16px 20px 20px;
+}
+.about-profile {
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  display: flex;
+}
+.about-avatar {
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--color-border);
+  flex-shrink: 0;
+}
+.about-profile-info {
+  min-width: 0;
+}
+.about-profile-name {
+  color: var(--color-text-1);
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+.about-profile-handle {
+  color: var(--color-text-3);
+  margin: 2px 0 0;
+  font-size: 12px;
 }
 #about-text {
   color: var(--color-text-2);
@@ -2855,6 +2900,12 @@ img[loading="lazy"][style*="display:none"] {
 }
 .project-row:hover .project-link,
 .project-row:hover .project-link b {
+  color: var(--color-bg);
+}
+.project-row:hover h3 {
+  color: var(--color-bg);
+}
+.project-row:hover p {
   color: var(--color-bg);
 }
 .hub-list-row,

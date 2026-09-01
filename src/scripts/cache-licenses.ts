@@ -8,29 +8,31 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "../../");
 const OUTPUT = path.join(ROOT, "public", "assets", "licenses.json");
 const GITHUB_REPOS = ["panel", "daemon", "addons", "home"];
+const ORG = "AirlinkLabs";
 
-interface NpmLicense {
+interface NpmDep {
   name: string;
   version: string;
   license: string;
   repository: string;
+  description: string;
 }
 
 interface RepoLicense {
   name: string;
   license: string;
   url: string;
+  description: string;
 }
 
-interface CdnLicense {
+interface CdnDep {
   name: string;
   version: string;
   license: string;
   url: string;
 }
 
-// CDN dependencies loaded at runtime (not in package.json)
-const CDN_DEPS: CdnLicense[] = [
+const CDN_DEPS: CdnDep[] = [
   {
     name: "mermaid",
     version: "11",
@@ -42,136 +44,173 @@ const CDN_DEPS: CdnLicense[] = [
 function run(cmd: string): string | null {
   try {
     return execSync(cmd, { cwd: ROOT, encoding: "utf-8", timeout: 60_000 });
-  } catch (err) {
-    console.warn(`  warn: command failed: ${cmd}`);
-    console.warn(`        ${(err as Error).message.split("\n")[0]}`);
+  } catch {
     return null;
   }
 }
 
-function getNpmLicenses(): NpmLicense[] {
-  // Try license-checker first
-  const raw = run("npx license-checker --json --production");
-  if (raw) {
-    try {
-      const parsed = JSON.parse(raw) as Record<
-        string,
-        { licenses?: string; version?: string; repository?: string }
-      >;
-      return Object.entries(parsed).map(([key, val]) => {
-        // key format: "package@version" or "@scope/package@version"
-        const atIdx = key.lastIndexOf("@");
-        const name = key.slice(0, atIdx);
-        const version = key.slice(atIdx + 1);
-        return {
-          name,
-          version: version || val.version || "",
-          license: Array.isArray(val.licenses)
-            ? val.licenses.join(", ")
-            : val.licenses || "UNKNOWN",
-          repository: val.repository || "",
-        };
-      });
-    } catch {
-      console.warn("  warn: failed to parse license-checker output");
-    }
+function ghGetFile(
+  repo: string,
+  filePath: string,
+): Record<string, unknown> | null {
+  const raw = run(
+    `gh api repos/${ORG}/${repo}/contents/${filePath} --jq '.content'`,
+  );
+  if (!raw) return null;
+  try {
+    const decoded = Buffer.from(raw.trim(), "base64").toString("utf-8");
+    return JSON.parse(decoded);
+  } catch {
+    return null;
   }
-
-  // Fallback: read package-lock.json
-  console.log("  fallback: reading package-lock.json...");
-  return readPackageLockLicenses();
 }
 
-function readPackageLockLicenses(): NpmLicense[] {
-  const lockPath = path.join(ROOT, "package-lock.json");
-  if (!fs.existsSync(lockPath)) {
-    console.warn("  warn: package-lock.json not found");
-    return [];
+function ghGetLicense(repo: string): { spdx: string; url: string } | null {
+  const raw = run(`gh api repos/${ORG}/${repo} --jq '.license'`);
+  if (!raw) return null;
+  try {
+    const data = JSON.parse(raw);
+    return {
+      spdx: data?.spdx_id || data?.name || "UNKNOWN",
+      url: `https://github.com/${ORG}/${repo}/blob/main/LICENSE`,
+    };
+  } catch {
+    return null;
   }
+}
 
-  const lock = fs.readJsonSync(lockPath) as {
-    packages?: Record<string, { version?: string; license?: unknown }>;
-  };
-  const packages = lock.packages || {};
-  const results: NpmLicense[] = [];
-
-  for (const [key, val] of Object.entries(packages)) {
-    if (!key || key === "") continue;
-    const parts = key.split("node_modules/");
-    const name = parts[parts.length - 1];
-    if (!name) continue;
-
-    const license = Array.isArray(val.license)
-      ? val.license.join(", ")
-      : typeof val.license === "string"
-        ? val.license
-        : "UNKNOWN";
-
-    results.push({
-      name,
-      version: val.version || "",
+function fetchNpmLicense(
+  pkg: string,
+): { license: string; version: string; description: string } | null {
+  const raw = run(
+    `npm view ${pkg} license version description --json 2>/dev/null`,
+  );
+  if (!raw) return null;
+  try {
+    const data = JSON.parse(raw);
+    let license = "UNKNOWN";
+    if (typeof data === "string") {
+      license = data;
+    } else if (data.license) {
+      license = Array.isArray(data.license)
+        ? data.license.join(", ")
+        : data.license;
+    }
+    return {
       license,
-      repository: "",
-    });
+      version: data.version || "",
+      description: data.description || "",
+    };
+  } catch {
+    return null;
   }
-
-  return results;
 }
 
-function getRepoLicenses(): RepoLicense[] {
-  const results: RepoLicense[] = [];
-
-  for (const repo of GITHUB_REPOS) {
-    const raw = run(`gh api repos/AirlinkLabs/${repo}`);
-    if (!raw) {
-      console.warn(`  skip: could not fetch license for AirlinkLabs/${repo}`);
-      continue;
-    }
-
-    try {
-      const data = JSON.parse(raw) as {
-        license?: { spdx_id?: string; name?: string } | null;
-        html_url?: string;
-      };
-      const licenseName =
-        data.license?.spdx_id || data.license?.name || "UNKNOWN";
-      const url = `https://github.com/AirlinkLabs/${repo}/blob/main/LICENSE`;
-      results.push({ name: repo, license: licenseName, url });
-    } catch {
-      console.warn(`  warn: failed to parse license for ${repo}`);
+function extractDeps(pkgJson: Record<string, unknown>): Record<string, string> {
+  const deps: Record<string, string> = {};
+  for (const field of ["dependencies", "devDependencies"]) {
+    const section = pkgJson[field] as Record<string, string> | undefined;
+    if (section) {
+      for (const [name, version] of Object.entries(section)) {
+        if (!deps[name]) deps[name] = version;
+      }
     }
   }
-
-  return results;
+  return deps;
 }
 
 async function run_() {
-  console.log("cache-licenses: starting...");
+  console.log("cache-licenses: fetching live licenses via gh api + npm...");
 
-  const npm = getNpmLicenses();
-  console.log(`  npm: ${npm.length} packages`);
-
-  let repos: RepoLicense[] = [];
   const ghCheck = run("gh auth status");
-  if (ghCheck !== null || process.env.GITHUB_TOKEN || process.env.GH_TOKEN) {
-    console.log("  fetching GitHub repo licenses...");
-    repos = getRepoLicenses();
-  } else {
+  if (ghCheck === null && !process.env.GITHUB_TOKEN && !process.env.GH_TOKEN) {
     console.warn("  warn: gh CLI not authenticated — skipping repo licenses");
   }
-  console.log(`  repos: ${repos.length} repos`);
+
+  // 1. Fetch repo licenses + their package.json deps
+  const allRepos: RepoLicense[] = [];
+  const allDeps: NpmDep[] = [];
+  const seenDeps = new Set<string>();
+
+  for (const repo of GITHUB_REPOS) {
+    console.log(`  fetching ${ORG}/${repo}...`);
+
+    // Repo license
+    const lic = ghGetLicense(repo);
+    if (lic) {
+      allRepos.push({
+        name: repo,
+        license: lic.spdx,
+        url: lic.url,
+        description: "",
+      });
+    }
+
+    // Package.json
+    const pkgJson = ghGetFile(repo, "package.json");
+    if (!pkgJson) {
+      console.warn(`    skip: could not fetch package.json for ${repo}`);
+      continue;
+    }
+
+    const deps = extractDeps(pkgJson);
+    const depNames = Object.keys(deps);
+    console.log(`    ${depNames.length} dependencies`);
+
+    // Fetch license for each dep from npm registry
+    for (const name of depNames) {
+      if (seenDeps.has(name)) continue;
+      seenDeps.add(name);
+
+      const info = fetchNpmLicense(name);
+      if (info) {
+        allDeps.push({
+          name,
+          version: info.version,
+          license: info.license,
+          repository: `https://www.npmjs.com/package/${name}`,
+          description: info.description,
+        });
+      }
+    }
+  }
+
+  // 2. Site's own npm deps (this project's package.json)
+  const siteDeps = extractDeps(
+    fs.readJsonSync(path.join(ROOT, "package.json")),
+  );
+  const siteDepNames = Object.keys(siteDeps).filter((n) => !seenDeps.has(n));
+  if (siteDepNames.length) {
+    console.log(`  fetching ${siteDepNames.length} site dependencies...`);
+    for (const name of siteDepNames) {
+      seenDeps.add(name);
+      const info = fetchNpmLicense(name);
+      if (info) {
+        allDeps.push({
+          name,
+          version: info.version,
+          license: info.license,
+          repository: `https://www.npmjs.com/package/${name}`,
+          description: info.description,
+        });
+      }
+    }
+  }
+
+  // 3. Sort deps alphabetically
+  allDeps.sort((a, b) => a.name.localeCompare(b.name));
 
   const output = {
     generatedAt: new Date().toISOString(),
-    npm,
-    repos,
+    repos: allRepos,
+    npm: allDeps,
     cdn: CDN_DEPS,
   };
 
   await fs.ensureDir(path.dirname(OUTPUT));
   await fs.writeFile(OUTPUT, JSON.stringify(output, null, 2), "utf-8");
   console.log(
-    `  wrote ${OUTPUT} (${(JSON.stringify(output).length / 1024).toFixed(1)} KB)`,
+    `  wrote ${OUTPUT} — ${allRepos.length} repos, ${allDeps.length} npm deps, ${CDN_DEPS.length} CDN (${(JSON.stringify(output).length / 1024).toFixed(1)} KB)`,
   );
 }
 
