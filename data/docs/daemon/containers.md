@@ -52,7 +52,14 @@ missing -> installing -> created -> starting -> running -> stopping -> stopped
 
 ### Start Sequence
 
-<(flow title="Container start" steps="Daemon:Remove existing container if present,Daemon:Pull Docker image,Daemon:Create container with config,Daemon:Start container,Daemon:Apply network throttle,Daemon:Begin log capture")>
+```mermaid
+graph TD
+    A[Daemon: Remove existing container if present] --> B[Daemon: Pull Docker image]
+    B --> C[Daemon: Create container with config]
+    C --> D[Daemon: Start container]
+    D --> E[Daemon: Apply network throttle]
+    E --> F[Daemon: Begin log capture]
+```
 
 1. Remove existing container if present (name collision)
 2. Create container with configuration (see Container Configuration)

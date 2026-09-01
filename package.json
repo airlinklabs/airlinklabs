@@ -23,7 +23,6 @@
     "@types/ejs": "^3.1.5",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.15.3",
-    "eslint": "^10.9.1",
     "prettier": "3.9.6",
     "prettier-plugin-ejs": "^1.0.3",
     "tsx": "^4.22.4",

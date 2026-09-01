@@ -299,8 +299,11 @@ function featureIcon(key: string): string {
 async function renderMarkdown(html: string): Promise<string> {
   let result = await marked(html);
   result = fixMarkdownImagePaths(result);
-  result = injectProseCodeCopyButtons(result);
+  // diagram/mermaid transforms MUST run before copy-button injection so they
+  // don't end up wrapped inside a prose-code-block div with a dangling button
   result = transformDiagramBlocks(result);
+  result = transformMermaidBlocks(result);
+  result = injectProseCodeCopyButtons(result);
   return result;
 }
 
@@ -662,17 +665,19 @@ function resolveContentImages(html: string, assetBasePath: string): string {
   });
 }
 
-// wrap every <pre> in prose with a relative div + inject a copy button
-// main.js already handles .prose-copy-btn clicks via the same clipboard pattern
+// wrap prose <pre><code>...</code></pre> blocks with a copy button div
+// matching the full pre+code pattern avoids touching bare <pre> tags in
+// diagram or mermaid blocks (which have no inner <code> element)
 function injectProseCodeCopyButtons(html: string): string {
-  return html
-    .replace(/<pre>/g, () => {
+  return html.replace(
+    /<pre>(<code[\s\S]*?<\/code>)<\/pre>/g,
+    (_, codeInner) => {
       const btn =
         `<button class="prose-copy-btn" aria-label="Copy code" type="button">` +
         `<iconify-icon icon="lucide:copy" width="11" height="11"></iconify-icon> Copy</button>`;
-      return `<div class="prose-code-block">${btn}<pre>`;
-    })
-    .replace(/<\/pre>/g, "</pre></div>");
+      return `<div class="prose-code-block">${btn}<pre>${codeInner}</pre></div>`;
+    },
+  );
 }
 
 // transform ```diagram code blocks into styled ASCII diagram containers
@@ -687,6 +692,25 @@ function transformDiagramBlocks(html: string): string {
         .replace(/&#39;/g, "'")
         .replace(/&quot;/g, '"');
       return `<div class="prose-diagram"><pre>${decoded}</pre></div>`;
+    },
+  );
+}
+
+// transform ```mermaid code blocks into mermaid-renderable divs
+// mermaid.js (loaded via CDN) picks up <pre class="mermaid"> and renders SVG client-side
+// this runs BEFORE copy-button injection so the pre doesn't get a code wrapper
+function transformMermaidBlocks(html: string): string {
+  return html.replace(
+    /<pre><code class="language-mermaid">([\s\S]*?)<\/code><\/pre>/g,
+    (_match, code) => {
+      // marked HTML-encodes graph source — decode before handing off to mermaid
+      const decoded = code
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&#39;/g, "'")
+        .replace(/&quot;/g, '"');
+      return `<div class="prose-mermaid"><pre class="mermaid">${decoded}</pre></div>`;
     },
   );
 }
@@ -964,3 +988,5 @@ build().catch((err) => {
   console.error("Build failed:", err);
   process.exit(1);
 });
+
+// ~ https://github.com/thavanish edited this shitty code

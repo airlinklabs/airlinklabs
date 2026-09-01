@@ -13,7 +13,15 @@ This document describes the security mechanisms built into the AirLink daemon HT
 
 The daemon authenticates incoming requests using HMAC-SHA256 signatures. This is the primary auth method for internal API calls.
 
-<(flow title="HMAC verification" steps="Panel:Build request with timestamp and nonce,Panel:Sign with HMAC-SHA256,Daemon:Check IP allowlist,Daemon:Verify Basic Auth,Daemon:Recompute HMAC,Daemon:Compare signatures,Daemon:Check nonce deduplication")>
+```mermaid
+graph TD
+    A[Panel: Build request with timestamp and nonce] --> B[Panel: Sign with HMAC-SHA256]
+    B --> C[Daemon: Check IP allowlist]
+    C --> D[Daemon: Verify Basic Auth]
+    D --> E[Daemon: Recompute HMAC]
+    E --> F[Daemon: Compare signatures]
+    F --> G[Daemon: Check nonce deduplication]
+```
 
 ### Protocol
 

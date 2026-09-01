@@ -13,7 +13,13 @@ The daemon is a standalone Node.js application. It does not depend on the panel 
 
 ## Architecture
 
-<(flow title="Panel to Daemon communication" steps="Panel:Send HTTP request with HMAC signature,Daemon:Verify HMAC signature,Daemon:Check IP allowlist,Daemon:Execute container operation,Daemon:Return JSON response")>
+```mermaid
+graph TD
+    A[Panel: Send HTTP request with HMAC signature] --> B[Daemon: Verify HMAC signature]
+    B --> C[Daemon: Check IP allowlist]
+    C --> D[Daemon: Execute container operation]
+    D --> E[Daemon: Return JSON response]
+```
 
 The daemon communicates with the panel over HTTP using HMAC-SHA256 signed requests. Each request is authenticated, rate-limited, and validated before execution.
 

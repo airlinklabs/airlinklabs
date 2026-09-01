@@ -58,3 +58,16 @@
 
 <script src="<%= rootPrefix %>public/js/motion.js" defer></script>
 <script src="<%= rootPrefix %>public/js/main.js" defer></script>
+<!-- mermaid: renders ```mermaid graph blocks in docs/blog content -->
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    darkMode: true,
+    securityLevel: 'loose',
+    fontFamily: 'ui-monospace, "SF Mono", "Fira Code", monospace',
+  });
+</script>
+
+<!-- ~ https://github.com/thavanish edited this shitty code -->
