@@ -25,12 +25,12 @@
   <%- include('../partials/sidebar', { rootPrefix: rootPrefix, currentPage: 'blog', sidebarLinks: sidebarLinks, sidebarSectionLabel: 'All posts' }) %>
 
   <main class="docs-main">
-    <div class="docs-content" id="page-content">
+    <div class="docs-content docs-index" id="page-content">
 
-      <div class="doc-header" data-animate="fade-up">
-        <h1 class="doc-title" style="font-size:32px;margin-bottom:4px;"><%= site.title %> Blog</h1>
-        <p class="doc-desc">Announcements and release notes from AirLink.</p>
-      </div>
+      <header class="docs-index-header" data-animate="fade-up">
+        <h1>Blog</h1>
+        <p>Announcements and release notes from AirLink.</p>
+      </header>
 
       <% if (announcements && announcements.length) { %>
 
@@ -38,59 +38,37 @@
         <% var regularPosts = announcements.filter(function(p) { return !p.pinned; }); %>
 
         <% if (pinnedPosts.length) { %>
-          <div style="margin-bottom:clamp(20px,3vw,36px);">
-            <p class="section-eyebrow" style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 12px;display:flex;align-items:center;gap:7px;">
-              <iconify-icon icon="lucide:star" width="10" height="10"></iconify-icon>
-              Pinned
-            </p>
-            <div data-animate-group style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:12px;">
-              <% pinnedPosts.forEach(function(post) { %>
-                <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="blog-card">
-                  <p class="post-title"><%= post.title %></p>
-                  <div style="display:flex;align-items:center;gap:8px;margin-top:auto;">
-                    <% if (post.authorGithub) { %>
-                      <img src="https://github.com/<%= post.authorGithub %>.png?size=32" alt="" loading="lazy"
-                        style="width:16px;height:16px;border-radius:50%;background:var(--color-bg-3);flex-shrink:0;"
-                        onerror="this.style.display='none'">
-                    <% } %>
-                    <span style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-3);"><%= post.author || 'AirlinkLabs' %></span>
-                    <% if (post.date) { %>
-                      <span style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-4);">· <%= post.date %></span>
-                    <% } %>
-                  </div>
-                </a>
-              <% }) %>
-            </div>
+        <div class="docs-group">
+          <h2>Pinned</h2>
+          <div class="docs-list">
+            <% pinnedPosts.forEach(function(post) { %>
+            <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="docs-list-row" data-animate="fade">
+              <div>
+                <p><%= post.title %></p>
+                <span><%= post.author || 'AirlinkLabs' %><% if (post.date) { %> · <%= post.date %><% } %></span>
+              </div>
+              <iconify-icon icon="lucide:arrow-right" width="16" height="16"></iconify-icon>
+            </a>
+            <% }) %>
           </div>
+        </div>
         <% } %>
 
         <% if (regularPosts.length) { %>
-          <div>
-            <% if (pinnedPosts.length) { %>
-              <p style="font-size:10px;font-family:var(--font-mono);color:var(--color-text-3);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 4px;">All posts</p>
-            <% } %>
+        <div class="docs-group">
+          <h2>All posts</h2>
+          <div class="docs-list">
             <% regularPosts.forEach(function(post) { %>
-              <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="blog-post-row" data-animate="fade">
-                <div style="min-width:0;">
-                  <p class="post-title"><%= post.title %></p>
-                  <div class="post-meta">
-                    <% if (post.authorGithub) { %>
-                      <img src="https://github.com/<%= post.authorGithub %>.png?size=28" alt="" loading="lazy"
-                        style="width:14px;height:14px;border-radius:50%;background:var(--color-bg-3);flex-shrink:0;"
-                        onerror="this.style.display='none'">
-                    <% } %>
-                    <span><%= post.author || 'AirlinkLabs' %></span>
-                  </div>
-                </div>
-                <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
-                  <% if (post.date) { %>
-                    <span class="post-date"><%= post.date %></span>
-                  <% } %>
-                  <iconify-icon icon="lucide:arrow-right" width="12" height="12" style="color:var(--color-text-4);flex-shrink:0;"></iconify-icon>
-                </div>
-              </a>
+            <a href="<%= rootPrefix %>blog/<%= post.slug %>/" class="docs-list-row" data-animate="fade">
+              <div>
+                <p><%= post.title %></p>
+                <span><%= post.author || 'AirlinkLabs' %><% if (post.date) { %> · <%= post.date %><% } %></span>
+              </div>
+              <iconify-icon icon="lucide:arrow-right" width="16" height="16"></iconify-icon>
+            </a>
             <% }) %>
           </div>
+        </div>
         <% } %>
 
       <% } else { %>

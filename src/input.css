@@ -600,11 +600,9 @@ iconify-icon {
   border-collapse: collapse;
   margin: 1.5rem 0;
   font-size: 0.8125rem;
-  display: block;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
   border: 1px solid var(--color-border);
   border-radius: 8px;
+  overflow: hidden;
 }
 
 .prose thead {
@@ -1932,18 +1930,11 @@ img[loading="lazy"][style*="display:none"] {
   position: relative;
 }
 /* Hero background:
-   - Left edge  → sidebar right edge (hub-content starts after the 260px sidebar
-                   and has 72px padding, so we pull left by the padding)
-   - Right edge → viewport right edge (pull out by the padding on the other side)
-   - Top        → viewport top (the nav bar sits above docs-shell so we extend upward)
-   - Bottom     → end of hub-hero section (natural since this div lives inside hub-hero)
-   hub-hero already has position:relative so absolute children are clipped to it. */
+   - Stays within hub-hero bounds (no negative offsets)
+   - Fades out toward the bottom so it doesn't bleed into the install section */
 .hero-bg {
   position: absolute;
-  left: -72px; /* cancel hub-content left padding */
-  right: -72px; /* cancel hub-content right padding */
-  top: 0; /* top of hub-hero */
-  bottom: 0; /* bottom of hub-hero — stops above #install */
+  inset: 0;
   background-size: cover;
   background-position: center 30%;
   background-repeat: no-repeat;
@@ -2243,14 +2234,16 @@ img[loading="lazy"][style*="display:none"] {
   white-space: nowrap;
 }
 .hub-arrow,
-.docs-list-row svg {
+.docs-list-row svg,
+.docs-list-row iconify-icon {
   color: var(--color-text-3);
   transition:
     color var(--dur-quick) var(--ease-standard),
     transform var(--dur-quick) var(--ease-standard);
 }
 .hub-list-row:hover .hub-arrow,
-.docs-list-row:hover svg {
+.docs-list-row:hover svg,
+.docs-list-row:hover iconify-icon {
   color: var(--color-text-1);
   transform: translateX(3px);
 }
@@ -2601,10 +2594,7 @@ img[loading="lazy"][style*="display:none"] {
     padding: 40px 24px;
   }
   .hero-bg {
-    left: -24px;
-    right: -24px;
-    top: 0;
-    bottom: 0;
+    inset: 0;
   }
   .hub-system {
     max-width: 480px;
