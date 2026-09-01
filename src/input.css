@@ -1910,19 +1910,21 @@ img[loading="lazy"][style*="display:none"] {
 }
 .hero-viewport {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-left: calc(-1 * (100vw - 100%) / 2);
   overflow: hidden;
+  padding: 24px 0;
+  box-sizing: border-box;
 }
 .hub-hero {
   position: relative;
   width: 100%;
   max-width: 960px;
-  padding: 70px 72px;
+  padding: 48px 72px;
   box-sizing: border-box;
 }
 .hub-hero > div {
@@ -1938,10 +1940,10 @@ img[loading="lazy"][style*="display:none"] {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background-size: 40%;
+  background-size: 30%;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.08;
+  opacity: 0.12;
   z-index: 0;
   pointer-events: none;
   mask-image: radial-gradient(
