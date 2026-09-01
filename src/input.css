@@ -293,7 +293,6 @@
 .blog-post-row,
 .post-back-link {
   position: relative;
-  overflow: hidden;
   isolation: isolate;
 }
 .hub-list-row::before,
