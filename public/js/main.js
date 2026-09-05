@@ -834,12 +834,70 @@ document.addEventListener(
   }
 })();
 
+// Commit popup
+const commitBtn = document.getElementById("commit-more-btn");
+const commitPopup = document.getElementById("commit-popup");
+const commitClose = document.getElementById("commit-popup-close");
+if (commitBtn && commitPopup) {
+  commitBtn.addEventListener("click", () => {
+    commitPopup.classList.add("open");
+    commitBtn.setAttribute("aria-expanded", "true");
+    setTimeout(() => {
+      if (commitClose) commitClose.focus();
+    }, 60);
+  });
+  if (commitClose)
+    commitClose.addEventListener("click", () => {
+      commitPopup.classList.remove("open");
+      commitBtn.setAttribute("aria-expanded", "false");
+      commitBtn.focus();
+    });
+  commitPopup.addEventListener("click", (e) => {
+    if (e.target === commitPopup) {
+      commitPopup.classList.remove("open");
+      commitBtn.setAttribute("aria-expanded", "false");
+      commitBtn.focus();
+    }
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && commitPopup.classList.contains("open")) {
+      commitPopup.classList.remove("open");
+      commitBtn.setAttribute("aria-expanded", "false");
+      commitBtn.focus();
+    }
+  });
+  // Focus trap for commit popup
+  document.addEventListener("keydown", (e) => {
+    if (!commitPopup.classList.contains("open")) return;
+    if (e.key === "Tab") {
+      var focusable = commitPopup.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      );
+      if (focusable.length === 0) return;
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+  });
+}
+
 // ── Hero carousel popup ────────────────────────────────────────────────
 (function () {
   var heroPopup = document.getElementById("hero-popup");
   var heroPopupImg = document.getElementById("hero-popup-img");
   var heroPopupDesc = document.getElementById("hero-popup-desc");
   var heroPopupClose = document.getElementById("hero-popup-close");
+  var heroTriggerElement = null;
 
   if (heroPopup) {
     document.addEventListener("click", function (e) {
@@ -847,24 +905,65 @@ document.addEventListener(
       if (item && heroPopupImg && heroPopupDesc) {
         var img = item.querySelector("img");
         if (img) {
+          heroTriggerElement = item;
           heroPopupImg.src = img.src;
           heroPopupImg.alt = img.alt;
           heroPopupDesc.textContent = item.dataset.desc || "";
           heroPopup.classList.add("open");
+          setTimeout(function () {
+            heroPopupClose.focus();
+          }, 60);
         }
       }
     });
     if (heroPopupClose) {
       heroPopupClose.addEventListener("click", function () {
         heroPopup.classList.remove("open");
+        if (heroTriggerElement) {
+          heroTriggerElement.focus();
+          heroTriggerElement = null;
+        }
       });
     }
     heroPopup.addEventListener("click", function (e) {
-      if (e.target === heroPopup) heroPopup.classList.remove("open");
+      if (e.target === heroPopup) {
+        heroPopup.classList.remove("open");
+        if (heroTriggerElement) {
+          heroTriggerElement.focus();
+          heroTriggerElement = null;
+        }
+      }
     });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && heroPopup.classList.contains("open")) {
         heroPopup.classList.remove("open");
+        if (heroTriggerElement) {
+          heroTriggerElement.focus();
+          heroTriggerElement = null;
+        }
+      }
+    });
+    // Focus trap for hero popup
+    document.addEventListener("keydown", function (e) {
+      if (!heroPopup.classList.contains("open")) return;
+      if (e.key === "Tab") {
+        var focusable = heroPopup.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        );
+        if (focusable.length === 0) return;
+        var first = focusable[0];
+        var last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
       }
     });
   }

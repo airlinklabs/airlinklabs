@@ -282,8 +282,13 @@ const chartId = `chart-${Math.random().toString(36).slice(2, 9)}`;
     border-radius: 6px;
     cursor: pointer;
     opacity: 0;
-    transition: opacity 0.2s, color 0.2s, background 0.2s;
-    z-index: 10;
+    transition:
+      background var(--dur-default) var(--ease-standard),
+      color var(--dur-default) var(--ease-standard),
+      border-color var(--dur-default) var(--ease-standard),
+      box-shadow var(--dur-default) var(--ease-standard),
+      opacity var(--dur-default) var(--ease-standard);
+    z-index: var(--z-raised);
   }
 
   .chart-wrap:hover .chart-reset-zoom {

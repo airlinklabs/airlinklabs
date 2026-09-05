@@ -142,7 +142,7 @@ const sidebarLinks = allPosts.map(p => ({
     font-size: 13px;
     color: var(--color-text-3);
   }
-  .docs-breadcrumb a { color: var(--color-text-3); text-decoration: none; transition: color 0.15s; }
+  .docs-breadcrumb a { color: var(--color-text-3); text-decoration: none; transition: background var(--dur-default) var(--ease-standard), color var(--dur-default) var(--ease-standard), border-color var(--dur-default) var(--ease-standard), box-shadow var(--dur-default) var(--ease-standard), opacity var(--dur-default) var(--ease-standard); }
   .docs-breadcrumb a:hover { color: var(--color-text-2); }
 
   .docs-content {
@@ -230,7 +230,7 @@ const sidebarLinks = allPosts.map(p => ({
   .blog-body :global(a) {
     color: var(--color-info);
     text-decoration: none;
-    transition: color 0.15s;
+    transition: background var(--dur-default) var(--ease-standard), color var(--dur-default) var(--ease-standard), border-color var(--dur-default) var(--ease-standard), box-shadow var(--dur-default) var(--ease-standard), opacity var(--dur-default) var(--ease-standard);
   }
   .blog-body :global(a:hover) {
     color: var(--color-text-1);
@@ -298,11 +298,12 @@ const sidebarLinks = allPosts.map(p => ({
     font-size: 15px;
     font-weight: 500;
     border: 1px solid var(--color-border);
-    transition: background 0.15s, border-color 0.15s;
+    transition: background var(--dur-default) var(--ease-standard), color var(--dur-default) var(--ease-standard), border-color var(--dur-default) var(--ease-standard), box-shadow var(--dur-default) var(--ease-standard), opacity var(--dur-default) var(--ease-standard);
   }
   .blog-next-link:hover {
-    background: var(--color-bg-hover);
-    border-color: var(--color-text-3);
+    background: var(--color-text-1);
+    color: var(--color-bg);
+    border-color: var(--color-text-1);
   }
 
   .blog-back {
@@ -315,7 +316,7 @@ const sidebarLinks = allPosts.map(p => ({
     font-size: 13px;
     color: var(--color-text-3);
     text-decoration: none;
-    transition: color 0.15s;
+    transition: background var(--dur-default) var(--ease-standard), color var(--dur-default) var(--ease-standard), border-color var(--dur-default) var(--ease-standard), box-shadow var(--dur-default) var(--ease-standard), opacity var(--dur-default) var(--ease-standard);
   }
   .blog-back a:hover { color: var(--color-text-2); }
 </style>

@@ -13,8 +13,8 @@ const homeSidebarLinks = [
   { label: 'Start here', href: '#start' },
   { label: 'About', href: '#about' },
   { label: 'Projects', href: '#projects' },
+  { label: 'Features', href: '#features' },
   { label: 'Install', href: '#install' },
-  { label: 'Addons', href: '#addons' },
   { label: 'Contributors', href: '#contributors' },
   { label: 'History', href: '#history' },
 ];
@@ -33,9 +33,17 @@ const featureScreenshots: Record<string, string> = {
 };
 
 const teamMembers = [
-  { github: 'privt00', name: 'privt00', bio: 'Started AirLink. Handles project direction and infrastructure.' },
-  { github: 'bthavanish', name: 'bthavanish', bio: 'Core panel and daemon development. Built the addon system and v2 architecture.' },
-  { github: 'achul123', name: 'achul123', bio: 'Set up the original architecture and infrastructure that AirLink runs on.' },
+  { github: 'privt00', name: 'privt', role: 'Founder', bio: 'Started AirLink. Handles project direction and infrastructure.' },
+  { github: 'bthavanish', name: 'thavanish', role: 'Maintainer', bio: 'Core panel and daemon development. Built the addon system and v2 architecture.' },
+  { github: 'achul123', name: 'achul', role: 'Original maintainer', bio: 'Set up the original architecture and infrastructure that AirLink runs on.' },
+];
+
+const milestones = [
+  { date: '2024', title: 'First commit', description: 'AirLink begins as a side project — panel and daemon skeletons committed.', icon: 'lucide:git-commit-horizontal' },
+  { date: '2024', title: 'First working release', description: 'Server creation, console, file manager, and user system ship in the first public build.', icon: 'lucide:rocket' },
+  { date: '2024', title: 'Addon system lands', description: 'Modrinth Store and Parachute ship. Community addons become possible.', icon: 'lucide:puzzle' },
+  { date: '2025', title: 'v2 architecture', description: 'Daemon rewritten. HMAC auth, multi-node support, and SFTP sessions.', icon: 'lucide:cpu' },
+  { date: '2025', title: `${contributors.length}+ contributors`, description: 'Community grows past initial team. Panel and daemon both receive external PRs.', icon: 'lucide:users' },
 ];
 ---
 
@@ -44,6 +52,8 @@ const teamMembers = [
   description="AirLink - open-source game server management. Panel and Daemon, install and run in minutes."
   bodyClass="docs-shell-body"
 >
+
+<a href="#page-content" class="skip-link">Skip to main content</a>
 
 <Sidebar
   rootPrefix="/"
@@ -75,26 +85,17 @@ const teamMembers = [
             <div class="hub-actions">
               <a href="#install" class="btn-primary">
                 Install AirLink
-                <iconify-icon icon="lucide:arrow-down" width="16" height="16"></iconify-icon>
+                <iconify-icon icon="lucide:arrow-down" width="16" height="16" aria-hidden="true"></iconify-icon>
               </a>
               <a href="/docs/" class="btn-secondary">
                 Read the docs
-                <iconify-icon icon="lucide:book-open" width="14" height="14"></iconify-icon>
-              </a>
-              <a href="https://ko-fi.com/airlinklabs" class="btn-secondary" target="_blank" rel="noopener">
-                Support us
-                <iconify-icon icon="lucide:coffee" width="16" height="16"></iconify-icon>
-              </a>
-              <a href="https://discord.gg/CmrDB2tRaN" class="btn-secondary" target="_blank" rel="noopener">
-                Discord
-                <svg width="13" height="13" viewBox="0 0 256 199" fill="currentColor" aria-hidden="true"><path d="M216.856 16.597A208.5 208.5 0 0 0 164.042 0c-2.275 4.113-4.933 9.645-6.766 14.046q-29.538-4.442-58.533 0c-1.832-4.4-4.55-9.933-6.846-14.046a207.8 207.8 0 0 0-52.855 16.638C5.618 67.147-3.443 116.4 1.087 164.956c22.169 16.555 43.653 26.612 64.775 33.193A161 161 0 0 0 79.735 175.3a136.4 136.4 0 0 1-21.846-10.632a109 109 0 0 0 5.356-4.237c42.122 19.702 87.89 19.702 129.51 0a132 132 0 0 0 5.355 4.237c-1.312-3.156-4.254-8.55-8.424-14.661a136 136 0 0 1-21.886 10.653c4.006 8.02 8.638 15.67 13.873 22.848c21.142-6.58 42.646-16.637 64.815-33.213c5.316-56.288-9.08-105.09-38.056-148.36M85.474 135.095c-12.645 0-23.015-11.805-23.015-26.18s10.149-26.2 23.015-26.2s23.236 11.804 23.015 26.2c.02 14.375-10.148 26.18-23.015 26.18m85.051 0c-12.645 0-23.014-11.805-23.014-26.18s10.148-26.2 23.014-26.2c12.867 0 23.236 11.804 23.015 26.2c0 14.375-10.148 26.18-23.015 26.18"/></svg>
+                <iconify-icon icon="lucide:book-open" width="14" height="14" aria-hidden="true"></iconify-icon>
               </a>
             </div>
           </div>
         </section>
         <div class="hero-carousel" aria-hidden="true">
           <div class="hero-carousel-track">
-            {/* Primary set */}
             {[
               { src: '/assets/screenshots/dashboard-dark.png', label: 'Dashboard', desc: 'Server overview with real-time metrics, player counts, and resource usage.' },
               { src: '/assets/features/console/console-dark.png', label: 'Console', desc: 'Live server console with command history and auto-scroll.' },
@@ -108,7 +109,6 @@ const teamMembers = [
                 <span class="hero-carousel-label">{label}</span>
               </div>
             ))}
-            {/* Seamless loop duplicates */}
             {[
               { src: '/assets/screenshots/dashboard-dark.png', label: 'Dashboard' },
               { src: '/assets/features/console/console-dark.png', label: 'Console' },
@@ -127,10 +127,10 @@ const teamMembers = [
       </div>
     </div>
 
-    <div class="hero-popup-overlay" id="hero-popup">
+    <div class="hero-popup-overlay" id="hero-popup" role="dialog" aria-modal="true" aria-labelledby="hero-popup-desc">
       <div class="hero-popup-content">
         <button class="hero-popup-close" id="hero-popup-close" type="button">&times;</button>
-        <img id="hero-popup-img" src="" alt="" />
+        <img id="hero-popup-img" src="" alt="" aria-describedby="hero-popup-desc" />
         <div class="hero-popup-desc" id="hero-popup-desc"></div>
       </div>
     </div>
@@ -164,7 +164,7 @@ const teamMembers = [
           <p>Built by {contributors.length} contributors with {githubData.stats?.totalContributions || '1,200+'} contributions across panel, daemon, and image definitions. Started as a side project, became production software.</p>
         </div>
       </div>
-      <div class="feature-detail-list" data-animate-group>
+      <div class="feature-detail-list" id="features" data-animate-group>
         {features.map((feature: any) => (
           <div class="feature-detail-row">
             <div class="feature-detail-text">
@@ -186,9 +186,54 @@ const teamMembers = [
           </div>
         ))}
       </div>
+      <div class="hub-section-heading" style="margin-top: 48px;">
+        <h2>Add-ons</h2>
+        <p>Extend AirLink with community addons.</p>
+      </div>
+      <div class="addon-list" data-animate-group>
+        <div class="addon-row">
+          <div class="addon-icon">
+            <iconify-icon icon="lucide:puzzle" width="18" height="18"></iconify-icon>
+          </div>
+          <div class="addon-body">
+            <div class="addon-header">
+              <h3>Modrinth Store</h3>
+              <span class="addon-version">v1.6.23</span>
+            </div>
+            <p>Browse and install Minecraft mods and modpacks from Modrinth directly in the panel. Search, one-click install, real-time download progress.</p>
+          </div>
+        </div>
+        <div class="addon-row">
+          <div class="addon-icon">
+            <iconify-icon icon="lucide:cloud-upload" width="18" height="18"></iconify-icon>
+          </div>
+          <div class="addon-body">
+            <div class="addon-header">
+              <h3>Parachute</h3>
+              <span class="addon-version">v1.0.0</span>
+            </div>
+            <p>Google Drive backups for servers. OAuth connection per server, upload, download, restore. Optional encryption and per-server UUID isolation.</p>
+          </div>
+        </div>
+        <a class="addon-row addon-row--link" href="/docs/features/addons/">
+          <div class="addon-icon">
+            <iconify-icon icon="lucide:book-open" width="18" height="18"></iconify-icon>
+          </div>
+          <div class="addon-body">
+            <div class="addon-header">
+              <h3>Build your own</h3>
+              <span class="text-link" style="font-size:12px">
+                Read the docs
+                <iconify-icon icon="lucide:arrow-right" width="12" height="12" aria-hidden="true"></iconify-icon>
+              </span>
+            </div>
+            <p>The addon docs walk you through creating an addon from scratch. Includes a full tutorial and API reference.</p>
+          </div>
+        </a>
+      </div>
     </section>
 
-    <!-- ── Projects — two repos only ─────────────────────────────────── -->
+    <!-- ── Projects ─────────────────────────────────────────────────────── -->
     <section class="hub-section" id="projects" data-animate="fade-up">
       <div class="hub-section-heading">
         <h2>Two repos, one system</h2>
@@ -202,7 +247,7 @@ const teamMembers = [
             </div>
             <span class="project-link-badge">
               View repo
-              <iconify-icon icon="lucide:external-link" width="12" height="12"></iconify-icon>
+              <iconify-icon icon="lucide:external-link" width="12" height="12" aria-hidden="true"></iconify-icon>
             </span>
           </div>
           <h3>AirLink Panel</h3>
@@ -221,7 +266,7 @@ const teamMembers = [
             </div>
             <span class="project-link-badge">
               View repo
-              <iconify-icon icon="lucide:external-link" width="12" height="12"></iconify-icon>
+              <iconify-icon icon="lucide:external-link" width="12" height="12" aria-hidden="true"></iconify-icon>
             </span>
           </div>
           <h3>AirLink Daemon</h3>
@@ -260,71 +305,18 @@ const teamMembers = [
           <div class="install-options">
             <a href="/docs/admin/getting-started/" class="text-link">
               Getting started guide
-              <iconify-icon icon="lucide:arrow-right" width="14" height="14"></iconify-icon>
+              <iconify-icon icon="lucide:arrow-right" width="14" height="14" aria-hidden="true"></iconify-icon>
             </a>
             <a href="https://github.com/AirlinkLabs/panel" class="text-link" target="_blank" rel="noopener">
               View source
-              <iconify-icon icon="lucide:external-link" width="14" height="14"></iconify-icon>
+              <iconify-icon icon="lucide:external-link" width="14" height="14" aria-hidden="true"></iconify-icon>
             </a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ── Addons ──────────────────────────────────────────────────────── -->
-    <section class="hub-section" id="addons" data-animate="fade-up">
-      <div class="hub-section-heading">
-        <h2>Addon system</h2>
-        <p>
-          Addons extend the panel without touching core files. They get their own Express router,
-          database access via Prisma, a logger, and a UI registration API. Add sidebar entries,
-          server menu items, routes, and database tables.
-        </p>
-      </div>
-      <div class="addon-list" data-animate-group>
-        <div class="addon-row">
-          <div class="addon-icon">
-            <iconify-icon icon="lucide:puzzle" width="18" height="18"></iconify-icon>
-          </div>
-          <div class="addon-body">
-            <div class="addon-header">
-              <h3>Modrinth Store</h3>
-              <span class="addon-version">v1.6.23</span>
-            </div>
-            <p>Browse and install Minecraft mods and modpacks from Modrinth directly in the panel. Search, one-click install, real-time download progress.</p>
-          </div>
-        </div>
-        <div class="addon-row">
-          <div class="addon-icon">
-            <iconify-icon icon="lucide:cloud-upload" width="18" height="18"></iconify-icon>
-          </div>
-          <div class="addon-body">
-            <div class="addon-header">
-              <h3>Parachute</h3>
-              <span class="addon-version">v1.0.0</span>
-            </div>
-            <p>Google Drive backups for servers. OAuth connection per server, upload, download, restore. Optional encryption and per-server UUID isolation.</p>
-          </div>
-        </div>
-        <a class="addon-row addon-row--link" href="/docs/features/addons/">
-          <div class="addon-icon">
-            <iconify-icon icon="lucide:book-open" width="18" height="18"></iconify-icon>
-          </div>
-          <div class="addon-body">
-            <div class="addon-header">
-              <h3>Build your own</h3>
-              <span class="text-link" style="font-size:12px">
-                Read the docs
-                <iconify-icon icon="lucide:arrow-right" width="12" height="12"></iconify-icon>
-              </span>
-            </div>
-            <p>The addon docs walk you through creating an addon from scratch. Includes a full tutorial and API reference.</p>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <!-- ── Contributors (with team cards) ────────────────────────────── -->
+    <!-- ── Contributors (redesigned) ──────────────────────────────────── -->
     <section class="hub-section" id="contributors" data-animate="fade-up">
       <div class="section-bg" style="background-image:url('/assets/bg-contributors.svg')" aria-hidden="true"></div>
       <div class="hub-section-heading hub-section-heading--split">
@@ -334,21 +326,35 @@ const teamMembers = [
         </div>
         <a href="https://github.com/AirlinkLabs/panel/graphs/contributors" class="text-link" target="_blank" rel="noopener">
           View all
-          <iconify-icon icon="lucide:external-link" width="13" height="13" style="display:inline-block;vertical-align:middle;margin-left:3px"></iconify-icon>
+          <iconify-icon icon="lucide:external-link" width="13" height="13" style="display:inline-block;vertical-align:middle;margin-left:3px" aria-hidden="true"></iconify-icon>
         </a>
       </div>
-      <div class="team-grid" data-animate-group>
+
+      <div class="contrib-team" data-animate-group>
         {teamMembers.map((member: any) => (
-          <a class="team-card" href={`https://github.com/${member.github}`} target="_blank" rel="noopener">
-            <img src={`https://avatars.githubusercontent.com/${member.github}`} alt={member.name} width="52" height="52" loading="lazy" />
-            <div class="team-card-body">
-              <div class="team-name">{member.name}</div>
-              <div class="team-handle">@{member.github}</div>
-              <div class="team-bio">{member.bio}</div>
+          <a class="contrib-team-row" href={`https://github.com/${member.github}`} target="_blank" rel="noopener">
+            <div class="contrib-avatar-wrap">
+              <img
+                src={`https://avatars.githubusercontent.com/${member.github}`}
+                alt={member.name}
+                width="80"
+                height="80"
+                loading="lazy"
+              />
+            </div>
+            <div class="contrib-team-card">
+              <div class="contrib-team-name">{member.name}</div>
+              <div class="contrib-team-role">{member.role}</div>
+              <div class="contrib-team-bio">{member.bio}</div>
+              <div class="contrib-team-link">
+                <iconify-icon icon="lucide:github" width="14" height="14"></iconify-icon>
+                @{member.github}
+              </div>
             </div>
           </a>
         ))}
       </div>
+
       <div class="contrib-grid" id="contrib-grid">
         {contributors.length > 0 ? (
           contributors.filter((c: any) => !teamMembers.some((m: any) => m.github === c.login)).map((contributor: any) => (
@@ -368,7 +374,7 @@ const teamMembers = [
       </div>
     </section>
 
-    <!-- ── History ─────────────────────────────────────────────────────── -->
+     <!-- ── History ─────────────────────────────────────────────────────── -->
     <section class="hub-section" id="history" data-animate="fade-up">
       <div class="section-bg" style="background-image:url('/assets/bg-history.svg')" aria-hidden="true"></div>
       <div class="hub-section-heading hub-section-heading--split">
@@ -378,7 +384,7 @@ const teamMembers = [
         </div>
         <a href="https://github.com/AirlinkLabs/panel/commits" class="text-link" target="_blank" rel="noopener">
           View all
-          <iconify-icon icon="lucide:external-link" width="13" height="13" style="display:inline-block;vertical-align:middle;margin-left:3px"></iconify-icon>
+          <iconify-icon icon="lucide:external-link" width="13" height="13" style="display:inline-block;vertical-align:middle;margin-left:3px" aria-hidden="true"></iconify-icon>
         </a>
       </div>
       <div class="commit-list" id="commit-list" data-animate-group>
@@ -403,7 +409,7 @@ const teamMembers = [
                   {commit.repo || 'airlinklabs/panel'}
                 </span>
                 {commit.author_name && <span class="commit-author">{commit.author_name}</span>}
-                {commit.author_date && <time class="commit-date">{commit.author_date}</time>}
+                {commit.author_date && <time class="commit-date" datetime={commit.author_date}>{commit.author_date}</time>}
               </div>
             </div>
           ))
@@ -413,65 +419,50 @@ const teamMembers = [
       </div>
       {commits.length > 5 && (
         <div class="commit-more-wrap">
-          <button class="commit-more-btn" id="commit-more-btn" type="button">
+          <button class="commit-more-btn" id="commit-more-btn" type="button" aria-expanded="false">
             Show {commits.length - 5} more commits
           </button>
         </div>
       )}
-      <div class="commit-popup-overlay" id="commit-popup" style="display:none">
-        <div class="commit-popup-content">
-          <div class="commit-popup-header">
-            <h3>All commits</h3>
-            <button class="commit-popup-close" id="commit-popup-close" type="button">&times;</button>
-          </div>
-          <div class="commit-popup-body">
-            {commits.slice(5).map((commit: any) => (
-              <div class="commit-row">
-                <div class="commit-row-main">
-                  <a href={commit.html_url} target="_blank" rel="noopener" class="commit-message">
-                    {commit.message || 'Untitled commit'}
-                  </a>
-                  {(commit.additions > 0 || commit.deletions > 0) && (
-                    <div class="commit-stats">
-                      {commit.additions > 0 && <span class="stat-add">+{commit.additions}</span>}
-                      {commit.deletions > 0 && <span class="stat-del">-{commit.deletions}</span>}
-                      {commit.files_changed > 0 && <span class="stat-files">{commit.files_changed} file{commit.files_changed !== 1 ? 's' : ''}</span>}
-                    </div>
-                  )}
-                </div>
-                <div class="commit-meta">
-                  <span class="commit-repo-badge">
-                    <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-                    {commit.repo || 'airlinklabs/panel'}
-                  </span>
-                  {commit.author_name && <span class="commit-author">{commit.author_name}</span>}
-                  {commit.author_date && <time class="commit-date">{commit.author_date}</time>}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
     </section>
 
   </div>
-</main>
 
-<script>
-  const btn = document.getElementById('commit-more-btn');
-  const popup = document.getElementById('commit-popup');
-  const close = document.getElementById('commit-popup-close');
-  if (btn && popup) {
-    btn.addEventListener('click', () => { popup.style.display = 'flex'; });
-  }
-  if (close && popup) {
-    close.addEventListener('click', () => { popup.style.display = 'none'; });
-  }
-  if (popup) {
-    popup.addEventListener('click', (e) => {
-      if (e.target === popup) popup.style.display = 'none';
-    });
-  }
-</script>
+  <div class="commit-popup-overlay" id="commit-popup" role="dialog" aria-modal="true" aria-labelledby="commit-popup-heading">
+    <div class="commit-popup-content">
+      <div class="commit-popup-header">
+        <h3 id="commit-popup-heading">All commits</h3>
+        <button class="commit-popup-close" id="commit-popup-close" type="button">&times;</button>
+      </div>
+      <div class="commit-popup-body">
+        {commits.slice(5).map((commit: any) => (
+          <div class="commit-row">
+            <div class="commit-row-main">
+              <a href={commit.html_url} target="_blank" rel="noopener" class="commit-message">
+                {commit.message || 'Untitled commit'}
+              </a>
+              {(commit.additions > 0 || commit.deletions > 0) && (
+                <div class="commit-stats">
+                  {commit.additions > 0 && <span class="stat-add">+{commit.additions}</span>}
+                  {commit.deletions > 0 && <span class="stat-del">-{commit.deletions}</span>}
+                  {commit.files_changed > 0 && <span class="stat-files">{commit.files_changed} file{commit.files_changed !== 1 ? 's' : ''}</span>}
+                </div>
+              )}
+            </div>
+            <div class="commit-meta">
+              <span class="commit-repo-badge">
+                <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                {commit.repo || 'airlinklabs/panel'}
+              </span>
+              {commit.author_name && <span class="commit-author">{commit.author_name}</span>}
+              {commit.author_date && <time class="commit-date" datetime={commit.author_date}>{commit.author_date}</time>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+</main>
 
 </BaseLayout>

@@ -157,7 +157,7 @@ const author = doc.data.author || 'bthavanish';
     font-size: 13px;
     color: var(--color-text-3);
   }
-  .docs-breadcrumb a { color: var(--color-text-3); text-decoration: none; transition: color 0.15s; }
+  .docs-breadcrumb a { color: var(--color-text-3); text-decoration: none; transition: background var(--dur-default) var(--ease-standard), color var(--dur-default) var(--ease-standard), border-color var(--dur-default) var(--ease-standard), box-shadow var(--dur-default) var(--ease-standard), opacity var(--dur-default) var(--ease-standard); }
   .docs-breadcrumb a:hover { color: var(--color-text-2); }
 
   .docs-content {
@@ -240,7 +240,7 @@ const author = doc.data.author || 'bthavanish';
   .doc-body :global(a) {
     color: var(--color-info);
     text-decoration: none;
-    transition: color 0.15s;
+    transition: background var(--dur-default) var(--ease-standard), color var(--dur-default) var(--ease-standard), border-color var(--dur-default) var(--ease-standard), box-shadow var(--dur-default) var(--ease-standard), opacity var(--dur-default) var(--ease-standard);
   }
   .doc-body :global(a:hover) {
     color: var(--color-text-1);
@@ -314,17 +314,25 @@ const author = doc.data.author || 'bthavanish';
     align-items: center;
     gap: 8px;
     padding: 12px 16px;
-    border-radius: 8px;
+    border-radius: 12px;
     text-decoration: none;
     color: var(--color-text-2);
     border: 1px solid var(--color-border);
-    transition: background 0.15s, border-color 0.15s;
+    transition:
+      transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      background var(--dur-default) var(--ease-standard),
+      color var(--dur-default) var(--ease-standard),
+      border-color var(--dur-default) var(--ease-standard),
+      box-shadow var(--dur-default) var(--ease-standard);
     max-width: 45%;
   }
   .doc-pagination-prev:hover,
   .doc-pagination-next:hover {
-    background: var(--color-bg-hover);
-    border-color: var(--color-text-3);
+    background: var(--color-text-1);
+    color: var(--color-bg);
+    border-color: var(--color-text-1);
+    transform: translateY(-1px);
+    box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.2);
   }
   .doc-pagination-next { margin-left: auto; text-align: right; }
   .doc-pagination-label {
@@ -333,11 +341,19 @@ const author = doc.data.author || 'bthavanish';
     color: var(--color-text-3);
     text-transform: uppercase;
     letter-spacing: 0.04em;
+    transition: color 150ms;
   }
   .doc-pagination-title {
     display: block;
     font-size: 14px;
     font-weight: 500;
     color: var(--color-text-1);
+    transition: color 150ms;
+  }
+  .doc-pagination-prev:hover .doc-pagination-label,
+  .doc-pagination-next:hover .doc-pagination-label,
+  .doc-pagination-prev:hover .doc-pagination-title,
+  .doc-pagination-next:hover .doc-pagination-title {
+    color: var(--color-bg);
   }
 </style>

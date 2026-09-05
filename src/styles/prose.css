@@ -1,0 +1,500 @@
+/* Prose, typography, code blocks, and content formatting */
+
+/* ── Code blocks ─────────────────────────────────────────────────────────────── */
+.code-block {
+  position: relative;
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--color-text-3);
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-border);
+  padding: 5px 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition:
+    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    background var(--dur-default) var(--ease-standard),
+    color var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard),
+    box-shadow var(--dur-default) var(--ease-standard),
+    opacity var(--dur-default) var(--ease-standard);
+}
+.copy-btn:hover {
+  background: var(--color-text-1);
+  color: var(--color-bg);
+  border-color: var(--color-text-1);
+  transform: translateY(-1px);
+}
+.copy-btn:active {
+  transform: scale(0.94);
+}
+
+/* ── Prose (docs / blog) ────────────────────────────────────────────────────── */
+.prose {
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.prose h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-1);
+  letter-spacing: -0.025em;
+  margin-bottom: 0.5rem;
+}
+.prose h2 {
+  font-size: 1.2rem;
+  font-weight: 650;
+  color: var(--color-text-1);
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  margin: 2.5rem 0 0.8rem;
+  /* Modern: no border, just spacing + subtle overline dot */
+}
+.prose h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-1);
+  margin: 1.5rem 0 0.5rem;
+}
+.prose p {
+  font-size: 0.875rem;
+  color: var(--color-text-2);
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+.prose ul,
+.prose ol {
+  padding-left: 1.25rem;
+  margin-bottom: 1rem;
+}
+.prose ul {
+  list-style: disc;
+}
+.prose ol {
+  list-style: decimal;
+}
+.prose li {
+  font-size: 0.875rem;
+  color: var(--color-text-2);
+  line-height: 1.75;
+  margin-bottom: 0.375rem;
+}
+.prose li::marker {
+  color: var(--color-text-4);
+}
+.prose a {
+  color: var(--color-text-1);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--color-text-4);
+  border-radius: 3px;
+  transition:
+    background var(--dur-default) var(--ease-standard),
+    color var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard),
+    box-shadow var(--dur-default) var(--ease-standard),
+    opacity var(--dur-default) var(--ease-standard);
+}
+.prose a:hover {
+  color: var(--color-bg);
+  background: var(--color-text-1);
+  text-decoration-color: transparent;
+}
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 2rem 0;
+}
+.prose strong {
+  color: var(--color-text-1);
+  font-weight: 600;
+}
+.prose blockquote {
+  position: relative;
+  border-left: none;
+  padding: 14px 18px 14px 22px;
+  margin: 1.5rem 0;
+  background: var(--color-bg-2);
+  border-radius: 0 10px 10px 0;
+  color: var(--color-text-2);
+  font-style: italic;
+}
+.prose pre {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+.prose pre code {
+  font-size: 0.75rem;
+  color: var(--color-text-1);
+  background: none;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+}
+.prose code {
+  font-size: 0.75rem;
+  color: var(--color-text-1);
+  background: var(--color-bg-3);
+  border: 1px solid var(--color-border);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* prose code blocks get a wrapper so we can position the copy button */
+.prose-code-block {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.prose-code-block pre {
+  margin-bottom: 0;
+}
+
+.prose-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--color-text-3);
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-border);
+  padding: 4px 9px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    background var(--dur-default) var(--ease-standard),
+    color var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard),
+    box-shadow var(--dur-default) var(--ease-standard),
+    opacity var(--dur-default) var(--ease-standard);
+  pointer-events: none;
+}
+
+.prose-code-block:hover .prose-copy-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.prose-copy-btn:hover {
+  background: var(--color-text-1);
+  color: var(--color-bg);
+  transform: translateY(-1px);
+}
+.prose-copy-btn:active {
+  transform: scale(0.94);
+}
+
+/* prose tables */
+.prose table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.5rem 0;
+  font-size: 0.8125rem;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.prose thead {
+  background: var(--color-bg-3);
+}
+
+.prose th {
+  text-align: left;
+  padding: 12px 16px;
+  font-weight: 600;
+  color: var(--color-text-1);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--color-border);
+  letter-spacing: 0.02em;
+}
+
+.prose td {
+  padding: 12px 16px;
+  color: var(--color-text-2);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+
+.prose tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.prose tbody tr {
+  transition:
+    background var(--dur-default) var(--ease-standard),
+    color var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard),
+    box-shadow var(--dur-default) var(--ease-standard),
+    opacity var(--dur-default) var(--ease-standard);
+}
+.prose tbody tr td {
+  transition:
+    background var(--dur-default) var(--ease-standard),
+    color var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard),
+    box-shadow var(--dur-default) var(--ease-standard),
+    opacity var(--dur-default) var(--ease-standard);
+}
+.prose tbody tr:hover {
+  background: var(--color-text-1);
+  color: var(--color-bg);
+}
+
+.prose tbody tr:hover td {
+  color: var(--color-bg);
+}
+
+/* keep inline code readable on the inverted hover background */
+.prose tbody tr:hover td code {
+  background: var(--color-bg);
+  border-color: rgba(0, 0, 0, 0.2);
+  color: var(--color-text-1);
+}
+
+.prose td code {
+  font-size: 0.6875rem;
+  white-space: nowrap;
+  transition:
+    background var(--dur-default) var(--ease-standard),
+    color var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard),
+    box-shadow var(--dur-default) var(--ease-standard),
+    opacity var(--dur-default) var(--ease-standard);
+}
+
+@media (max-width: 600px) {
+  .prose table {
+    font-size: 0.75rem;
+  }
+  .prose th,
+  .prose td {
+    padding: 8px 10px;
+  }
+}
+
+/* prose embedded images */
+.prose-figure {
+  margin: 1.5rem 0;
+}
+
+.prose-img {
+  border: 1px solid var(--color-border);
+}
+
+.prose-caption {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: var(--color-text-3);
+  margin-top: 8px;
+  text-align: center;
+  display: block;
+}
+
+/* prose bar charts */
+.prose-chart {
+  margin: 1.5rem 0;
+  padding: 18px 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-bg-2);
+}
+
+.prose-chart-title {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--color-text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 16px;
+}
+
+.prose-chart-row {
+  display: grid;
+  grid-template-columns: minmax(80px, 140px) 1fr 40px;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.prose-chart-label {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--color-text-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prose-chart-track {
+  height: 6px;
+  background: var(--color-bg-3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.prose-chart-bar {
+  height: 100%;
+  background: var(--color-text-1);
+  border-radius: 4px;
+  transform-origin: left;
+}
+
+.prose-chart-val {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--color-text-2);
+  text-align: right;
+}
+
+@media (max-width: 480px) {
+  .prose-chart-row {
+    grid-template-columns: minmax(60px, 100px) 1fr 36px;
+    gap: 8px;
+  }
+  .prose-chart-label {
+    font-size: 11px;
+  }
+}
+
+/* prose single progress bars */
+.prose-progress {
+  margin: 1rem 0;
+}
+
+.prose-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.prose-progress-label {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--color-text-2);
+}
+
+.prose-progress-val {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--color-text-3);
+}
+
+.prose-progress-track {
+  height: 4px;
+  background: var(--color-bg-3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.prose-progress-fill {
+  height: 100%;
+  background: var(--color-text-1);
+  border-radius: 2px;
+}
+
+/* prose status grid — feature/task status table inside a box */
+.prose-status-grid {
+  margin: 1.5rem 0;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.prose-status-grid-title {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-3);
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--color-text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.prose-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-2);
+  transition:
+    background var(--dur-default) var(--ease-standard),
+    color var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard),
+    box-shadow var(--dur-default) var(--ease-standard),
+    opacity var(--dur-default) var(--ease-standard);
+}
+
+.prose-status-row:last-child {
+  border-bottom: none;
+}
+.prose-status-row:hover {
+  background: var(--color-text-1);
+  color: var(--color-bg);
+}
+.prose-status-row:hover .prose-status-label {
+  color: var(--color-bg);
+}
+.prose-status-row:hover .prose-status-badge {
+  border-color: rgba(0, 0, 0, 0.2);
+  color: var(--color-bg);
+}
+
+.prose-status-label {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--color-text-2);
+}
+
+.prose-status-badge {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.prose-status-badge.done {
+  color: var(--color-success);
+  border-color: var(--color-success);
+}
+.prose-status-badge.partial {
+  color: var(--color-warning);
+  border-color: var(--color-warning);
+}
+.prose-status-badge.wip {
+  color: var(--color-text-3);
+  border-color: var(--color-border-input);
+}
