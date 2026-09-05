@@ -833,3 +833,39 @@ document.addEventListener(
     addCopyButtons();
   }
 })();
+
+// ── Hero carousel popup ────────────────────────────────────────────────
+(function () {
+  var heroPopup = document.getElementById("hero-popup");
+  var heroPopupImg = document.getElementById("hero-popup-img");
+  var heroPopupDesc = document.getElementById("hero-popup-desc");
+  var heroPopupClose = document.getElementById("hero-popup-close");
+
+  if (heroPopup) {
+    document.addEventListener("click", function (e) {
+      var item = e.target.closest(".hero-carousel-item[data-desc]");
+      if (item && heroPopupImg && heroPopupDesc) {
+        var img = item.querySelector("img");
+        if (img) {
+          heroPopupImg.src = img.src;
+          heroPopupImg.alt = img.alt;
+          heroPopupDesc.textContent = item.dataset.desc || "";
+          heroPopup.classList.add("open");
+        }
+      }
+    });
+    if (heroPopupClose) {
+      heroPopupClose.addEventListener("click", function () {
+        heroPopup.classList.remove("open");
+      });
+    }
+    heroPopup.addEventListener("click", function (e) {
+      if (e.target === heroPopup) heroPopup.classList.remove("open");
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && heroPopup.classList.contains("open")) {
+        heroPopup.classList.remove("open");
+      }
+    });
+  }
+})();

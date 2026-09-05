@@ -12,11 +12,11 @@ const features = site.features || [];
 const homeSidebarLinks = [
   { label: 'Start here', href: '#start' },
   { label: 'About', href: '#about' },
+  { label: 'Projects', href: '#projects' },
   { label: 'Install', href: '#install' },
-  { label: 'Features', href: '#features' },
   { label: 'Addons', href: '#addons' },
-  { label: 'History', href: '#history' },
   { label: 'Contributors', href: '#contributors' },
+  { label: 'History', href: '#history' },
 ];
 
 const featureScreenshots: Record<string, string> = {
@@ -33,9 +33,9 @@ const featureScreenshots: Record<string, string> = {
 };
 
 const teamMembers = [
-  { login: 'privt00', role: 'Founder', bio: 'Started AirLink. Handles project direction and infrastructure.' },
-  { login: 'bthavanish', role: 'Maintainer', bio: 'Core panel and daemon development. Built the addon system and v2 architecture.' },
-  { login: 'achul123', role: 'Original maintainer', bio: 'Set up the original architecture and infrastructure that AirLink runs on.' },
+  { github: 'privt00', name: 'privt00', bio: 'Started AirLink. Handles project direction and infrastructure.' },
+  { github: 'bthavanish', name: 'bthavanish', bio: 'Core panel and daemon development. Built the addon system and v2 architecture.' },
+  { github: 'achul123', name: 'achul123', bio: 'Set up the original architecture and infrastructure that AirLink runs on.' },
 ];
 ---
 
@@ -61,69 +61,81 @@ const teamMembers = [
       <div class="hero-bg" aria-hidden="true">
         <Image src="/assets/logo.svg" alt="" width={320} height={320} loading="eager" />
       </div>
-      <div class="hero-carousel" aria-hidden="true">
-        <div class="hero-carousel-track">
-          {/* Primary set */}
-          {[
-            { src: '/assets/screenshots/dashboard-dark.png', label: 'Dashboard' },
-            { src: '/assets/features/console/console-dark.png', label: 'Console' },
-            { src: '/assets/features/nodes/nodes-dark.png', label: 'Nodes' },
-            { src: '/assets/features/file-manager/file-manager-dark.png', label: 'File manager' },
-            { src: '/assets/features/users/users-dark.png', label: 'Users' },
-            { src: '/assets/features/api/api-dark.png', label: 'API' },
-          ].map(({ src, label }, i) => (
-            <div class="hero-carousel-item">
-              <Image src={src} alt={label} width={640} height={400} loading={i < 2 ? 'eager' : 'lazy'} />
-            </div>
-          ))}
-          {/* Seamless loop duplicates */}
-          {[
-            { src: '/assets/screenshots/dashboard-dark.png' },
-            { src: '/assets/features/console/console-dark.png' },
-            { src: '/assets/features/nodes/nodes-dark.png' },
-            { src: '/assets/features/file-manager/file-manager-dark.png' },
-            { src: '/assets/features/users/users-dark.png' },
-            { src: '/assets/features/api/api-dark.png' },
-          ].map(({ src }) => (
-            <div class="hero-carousel-item" aria-hidden="true">
-              <Image src={src} alt="" width={640} height={400} loading="lazy" />
-            </div>
-          ))}
-        </div>
-      </div>
-      <div id="hero-welcome" class="hero-welcome" aria-hidden="true">
+      <div class="hero-welcome" id="hero-welcome" aria-hidden="true">
         <p class="hero-welcome-text">AirLink</p>
       </div>
-      <section class="hub-hero hero-text-animated" data-animate="blur">
-        <div>
-          <p class="hub-overline">Self-hosted &middot; MIT licensed &middot; Open source</p>
-          <h1>Game server management<br/>built for operators.</h1>
-          <p class="hub-lede">
-            AirLink runs on your hardware. The panel lives in your browser, the daemon runs on each node. Install takes minutes and runs indefinitely — you own every bit of it.
-          </p>
-          <div class="hub-actions">
-            <a href="#install" class="btn-primary">
-              Install AirLink
-              <iconify-icon icon="lucide:arrow-down" width="16" height="16"></iconify-icon>
-            </a>
-            <a href="/docs/" class="btn-secondary">
-              Read the docs
-              <iconify-icon icon="lucide:book-open" width="14" height="14"></iconify-icon>
-            </a>
-            <a href="https://ko-fi.com/airlinklabs" class="btn-secondary" target="_blank" rel="noopener">
-              Support us
-              <iconify-icon icon="lucide:coffee" width="16" height="16"></iconify-icon>
-            </a>
-            <a href="https://discord.gg/CmrDB2tRaN" class="btn-secondary" target="_blank" rel="noopener">
-              Discord
-              <svg width="13" height="13" viewBox="0 0 256 199" fill="currentColor" aria-hidden="true"><path d="M216.856 16.597A208.5 208.5 0 0 0 164.042 0c-2.275 4.113-4.933 9.645-6.766 14.046q-29.538-4.442-58.533 0c-1.832-4.4-4.55-9.933-6.846-14.046a207.8 207.8 0 0 0-52.855 16.638C5.618 67.147-3.443 116.4 1.087 164.956c22.169 16.555 43.653 26.612 64.775 33.193A161 161 0 0 0 79.735 175.3a136.4 136.4 0 0 1-21.846-10.632a109 109 0 0 0 5.356-4.237c42.122 19.702 87.89 19.702 129.51 0a132 132 0 0 0 5.355 4.237c-1.312-3.156-4.254-8.55-8.424-14.661a136 136 0 0 1-21.886 10.653c4.006 8.02 8.638 15.67 13.873 22.848c21.142-6.58 42.646-16.637 64.815-33.213c5.316-56.288-9.08-105.09-38.056-148.36M85.474 135.095c-12.645 0-23.015-11.805-23.015-26.18s10.149-26.2 23.015-26.2s23.236 11.804 23.015 26.2c.02 14.375-10.148 26.18-23.015 26.18m85.051 0c-12.645 0-23.014-11.805-23.014-26.18s10.148-26.2 23.014-26.2c12.867 0 23.236 11.804 23.015 26.2c0 14.375-10.148 26.18-23.015 26.18"/></svg>
-            </a>
+      <div class="hero-layout">
+        <section class="hub-hero hero-text-animated" data-animate="blur">
+          <div>
+            <p class="hub-overline">Self-hosted · MIT licensed · Open source</p>
+            <h1>Game server management<br/>built for operators.</h1>
+            <p class="hub-lede">
+              AirLink runs on your hardware. The panel lives in your browser, the daemon runs on each node. Install takes minutes and runs indefinitely — you own every bit of it.
+            </p>
+            <div class="hub-actions">
+              <a href="#install" class="btn-primary">
+                Install AirLink
+                <iconify-icon icon="lucide:arrow-down" width="16" height="16"></iconify-icon>
+              </a>
+              <a href="/docs/" class="btn-secondary">
+                Read the docs
+                <iconify-icon icon="lucide:book-open" width="14" height="14"></iconify-icon>
+              </a>
+              <a href="https://ko-fi.com/airlinklabs" class="btn-secondary" target="_blank" rel="noopener">
+                Support us
+                <iconify-icon icon="lucide:coffee" width="16" height="16"></iconify-icon>
+              </a>
+              <a href="https://discord.gg/CmrDB2tRaN" class="btn-secondary" target="_blank" rel="noopener">
+                Discord
+                <svg width="13" height="13" viewBox="0 0 256 199" fill="currentColor" aria-hidden="true"><path d="M216.856 16.597A208.5 208.5 0 0 0 164.042 0c-2.275 4.113-4.933 9.645-6.766 14.046q-29.538-4.442-58.533 0c-1.832-4.4-4.55-9.933-6.846-14.046a207.8 207.8 0 0 0-52.855 16.638C5.618 67.147-3.443 116.4 1.087 164.956c22.169 16.555 43.653 26.612 64.775 33.193A161 161 0 0 0 79.735 175.3a136.4 136.4 0 0 1-21.846-10.632a109 109 0 0 0 5.356-4.237c42.122 19.702 87.89 19.702 129.51 0a132 132 0 0 0 5.355 4.237c-1.312-3.156-4.254-8.55-8.424-14.661a136 136 0 0 1-21.886 10.653c4.006 8.02 8.638 15.67 13.873 22.848c21.142-6.58 42.646-16.637 64.815-33.213c5.316-56.288-9.08-105.09-38.056-148.36M85.474 135.095c-12.645 0-23.015-11.805-23.015-26.18s10.149-26.2 23.015-26.2s23.236 11.804 23.015 26.2c.02 14.375-10.148 26.18-23.015 26.18m85.051 0c-12.645 0-23.014-11.805-23.014-26.18s10.148-26.2 23.014-26.2c12.867 0 23.236 11.804 23.015 26.2c0 14.375-10.148 26.18-23.015 26.18"/></svg>
+              </a>
+            </div>
+          </div>
+        </section>
+        <div class="hero-carousel" aria-hidden="true">
+          <div class="hero-carousel-track">
+            {/* Primary set */}
+            {[
+              { src: '/assets/screenshots/dashboard-dark.png', label: 'Dashboard', desc: 'Server overview with real-time metrics, player counts, and resource usage.' },
+              { src: '/assets/features/console/console-dark.png', label: 'Console', desc: 'Live server console with command history and auto-scroll.' },
+              { src: '/assets/features/nodes/nodes-dark.png', label: 'Nodes', desc: 'Multi-node management with daemon status and allocation overview.' },
+              { src: '/assets/features/file-manager/file-manager-dark.png', label: 'File Manager', desc: 'Browser-based file editor with syntax highlighting and bulk operations.' },
+              { src: '/assets/features/users/users-dark.png', label: 'Users', desc: 'User roles, permissions, and sub-user access control.' },
+              { src: '/assets/features/api/api-dark.png', label: 'API', desc: 'RESTful API with HMAC authentication for programmatic access.' },
+            ].map(({ src, label, desc }, i) => (
+              <div class="hero-carousel-item" data-desc={desc}>
+                <Image src={src} alt={label} width={640} height={400} loading={i < 2 ? 'eager' : 'lazy'} />
+                <span class="hero-carousel-label">{label}</span>
+              </div>
+            ))}
+            {/* Seamless loop duplicates */}
+            {[
+              { src: '/assets/screenshots/dashboard-dark.png', label: 'Dashboard' },
+              { src: '/assets/features/console/console-dark.png', label: 'Console' },
+              { src: '/assets/features/nodes/nodes-dark.png', label: 'Nodes' },
+              { src: '/assets/features/file-manager/file-manager-dark.png', label: 'File Manager' },
+              { src: '/assets/features/users/users-dark.png', label: 'Users' },
+              { src: '/assets/features/api/api-dark.png', label: 'API' },
+            ].map(({ src, label }) => (
+              <div class="hero-carousel-item" aria-hidden="true">
+                <Image src={src} alt="" width={640} height={400} loading="lazy" />
+                <span class="hero-carousel-label">{label}</span>
+              </div>
+            ))}
           </div>
         </div>
-      </section>
+      </div>
     </div>
 
-    <!-- ── About ──────────────────────────────────────────────────────── -->
+    <div class="hero-popup-overlay" id="hero-popup">
+      <div class="hero-popup-content">
+        <button class="hero-popup-close" id="hero-popup-close" type="button">&times;</button>
+        <img id="hero-popup-img" src="" alt="" />
+        <div class="hero-popup-desc" id="hero-popup-desc"></div>
+      </div>
+    </div>
+
+    <!-- ── About + Features ──────────────────────────────────────────── -->
     <section class="hub-section" id="about" data-animate="fade-up">
       <div class="hub-section-heading">
         <h2>What AirLink does</h2>
@@ -152,41 +164,27 @@ const teamMembers = [
           <p>Built by {contributors.length} contributors with {githubData.stats?.totalContributions || '1,200+'} contributions across panel, daemon, and image definitions. Started as a side project, became production software.</p>
         </div>
       </div>
-    </section>
-
-    <!-- ── Install ────────────────────────────────────────────────────── -->
-    <section class="hub-section hub-section--install" id="install" data-animate="fade-up">
-      <div class="section-bg" style="background-image:url('/assets/bg-install.svg')" aria-hidden="true"></div>
-      <div class="install-layout">
-        <div class="hub-section-heading">
-          <h2>One command to install</h2>
-          <p>
-            Works on Ubuntu, Debian, Fedora, RHEL, Arch, and Alpine. The installer sets up Node.js, Docker, the panel, and daemon. An interactive TUI walks you through each step.
-          </p>
-        </div>
-        <div class="install-block">
-          <div class="prose-code-block install-code">
-            <button class="prose-copy-btn" type="button" aria-label="Copy install command">
-              <iconify-icon icon="lucide:copy" width="11" height="11"></iconify-icon>
-              Copy
-            </button>
-            <code>bash &lt;(curl -s https://raw.githubusercontent.com/airlinklabs/panel/refs/heads/main/installer.sh)</code>
+      <div class="feature-detail-list" data-animate-group>
+        {features.map((feature: any) => (
+          <div class="feature-detail-row">
+            <div class="feature-detail-text">
+              <h3>{feature.title}</h3>
+              <p>{feature.description || feature.short}</p>
+              {feature.long && <p class="feature-detail-long">{feature.long}</p>}
+            </div>
+            {featureScreenshots[feature.id] && (
+              <div class="feature-detail-screenshot">
+                <Image
+                  src={featureScreenshots[feature.id]}
+                  alt={feature.title}
+                  width={640}
+                  height={400}
+                  loading="lazy"
+                />
+              </div>
+            )}
           </div>
-          <p class="install-note">
-            Install everything at once, or choose individual components. Run with
-            <code>--help</code> to see options.
-          </p>
-          <div class="install-options">
-            <a href="/docs/admin/getting-started/" class="text-link">
-              Getting started guide
-              <iconify-icon icon="lucide:arrow-right" width="14" height="14"></iconify-icon>
-            </a>
-            <a href="https://github.com/AirlinkLabs/panel" class="text-link" target="_blank" rel="noopener">
-              View source
-              <iconify-icon icon="lucide:external-link" width="14" height="14"></iconify-icon>
-            </a>
-          </div>
-        </div>
+        ))}
       </div>
     </section>
 
@@ -237,33 +235,39 @@ const teamMembers = [
       </div>
     </section>
 
-    <!-- ── Features ───────────────────────────────────────────────────── -->
-    <section class="hub-section" id="features" data-animate="fade-up">
-      <div class="hub-section-heading">
-        <h2>Features</h2>
-        <p>Deploy servers, manage users, transfer files, monitor resources, and extend the panel with addons. Every feature has a screenshot below.</p>
-      </div>
-      <div class="feature-detail-list" data-animate-group>
-        {features.map((feature: any) => (
-          <div class="feature-detail-row">
-            <div class="feature-detail-text">
-              <h3>{feature.title}</h3>
-              <p>{feature.description || feature.short}</p>
-              {feature.long && <p class="feature-detail-long">{feature.long}</p>}
-            </div>
-            {featureScreenshots[feature.id] && (
-              <div class="feature-detail-screenshot">
-                <Image
-                  src={featureScreenshots[feature.id]}
-                  alt={feature.title}
-                  width={640}
-                  height={400}
-                  loading="lazy"
-                />
-              </div>
-            )}
+    <!-- ── Install ────────────────────────────────────────────────────── -->
+    <section class="hub-section hub-section--install" id="install" data-animate="fade-up">
+      <div class="section-bg" style="background-image:url('/assets/bg-install.svg')" aria-hidden="true"></div>
+      <div class="install-layout">
+        <div class="hub-section-heading">
+          <h2>One command to install</h2>
+          <p>
+            Works on Ubuntu, Debian, Fedora, RHEL, Arch, and Alpine. The installer sets up Node.js, Docker, the panel, and daemon. An interactive TUI walks you through each step.
+          </p>
+        </div>
+        <div class="install-block">
+          <div class="prose-code-block install-code">
+            <button class="prose-copy-btn" type="button" aria-label="Copy install command">
+              <iconify-icon icon="lucide:copy" width="11" height="11"></iconify-icon>
+              Copy
+            </button>
+            <code>bash &lt;(curl -s https://raw.githubusercontent.com/airlinklabs/panel/refs/heads/main/installer.sh)</code>
           </div>
-        ))}
+          <p class="install-note">
+            Install everything at once, or choose individual components. Run with
+            <code>--help</code> to see options.
+          </p>
+          <div class="install-options">
+            <a href="/docs/admin/getting-started/" class="text-link">
+              Getting started guide
+              <iconify-icon icon="lucide:arrow-right" width="14" height="14"></iconify-icon>
+            </a>
+            <a href="https://github.com/AirlinkLabs/panel" class="text-link" target="_blank" rel="noopener">
+              View source
+              <iconify-icon icon="lucide:external-link" width="14" height="14"></iconify-icon>
+            </a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -320,31 +324,47 @@ const teamMembers = [
       </div>
     </section>
 
-    <!-- ── Team ───────────────────────────────────────────────────────── -->
-    <section class="hub-section" id="team" data-animate="fade-up">
-      <div class="hub-section-heading">
-        <h2>Who built this</h2>
-        <p>Started as a side project. The core team handles panel, daemon, and infrastructure.</p>
+    <!-- ── Contributors (with team cards) ────────────────────────────── -->
+    <section class="hub-section" id="contributors" data-animate="fade-up">
+      <div class="section-bg" style="background-image:url('/assets/bg-contributors.svg')" aria-hidden="true"></div>
+      <div class="hub-section-heading hub-section-heading--split">
+        <div>
+          <h2>Contributors</h2>
+          <p>{contributors.length} people who have contributed across panel and daemon.</p>
+        </div>
+        <a href="https://github.com/AirlinkLabs/panel/graphs/contributors" class="text-link" target="_blank" rel="noopener">
+          View all
+          <iconify-icon icon="lucide:external-link" width="13" height="13" style="display:inline-block;vertical-align:middle;margin-left:3px"></iconify-icon>
+        </a>
       </div>
       <div class="team-grid" data-animate-group>
-        {teamMembers.map((member) => {
-          const contribData = contributors.find((c: any) => c.login === member.login);
-          return (
-            <a class="team-card" href={`https://github.com/${member.login}`} target="_blank" rel="noopener">
-              <img
-                src={contribData?.avatar_url || `https://github.com/${member.login}.png`}
-                alt={member.login}
-                width="48" height="48"
-                loading="lazy"
-              />
-              <div class="team-card-body">
-                <span class="team-name">{contribData?.name || member.login}</span>
-                <span class="team-handle">@{member.login} · {member.role}</span>
-                <span class="team-bio">{member.bio}</span>
+        {teamMembers.map((member: any) => (
+          <a class="team-card" href={`https://github.com/${member.github}`} target="_blank" rel="noopener">
+            <img src={`https://avatars.githubusercontent.com/${member.github}`} alt={member.name} width="52" height="52" loading="lazy" />
+            <div class="team-card-body">
+              <div class="team-name">{member.name}</div>
+              <div class="team-handle">@{member.github}</div>
+              <div class="team-bio">{member.bio}</div>
+            </div>
+          </a>
+        ))}
+      </div>
+      <div class="contrib-grid" id="contrib-grid">
+        {contributors.length > 0 ? (
+          contributors.filter((c: any) => !teamMembers.some((m: any) => m.github === c.login)).map((contributor: any) => (
+            <a class="contrib-card" href={contributor.html_url} target="_blank" rel="noopener">
+              <img src={contributor.avatar_url} alt={contributor.login} width="48" height="48" loading="lazy" />
+              <div class="contrib-card-info">
+                <div class="contrib-name">{contributor.name || contributor.login}</div>
+                <div class="contrib-handle">@{contributor.login}</div>
+                {contributor.bio && <div class="contrib-bio">{contributor.bio}</div>}
+                <div class="contrib-count">{contributor.contributions} contribution{contributor.contributions !== 1 ? 's' : ''}</div>
               </div>
             </a>
-          );
-        })}
+          ))
+        ) : (
+          <p class="hub-empty">No contributors to display yet.</p>
+        )}
       </div>
     </section>
 
@@ -363,7 +383,7 @@ const teamMembers = [
       </div>
       <div class="commit-list" id="commit-list" data-animate-group>
         {commits.length > 0 ? (
-          commits.slice(0, 20).map((commit: any) => (
+          commits.slice(0, 5).map((commit: any) => (
             <div class="commit-row">
               <div class="commit-row-main">
                 <a href={commit.html_url} target="_blank" rel="noopener" class="commit-message">
@@ -391,45 +411,67 @@ const teamMembers = [
           <p class="hub-empty">No commits to display yet.</p>
         )}
       </div>
-    </section>
-
-    <!-- ── Contributors ──────────────────────────────────────────────── -->
-    <section class="hub-section" id="contributors" data-animate="fade-up">
-      <div class="section-bg" style="background-image:url('/assets/bg-contributors.svg')" aria-hidden="true"></div>
-      <div class="hub-section-heading hub-section-heading--split">
-        <div>
-          <h2>Contributors</h2>
-          <p>{contributors.length} people who have contributed across panel and daemon.</p>
+      {commits.length > 5 && (
+        <div class="commit-more-wrap">
+          <button class="commit-more-btn" id="commit-more-btn" type="button">
+            Show {commits.length - 5} more commits
+          </button>
         </div>
-        <a href="https://github.com/AirlinkLabs/panel/graphs/contributors" class="text-link" target="_blank" rel="noopener">
-          View all
-          <iconify-icon icon="lucide:external-link" width="13" height="13" style="display:inline-block;vertical-align:middle;margin-left:3px"></iconify-icon>
-        </a>
-      </div>
-      <div class="contrib-grid" id="contrib-grid">
-        {contributors.length > 0 ? (
-          contributors.map((contributor: any) => (
-            <a class="contrib-card" href={contributor.html_url || '#'} target="_blank" rel="noopener">
-              <img src={contributor.avatar_url || ''} alt={contributor.login || ''} width="40" height="40" loading="lazy" />
-              <div class="contrib-card-info">
-                <span class="contrib-name">{contributor.name || contributor.login || ''}</span>
-                {contributor.login && contributor.name && contributor.name !== contributor.login && (
-                  <span class="contrib-handle">@{contributor.login}</span>
-                )}
-                {contributor.bio && (
-                  <span class="contrib-bio">{contributor.bio}</span>
-                )}
-                <span class="contrib-count">{contributor.contributions} contribution{contributor.contributions !== 1 ? 's' : ''}</span>
+      )}
+      <div class="commit-popup-overlay" id="commit-popup" style="display:none">
+        <div class="commit-popup-content">
+          <div class="commit-popup-header">
+            <h3>All commits</h3>
+            <button class="commit-popup-close" id="commit-popup-close" type="button">&times;</button>
+          </div>
+          <div class="commit-popup-body">
+            {commits.slice(5).map((commit: any) => (
+              <div class="commit-row">
+                <div class="commit-row-main">
+                  <a href={commit.html_url} target="_blank" rel="noopener" class="commit-message">
+                    {commit.message || 'Untitled commit'}
+                  </a>
+                  {(commit.additions > 0 || commit.deletions > 0) && (
+                    <div class="commit-stats">
+                      {commit.additions > 0 && <span class="stat-add">+{commit.additions}</span>}
+                      {commit.deletions > 0 && <span class="stat-del">-{commit.deletions}</span>}
+                      {commit.files_changed > 0 && <span class="stat-files">{commit.files_changed} file{commit.files_changed !== 1 ? 's' : ''}</span>}
+                    </div>
+                  )}
+                </div>
+                <div class="commit-meta">
+                  <span class="commit-repo-badge">
+                    <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                    {commit.repo || 'airlinklabs/panel'}
+                  </span>
+                  {commit.author_name && <span class="commit-author">{commit.author_name}</span>}
+                  {commit.author_date && <time class="commit-date">{commit.author_date}</time>}
+                </div>
               </div>
-            </a>
-          ))
-        ) : (
-          <p class="hub-empty">No contributors to display yet.</p>
-        )}
+            ))}
+          </div>
+        </div>
       </div>
     </section>
 
   </div>
 </main>
+
+<script>
+  const btn = document.getElementById('commit-more-btn');
+  const popup = document.getElementById('commit-popup');
+  const close = document.getElementById('commit-popup-close');
+  if (btn && popup) {
+    btn.addEventListener('click', () => { popup.style.display = 'flex'; });
+  }
+  if (close && popup) {
+    close.addEventListener('click', () => { popup.style.display = 'none'; });
+  }
+  if (popup) {
+    popup.addEventListener('click', (e) => {
+      if (e.target === popup) popup.style.display = 'none';
+    });
+  }
+</script>
 
 </BaseLayout>
