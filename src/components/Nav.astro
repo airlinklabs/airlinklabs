@@ -1,5 +1,10 @@
 ---
-interface Link { key: string; href: string; label: string; icon: string; }
+interface Link {
+  key: string;
+  href: string;
+  label: string;
+  icon: string;
+}
 interface Props {
   rootPrefix?: string;
   site: { title: string; description: string; siteUrl?: string };
@@ -9,39 +14,56 @@ interface Props {
 }
 
 const {
-  rootPrefix = '/',
+  rootPrefix = "/",
   site,
-  currentPage = 'home',
+  currentPage = "home",
   underConstruction,
-  avatarDataUri = '/assets/avatar-bthavanish.png',
+  avatarDataUri = "/assets/avatar-bthavanish.png",
 } = Astro.props;
 
 const page = currentPage.toLowerCase();
-const active = page === '' ? 'home' : page;
+const active = page === "" ? "home" : page;
 
 const links: Link[] = [
-  { key: 'home', href: rootPrefix,          label: 'Home', icon: 'lucide:home' },
-  { key: 'docs', href: `${rootPrefix}docs/`, label: 'Docs', icon: 'lucide:book-open' },
-  { key: 'blog', href: `${rootPrefix}blog/`, label: 'Blog', icon: 'lucide:newspaper' },
+  { key: "home", href: rootPrefix, label: "Home", icon: "lucide:home" },
+  {
+    key: "docs",
+    href: `${rootPrefix}docs/`,
+    label: "Docs",
+    icon: "lucide:book-open",
+  },
+  {
+    key: "blog",
+    href: `${rootPrefix}blog/`,
+    label: "Blog",
+    icon: "lucide:newspaper",
+  },
 ];
 ---
 
 <!-- Mobile bottom navigation -->
 <nav id="mobile-bar" aria-label="Site navigation">
-  {links.map(link => (
-    <a
-      href={link.href}
-      class:list={['mob-item', { 'mob-item--active': link.key === active }]}
-      {...(link.key === active ? { 'aria-current': 'page' } : {})}
-    >
-      <iconify-icon icon={link.icon} width="18" height="18"></iconify-icon>
-      <span>{link.label}</span>
-    </a>
-  ))}
+  {
+    links.map((link) => (
+      <a
+        href={link.href}
+        class:list={["mob-item", { "mob-item--active": link.key === active }]}
+        {...(link.key === active ? { "aria-current": "page" } : {})}
+      >
+        <iconify-icon icon={link.icon} width="18" height="18" />
+        <span>{link.label}</span>
+      </a>
+    ))
+  }
 </nav>
 
 <!-- Redirect confirmation modal -->
-<div id="redirect-overlay" role="dialog" aria-modal="true" aria-labelledby="redirect-heading">
+<div
+  id="redirect-overlay"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="redirect-heading"
+>
   <div id="redirect-modal">
     <div id="redirect-domain"></div>
     <h4 id="redirect-heading">Leaving this site</h4>
@@ -54,30 +76,69 @@ const links: Link[] = [
 </div>
 
 <!-- Construction warning popup -->
-{underConstruction?.enabled && (
-  <div id="construction-overlay" role="dialog" aria-modal="true" aria-labelledby="construction-heading">
-    <div id="construction-modal">
-      <h4 id="construction-heading">{underConstruction.badge || 'Under construction'}</h4>
-      <p>{underConstruction.message || 'This site is still being built. Some pages may be incomplete or inaccurate.'}</p>
-      <div class="redirect-actions">
-        <button id="construction-ok" type="button">Got it</button>
+{
+  underConstruction?.enabled && (
+    <div
+      id="construction-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="construction-heading"
+    >
+      <div id="construction-modal">
+        <h4 id="construction-heading">
+          {underConstruction.badge || "Under construction"}
+        </h4>
+        <p>
+          {underConstruction.message ||
+            "This site is still being built. Some pages may be incomplete or inaccurate."}
+        </p>
+        <div class="redirect-actions">
+          <button id="construction-ok" type="button">
+            Got it
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-)}
+  )
+}
 
 <!-- About modal -->
-<div id="about-overlay" role="dialog" aria-modal="true" aria-labelledby="about-heading">
+<div
+  id="about-overlay"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="about-heading"
+>
   <div id="about-modal">
     <div id="about-header">
       <h4 id="about-heading">About</h4>
       <button id="about-close" type="button" aria-label="Close">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          ><line x1="18" y1="6" x2="6" y2="18"></line><line
+            x1="6"
+            y1="6"
+            x2="18"
+            y2="18"></line></svg
+        >
       </button>
     </div>
     <div id="about-body">
       <div class="about-profile">
-        <img class="about-avatar" src={avatarDataUri} alt="bthavanish" width="48" height="48" />
+        <img
+          class="about-avatar"
+          src={avatarDataUri}
+          alt="bthavanish"
+          width="48"
+          height="48"
+        />
         <div class="about-profile-info">
           <p class="about-profile-name">bthavanish</p>
           <p class="about-profile-handle">github.com/bthavanish</p>
@@ -85,8 +146,25 @@ const links: Link[] = [
       </div>
       <p id="about-text">Website made by bthavanish.</p>
       <div class="about-actions">
-        <a href="https://github.com/bthavanish" target="_blank" rel="noopener" class="btn-primary about-btn">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+        <a
+          href="https://github.com/bthavanish"
+          target="_blank"
+          rel="noopener"
+          class="btn-primary about-btn"
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><path
+              d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
+            ></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg
+          >
           Visit GitHub
         </a>
       </div>
@@ -115,7 +193,9 @@ const links: Link[] = [
   }
 
   @media (max-width: 768px) {
-    #mobile-bar { display: flex; }
+    #mobile-bar {
+      display: flex;
+    }
   }
 
   .mob-item {
@@ -129,10 +209,17 @@ const links: Link[] = [
     text-decoration: none;
     font-size: 10px;
     font-weight: 500;
-    transition: background var(--dur-default) var(--ease-standard), color var(--dur-default) var(--ease-standard), border-color var(--dur-default) var(--ease-standard), box-shadow var(--dur-default) var(--ease-standard), opacity var(--dur-default) var(--ease-standard);
+    transition:
+      background var(--dur-default) var(--ease-standard),
+      color var(--dur-default) var(--ease-standard),
+      border-color var(--dur-default) var(--ease-standard),
+      box-shadow var(--dur-default) var(--ease-standard),
+      opacity var(--dur-default) var(--ease-standard);
     -webkit-tap-highlight-color: transparent;
   }
-  .mob-item:hover { color: var(--color-text-2); }
+  .mob-item:hover {
+    color: var(--color-text-2);
+  }
   .mob-item--active,
   .mob-item[aria-current="page"] {
     color: var(--color-text-1);
@@ -198,13 +285,47 @@ const links: Link[] = [
     color: var(--color-text-2);
     font-size: 13px;
     cursor: pointer;
-    transition: background var(--dur-default) var(--ease-standard), color var(--dur-default) var(--ease-standard), border-color var(--dur-default) var(--ease-standard), box-shadow var(--dur-default) var(--ease-standard), opacity var(--dur-default) var(--ease-standard);
+    transition:
+      background var(--dur-default) var(--ease-standard),
+      color var(--dur-default) var(--ease-standard),
+      border-color var(--dur-default) var(--ease-standard),
+      box-shadow var(--dur-default) var(--ease-standard),
+      opacity var(--dur-default) var(--ease-standard);
   }
-  .redirect-actions button:hover { background: var(--color-bg-hover); }
-  #redirect-confirm { background: var(--color-text-1); border-color: var(--color-text-1); color: var(--color-bg); transition: background var(--dur-default) var(--ease-standard), color var(--dur-default) var(--ease-standard), border-color var(--dur-default) var(--ease-standard), box-shadow var(--dur-default) var(--ease-standard), opacity var(--dur-default) var(--ease-standard); }
-  #redirect-confirm:hover { background: var(--color-bg); color: var(--color-text-1); }
-  #construction-ok { background: var(--color-text-1); border-color: var(--color-text-1); color: var(--color-bg); transition: background var(--dur-default) var(--ease-standard), color var(--dur-default) var(--ease-standard), border-color var(--dur-default) var(--ease-standard), box-shadow var(--dur-default) var(--ease-standard), opacity var(--dur-default) var(--ease-standard); }
-  #construction-ok:hover { background: var(--color-bg); color: var(--color-text-1); }
+  .redirect-actions button:hover {
+    background: var(--color-bg-hover);
+    color: var(--color-text-1);
+  }
+  #redirect-confirm {
+    background: var(--color-text-1);
+    border-color: var(--color-text-1);
+    color: var(--color-bg);
+    transition:
+      background var(--dur-default) var(--ease-standard),
+      color var(--dur-default) var(--ease-standard),
+      border-color var(--dur-default) var(--ease-standard),
+      box-shadow var(--dur-default) var(--ease-standard),
+      opacity var(--dur-default) var(--ease-standard);
+  }
+  #redirect-confirm:hover {
+    background: var(--color-bg);
+    color: var(--color-text-1);
+  }
+  #construction-ok {
+    background: var(--color-text-1);
+    border-color: var(--color-text-1);
+    color: var(--color-bg);
+    transition:
+      background var(--dur-default) var(--ease-standard),
+      color var(--dur-default) var(--ease-standard),
+      border-color var(--dur-default) var(--ease-standard),
+      box-shadow var(--dur-default) var(--ease-standard),
+      opacity var(--dur-default) var(--ease-standard);
+  }
+  #construction-ok:hover {
+    background: var(--color-bg);
+    color: var(--color-text-1);
+  }
   #redirect-domain {
     font-size: 12px;
     color: var(--color-text-3);
@@ -225,9 +346,16 @@ const links: Link[] = [
     color: var(--color-text-3);
     cursor: pointer;
     padding: 4px;
-    transition: background var(--dur-default) var(--ease-standard), color var(--dur-default) var(--ease-standard), border-color var(--dur-default) var(--ease-standard), box-shadow var(--dur-default) var(--ease-standard), opacity var(--dur-default) var(--ease-standard);
+    transition:
+      background var(--dur-default) var(--ease-standard),
+      color var(--dur-default) var(--ease-standard),
+      border-color var(--dur-default) var(--ease-standard),
+      box-shadow var(--dur-default) var(--ease-standard),
+      opacity var(--dur-default) var(--ease-standard);
   }
-  #about-header button:hover { color: var(--color-text-1); }
+  #about-header button:hover {
+    color: var(--color-text-1);
+  }
   .about-profile {
     display: flex;
     align-items: center;
@@ -241,10 +369,26 @@ const links: Link[] = [
     object-fit: cover;
     border: 2px solid var(--color-border);
   }
-  .about-profile-name { font-size: 15px; font-weight: 600; color: var(--color-text-1); margin: 0; }
-  .about-profile-handle { font-size: 13px; color: var(--color-text-3); margin: 0; }
-  #about-text { font-size: 14px; color: var(--color-text-2); margin: 0 0 16px; }
-  .about-actions { display: flex; justify-content: flex-end; }
+  .about-profile-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-text-1);
+    margin: 0;
+  }
+  .about-profile-handle {
+    font-size: 13px;
+    color: var(--color-text-3);
+    margin: 0;
+  }
+  #about-text {
+    font-size: 14px;
+    color: var(--color-text-2);
+    margin: 0 0 16px;
+  }
+  .about-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
   .btn-primary {
     display: inline-flex;
     align-items: center;
@@ -256,7 +400,15 @@ const links: Link[] = [
     font-size: 13px;
     text-decoration: none;
     font-weight: 500;
-    transition: background var(--dur-default) var(--ease-standard), color var(--dur-default) var(--ease-standard), border-color var(--dur-default) var(--ease-standard), box-shadow var(--dur-default) var(--ease-standard), opacity var(--dur-default) var(--ease-standard);
+    transition:
+      background var(--dur-default) var(--ease-standard),
+      color var(--dur-default) var(--ease-standard),
+      border-color var(--dur-default) var(--ease-standard),
+      box-shadow var(--dur-default) var(--ease-standard),
+      opacity var(--dur-default) var(--ease-standard);
   }
-  .btn-primary:hover { background: var(--color-bg-2); color: var(--color-text-1); }
+  .btn-primary:hover {
+    background: var(--color-bg-2);
+    color: var(--color-text-1);
+  }
 </style>

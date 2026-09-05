@@ -15,7 +15,9 @@ const { value, label, suffix = "" } = Astro.props;
 
 <script>
   function initCounters() {
-    const counters = document.querySelectorAll<HTMLElement>(".counter[data-target]");
+    const counters = document.querySelectorAll<HTMLElement>(
+      ".counter[data-target]",
+    );
     if (!counters.length) return;
 
     const observer = new IntersectionObserver(
@@ -39,7 +41,7 @@ const { value, label, suffix = "" } = Astro.props;
           observer.unobserve(el);
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.5 },
     );
 
     counters.forEach((c) => observer.observe(c));

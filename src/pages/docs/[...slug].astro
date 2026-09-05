@@ -1,12 +1,12 @@
 ---
-import DocsLayout from '../../layouts/DocsLayout.astro';
-import Sidebar from '../../components/Sidebar.astro';
-import site from '../../data/site.json';
-import { getCollection, render } from 'astro:content';
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import Sidebar from "../../components/Sidebar.astro";
+import site from "../../data/site.json";
+import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
-  const docs = await getCollection('docs');
-  return docs.map(doc => ({
+  const docs = await getCollection("docs");
+  return docs.map((doc) => ({
     params: { slug: doc.id },
     props: { doc },
   }));
@@ -15,13 +15,14 @@ export async function getStaticPaths() {
 const { doc } = Astro.props;
 const { Content, headings } = await render(doc);
 
-const docs = await getCollection('docs');
+const docs = await getCollection("docs");
 const sorted = docs.sort((a, b) => {
-  if (a.data.section !== b.data.section) return a.data.section.localeCompare(b.data.section);
+  if (a.data.section !== b.data.section)
+    return a.data.section.localeCompare(b.data.section);
   return a.data.order - b.data.order;
 });
 
-const currentIndex = sorted.findIndex(d => d.id === doc.id);
+const currentIndex = sorted.findIndex((d) => d.id === doc.id);
 const prev = currentIndex > 0 ? sorted[currentIndex - 1] : null;
 const next = currentIndex < sorted.length - 1 ? sorted[currentIndex + 1] : null;
 
@@ -38,25 +39,28 @@ const sections = Object.keys(grouped).sort((a, b) => {
   return orderA - orderB;
 });
 
-const sidebarLinks = sections.flatMap(section =>
-  grouped[section].map(d => ({
+const sidebarLinks = sections.flatMap((section) =>
+  grouped[section].map((d) => ({
     label: d.data.title,
     href: `/docs/${d.id}/`,
     active: d.id === doc.id,
     section,
-  }))
+  })),
 );
 
-const docHeadings = headings.map(h => ({
+const docHeadings = headings.map((h) => ({
   id: h.slug,
   text: h.text,
   level: h.depth,
 }));
 
-const author = doc.data.author || 'bthavanish';
+const author = doc.data.author || "bthavanish";
 ---
 
-<DocsLayout title={`${doc.data.title} · Docs`} description={doc.data.description}>
+<DocsLayout
+  title={`${doc.data.title} · Docs`}
+  description={doc.data.description}
+>
   <Sidebar
     rootPrefix="/"
     currentPage="docs"
@@ -70,11 +74,14 @@ const author = doc.data.author || 'bthavanish';
     <header class="docs-header">
       <div class="docs-breadcrumb">
         <a href="/">Home</a>
-        <iconify-icon icon="lucide:chevron-right" width="14" height="14"></iconify-icon>
+        <iconify-icon icon="lucide:chevron-right" width="14" height="14"
+        ></iconify-icon>
         <a href="/docs/">Docs</a>
-        <iconify-icon icon="lucide:chevron-right" width="14" height="14"></iconify-icon>
+        <iconify-icon icon="lucide:chevron-right" width="14" height="14"
+        ></iconify-icon>
         <a href={`/docs/?section=${doc.data.section}`}>{doc.data.section}</a>
-        <iconify-icon icon="lucide:chevron-right" width="14" height="14"></iconify-icon>
+        <iconify-icon icon="lucide:chevron-right" width="14" height="14"
+        ></iconify-icon>
         <span>{doc.data.title}</span>
       </div>
     </header>
@@ -91,11 +98,22 @@ const author = doc.data.author || 'bthavanish';
           class="doc-author-avatar"
           src={`https://avatars.githubusercontent.com/${author}`}
           alt={author}
-          width="28" height="28"
+          width="28"
+          height="28"
           loading="lazy"
         />
         <span class="doc-author">By {author}</span>
-        {doc.data.date && <span class="doc-date">{doc.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>}
+        {
+          doc.data.date && (
+            <span class="doc-date">
+              {doc.data.date.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </span>
+          )
+        }
       </div>
 
       <div class="doc-body">
@@ -103,24 +121,32 @@ const author = doc.data.author || 'bthavanish';
       </div>
 
       <nav class="doc-pagination">
-        {prev ? (
-          <a href={`/docs/${prev.id}/`} class="doc-pagination-prev">
-            <iconify-icon icon="lucide:arrow-left" width="14" height="14"></iconify-icon>
-            <div>
-              <span class="doc-pagination-label">Previous</span>
-              <span class="doc-pagination-title">{prev.data.title}</span>
-            </div>
-          </a>
-        ) : <div />}
-        {next ? (
-          <a href={`/docs/${next.id}/`} class="doc-pagination-next">
-            <div>
-              <span class="doc-pagination-label">Next</span>
-              <span class="doc-pagination-title">{next.data.title}</span>
-            </div>
-            <iconify-icon icon="lucide:arrow-right" width="14" height="14"></iconify-icon>
-          </a>
-        ) : <div />}
+        {
+          prev ? (
+            <a href={`/docs/${prev.id}/`} class="doc-pagination-prev">
+              <iconify-icon icon="lucide:arrow-left" width="14" height="14" />
+              <div>
+                <span class="doc-pagination-label">Previous</span>
+                <span class="doc-pagination-title">{prev.data.title}</span>
+              </div>
+            </a>
+          ) : (
+            <div />
+          )
+        }
+        {
+          next ? (
+            <a href={`/docs/${next.id}/`} class="doc-pagination-next">
+              <div>
+                <span class="doc-pagination-label">Next</span>
+                <span class="doc-pagination-title">{next.data.title}</span>
+              </div>
+              <iconify-icon icon="lucide:arrow-right" width="14" height="14" />
+            </a>
+          ) : (
+            <div />
+          )
+        }
       </nav>
     </article>
   </div>
@@ -134,7 +160,9 @@ const author = doc.data.author || 'bthavanish';
     min-height: 100vh;
   }
   @media (max-width: 768px) {
-    .docs-main { margin-left: 0; }
+    .docs-main {
+      margin-left: 0;
+    }
   }
 
   .docs-header {
@@ -147,7 +175,9 @@ const author = doc.data.author || 'bthavanish';
     padding: 16px 32px;
   }
   @media (max-width: 768px) {
-    .docs-header { padding: 12px 16px; }
+    .docs-header {
+      padding: 12px 16px;
+    }
   }
 
   .docs-breadcrumb {
@@ -157,19 +187,35 @@ const author = doc.data.author || 'bthavanish';
     font-size: 13px;
     color: var(--color-text-3);
   }
-  .docs-breadcrumb a { color: var(--color-text-3); text-decoration: none; transition: background var(--dur-default) var(--ease-standard), color var(--dur-default) var(--ease-standard), border-color var(--dur-default) var(--ease-standard), box-shadow var(--dur-default) var(--ease-standard), opacity var(--dur-default) var(--ease-standard); }
-  .docs-breadcrumb a:hover { color: var(--color-text-2); }
+  .docs-breadcrumb a {
+    color: var(--color-text-3);
+    text-decoration: none;
+    transition:
+      background var(--dur-default) var(--ease-standard),
+      color var(--dur-default) var(--ease-standard),
+      border-color var(--dur-default) var(--ease-standard),
+      box-shadow var(--dur-default) var(--ease-standard),
+      opacity var(--dur-default) var(--ease-standard);
+  }
+  .docs-breadcrumb a:hover {
+    color: var(--color-text-2);
+  }
 
   .docs-content {
     width: 100%;
     max-width: 100%;
-    padding: clamp(20px, 3vw, 48px) clamp(12px, 2vw, 32px) clamp(48px, 6vw, 100px);
+    padding: clamp(20px, 3vw, 48px) clamp(12px, 2vw, 32px)
+      clamp(48px, 6vw, 100px);
   }
   @media (max-width: 768px) {
-    .docs-content { padding: 24px 16px; }
+    .docs-content {
+      padding: 24px 16px;
+    }
   }
 
-  .doc-meta { margin-bottom: 12px; }
+  .doc-meta {
+    margin-bottom: 12px;
+  }
   .doc-section-badge {
     display: inline-block;
     font-size: 11px;
@@ -213,8 +259,12 @@ const author = doc.data.author || 'bthavanish';
     flex-shrink: 0;
     border: 1px solid var(--color-border);
   }
-  .doc-author { color: var(--color-text-2); }
-  .doc-date { color: var(--color-text-3); }
+  .doc-author {
+    color: var(--color-text-2);
+  }
+  .doc-date {
+    color: var(--color-text-3);
+  }
 
   .doc-body {
     font-size: 15px;
@@ -240,7 +290,12 @@ const author = doc.data.author || 'bthavanish';
   .doc-body :global(a) {
     color: var(--color-info);
     text-decoration: none;
-    transition: background var(--dur-default) var(--ease-standard), color var(--dur-default) var(--ease-standard), border-color var(--dur-default) var(--ease-standard), box-shadow var(--dur-default) var(--ease-standard), opacity var(--dur-default) var(--ease-standard);
+    transition:
+      background var(--dur-default) var(--ease-standard),
+      color var(--dur-default) var(--ease-standard),
+      border-color var(--dur-default) var(--ease-standard),
+      box-shadow var(--dur-default) var(--ease-standard),
+      opacity var(--dur-default) var(--ease-standard);
   }
   .doc-body :global(a:hover) {
     color: var(--color-text-1);
@@ -334,7 +389,10 @@ const author = doc.data.author || 'bthavanish';
     transform: translateY(-1px);
     box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.2);
   }
-  .doc-pagination-next { margin-left: auto; text-align: right; }
+  .doc-pagination-next {
+    margin-left: auto;
+    text-align: right;
+  }
   .doc-pagination-label {
     display: block;
     font-size: 11px;

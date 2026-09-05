@@ -315,6 +315,8 @@
   justify-content: space-between;
 }
 .site-sidebar-logo {
+  display: flex;
+  align-items: center;
   font-size: 15px;
   font-weight: 650;
   gap: 9px;
@@ -647,9 +649,6 @@
     transparent 100%
   );
 }
-.hero-bg.sinking {
-  animation: hero-bg-sink 1000ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
 .hero-bg.sunk {
   opacity: 0;
   transform: scale(1);
@@ -669,16 +668,6 @@
   transform: translateX(100vw);
   opacity: 0;
 }
-@keyframes hero-bg-sink {
-  0% {
-    opacity: 0.5;
-    transform: scale(1.1);
-  }
-  100% {
-    opacity: 0.2;
-    transform: scale(1);
-  }
-}
 
 /* Hero carousel — vertical scroll on the right */
 .hero-carousel {
@@ -687,7 +676,7 @@
   height: clamp(300px, 50vh, 500px);
   overflow: hidden;
   border-radius: 16px;
-  opacity: 0;
+  opacity: 1;
   mask-image: linear-gradient(
     to bottom,
     transparent 0%,
@@ -983,6 +972,9 @@
   overflow: hidden;
   padding: 80px 0;
 }
+.hub-section--last {
+  padding-bottom: 120px;
+}
 .section-bg {
   position: absolute;
   inset: 0;
@@ -1004,54 +996,14 @@
   );
 }
 
-/* ── Hero entrance animation ────────────────────────────────────────────── */
-.hero-welcome {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: var(--z-raised);
-  pointer-events: none;
-  opacity: 0;
-}
-
-.hero-welcome-text {
-  font-size: clamp(48px, 8vw, 96px);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  color: var(--color-text-1);
-  opacity: 0;
-}
-
-.hero-welcome.visible {
-  animation: hero-welcome-in 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.hero-welcome.exit {
-  animation: hero-welcome-out 500ms cubic-bezier(0.7, 0, 0.84, 0) forwards;
-}
-
-@keyframes hero-welcome-in {
-  0% {
-    opacity: 0;
-    transform: scale(1.05);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes hero-welcome-out {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.95);
-  }
+/* ── Hero entrance animation — no-JS fallback ────────────────────────── */
+/* If JS hasn't run or is slow, hero text must still be visible */
+.hero-text-animated:not(.visible) .hub-overline,
+.hero-text-animated:not(.visible) h1,
+.hero-text-animated:not(.visible) .hub-lede,
+.hero-text-animated:not(.visible) .hub-actions {
+  opacity: 1;
+  transform: none;
 }
 
 .hero-text-animated .hub-overline,
@@ -1085,11 +1037,6 @@
   transition-delay: 500ms;
 }
 
-.page-locked {
-  overflow: hidden;
-  height: 100vh;
-}
-
 [data-animate].deferred {
   opacity: 0;
   transform: translateY(20px);
@@ -1117,8 +1064,6 @@
     z-index: var(--z-base);
     transform: none;
   }
-  .hero-welcome.visible,
-  .hero-welcome.exit,
   .hero-text-animated.visible .hub-overline,
   .hero-text-animated.visible h1,
   .hero-text-animated.visible .hub-lede,
@@ -1158,10 +1103,6 @@
   }
   .hero-carousel-track {
     animation: none !important;
-  }
-  .hero-bg.sinking {
-    animation: none;
-    opacity: 0.2;
   }
   .hero-bg.exit-right {
     transition: none;
@@ -1532,112 +1473,7 @@
   color: var(--color-text-3);
   font-size: 13px;
 }
-.contrib-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 14px;
-}
-.contrib-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 18px 18px;
-  border-radius: 14px;
-  border: 1px solid var(--color-border);
-  background: var(--color-bg-2);
-  text-decoration: none;
-  transition:
-    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
-    background var(--dur-default) var(--ease-standard),
-    color var(--dur-default) var(--ease-standard),
-    border-color var(--dur-default) var(--ease-standard),
-    box-shadow var(--dur-default) var(--ease-standard);
-}
-.contrib-card:hover {
-  background: var(--color-text-1);
-  color: var(--color-bg);
-  border-color: var(--color-text-1);
-  transform: translateY(-2px);
-  box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.2);
-}
-.contrib-card img {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  background: var(--color-bg-3);
-}
-.contrib-card-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-.contrib-card--core {
-  border-color: var(--color-text-4);
-  background: var(--color-bg-3);
-}
-.contrib-card--core img {
-  width: 52px;
-  height: 52px;
-  border: 2px solid var(--color-text-4);
-}
-.contrib-card--core .contrib-name {
-  font-weight: 700;
-}
-.contrib-name {
-  color: var(--color-text-1);
-  font-size: 15px;
-  font-weight: 650;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition:
-    background var(--dur-default) var(--ease-standard),
-    color var(--dur-default) var(--ease-standard),
-    border-color var(--dur-default) var(--ease-standard),
-    box-shadow var(--dur-default) var(--ease-standard);
-}
-.contrib-handle {
-  color: var(--color-text-2);
-  font-size: 12px;
-  font-family: var(--font-mono);
-  transition:
-    background var(--dur-default) var(--ease-standard),
-    color var(--dur-default) var(--ease-standard),
-    border-color var(--dur-default) var(--ease-standard),
-    box-shadow var(--dur-default) var(--ease-standard);
-}
-.contrib-bio {
-  color: var(--color-text-2);
+.hub-empty {
+  color: var(--color-text-3);
   font-size: 13px;
-  line-height: 1.45;
-  margin-top: 4px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  transition:
-    background var(--dur-default) var(--ease-standard),
-    color var(--dur-default) var(--ease-standard),
-    border-color var(--dur-default) var(--ease-standard),
-    box-shadow var(--dur-default) var(--ease-standard);
-}
-.contrib-count {
-  color: var(--color-text-2);
-  font-size: 12px;
-  font-family: var(--font-mono);
-  margin-top: 4px;
-  transition:
-    background var(--dur-default) var(--ease-standard),
-    color var(--dur-default) var(--ease-standard),
-    border-color var(--dur-default) var(--ease-standard),
-    box-shadow var(--dur-default) var(--ease-standard);
-}
-.contrib-card:hover .contrib-name,
-.contrib-card:hover .contrib-handle,
-.contrib-card:hover .contrib-bio,
-.contrib-card:hover .contrib-count {
-  color: var(--color-bg);
 }

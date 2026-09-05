@@ -1,12 +1,12 @@
 ---
-import DocsLayout from '../../layouts/DocsLayout.astro';
-import Sidebar from '../../components/Sidebar.astro';
-import site from '../../data/site.json';
-import { getCollection, render } from 'astro:content';
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import Sidebar from "../../components/Sidebar.astro";
+import site from "../../data/site.json";
+import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map(post => ({
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
     params: { slug: post.id },
     props: { post },
   }));
@@ -18,17 +18,19 @@ const { Content } = await render(post);
 const wordCount = post.body?.split(/\s+/).length || 0;
 const readTime = Math.max(1, Math.ceil(wordCount / 200));
 
-const allPosts = (await getCollection('blog'))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const allPosts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
 
-const currentIndex = allPosts.findIndex(p => p.id === post.id);
-const next = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+const currentIndex = allPosts.findIndex((p) => p.id === post.id);
+const next =
+  currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
 
-const sidebarLinks = allPosts.map(p => ({
+const sidebarLinks = allPosts.map((p) => ({
   label: p.data.title,
   href: `/blog/${p.id}/`,
   active: p.id === post.id,
-  section: 'All posts',
+  section: "All posts",
 }));
 ---
 
@@ -45,9 +47,11 @@ const sidebarLinks = allPosts.map(p => ({
     <header class="docs-header">
       <div class="docs-breadcrumb">
         <a href="/">Home</a>
-        <iconify-icon icon="lucide:chevron-right" width="14" height="14"></iconify-icon>
+        <iconify-icon icon="lucide:chevron-right" width="14" height="14"
+        ></iconify-icon>
         <a href="/blog/">Blog</a>
-        <iconify-icon icon="lucide:chevron-right" width="14" height="14"></iconify-icon>
+        <iconify-icon icon="lucide:chevron-right" width="14" height="14"
+        ></iconify-icon>
         <span>{post.data.title}</span>
       </div>
     </header>
@@ -55,26 +59,39 @@ const sidebarLinks = allPosts.map(p => ({
     <article class="docs-content">
       <div class="blog-article-header">
         <div class="blog-article-author">
-          {post.data.authorGithub ? (
-            <a href={`https://github.com/${post.data.authorGithub}`} target="_blank" rel="noopener" class="blog-avatar-link">
-              <img
-                src={`https://github.com/${post.data.authorGithub}.png`}
-                alt={post.data.author}
-                width="36"
-                height="36"
-                class="blog-avatar"
-              />
-            </a>
-          ) : (
-            <div class="blog-avatar blog-avatar--fallback">
-              {post.data.author.charAt(0).toUpperCase()}
-            </div>
-          )}
+          {
+            post.data.authorGithub ? (
+              <a
+                href={`https://github.com/${post.data.authorGithub}`}
+                target="_blank"
+                rel="noopener"
+                class="blog-avatar-link"
+              >
+                <img
+                  src={`https://github.com/${post.data.authorGithub}.png`}
+                  alt={post.data.author}
+                  width="36"
+                  height="36"
+                  class="blog-avatar"
+                />
+              </a>
+            ) : (
+              <div class="blog-avatar blog-avatar--fallback">
+                {post.data.author.charAt(0).toUpperCase()}
+              </div>
+            )
+          }
           <div class="blog-author-info">
             <span class="blog-author-name">{post.data.author}</span>
             <div class="blog-article-meta">
               <time datetime={post.data.date.toISOString()}>
-                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                {
+                  post.data.date.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })
+                }
               </time>
               <span class="blog-meta-sep">&middot;</span>
               <span>{wordCount.toLocaleString()} words</span>
@@ -91,19 +108,22 @@ const sidebarLinks = allPosts.map(p => ({
         <Content />
       </div>
 
-      {next && (
-        <nav class="blog-next">
-          <span class="blog-next-label">Next post</span>
-          <a href={`/blog/${next.id}/`} class="blog-next-link">
-            <span>{next.data.title}</span>
-            <iconify-icon icon="lucide:arrow-right" width="14" height="14"></iconify-icon>
-          </a>
-        </nav>
-      )}
+      {
+        next && (
+          <nav class="blog-next">
+            <span class="blog-next-label">Next post</span>
+            <a href={`/blog/${next.id}/`} class="blog-next-link">
+              <span>{next.data.title}</span>
+              <iconify-icon icon="lucide:arrow-right" width="14" height="14" />
+            </a>
+          </nav>
+        )
+      }
 
       <div class="blog-back">
         <a href="/blog/">
-          <iconify-icon icon="lucide:arrow-left" width="14" height="14"></iconify-icon>
+          <iconify-icon icon="lucide:arrow-left" width="14" height="14"
+          ></iconify-icon>
           All posts
         </a>
       </div>
@@ -119,7 +139,9 @@ const sidebarLinks = allPosts.map(p => ({
     min-height: 100vh;
   }
   @media (max-width: 768px) {
-    .docs-main { margin-left: 0; }
+    .docs-main {
+      margin-left: 0;
+    }
   }
 
   .docs-header {
@@ -132,7 +154,9 @@ const sidebarLinks = allPosts.map(p => ({
     padding: 16px 32px;
   }
   @media (max-width: 768px) {
-    .docs-header { padding: 12px 16px; }
+    .docs-header {
+      padding: 12px 16px;
+    }
   }
 
   .docs-breadcrumb {
@@ -142,19 +166,35 @@ const sidebarLinks = allPosts.map(p => ({
     font-size: 13px;
     color: var(--color-text-3);
   }
-  .docs-breadcrumb a { color: var(--color-text-3); text-decoration: none; transition: background var(--dur-default) var(--ease-standard), color var(--dur-default) var(--ease-standard), border-color var(--dur-default) var(--ease-standard), box-shadow var(--dur-default) var(--ease-standard), opacity var(--dur-default) var(--ease-standard); }
-  .docs-breadcrumb a:hover { color: var(--color-text-2); }
+  .docs-breadcrumb a {
+    color: var(--color-text-3);
+    text-decoration: none;
+    transition:
+      background var(--dur-default) var(--ease-standard),
+      color var(--dur-default) var(--ease-standard),
+      border-color var(--dur-default) var(--ease-standard),
+      box-shadow var(--dur-default) var(--ease-standard),
+      opacity var(--dur-default) var(--ease-standard);
+  }
+  .docs-breadcrumb a:hover {
+    color: var(--color-text-2);
+  }
 
   .docs-content {
     width: 100%;
     max-width: 100%;
-    padding: clamp(20px, 3vw, 48px) clamp(12px, 2vw, 32px) clamp(48px, 6vw, 100px);
+    padding: clamp(20px, 3vw, 48px) clamp(12px, 2vw, 32px)
+      clamp(48px, 6vw, 100px);
   }
   @media (max-width: 768px) {
-    .docs-content { padding: 24px 16px; }
+    .docs-content {
+      padding: 24px 16px;
+    }
   }
 
-  .blog-article-header { margin-bottom: 32px; }
+  .blog-article-header {
+    margin-bottom: 32px;
+  }
 
   .blog-article-author {
     display: flex;
@@ -179,7 +219,9 @@ const sidebarLinks = allPosts.map(p => ({
     font-weight: 600;
     border: none;
   }
-  .blog-avatar-link { display: flex; }
+  .blog-avatar-link {
+    display: flex;
+  }
 
   .blog-author-name {
     display: block;
@@ -195,7 +237,9 @@ const sidebarLinks = allPosts.map(p => ({
     color: var(--color-text-3);
     margin-top: 2px;
   }
-  .blog-meta-sep { color: var(--color-border); }
+  .blog-meta-sep {
+    color: var(--color-border);
+  }
 
   .docs-content h1 {
     font-size: clamp(28px, 4vw, 48px);
@@ -230,7 +274,12 @@ const sidebarLinks = allPosts.map(p => ({
   .blog-body :global(a) {
     color: var(--color-info);
     text-decoration: none;
-    transition: background var(--dur-default) var(--ease-standard), color var(--dur-default) var(--ease-standard), border-color var(--dur-default) var(--ease-standard), box-shadow var(--dur-default) var(--ease-standard), opacity var(--dur-default) var(--ease-standard);
+    transition:
+      background var(--dur-default) var(--ease-standard),
+      color var(--dur-default) var(--ease-standard),
+      border-color var(--dur-default) var(--ease-standard),
+      box-shadow var(--dur-default) var(--ease-standard),
+      opacity var(--dur-default) var(--ease-standard);
   }
   .blog-body :global(a:hover) {
     color: var(--color-text-1);
@@ -272,7 +321,9 @@ const sidebarLinks = allPosts.map(p => ({
     margin: 0 0 16px;
     padding-left: 24px;
   }
-  .blog-body :global(li) { margin-bottom: 4px; }
+  .blog-body :global(li) {
+    margin-bottom: 4px;
+  }
 
   .blog-next {
     margin-top: 40px;
@@ -298,7 +349,12 @@ const sidebarLinks = allPosts.map(p => ({
     font-size: 15px;
     font-weight: 500;
     border: 1px solid var(--color-border);
-    transition: background var(--dur-default) var(--ease-standard), color var(--dur-default) var(--ease-standard), border-color var(--dur-default) var(--ease-standard), box-shadow var(--dur-default) var(--ease-standard), opacity var(--dur-default) var(--ease-standard);
+    transition:
+      background var(--dur-default) var(--ease-standard),
+      color var(--dur-default) var(--ease-standard),
+      border-color var(--dur-default) var(--ease-standard),
+      box-shadow var(--dur-default) var(--ease-standard),
+      opacity var(--dur-default) var(--ease-standard);
   }
   .blog-next-link:hover {
     background: var(--color-text-1);
@@ -316,7 +372,14 @@ const sidebarLinks = allPosts.map(p => ({
     font-size: 13px;
     color: var(--color-text-3);
     text-decoration: none;
-    transition: background var(--dur-default) var(--ease-standard), color var(--dur-default) var(--ease-standard), border-color var(--dur-default) var(--ease-standard), box-shadow var(--dur-default) var(--ease-standard), opacity var(--dur-default) var(--ease-standard);
+    transition:
+      background var(--dur-default) var(--ease-standard),
+      color var(--dur-default) var(--ease-standard),
+      border-color var(--dur-default) var(--ease-standard),
+      box-shadow var(--dur-default) var(--ease-standard),
+      opacity var(--dur-default) var(--ease-standard);
   }
-  .blog-back a:hover { color: var(--color-text-2); }
+  .blog-back a:hover {
+    color: var(--color-text-2);
+  }
 </style>

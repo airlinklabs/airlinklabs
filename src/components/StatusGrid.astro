@@ -21,20 +21,22 @@ function statusMeta(value: number) {
 <div class="status-grid">
   {title && <h3 class="status-grid__title">{title}</h3>}
   <div class="status-grid__items">
-    {items.map((item) => {
-      const { text, color, bg } = statusMeta(item.value);
-      return (
-        <div class="status-grid__item">
-          <span
-            class="status-grid__badge"
-            style={`color: ${color}; background: ${bg};`}
-          >
-            {text}
-          </span>
-          <span class="status-grid__label">{item.label}</span>
-        </div>
-      );
-    })}
+    {
+      items.map((item) => {
+        const { text, color, bg } = statusMeta(item.value);
+        return (
+          <div class="status-grid__item">
+            <span
+              class="status-grid__badge"
+              style={`color: ${color}; background: ${bg};`}
+            >
+              {text}
+            </span>
+            <span class="status-grid__label">{item.label}</span>
+          </div>
+        );
+      })
+    }
   </div>
 </div>
 

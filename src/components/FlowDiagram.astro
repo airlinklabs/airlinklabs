@@ -18,24 +18,33 @@ const { title, steps } = Astro.props;
 <div class="flow">
   {title && <h3 class="flow__title">{title}</h3>}
   <div class="flow__diagram">
-    {steps.map((step, i) => (
-      <div class="flow__step">
-        <div
-          class={`flow__node flow__node--${step.type}`}
-          title={step.from && step.to ? `${step.from} → ${step.to}` : undefined}
-        >
-          {step.text}
-        </div>
-        {step.label && <span class="flow__label">{step.label}</span>}
-        {i < steps.length - 1 && (
-          <div class="flow__arrow">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14M19 12l-7 7-7-7" />
-            </svg>
+    {
+      steps.map((step, i) => (
+        <div class="flow__step">
+          <div
+            class={`flow__node flow__node--${step.type}`}
+            title={
+              step.from && step.to ? `${step.from} → ${step.to}` : undefined
+            }
+          >
+            {step.text}
           </div>
-        )}
-      </div>
-    ))}
+          {step.label && <span class="flow__label">{step.label}</span>}
+          {i < steps.length - 1 && (
+            <div class="flow__arrow">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 5v14M19 12l-7 7-7-7" />
+              </svg>
+            </div>
+          )}
+        </div>
+      ))
+    }
   </div>
 </div>
 

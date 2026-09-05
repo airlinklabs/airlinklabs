@@ -179,9 +179,11 @@ button,
 .hub-list-row,
 .docs-list-row,
 .project-row,
-.contrib-card,
+.team-card,
+.contrib-card-full,
 .blog-card,
 .blog-post-row,
+.commit-row,
 .post-back-link {
   position: relative;
   isolation: isolate;
@@ -189,7 +191,9 @@ button,
 .hub-list-row:active,
 .docs-list-row:active,
 .project-row:active,
-.contrib-card:active {
+.team-card:active,
+.contrib-card-full:active,
+.commit-row:active {
   transform: translateY(0) scale(0.98);
   transition-duration: 80ms;
 }
@@ -214,9 +218,11 @@ button,
 .hub-list-row::before,
 .docs-list-row::before,
 .project-row::before,
-.contrib-card::before,
+.team-card::before,
+.contrib-card-full::before,
 .blog-card::before,
 .blog-post-row::before,
+.commit-row::before,
 .post-back-link::before {
   content: "";
   position: absolute;
@@ -238,9 +244,11 @@ button,
 .hub-list-row:hover::before,
 .docs-list-row:hover::before,
 .project-row:hover::before,
-.contrib-card:hover::before,
+.team-card:hover::before,
+.contrib-card-full:hover::before,
 .blog-card:hover::before,
 .blog-post-row:hover::before,
+.commit-row:hover::before,
 .post-back-link:hover::before {
   opacity: 1;
   background-size: 250% 250%;
@@ -248,9 +256,11 @@ button,
 .hub-list-row > *,
 .docs-list-row > *,
 .project-row > *,
-.contrib-card > *,
+.team-card > *,
+.contrib-card-full > *,
 .blog-card > *,
 .blog-post-row > *,
+.commit-row > *,
 .post-back-link > * {
   position: relative;
   z-index: var(--z-base);
@@ -258,9 +268,11 @@ button,
 .hub-list-row:focus-visible::before,
 .docs-list-row:focus-visible::before,
 .project-row:focus-visible::before,
-.contrib-card:focus-visible::before,
+.team-card:focus-visible::before,
+.contrib-card-full:focus-visible::before,
 .blog-card:focus-visible::before,
 .blog-post-row:focus-visible::before,
+.commit-row:focus-visible::before,
 .post-back-link:focus-visible::before {
   opacity: 1;
   background-size: 250% 250%;
@@ -269,9 +281,11 @@ button,
   .hub-list-row::before,
   .docs-list-row::before,
   .project-row::before,
-  .contrib-card::before,
+  .team-card::before,
+  .contrib-card-full::before,
   .blog-card::before,
   .blog-post-row::before,
+  .commit-row::before,
   .post-back-link::before,
   .license-item::before {
     transition: opacity var(--dur-default) var(--ease-standard);
@@ -287,9 +301,10 @@ button:focus-visible,
 .site-nav-link:focus-visible,
 .site-section-link:focus-visible,
 .mob-item:focus-visible,
-.contrib-card:focus-visible,
+.team-card:focus-visible,
+.contrib-card-full:focus-visible,
+.commit-row:focus-visible,
 .project-card:focus-visible,
-.contrib-team-row:focus-visible,
 .commit-more-btn:focus-visible,
 [id$="-modal"] button:focus-visible {
   outline: 2px solid var(--color-text-1);

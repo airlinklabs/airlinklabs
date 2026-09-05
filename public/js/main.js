@@ -262,153 +262,34 @@ document.addEventListener(
     }
   }
 
-  // ── Hero entrance sequence (home page only) ───────────────────────────
-  // Detect if user came from another page on this site (redirect/hash nav)
-  var isSameSiteNav =
-    document.referrer &&
-    document.referrer.indexOf(window.location.origin) === 0;
-
-  // Also check navigation type via Performance API (SPA pushState / back/forward)
-  var navEntries = performance.getEntriesByType("navigation");
-  var navType = navEntries.length > 0 ? navEntries[0].type : "navigate";
-  // 'navigate' = fresh load, 'reload' = refresh, 'back_forward' = history nav
-  // For pushState SPA navigations this will be 'navigate' but referrer check above catches them
-
-  var shouldAnimateHero =
-    isHome && !isSameSiteNav && navType !== "back_forward";
-
+  // ── Hero entrance: show everything immediately ─────────────────────────
   if (isHome) {
     var sidebar = document.querySelector(".site-sidebar");
     var mainContent = document.querySelector(".docs-main, .site-main");
+    var heroSection = document.querySelector(".hub-hero");
+    var heroBg = document.querySelector(".hero-bg");
+    var heroCarousel = document.querySelector(".hero-carousel");
 
-    if (!shouldAnimateHero) {
-      // Redirected from docs/hash/etc — show everything immediately, no cinematic
-      var heroSection = document.querySelector(".hub-hero");
-      var heroBg = document.querySelector(".hero-bg");
-      var heroCarousel = document.querySelector(".hero-carousel");
-      if (heroSection) heroSection.classList.add("visible");
-      if (sidebar) sidebar.classList.add("sidebar-visible");
-      if (mainContent) mainContent.classList.add("sidebar-visible");
-      if (heroBg) heroBg.classList.add("sunk");
-      if (heroCarousel) heroCarousel.classList.add("visible");
-      var allSections = document.querySelectorAll(
-        ".hub-section, .hero-text-animated",
-      );
-      allSections.forEach(function (s) {
+    if (heroSection) heroSection.classList.add("visible");
+    if (sidebar) sidebar.classList.add("sidebar-visible");
+    if (mainContent) mainContent.classList.add("sidebar-visible");
+    if (heroBg) heroBg.classList.add("sunk");
+    if (heroCarousel) heroCarousel.classList.add("visible");
+
+    document
+      .querySelectorAll(".hub-section, .hero-text-animated")
+      .forEach(function (s) {
         s.classList.add("revealed");
       });
-    } else {
-      // Direct page load — play full hero entrance sequence
-      document.documentElement.classList.add("page-locked");
 
-      var heroViewport = document.querySelector(".hero-viewport");
-      var heroBg = document.querySelector(".hero-bg");
-      var heroSection = document.querySelector(".hub-hero");
-      var heroCarousel = document.querySelector(".hero-carousel");
-      var welcomeEl = document.getElementById("hero-welcome");
-      var sections = document.querySelectorAll(
-        ".hub-section, .hero-text-animated",
-      );
-
-      // Defer section reveals
-      sections.forEach(function (s) {
-        s.classList.add("deferred");
-      });
-
-      // Step 0: Start hero-bg sink animation
-      if (heroBg) heroBg.classList.add("sinking");
-
-      function runHeroSequence() {
-        // Step 0b: After sink anim ends, lock final state
-        if (heroBg) {
-          heroBg.addEventListener("animationend", function handler() {
-            heroBg.removeEventListener("animationend", handler);
-            heroBg.classList.remove("sinking");
-            heroBg.classList.add("sunk");
-          });
-        }
-
-        // Step 1: Wait for sink (1000ms), then fade in welcome text
+    // Show construction popup if enabled
+    if (window.__underConstruction) {
+      var constructionOverlay = document.getElementById("construction-overlay");
+      if (constructionOverlay) {
         setTimeout(function () {
-          if (welcomeEl) {
-            welcomeEl.classList.add("visible");
-
-            // Step 2: After delay, fade out welcome
-            setTimeout(function () {
-              welcomeEl.classList.remove("visible");
-              welcomeEl.classList.add("exit");
-
-              // Step 3: After welcome exits, show hero text
-              setTimeout(function () {
-                if (heroSection) heroSection.classList.add("visible");
-
-                // Step 3.5: Slide in sidebar + push content
-                if (sidebar) sidebar.classList.add("sidebar-visible");
-                if (mainContent) mainContent.classList.add("sidebar-visible");
-
-                // Step 3.6: Hero BG exits right, carousel follows
-                if (heroBg) {
-                  heroBg.classList.remove("sunk");
-                  heroBg.classList.add("exit-right");
-                }
-                if (heroCarousel) {
-                  setTimeout(function () {
-                    heroCarousel.classList.add("visible");
-                  }, 300);
-                }
-
-                // Step 4: After hero text settles, reveal sections + unlock scroll
-                setTimeout(function () {
-                  sections.forEach(function (s, i) {
-                    setTimeout(function () {
-                      s.classList.add("revealed");
-                    }, i * 80);
-                  });
-                  document.documentElement.classList.remove("page-locked");
-
-                  // Step 5: Show construction popup if enabled
-                  if (window.__underConstruction) {
-                    var overlay = document.getElementById(
-                      "construction-overlay",
-                    );
-                    if (overlay) {
-                      setTimeout(function () {
-                        overlay.classList.add("open");
-                      }, 400);
-                    }
-                  }
-                }, 500);
-              }, 500);
-            }, 1400);
-          } else {
-            // No welcome element — just show hero, sidebar, and unlock
-            if (heroSection) heroSection.classList.add("visible");
-            if (sidebar) sidebar.classList.add("sidebar-visible");
-            if (mainContent) mainContent.classList.add("sidebar-visible");
-            setTimeout(function () {
-              sections.forEach(function (s, i) {
-                setTimeout(function () {
-                  s.classList.add("revealed");
-                }, i * 80);
-              });
-              document.documentElement.classList.remove("page-locked");
-              if (window.__underConstruction) {
-                var overlay = document.getElementById("construction-overlay");
-                if (overlay) {
-                  setTimeout(function () {
-                    overlay.classList.add("open");
-                  }, 400);
-                }
-              }
-            }, 300);
-          }
-        }, 1000); // Wait for hero bg sinking animation
+          constructionOverlay.classList.add("open");
+        }, 400);
       }
-
-      // Start sequence after brief paint delay
-      requestAnimationFrame(function () {
-        requestAnimationFrame(runHeroSequence);
-      });
     }
   } else {
     // Non-home pages: show sidebar immediately
@@ -510,6 +391,56 @@ document.addEventListener(
   });
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && overlay.classList.contains("open")) closeModal();
+  });
+})();
+
+// ── About section tab-swap ──────────────────────────────────────────────────
+(function () {
+  var cards = document.querySelectorAll("[data-about]");
+  var showcases = document.querySelectorAll("[data-about-showcase]");
+  if (!cards.length || !showcases.length) return;
+
+  cards.forEach(function (card) {
+    card.addEventListener("click", function () {
+      var key = card.getAttribute("data-about");
+      cards.forEach(function (c) {
+        c.classList.remove("about-card--active");
+      });
+      showcases.forEach(function (s) {
+        s.classList.remove("feature-showcase--active");
+      });
+      card.classList.add("about-card--active");
+      var target = document.querySelector(
+        '[data-about-showcase="' + key + '"]',
+      );
+      if (target) target.classList.add("feature-showcase--active");
+    });
+  });
+})();
+
+// ── Stagger scroll animations ──────────────────────────────────────────────
+(function () {
+  var prefersReduced = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+  if (prefersReduced) return;
+  var staggerEls = document.querySelectorAll("[data-stagger]");
+  if (!staggerEls.length) return;
+
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("stagger-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 },
+  );
+
+  staggerEls.forEach(function (el) {
+    observer.observe(el);
   });
 })();
 
@@ -967,4 +898,103 @@ if (commitBtn && commitPopup) {
       }
     });
   }
+})();
+
+// ── Feature grid popup ────────────────────────────────────────────────
+(function () {
+  var popup = document.getElementById("feature-popup");
+  var popupImg = document.getElementById("feature-popup-img");
+  var popupTitle = document.getElementById("feature-popup-title");
+  var popupDesc = document.getElementById("feature-popup-desc");
+  var popupLong = document.getElementById("feature-popup-long");
+  var popupClose = document.getElementById("feature-popup-close");
+  var triggerEl = null;
+
+  if (!popup) return;
+
+  var screenshotMap = {
+    "server-management":
+      "/assets/features/server-management/server-management-dark.png",
+    console: "/assets/features/console/console-dark.png",
+    "file-manager": "/assets/features/file-manager/file-manager-dark.png",
+    nodes: "/assets/features/nodes/nodes-dark.png",
+    users: "/assets/features/users/users-dark.png",
+    addons: "/assets/features/addons/addons-dark.png",
+    api: "/assets/features/api/api-dark.png",
+    sftp: "/assets/features/sftp/sftp-dark.png",
+    migrations: "/assets/features/migrations/migrations-dark.png",
+    "pterodactyl-eggs":
+      "/assets/features/pterodactyl-eggs/pterodactyl-eggs-dark.png",
+  };
+
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest(".feature-grid-trigger");
+    if (!btn) return;
+    triggerEl = btn;
+    var id = btn.dataset.id || "";
+    var title = btn.dataset.title || "";
+    var desc = btn.dataset.desc || "";
+    var long = btn.dataset.long || "";
+
+    popupTitle.textContent = title;
+    popupDesc.textContent = desc;
+    if (long) {
+      popupLong.textContent = long;
+      popupLong.style.display = "";
+    } else {
+      popupLong.style.display = "none";
+    }
+
+    if (screenshotMap[id]) {
+      popupImg.src = screenshotMap[id];
+      popupImg.alt = title;
+      popupImg.style.display = "";
+    } else {
+      popupImg.style.display = "none";
+    }
+
+    popup.classList.add("open");
+    setTimeout(function () {
+      popupClose.focus();
+    }, 60);
+  });
+
+  function closePopup() {
+    popup.classList.remove("open");
+    if (triggerEl) {
+      triggerEl.focus();
+      triggerEl = null;
+    }
+  }
+
+  if (popupClose) popupClose.addEventListener("click", closePopup);
+  popup.addEventListener("click", function (e) {
+    if (e.target === popup) closePopup();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && popup.classList.contains("open")) closePopup();
+  });
+  // Focus trap
+  document.addEventListener("keydown", function (e) {
+    if (!popup.classList.contains("open")) return;
+    if (e.key === "Tab") {
+      var focusable = popup.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      );
+      if (focusable.length === 0) return;
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+  });
 })();

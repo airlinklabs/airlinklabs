@@ -13,13 +13,7 @@ interface Props {
   height?: string;
 }
 
-const {
-  title,
-  type = "bar",
-  data,
-  caption,
-  height = "400px",
-} = Astro.props;
+const { title, type = "bar", data, caption, height = "400px" } = Astro.props;
 
 const chartId = `chart-${Math.random().toString(36).slice(2, 9)}`;
 ---
@@ -41,8 +35,7 @@ const chartId = `chart-${Math.random().toString(36).slice(2, 9)}`;
 
 <script
   is:inline
-  src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"
-></script>
+  src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <script
   is:inline
   src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2/dist/chartjs-plugin-zoom.min.js"
@@ -55,8 +48,7 @@ const chartId = `chart-${Math.random().toString(36).slice(2, 9)}`;
       bg: s.getPropertyValue("--color-bg").trim() || "#161616",
       bg2: s.getPropertyValue("--color-bg-2").trim() || "#1e1e1e",
       border:
-        s.getPropertyValue("--color-border").trim() ||
-        "rgba(255,255,255,0.13)",
+        s.getPropertyValue("--color-border").trim() || "rgba(255,255,255,0.13)",
       text1: s.getPropertyValue("--color-text-1").trim() || "#e0e0e0",
       text2: s.getPropertyValue("--color-text-2").trim() || "#b0b0b0",
       text3: s.getPropertyValue("--color-text-3").trim() || "#767676",
@@ -79,158 +71,163 @@ const chartId = `chart-${Math.random().toString(36).slice(2, 9)}`;
   ];
 
   function initCharts() {
-    document.querySelectorAll(".chart-wrap[data-chart-data]").forEach((wrap) => {
-      const el = wrap as HTMLElement;
-      const canvas = el.querySelector("canvas");
-      if (!canvas) return;
+    document
+      .querySelectorAll(".chart-wrap[data-chart-data]")
+      .forEach((wrap) => {
+        const el = wrap as HTMLElement;
+        const canvas = el.querySelector("canvas");
+        if (!canvas) return;
 
-      const chartType = el.dataset.chartType || "bar";
-      const rawData = el.dataset.chartData || "[]";
-      let dataPoints: { label: string; value: number; color?: string }[];
-      try {
-        dataPoints = JSON.parse(rawData);
-      } catch {
-        return;
-      }
+        const chartType = el.dataset.chartType || "bar";
+        const rawData = el.dataset.chartData || "[]";
+        let dataPoints: { label: string; value: number; color?: string }[];
+        try {
+          dataPoints = JSON.parse(rawData);
+        } catch {
+          return;
+        }
 
-      const t = getThemeColors();
-      const labels = dataPoints.map((d) => d.label);
-      const values = dataPoints.map((d) => d.value);
+        const t = getThemeColors();
+        const labels = dataPoints.map((d) => d.label);
+        const values = dataPoints.map((d) => d.value);
 
-      let bgColors: string[];
-      let borderColors: string[];
+        let bgColors: string[];
+        let borderColors: string[];
 
-      if (chartType === "doughnut") {
-        bgColors = dataPoints.map(
-          (d, i) => d.color || VIBRANT[i % VIBRANT.length]
-        );
-        borderColors = bgColors;
-      } else {
-        const base = dataPoints.map(
-          (d, i) => d.color || VIBRANT[i % VIBRANT.length]
-        );
-        bgColors = base.map((c) => c + "cc");
-        borderColors = base;
-      }
+        if (chartType === "doughnut") {
+          bgColors = dataPoints.map(
+            (d, i) => d.color || VIBRANT[i % VIBRANT.length],
+          );
+          borderColors = bgColors;
+        } else {
+          const base = dataPoints.map(
+            (d, i) => d.color || VIBRANT[i % VIBRANT.length],
+          );
+          bgColors = base.map((c) => c + "cc");
+          borderColors = base;
+        }
 
-      const datasets = {
-        bar: [
-          {
-            label: "Value",
-            data: values,
-            backgroundColor: bgColors,
-            borderColor: borderColors,
-            borderWidth: 1.5,
-            borderRadius: 6,
-            hoverBackgroundColor: borderColors,
-          },
-        ],
-        line: [
-          {
-            label: "Value",
-            data: values,
-            borderColor: t.info,
-            backgroundColor: t.info + "22",
-            borderWidth: 2.5,
-            pointRadius: 4,
-            pointHoverRadius: 7,
-            pointBackgroundColor: t.info,
-            pointBorderColor: t.bg,
-            pointBorderWidth: 2,
-            fill: true,
-            tension: 0.35,
-          },
-        ],
-        doughnut: [
-          {
-            label: "Value",
-            data: values,
-            backgroundColor: bgColors,
-            borderColor: t.bg,
-            borderWidth: 3,
-            hoverBorderColor: t.text1,
-            hoverOffset: 8,
-          },
-        ],
-      };
+        const datasets = {
+          bar: [
+            {
+              label: "Value",
+              data: values,
+              backgroundColor: bgColors,
+              borderColor: borderColors,
+              borderWidth: 1.5,
+              borderRadius: 6,
+              hoverBackgroundColor: borderColors,
+            },
+          ],
+          line: [
+            {
+              label: "Value",
+              data: values,
+              borderColor: t.info,
+              backgroundColor: t.info + "22",
+              borderWidth: 2.5,
+              pointRadius: 4,
+              pointHoverRadius: 7,
+              pointBackgroundColor: t.info,
+              pointBorderColor: t.bg,
+              pointBorderWidth: 2,
+              fill: true,
+              tension: 0.35,
+            },
+          ],
+          doughnut: [
+            {
+              label: "Value",
+              data: values,
+              backgroundColor: bgColors,
+              borderColor: t.bg,
+              borderWidth: 3,
+              hoverBorderColor: t.text1,
+              hoverOffset: 8,
+            },
+          ],
+        };
 
-      const common: any = {
-        responsive: true,
-        maintainAspectRatio: false,
-        animation: { duration: 800, easing: "easeOutQuart" },
-        plugins: {
-          legend: {
-            display: false,
-          },
-          tooltip: {
-            backgroundColor: t.bg2,
-            titleColor: t.text1,
-            bodyColor: t.text2,
-            borderColor: t.border,
-            borderWidth: 1,
-            cornerRadius: 8,
-            padding: 10,
-            titleFont: { weight: "600" },
-          },
-          zoom: {
-            pan: {
-              enabled: true,
-              mode: "xy",
-              modifierKey: null,
+        const common: any = {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 800, easing: "easeOutQuart" },
+          plugins: {
+            legend: {
+              display: false,
+            },
+            tooltip: {
+              backgroundColor: t.bg2,
+              titleColor: t.text1,
+              bodyColor: t.text2,
+              borderColor: t.border,
+              borderWidth: 1,
+              cornerRadius: 8,
+              padding: 10,
+              titleFont: { weight: "600" },
             },
             zoom: {
-              wheel: { enabled: true },
-              pinch: { enabled: true },
-              mode: "xy",
-            },
-            limits: {
-              x: { minRange: 2 },
-              y: { minRange: 2 },
-            },
-          },
-        },
-      };
-
-      if (chartType === "bar" || chartType === "line") {
-        Object.assign(common, {
-          layout: { padding: { left: 4, right: 8, top: 4, bottom: 4 } },
-          scales: {
-            x: {
-              grid: { color: t.border, drawBorder: false },
-              ticks: {
-                color: t.text2,
-                font: { size: 12 },
-                autoSkip: false,
-                maxRotation: 0,
+              pan: {
+                enabled: true,
+                mode: "xy",
+                modifierKey: null,
+              },
+              zoom: {
+                wheel: { enabled: true },
+                pinch: { enabled: true },
+                mode: "xy",
+              },
+              limits: {
+                x: { minRange: 2 },
+                y: { minRange: 2 },
               },
             },
-            y: {
-              grid: { color: t.border, drawBorder: false },
-              ticks: { color: t.text2, font: { size: 12 } },
-              beginAtZero: true,
-            },
           },
-        });
-      }
+        };
 
-      const chart = new Chart(canvas, {
-        type: chartType as any,
-        data: { labels, datasets: datasets[chartType as keyof typeof datasets] },
-        options: common,
+        if (chartType === "bar" || chartType === "line") {
+          Object.assign(common, {
+            layout: { padding: { left: 4, right: 8, top: 4, bottom: 4 } },
+            scales: {
+              x: {
+                grid: { color: t.border, drawBorder: false },
+                ticks: {
+                  color: t.text2,
+                  font: { size: 12 },
+                  autoSkip: false,
+                  maxRotation: 0,
+                },
+              },
+              y: {
+                grid: { color: t.border, drawBorder: false },
+                ticks: { color: t.text2, font: { size: 12 } },
+                beginAtZero: true,
+              },
+            },
+          });
+        }
+
+        const chart = new Chart(canvas, {
+          type: chartType as any,
+          data: {
+            labels,
+            datasets: datasets[chartType as keyof typeof datasets],
+          },
+          options: common,
+        });
+
+        const resetBtn = el.querySelector(
+          `.chart-reset-zoom[data-chart="${canvas.id}"]`,
+        );
+        if (resetBtn) {
+          resetBtn.addEventListener("click", () => {
+            (chart as any).resetZoom();
+          });
+        }
+
+        (window as any).__charts = (window as any).__charts || [];
+        (window as any).__charts.push(chart);
       });
-
-      const resetBtn = el.querySelector(
-        `.chart-reset-zoom[data-chart="${canvas.id}"]`
-      );
-      if (resetBtn) {
-        resetBtn.addEventListener("click", () => {
-          (chart as any).resetZoom();
-        });
-      }
-
-      (window as any).__charts = (window as any).__charts || [];
-      (window as any).__charts.push(chart);
-    });
   }
 
   function boot() {
