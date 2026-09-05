@@ -1,0 +1,115 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import Sidebar from '../../components/Sidebar.astro';
+import site from '../../data/site.json';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const pinned = posts.filter(p => p.data.pinned);
+const allPosts = posts;
+
+const sidebarLinks = posts.map(post => ({
+  label: post.data.title,
+  href: `/blog/${post.id}/`,
+  active: false,
+  section: 'All posts',
+}));
+---
+
+<DocsLayout title="Blog">
+  <Sidebar
+    rootPrefix="/"
+    currentPage="blog"
+    sidebarLinks={sidebarLinks}
+    sidebarSectionLabel="All posts"
+    site={site}
+  />
+
+  <div class="docs-main">
+    <div class="docs-content">
+      <h1>Blog</h1>
+      <p class="docs-subtitle">Updates, release notes, and deep dives from the AirLink team.</p>
+
+      <label class="docs-search">
+        <iconify-icon icon="lucide:search" width="17" height="17"></iconify-icon>
+        <input type="search" id="blog-search-input" placeholder="Search posts..." autocomplete="off" />
+        <kbd id="blog-search-kbd">Ctrl K</kbd>
+      </label>
+
+      {pinned.length > 0 && (
+        <section class="docs-group">
+          <h2>Pinned</h2>
+          <div class="docs-list">
+            {pinned.map(post => (
+              <a href={`/blog/${post.id}/`} class="docs-list-row" data-search-text={`${post.data.title} ${post.data.author}`.toLowerCase()}>
+                <div>
+                  <p>{post.data.title}</p>
+                  <span>{post.data.author} · {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                </div>
+                <iconify-icon icon="lucide:arrow-right" width="16" height="16"></iconify-icon>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section class="docs-group">
+        <h2>All posts</h2>
+        <div class="docs-list">
+          {allPosts.map(post => (
+            <a href={`/blog/${post.id}/`} class="docs-list-row" data-search-text={`${post.data.title} ${post.data.author}`.toLowerCase()}>
+              <div>
+                <p>{post.data.title}</p>
+                <span>{post.data.author} · {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+              </div>
+              <iconify-icon icon="lucide:arrow-right" width="16" height="16"></iconify-icon>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <div id="blog-search-no-results" class="empty-state" style="display:none">
+        <iconify-icon icon="lucide:search-x" width="32" height="32"></iconify-icon>
+        <p>No results found. Try a different search term.</p>
+      </div>
+    </div>
+  </div>
+</DocsLayout>
+
+<script is:inline>
+(function () {
+  var kbd = document.getElementById('blog-search-kbd');
+  if (kbd && navigator.platform && /Mac|iPhone|iPad|iPod/.test(navigator.platform)) {
+    kbd.textContent = '\u2318 K';
+  }
+
+  var input = document.getElementById('blog-search-input');
+  var noResults = document.getElementById('blog-search-no-results');
+  if (!input) return;
+
+  input.addEventListener('input', function () {
+    var q = input.value.toLowerCase().trim();
+    var visibleCount = 0;
+    document.querySelectorAll('.docs-list-row[data-search-text]').forEach(function (row) {
+      var visible = !q || row.dataset.searchText.includes(q);
+      row.hidden = !visible;
+      if (visible) visibleCount++;
+    });
+    document.querySelectorAll('.docs-group').forEach(function (group) {
+      group.hidden = !!q && !group.querySelector('.docs-list-row:not([hidden])');
+    });
+    if (noResults) {
+      noResults.style.display = visibleCount === 0 && q.length > 0 ? '' : 'none';
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      input.focus();
+    }
+  });
+})();
+</script>

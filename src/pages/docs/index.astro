@@ -1,0 +1,119 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import Sidebar from '../../components/Sidebar.astro';
+import site from '../../data/site.json';
+import { getCollection } from 'astro:content';
+
+const docs = await getCollection('docs');
+
+const grouped = docs.reduce<Record<string, typeof docs>>((acc, doc) => {
+  const section = doc.data.section;
+  if (!acc[section]) acc[section] = [];
+  acc[section].push(doc);
+  return acc;
+}, {});
+
+for (const section of Object.keys(grouped)) {
+  grouped[section].sort((a, b) => a.data.order - b.data.order);
+}
+
+const sections = Object.keys(grouped).sort((a, b) => {
+  const orderA = grouped[a][0]?.data.order ?? Infinity;
+  const orderB = grouped[b][0]?.data.order ?? Infinity;
+  return orderA - orderB;
+});
+
+const sidebarLinks = sections.flatMap(section =>
+  grouped[section].map(doc => ({
+    label: doc.data.title,
+    href: `/docs/${doc.id}/`,
+    active: false,
+    section,
+  }))
+);
+---
+
+<DocsLayout title="Docs">
+  <Sidebar
+    rootPrefix="/"
+    currentPage="docs"
+    sidebarLinks={sidebarLinks}
+    sidebarSectionLabel="Documentation"
+    site={site}
+  />
+
+  <div class="docs-main">
+    <div class="docs-content">
+      <h1>Documentation</h1>
+      <p class="docs-subtitle">Practical guides and reference material for running and contributing to AirLink.</p>
+
+      <label class="docs-search">
+        <iconify-icon icon="lucide:search" width="17" height="17"></iconify-icon>
+        <input type="search" id="docs-search-input" placeholder="Search documentation" autocomplete="off" />
+        <kbd id="search-kbd">Ctrl K</kbd>
+      </label>
+
+      {sections.map(section => (
+        <section class="docs-group">
+          <h2>{section}</h2>
+          <div class="docs-list">
+            {grouped[section].map(doc => (
+              <a
+                href={`/docs/${doc.id}/`}
+                class="docs-list-row"
+                data-search-text={`${doc.data.title} ${doc.data.description} ${doc.data.section}`.toLowerCase()}
+              >
+                <div>
+                  <p>{doc.data.title}</p>
+                  <span>{doc.data.description}</span>
+                </div>
+                <iconify-icon icon="lucide:arrow-right" width="16" height="16"></iconify-icon>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))}
+
+      <div id="docs-search-no-results" class="empty-state" style="display:none">
+        <iconify-icon icon="lucide:search-x" width="32" height="32"></iconify-icon>
+        <p>No results found. Try a different search term.</p>
+      </div>
+    </div>
+  </div>
+</DocsLayout>
+
+<script is:inline>
+(function () {
+  var kbd = document.getElementById('search-kbd');
+  if (kbd && navigator.platform && /Mac|iPhone|iPad|iPod/.test(navigator.platform)) {
+    kbd.textContent = '\u2318 K';
+  }
+
+  var input = document.getElementById('docs-search-input');
+  var noResults = document.getElementById('docs-search-no-results');
+  if (!input) return;
+
+  input.addEventListener('input', function () {
+    var q = input.value.toLowerCase().trim();
+    var visibleCount = 0;
+    document.querySelectorAll('.docs-list-row[data-search-text]').forEach(function (row) {
+      var visible = !q || row.dataset.searchText.includes(q);
+      row.hidden = !visible;
+      if (visible) visibleCount++;
+    });
+    document.querySelectorAll('.docs-group').forEach(function (group) {
+      group.hidden = !!q && !group.querySelector('.docs-list-row:not([hidden])');
+    });
+    if (noResults) {
+      noResults.style.display = visibleCount === 0 && q.length > 0 ? '' : 'none';
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      input.focus();
+    }
+  });
+})();
+</script>

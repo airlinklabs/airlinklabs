@@ -1,0 +1,70 @@
+---
+interface Props {
+  pageTitle?: string;
+  site: {
+    title: string;
+    description: string;
+    siteUrl?: string;
+  };
+  underConstruction?: {
+    enabled: boolean;
+    badge: string;
+    message: string;
+  };
+  rootPrefix?: string;
+  pageDescription?: string;
+}
+
+const {
+  pageTitle,
+  site,
+  underConstruction,
+  rootPrefix = '/',
+  pageDescription,
+} = Astro.props;
+
+const siteUrl = (site.siteUrl || '').replace(/\/$/, '');
+const fullTitle = pageTitle ? `${pageTitle} · ${site.title}` : site.title;
+const description = pageDescription || site.description;
+const ogImage = `${siteUrl}/assets/icon.png`;
+const canonical = `${siteUrl}${rootPrefix === '' ? '/' : rootPrefix}`;
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<meta name="theme-color" content="#161616" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#f5f5f5" media="(prefers-color-scheme: light)" />
+
+<link rel="icon" href={`${rootPrefix}assets/favicon.ico`} type="image/x-icon" />
+<link rel="icon" href={`${rootPrefix}assets/icon.png`} type="image/png" sizes="any" />
+
+<!-- Open Graph — used by Discord, GitHub, and most link previewers -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={site.title} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
+{siteUrl && <meta property="og:url" content={canonical} />}
+
+<!-- Preload fonts -->
+<link rel="preload" as="font" href="/fonts/space-grotesk-variable.woff2" type="font/woff2" crossorigin />
+
+<!-- Mermaid.js — loaded on demand by main.js when ```mermaid blocks are found -->
+
+{underConstruction?.enabled && (
+  <style>
+    .uc-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 9999;
+      background: var(--color-warning);
+      color: #000;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      text-align: center;
+      padding: 6px 16px;
+    }
+  </style>
+)}

@@ -1,0 +1,42 @@
+---
+import '../styles/global.css';
+import Head from '../components/Head.astro';
+import Nav from '../components/Nav.astro';
+import site from '../data/site.json';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const underConstruction = site.underConstruction;
+---
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<Head pageTitle={title} site={site} underConstruction={underConstruction} pageDescription={description} />
+<body class="docs-page">
+  {underConstruction?.enabled && (
+    <div class="uc-bar">{underConstruction.badge}: {underConstruction.message}</div>
+  )}
+
+  <Nav />
+
+  <div class="docs-shell">
+    <slot />
+  </div>
+
+  <script is:inline set:html={`window.__underConstruction = ${underConstruction?.enabled ? 'true' : 'false'};`}></script>
+  <script is:inline src="/js/motion.js" defer></script>
+  <script is:inline src="/js/main.js" defer></script>
+  <script is:inline src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js" defer></script>
+</body>
+</html>
+
+<style>
+  .docs-shell {
+    display: flex;
+    min-height: 100vh;
+  }
+</style>

@@ -1,0 +1,298 @@
+---
+interface DataPoint {
+  label: string;
+  value: number;
+  color?: string;
+}
+
+interface Props {
+  title?: string;
+  type?: "bar" | "line" | "doughnut";
+  data: DataPoint[];
+  caption?: string;
+  height?: string;
+}
+
+const {
+  title,
+  type = "bar",
+  data,
+  caption,
+  height = "400px",
+} = Astro.props;
+
+const chartId = `chart-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div
+  class="chart-wrap"
+  data-chart-type={type}
+  data-chart-data={JSON.stringify(data)}
+>
+  {title && <h3 class="chart-wrap__title">{title}</h3>}
+  <div class="chart-container" style={`height:${height}`}>
+    <canvas id={chartId}></canvas>
+    <button class="chart-reset-zoom" data-chart={chartId} type="button">
+      Reset Zoom
+    </button>
+  </div>
+  {caption && <p class="chart-wrap__caption">{caption}</p>}
+</div>
+
+<script
+  is:inline
+  src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"
+></script>
+<script
+  is:inline
+  src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2/dist/chartjs-plugin-zoom.min.js"
+></script>
+
+<script>
+  function getThemeColors() {
+    const s = getComputedStyle(document.documentElement);
+    return {
+      bg: s.getPropertyValue("--color-bg").trim() || "#161616",
+      bg2: s.getPropertyValue("--color-bg-2").trim() || "#1e1e1e",
+      border:
+        s.getPropertyValue("--color-border").trim() ||
+        "rgba(255,255,255,0.13)",
+      text1: s.getPropertyValue("--color-text-1").trim() || "#e0e0e0",
+      text2: s.getPropertyValue("--color-text-2").trim() || "#b0b0b0",
+      text3: s.getPropertyValue("--color-text-3").trim() || "#767676",
+      info: s.getPropertyValue("--color-info").trim() || "#60a5fa",
+      success: s.getPropertyValue("--color-success").trim() || "#4ade80",
+      warning: s.getPropertyValue("--color-warning").trim() || "#fbbf24",
+      danger: s.getPropertyValue("--color-danger").trim() || "#f87171",
+    };
+  }
+
+  const VIBRANT = [
+    "#60a5fa",
+    "#a78bfa",
+    "#f472b6",
+    "#34d399",
+    "#fbbf24",
+    "#f87171",
+    "#38bdf8",
+    "#fb923c",
+  ];
+
+  function initCharts() {
+    document.querySelectorAll(".chart-wrap[data-chart-data]").forEach((wrap) => {
+      const el = wrap as HTMLElement;
+      const canvas = el.querySelector("canvas");
+      if (!canvas) return;
+
+      const chartType = el.dataset.chartType || "bar";
+      const rawData = el.dataset.chartData || "[]";
+      let dataPoints: { label: string; value: number; color?: string }[];
+      try {
+        dataPoints = JSON.parse(rawData);
+      } catch {
+        return;
+      }
+
+      const t = getThemeColors();
+      const labels = dataPoints.map((d) => d.label);
+      const values = dataPoints.map((d) => d.value);
+
+      let bgColors: string[];
+      let borderColors: string[];
+
+      if (chartType === "doughnut") {
+        bgColors = dataPoints.map(
+          (d, i) => d.color || VIBRANT[i % VIBRANT.length]
+        );
+        borderColors = bgColors;
+      } else {
+        const base = dataPoints.map(
+          (d, i) => d.color || VIBRANT[i % VIBRANT.length]
+        );
+        bgColors = base.map((c) => c + "cc");
+        borderColors = base;
+      }
+
+      const datasets = {
+        bar: [
+          {
+            label: "Value",
+            data: values,
+            backgroundColor: bgColors,
+            borderColor: borderColors,
+            borderWidth: 1.5,
+            borderRadius: 6,
+            hoverBackgroundColor: borderColors,
+          },
+        ],
+        line: [
+          {
+            label: "Value",
+            data: values,
+            borderColor: t.info,
+            backgroundColor: t.info + "22",
+            borderWidth: 2.5,
+            pointRadius: 4,
+            pointHoverRadius: 7,
+            pointBackgroundColor: t.info,
+            pointBorderColor: t.bg,
+            pointBorderWidth: 2,
+            fill: true,
+            tension: 0.35,
+          },
+        ],
+        doughnut: [
+          {
+            label: "Value",
+            data: values,
+            backgroundColor: bgColors,
+            borderColor: t.bg,
+            borderWidth: 3,
+            hoverBorderColor: t.text1,
+            hoverOffset: 8,
+          },
+        ],
+      };
+
+      const common: any = {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 800, easing: "easeOutQuart" },
+        plugins: {
+          legend: {
+            display: false,
+          },
+          tooltip: {
+            backgroundColor: t.bg2,
+            titleColor: t.text1,
+            bodyColor: t.text2,
+            borderColor: t.border,
+            borderWidth: 1,
+            cornerRadius: 8,
+            padding: 10,
+            titleFont: { weight: "600" },
+          },
+          zoom: {
+            pan: {
+              enabled: true,
+              mode: "xy",
+              modifierKey: null,
+            },
+            zoom: {
+              wheel: { enabled: true },
+              pinch: { enabled: true },
+              mode: "xy",
+            },
+            limits: {
+              x: { minRange: 2 },
+              y: { minRange: 2 },
+            },
+          },
+        },
+      };
+
+      if (chartType === "bar" || chartType === "line") {
+        Object.assign(common, {
+          scales: {
+            x: {
+              grid: { color: t.border, drawBorder: false },
+              ticks: { color: t.text3, font: { size: 12 } },
+            },
+            y: {
+              grid: { color: t.border, drawBorder: false },
+              ticks: { color: t.text3, font: { size: 12 } },
+              beginAtZero: true,
+            },
+          },
+        });
+      }
+
+      const chart = new Chart(canvas, {
+        type: chartType as any,
+        data: { labels, datasets: datasets[chartType as keyof typeof datasets] },
+        options: common,
+      });
+
+      const resetBtn = el.querySelector(
+        `.chart-reset-zoom[data-chart="${canvas.id}"]`
+      );
+      if (resetBtn) {
+        resetBtn.addEventListener("click", () => {
+          (chart as any).resetZoom();
+        });
+      }
+
+      (window as any).__charts = (window as any).__charts || [];
+      (window as any).__charts.push(chart);
+    });
+  }
+
+  function boot() {
+    if (typeof Chart === "undefined" || typeof zoomPlugin === "undefined") {
+      setTimeout(boot, 100);
+      return;
+    }
+    if (!Chart.registry.plugins.get("zoom")) {
+      Chart.register(zoomPlugin);
+    }
+    initCharts();
+  }
+
+  document.addEventListener("astro:page-load", boot);
+  boot();
+</script>
+
+<style>
+  .chart-wrap {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    border: 1px solid var(--color-border, rgba(255, 255, 255, 0.13));
+    border-radius: 0.75rem;
+    background: var(--color-bg-2, #1e1e1e);
+  }
+
+  .chart-wrap__title {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text-1, #e0e0e0);
+  }
+
+  .chart-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .chart-reset-zoom {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-text-2, #b0b0b0);
+    background: var(--color-bg, #161616);
+    border: 1px solid var(--color-border, rgba(255, 255, 255, 0.13));
+    border-radius: 6px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s, color 0.2s, background 0.2s;
+    z-index: 10;
+  }
+
+  .chart-wrap:hover .chart-reset-zoom {
+    opacity: 1;
+  }
+
+  .chart-reset-zoom:hover {
+    color: var(--color-text-1, #e0e0e0);
+    background: var(--color-bg-3, #212121);
+  }
+
+  .chart-wrap__caption {
+    margin: 1rem 0 0;
+    font-size: 0.8rem;
+    color: var(--color-text-3, #767676);
+    text-align: center;
+  }
+</style>

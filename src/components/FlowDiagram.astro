@@ -1,0 +1,107 @@
+---
+interface Step {
+  from?: string;
+  to?: string;
+  label?: string;
+  text?: string;
+  type: "transition" | "action";
+}
+
+interface Props {
+  title?: string;
+  steps: Step[];
+}
+
+const { title, steps } = Astro.props;
+---
+
+<div class="flow">
+  {title && <h3 class="flow__title">{title}</h3>}
+  <div class="flow__diagram">
+    {steps.map((step, i) => (
+      <div class="flow__step">
+        <div
+          class={`flow__node flow__node--${step.type}`}
+          title={step.from && step.to ? `${step.from} → ${step.to}` : undefined}
+        >
+          {step.text}
+        </div>
+        {step.label && <span class="flow__label">{step.label}</span>}
+        {i < steps.length - 1 && (
+          <div class="flow__arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 5v14M19 12l-7 7-7-7" />
+            </svg>
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .flow {
+    margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .flow__title {
+    margin: 0 0 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .flow__diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .flow__step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .flow__node {
+    min-width: 10rem;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .flow__node--action {
+    background: var(--color-primary, #6366f1);
+    color: #fff;
+    border-radius: 0.5rem;
+  }
+
+  .flow__node--transition {
+    background: var(--color-surface, #f1f5f9);
+    border: 1.5px dashed var(--color-border, #94a3b8);
+    color: var(--color-text, #334155);
+  }
+
+  .flow__label {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--color-muted, #94a3b8);
+  }
+
+  .flow__arrow {
+    display: flex;
+    justify-content: center;
+    margin: 0.25rem 0;
+  }
+
+  .flow__arrow svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--color-muted, #94a3b8);
+  }
+</style>

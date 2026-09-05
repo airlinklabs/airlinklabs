@@ -1,0 +1,897 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cache>
+  <generatedAt>2026-09-04T11:28:01.970Z</generatedAt>
+  <stats>
+    <panelStars>66</panelStars>
+    <daemonStars>15</daemonStars>
+    <totalStars>81</totalStars>
+    <panelForks>37</panelForks>
+    <daemonForks>10</daemonForks>
+    <totalForks>47</totalForks>
+    <panelIssues>0</panelIssues>
+    <daemonIssues>11</daemonIssues>
+    <openIssues>11</openIssues>
+    <contributors>18</contributors>
+  </stats>
+  <versions>
+    <panel>2.5.191</panel>
+    <daemon>3.0.59</daemon>
+    <panelRelease></panelRelease>
+    <daemonRelease></daemonRelease>
+  </versions>
+  <contributors>
+    <contributor>
+      <login>bthavanish</login>
+      <name>bthavanish</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      <htmlUrl>https://github.com/bthavanish</htmlUrl>
+      <contributions>523</contributions>
+    </contributor>
+    <contributor>
+      <login>privt00</login>
+      <name>privt00</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/141457761?v=4</avatarUrl>
+      <htmlUrl>https://github.com/privt00</htmlUrl>
+      <contributions>412</contributions>
+    </contributor>
+    <contributor>
+      <login>achul123</login>
+      <name>achul123</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/73477238?v=4</avatarUrl>
+      <htmlUrl>https://github.com/achul123</htmlUrl>
+      <contributions>208</contributions>
+    </contributor>
+    <contributor>
+      <login>cuproluminescence</login>
+      <name>cuproluminescence</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/301384382?v=4</avatarUrl>
+      <htmlUrl>https://github.com/cuproluminescence</htmlUrl>
+      <contributions>29</contributions>
+    </contributor>
+    <contributor>
+      <login>4Epiz</login>
+      <name>4Epiz</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/128456416?v=4</avatarUrl>
+      <htmlUrl>https://github.com/4Epiz</htmlUrl>
+      <contributions>27</contributions>
+    </contributor>
+    <contributor>
+      <login>pika4manu</login>
+      <name>pika4manu</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/167890437?v=4</avatarUrl>
+      <htmlUrl>https://github.com/pika4manu</htmlUrl>
+      <contributions>7</contributions>
+    </contributor>
+    <contributor>
+      <login>resslr</login>
+      <name>resslr</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/122219240?v=4</avatarUrl>
+      <htmlUrl>https://github.com/resslr</htmlUrl>
+      <contributions>4</contributions>
+    </contributor>
+    <contributor>
+      <login>RumiDaNeko</login>
+      <name>RumiDaNeko</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/77107580?v=4</avatarUrl>
+      <htmlUrl>https://github.com/RumiDaNeko</htmlUrl>
+      <contributions>4</contributions>
+    </contributor>
+    <contributor>
+      <login>evokerking1</login>
+      <name>evokerking1</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/118303818?v=4</avatarUrl>
+      <htmlUrl>https://github.com/evokerking1</htmlUrl>
+      <contributions>3</contributions>
+    </contributor>
+    <contributor>
+      <login>evokerking4</login>
+      <name>evokerking4</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/262004684?v=4</avatarUrl>
+      <htmlUrl>https://github.com/evokerking4</htmlUrl>
+      <contributions>3</contributions>
+    </contributor>
+    <contributor>
+      <login>Qore-AI</login>
+      <name>Qore-AI</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/223120244?v=4</avatarUrl>
+      <htmlUrl>https://github.com/Qore-AI</htmlUrl>
+      <contributions>2</contributions>
+    </contributor>
+    <contributor>
+      <login>kanetjuh</login>
+      <name>kanetjuh</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/50002439?v=4</avatarUrl>
+      <htmlUrl>https://github.com/kanetjuh</htmlUrl>
+      <contributions>2</contributions>
+    </contributor>
+    <contributor>
+      <login>ma4z-sys</login>
+      <name>ma4z-sys</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/166227780?v=4</avatarUrl>
+      <htmlUrl>https://github.com/ma4z-sys</htmlUrl>
+      <contributions>2</contributions>
+    </contributor>
+    <contributor>
+      <login>KubaMichalowski</login>
+      <name>KubaMichalowski</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/122045709?v=4</avatarUrl>
+      <htmlUrl>https://github.com/KubaMichalowski</htmlUrl>
+      <contributions>1</contributions>
+    </contributor>
+    <contributor>
+      <login>Paulone-190</login>
+      <name>Paulone-190</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/244398802?v=4</avatarUrl>
+      <htmlUrl>https://github.com/Paulone-190</htmlUrl>
+      <contributions>1</contributions>
+    </contributor>
+    <contributor>
+      <login>shubh-qore</login>
+      <name>shubh-qore</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/205303930?v=4</avatarUrl>
+      <htmlUrl>https://github.com/shubh-qore</htmlUrl>
+      <contributions>1</contributions>
+    </contributor>
+    <contributor>
+      <login>dc7431</login>
+      <name>dc7431</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/67658810?v=4</avatarUrl>
+      <htmlUrl>https://github.com/dc7431</htmlUrl>
+      <contributions>1</contributions>
+    </contributor>
+    <contributor>
+      <login>itz-404-dev</login>
+      <name>itz-404-dev</name>
+      <bio></bio>
+      <company></company>
+      <avatarUrl>https://avatars.githubusercontent.com/u/172723642?v=4</avatarUrl>
+      <htmlUrl>https://github.com/itz-404-dev</htmlUrl>
+      <contributions>1</contributions>
+    </contributor>
+  </contributors>
+  <commits>
+    <commit>
+      <sha>965ff8534c96d12eefc09ae5a14bfa2e6960b9ce</sha>
+      <repo>airlinklabs/panel</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/965ff8534c96d12eefc09ae5a14bfa2e6960b9ce</htmlUrl>
+      <message>fix(ci): skip cross-repo daemon tests when daemon dir absent</message>
+      <author>
+        <name>bthavanish</name>
+        <date>2026-08-30T15:04:07Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>77ff4530bdd81ea1b0356fea645bea176cd3e9f8</sha>
+      <repo>airlinklabs/panel</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/77ff4530bdd81ea1b0356fea645bea176cd3e9f8</htmlUrl>
+      <message>fix(ci): add Redis mock to tests, fix duplicate declarations from merge, regenerate prisma client</message>
+      <author>
+        <name>bthavanish</name>
+        <date>2026-08-30T14:58:11Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>bc4a7ae906623c87acb9cf81f6e4edc82c9d2c8a</sha>
+      <repo>airlinklabs/panel</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/bc4a7ae906623c87acb9cf81f6e4edc82c9d2c8a</htmlUrl>
+      <message>fix(ci): switch MySQL to PostgreSQL in CI (schema migrated to PG)</message>
+      <author>
+        <name>bthavanish</name>
+        <date>2026-08-30T14:47:54Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>2efdfd14753cf70abdaa8b53ae6810ec572e007e</sha>
+      <repo>airlinklabs/panel</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/2efdfd14753cf70abdaa8b53ae6810ec572e007e</htmlUrl>
+      <message>chore: format codebase with prettier, fix test assertions for quote-agnostic checks
+
+- Run prettier on src/ and tests/
+- Add .prettierignore for public/javascript/ (tests source-inspect these)
+- Remove dead vendor copies and build-vendor script
+- Make all source-inspection tests quote-agnostic (toContain without quotes)
+- Fix element IDs test to match both single and double quoted alIcon() calls
+- Fix icon vocabulary test regex for both quote styles</message>
+      <author>
+        <name>bthavanish</name>
+        <date>2026-08-30T14:36:03Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>e637befe9e73feab67e2624d1f1d606d02a7833c</sha>
+      <repo>airlinklabs/panel</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/e637befe9e73feab67e2624d1f1d606d02a7833c</htmlUrl>
+      <message>chore: remove dead vendor copies and build-vendor script (node_modules serves them)</message>
+      <author>
+        <name>bthavanish</name>
+        <date>2026-08-30T14:24:49Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>dd9830110d7eea0d1eb73d5757def3f57f209c34</sha>
+      <repo>airlinklabs/panel</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/dd9830110d7eea0d1eb73d5757def3f57f209c34</htmlUrl>
+      <message>refactor: resolve 24 issues — V2 migration, service extraction, Redis/PG hardening, analytics, owner enforcement (#122)
+
+* fix(#110,#101,#102,#115): T0 foundation — typings, authz, CSRF
+
+- #110: Remove (req as any) from V2 routes, add adminUser to Express
+  Request type, create getAppProtocol/getAuthenticatedUserId helpers
+- #101: Add API-key capability enforcement with wildcard matching,
+  define ApiCapabilities constants, wire into apiKeyOrSessionAuth
+- #102: Create shared authorization.ts module with parsePermissions,
+  subUserHasPermission, resolveServerAccess; consolidate 3 duplicate
+  implementations into single source of truth
+- #115: Fix CSRF exemption for hybrid V2 auth — Bearer header bypasses
+  CSRF (API-key auth, no cookie involved)
+
+* refactor(#106,#119,#120): DaemonService, fix N+1, consolidate types
+
+- #106: Extract DaemonService (daemonRequest, daemonRequestByNode,
+  daemonRequestDirect) — eliminates 23 duplicated fetch patterns
+- #119: Fix admin node N+1 queries with Prisma include/count
+- #120: Create shared constants.ts and types/realtime.ts, remove
+  duplicate definitions across 7 files
+
+* refactor(#108,#109,#114): fix hardcoded URLs, standardize pagination, remove dead code
+
+- #108: Replace remaining hardcoded http:// in admin routes with DaemonService
+- #109: Add paginateQuery() for DB-level pagination, update 5 V2 list endpoints
+- #114: Remove 11 dead exports from result.ts and roles.ts
+
+* refactor(#117,#118,#111): standardize V2 contracts, add Fallow config
+
+- #117: Standardize V2 response envelope with JSDoc, snake_case pagination
+  meta fields, migrate passkey.ts to use jsonOk/jsonError
+- #118: Add .fallowrc with ignore patterns for generated/vendor/dist
+- #111: Identify dead code (daemon types, unused helpers)
+
+* refactor(#113): decompose console.ts into power.ts + reinstall.ts
+
+- Extract POST /power/:poweraction, /power/restart, /power/queue/cancel → power.ts
+- Extract POST /reinstall → reinstall.ts
+- console.ts: 1057→438 lines, cleaner imports
+
+* fix(#64): fix inconsistent UI bugs — IP, update, folders, drag, refresh, unlimited
+
+- manage.ejs: IP display fallback when no primary port found
+- overview.ejs: Add CSRF header to perform-update fetch
+- files.ejs: Add &apos;New Folder&apos; and &apos;Refresh&apos; buttons, export openCreateFolderModal
+- dashboard.ejs: Fix drag selector .server-card → .al-server-card
+- server-console.js: Show &apos;unlimited&apos; for RAM/CPU when value is 0
+
+* refactor(#100): extract shared services (user, node, image, location, settings, backup)
+
+- userService.ts: CRUD + last-admin guard, shared by v1 + Alternative
+- nodeService.ts: CRUD + allocations, shared by v1 + Alternative
+- imageService.ts: CRUD + server count, v1 only
+- locationService.ts: list/create, v1 only
+- settingsService.ts: get/update, v1 only
+- backupService.ts: list/get/create/delete, shared by v1 + client
+
+* refactor(#100): extract schedule, database, startup services
+
+- scheduleService.ts: list/get/create/delete, shared by v1 + client
+- databaseService.ts: list/get/provision/deprovision, v1 only
+- startupService.ts: get/update with variable validation, v1 only
+
+* refactor(#100): extract server, subuser, file services
+
+- serverService.ts: CRUD + suspend, shared by v1/client/alternative
+- subuserService.ts: CRUD with permission validation, v1 only
+- fileService.ts: list/read/write/delete/rename via daemon, client only
+
+* feat: delete v1 API, migrate health check to v2
+
+- Delete src/modules/api/v1/ (48 routes, ~3200 lines)
+- Delete v1-only services (imageService, locationService)
+- Migrate frontend health check from /api/v1/ping to /api/v2/system/health
+- Alternative/Pterodactyl API preserved
+
+* refactor(#103,#104): migrate all admin+user frontend to V2 API
+
+- Add 16 missing V2 admin endpoints (images, radar, nodes, servers)
+- Migrate ~110 admin fetch calls to /api/v2/admin/*
+- Migrate ~50 user server fetch calls to /api/v2/servers/*
+- Migrate HTMX calls, fragments, components to V2
+- Only passkey/2fa endpoints were already V2
+
+* feat(#103,#104,#105): migrate user account+dashboard to V2, add API client
+
+- Migrate account.ejs, dashboard.ejs, create-server.ejs, 2fa-setup.ejs to V2
+- Add 12 V2 account endpoints (check-username, images, folders, onboarding)
+- Create public/javascript/api-client.js — typed V2 client (833 lines)
+- All frontend fetch calls now use /api/v2/*
+
+* test(#116): add V2 HTTP contract + auth test matrix
+
+- 32 tests: response envelope, auth middleware, CSRF protection, rate limiting
+- Source-level contract verification for helpers and route structure
+
+* fix(#116): fix test failures after v1 deletion and refactoring
+
+- csrfRouting.ts: null-safe req.headers access
+- clientApi.test.ts: update mocks for scheduleService + resolveServerAccess
+- featureRegistry.test.ts: update mount order assertion (v1 removed)
+
+* chore(#112): remove unused deps (consola, marked, ora)
+
+* fix(#107): migrate remaining fragment+htmx paths to V2
+
+- 16 remaining old /admin/ paths in fragments migrated to /api/v2/admin/*
+- Zero old admin paths remain in views
+
+* refactor: move /api/search to /api/v2/system/search
+
+- Migrate search handler from core/index.ts to V2 system.ts
+- Update frontend search.js to use V2 path
+- Zero old /api/* paths remain in frontend
+
+* feat: roles system, onboarding overhaul, admin settings enhancements
+
+Roles system:
+- Add Role model to Prisma schema with permissions
+- CRUD endpoints: list/create/get/update/delete roles
+- roleService: seedDefaultRoles, ensureDefaultRoles
+- isAdmin derived from role (fix duplication)
+- Permission validation in DTOs against canonical list
+- Dynamic role dropdown in admin user edit
+
+Onboarding overhaul:
+- Remove duplicate v1 onboarding module
+- Fix finishBtn (called skip instead of complete)
+- Wire up onboardingSteps for admin customization
+- Dynamic step builder UI with preview
+- Dashboard renders from config (not hardcoded)
+- Dismiss vs skip: backdrop/X = close, &apos;Don&apos;t show again&apos; = skip
+- Per-user reset button in admin
+
+Admin settings enhancements:
+- 10 feature toggles (2FA required, SFTP, backups, schedules, etc.)
+- Server creation defaults (memory, CPU, disk, max per user)
+- Email cooldown setting
+- Features tab with organized toggle grid
+- PATCH /api/v2/admin/settings/features endpoint
+
+* fix: update tests for role-based admin checks and V2 search path
+
+* feat: Redis deep integration + PostgreSQL hardening + v1 sunset
+
+Redis:
+- Distributed rate limiting with sorted sets (replaces in-memory)
+- Durable job queue with sorted sets + hashes (survives restarts)
+- Redis pub/sub for realtime events (multi-instance support)
+- Activity logger backed by Redis instead of in-memory Map
+
+PostgreSQL:
+- Add missing indexes: Schedule.serverId, ApiKey.userId,
+  LoginHistory.userId+timestamp, ScheduleTask.scheduleId
+- Fix MySQL-on-Postgres DDL bug in addonHandler (AUTO_INCREMENT→SERIAL,
+  ENGINE removed, ?→ placeholders)
+- Connection pooling with pg.Pool (max=20, idle timeout)
+
+v1 sunset:
+- Remove CSRF mount for deleted /api/v1
+- Update CLIENT_API_VERSION from &apos;client-v1&apos; to &apos;client-v2&apos;
+- Clean v1 comments from nodeService, csrfRouting
+
+* feat: comprehensive docs system with markdown rendering + UI
+
+- Install marked for markdown parsing
+- docsRenderer: load markdown, extract titles/headings, organize by section
+- Docs routes: /docs (index), /docs/:slug (page)
+- Landing page with search, section nav, quick-link cards
+- Doc pages with sidebar, article body, table of contents
+- Responsive design (3-column → 2-column → 1-column)
+- Search filters sidebar links
+- CSS: 268 lines, dark mode aware, mobile responsive
+- Old /admin/api/docs redirects to /docs
+
+* revert: remove docs module from panel (separate GitHub Pages site)</message>
+      <author>
+        <name>Thavan</name>
+        <date>2026-08-30T10:45:10Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>c2eef82f87da1f7761468be2f77701c319a8d89e</sha>
+      <repo>airlinklabs/panel</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/c2eef82f87da1f7761468be2f77701c319a8d89e</htmlUrl>
+      <message>revert: remove docs module from panel (separate GitHub Pages site)</message>
+      <author>
+        <name>bthavanish</name>
+        <date>2026-08-30T10:33:00Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>c9ceba8002db93f2a2ed73955fc25240c9e623de</sha>
+      <repo>airlinklabs/panel</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/c9ceba8002db93f2a2ed73955fc25240c9e623de</htmlUrl>
+      <message>feat: comprehensive docs system with markdown rendering + UI
+
+- Install marked for markdown parsing
+- docsRenderer: load markdown, extract titles/headings, organize by section
+- Docs routes: /docs (index), /docs/:slug (page)
+- Landing page with search, section nav, quick-link cards
+- Doc pages with sidebar, article body, table of contents
+- Responsive design (3-column → 2-column → 1-column)
+- Search filters sidebar links
+- CSS: 268 lines, dark mode aware, mobile responsive
+- Old /admin/api/docs redirects to /docs</message>
+      <author>
+        <name>bthavanish</name>
+        <date>2026-08-30T10:29:59Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>3d6a0a1a334580fed0ee54710108c8a48dec9d44</sha>
+      <repo>airlinklabs/panel</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/3d6a0a1a334580fed0ee54710108c8a48dec9d44</htmlUrl>
+      <message>feat: Redis deep integration + PostgreSQL hardening + v1 sunset
+
+Redis:
+- Distributed rate limiting with sorted sets (replaces in-memory)
+- Durable job queue with sorted sets + hashes (survives restarts)
+- Redis pub/sub for realtime events (multi-instance support)
+- Activity logger backed by Redis instead of in-memory Map
+
+PostgreSQL:
+- Add missing indexes: Schedule.serverId, ApiKey.userId,
+  LoginHistory.userId+timestamp, ScheduleTask.scheduleId
+- Fix MySQL-on-Postgres DDL bug in addonHandler (AUTO_INCREMENT→SERIAL,
+  ENGINE removed, ?→ placeholders)
+- Connection pooling with pg.Pool (max=20, idle timeout)
+
+v1 sunset:
+- Remove CSRF mount for deleted /api/v1
+- Update CLIENT_API_VERSION from &apos;client-v1&apos; to &apos;client-v2&apos;
+- Clean v1 comments from nodeService, csrfRouting</message>
+      <author>
+        <name>bthavanish</name>
+        <date>2026-08-30T09:50:06Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>d920273f75483dbf32e8f3dd7c65be759e69fdda</sha>
+      <repo>airlinklabs/panel</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel/commit/d920273f75483dbf32e8f3dd7c65be759e69fdda</htmlUrl>
+      <message>fix: update tests for role-based admin checks and V2 search path</message>
+      <author>
+        <name>bthavanish</name>
+        <date>2026-08-30T09:31:43Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>15e963d2ad3480dcde431a137191e479466694c6</sha>
+      <repo>airlinklabs/daemon</repo>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/15e963d2ad3480dcde431a137191e479466694c6</htmlUrl>
+      <message>feat: match panel TUI — colored [HH:MM:SS] INFO: format, verbose shutdown, deferred runtime logging
+
+- Daemon log format now matches panel: [HH:MM:SS] INFO: msg (dim timestamp, colored level)
+- TTY output stripped of JSON extras for clean readable logs
+- ts() returns HH:MM:SS only (was full ISO datetime)
+- createRuntime() no longer logs at import time — moved to checkDocker()
+- Runtime ping deferred to startup sequence (was firing before banner)
+- Verbose shutdown with step-by-step elapsed time for both panel and daemon
+- Panel: no more [ELIFECYCLE] — process.exit(0) after prisma disconnect with 5s timeout
+- Daemon: removed --bytecode from build (consola dynamic imports incompatible)</message>
+      <author>
+        <name>bthavanish</name>
+        <date>2026-08-29T14:35:07Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>f7818cfebde96d1cf772f448ceed47277ed2373c</sha>
+      <repo>airlinklabs/daemon</repo>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/f7818cfebde96d1cf772f448ceed47277ed2373c</htmlUrl>
+      <message>fix: stream install logs to panel — emit events + report status for Path B installs
+
+- performInstall now emits {type:&apos;installing&apos;} for each script download step
+- performInstall emits {type:&apos;installed&apos;} on completion
+- operationManager now calls reportInstallStatus on success/failure
+- operationManager now emits installed/error WS events on completion
+- Panel receives real-time log lines during image-based installs</message>
+      <author>
+        <name>bthavanish</name>
+        <date>2026-08-29T07:40:56Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>b55c6a3a5eb672114ba94a52460fbb3dd190e0d1</sha>
+      <repo>airlinklabs/daemon</repo>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/b55c6a3a5eb672114ba94a52460fbb3dd190e0d1</htmlUrl>
+      <message>fix: remove CpuPeriod from Docker host config — conflicts with NanoCpus</message>
+      <author>
+        <name>bthavanish</name>
+        <date>2026-08-29T07:29:07Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>16be1aed51144f5119bce81cadb42a228ac62edc</sha>
+      <repo>airlinklabs/daemon</repo>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/16be1aed51144f5119bce81cadb42a228ac62edc</htmlUrl>
+      <message>fix: biome lint errors, move fuzzer.py to tests/</message>
+      <author>
+        <name>bthavanish</name>
+        <date>2026-08-29T07:20:57Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>b38e18ec750b9fe1be03481f134b9454b10cbe8b</sha>
+      <repo>airlinklabs/daemon</repo>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/b38e18ec750b9fe1be03481f134b9454b10cbe8b</htmlUrl>
+      <message>fix: daemon cleanup — remove dead code, fix typos, extract shared util
+
+- Move .semgrep.yml to .github/, update CI workflow reference
+- Delete dead barrel files: src/schemas.ts, src/stats.ts (duplicated by dirs)
+- Remove dead export: clearRateLimit() from rateLimit.ts
+- Extract duplicated getErrorMessage() to src/utils/errorMessage.ts
+- Fix grammar typo in router.ts SSRF comment
+- Clean up bloated .gitignore (remove irrelevant framework entries)
+- Remove empty .github/instructions/RULES.instructions.md stub</message>
+      <author>
+        <name>bthavanish</name>
+        <date>2026-08-29T07:12:40Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>7ee133bd97b160bdfadf5c13244957dc4525f5fe</sha>
+      <repo>airlinklabs/daemon</repo>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/7ee133bd97b160bdfadf5c13244957dc4525f5fe</htmlUrl>
+      <message>refactor: fix pathJail bug, clean comments across codebase
+
+Bug fixes:
+- Fix critical pathJail.ts parse error (broken jailPath function)
+- Add null-byte and max-length guards
+
+Cleanup:
+- Remove verbose comment blocks across 12 files
+- Remove decorative section separators (── Section ──) from 12 files
+- Simplify security comments (hmac.ts, pathJail.ts, downloadTokens.ts)
+- Clean restating-code comments in logHistory.ts, stats.ts, dockerState.ts
+- Trim migration history references in operationManager.ts, server.ts</message>
+      <author>
+        <name>bthavanish</name>
+        <date>2026-08-29T05:49:14Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>be834adf1bb9f9b13eb905e183ce94129791eac2</sha>
+      <repo>airlinklabs/daemon</repo>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/be834adf1bb9f9b13eb905e183ce94129791eac2</htmlUrl>
+      <message>chore: remove accidental placeholder</message>
+      <author>
+        <name>Thavan</name>
+        <date>2026-08-27T02:05:42Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>247e07119a6091d9bca00e63013e0bd480d18801</sha>
+      <repo>airlinklabs/daemon</repo>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/247e07119a6091d9bca00e63013e0bd480d18801</htmlUrl>
+      <message>placeholder</message>
+      <author>
+        <name>Thavan</name>
+        <date>2026-08-27T02:05:12Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>f08ddf40838022f79d2e9808756f54b99df8658e</sha>
+      <repo>airlinklabs/daemon</repo>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/f08ddf40838022f79d2e9808756f54b99df8658e</htmlUrl>
+      <message>revert: keep audit guides off main</message>
+      <author>
+        <name>Thavan</name>
+        <date>2026-08-27T01:59:02Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>bef897306db21068eb93de5aeebb84a879326cf7</sha>
+      <repo>airlinklabs/daemon</repo>
+      <htmlUrl>https://github.com/airlinklabs/daemon/commit/bef897306db21068eb93de5aeebb84a879326cf7</htmlUrl>
+      <message>docs: add filesystem jail fix guide for #15</message>
+      <author>
+        <name>Thavan</name>
+        <date>2026-08-27T01:58:57Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/203604602?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>0692ca479b1d1888ed80f4ecb7b6d28e55665a02</sha>
+      <repo>airlinklabs/panel-next-js</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel-next-js/commit/0692ca479b1d1888ed80f4ecb7b6d28e55665a02</htmlUrl>
+      <message>refactor: used fallow cli to identify errors dupes and other ckde errirs and fixed about 68% of them and massively reorgainsed codebase</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-04-05T15:28:58Z</date>
+        <avatarUrl></avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>1b6311c38fd79fb4eb81589dec4868d1f78d28ea</sha>
+      <repo>airlinklabs/panel-next-js</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel-next-js/commit/1b6311c38fd79fb4eb81589dec4868d1f78d28ea</htmlUrl>
+      <message>Refine account and server settings layouts
+
+Merge the account profile and details into a single primary desktop section while keeping the secondary account panels stacked to the side. Expand the server settings SFTP access block so it uses the full available row instead of being constrained to the narrow sidebar column.</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-04-04T12:09:17Z</date>
+        <avatarUrl></avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>07ba8555d174b9056b688ac89b59f8b433458972</sha>
+      <repo>airlinklabs/panel-next-js</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel-next-js/commit/07ba8555d174b9056b688ac89b59f8b433458972</htmlUrl>
+      <message>Unify panel layouts and harden daemon-backed server flows
+
+Reshape the main user and admin surfaces around shared panel layout primitives so desktop uses width more effectively and mobile keeps a cleaner vertical flow. Tighten the account, credits, dashboard, nodes, settings, analytics, images, users, servers, and create-server pages to match the file-manager style more closely while smoothing tab transitions and reducing oversized cards and skeletons.
+
+Fix server and file-management runtime issues by correcting daemon start payload port bindings, improving daemon error handling, stabilizing auth hook behavior, and making file menus render above the list without clipping. Also ensure server creation only exposes unused node ports in the UI and keep the file editor/menu interactions consistent with the updated shell.</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-04-04T12:04:28Z</date>
+        <avatarUrl></avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>f2945210e46300fcf1fbb2ea721607a9b9b06cb8</sha>
+      <repo>airlinklabs/panel-next-js</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel-next-js/commit/f2945210e46300fcf1fbb2ea721607a9b9b06cb8</htmlUrl>
+      <message>Refactor panel structure and align Next.js UI with panel-main
+
+Reorganize the Next.js app into route groups for auth, user, admin, server, and system surfaces while also splitting shared panel utilities into clearer component and lib subdirectories. Update imports across the codebase to match the new structure and keep all existing routes stable.
+
+Bring the server-facing UI closer to panel-main by standardizing responsive panel card layouts, improving desktop width usage, tightening mobile vertical flow, and polishing overlays, menus, and fullscreen editor behavior. Fix file manager path handling, slash-based create and rename flows, backup BigInt serialization, port parsing, daemon address normalization, console stat formatting, checkbox theming, and editor file-loading behavior.</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-04-04T11:15:47Z</date>
+        <avatarUrl></avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>bd05050df7c96677fe6936794acff324abe191cb</sha>
+      <repo>airlinklabs/panel-next-js</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel-next-js/commit/bd05050df7c96677fe6936794acff324abe191cb</htmlUrl>
+      <message>fix :update ui to adapt to desktop and mobile</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-04-04T09:42:50Z</date>
+        <avatarUrl></avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>ab63c7f533ddb0436702af042d61d1100f80377c</sha>
+      <repo>airlinklabs/panel-next-js</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel-next-js/commit/ab63c7f533ddb0436702af042d61d1100f80377c</htmlUrl>
+      <message>fix: resolve admin ID mismatches, docker image desync, and insecure key generation</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-04-04T09:23:43Z</date>
+        <avatarUrl></avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>d433619bb47a593386d8a27583044ed36e980f5a</sha>
+      <repo>airlinklabs/panel-next-js</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel-next-js/commit/d433619bb47a593386d8a27583044ed36e980f5a</htmlUrl>
+      <message>chore: update .gitignore</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-04-04T07:28:11Z</date>
+        <avatarUrl></avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>7e4dc2391712905bf8fa73fc1edf1ef5c5bb4a36</sha>
+      <repo>airlinklabs/panel-next-js</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel-next-js/commit/7e4dc2391712905bf8fa73fc1edf1ef5c5bb4a36</htmlUrl>
+      <message>feat(ui): complete parity pass and add shared error handling
+
+Align the Next.js panel more closely with the Express UI across the dashboard, server pages, account flow, and key admin screens.
+
+Add shared 401/403/404/500 error screens and runtime handlers, then fix production build issues around custom 500 handling and nullable Next navigation hooks.</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-04-04T07:26:27Z</date>
+        <avatarUrl></avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>54bf757f1c50458c6ce4da4a1705b674badc1baa</sha>
+      <repo>airlinklabs/panel-next-js</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel-next-js/commit/54bf757f1c50458c6ce4da4a1705b674badc1baa</htmlUrl>
+      <message>fix: remove errors and add .env support partially and fix redirect errors</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-04-04T06:24:12Z</date>
+        <avatarUrl></avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>0ef0d4c21fb8055e505bdf5c4bc03a5bc5312b08</sha>
+      <repo>airlinklabs/panel-next-js</repo>
+      <htmlUrl>https://github.com/airlinklabs/panel-next-js/commit/0ef0d4c21fb8055e505bdf5c4bc03a5bc5312b08</htmlUrl>
+      <message>fix: server console now shows output fixed emit errors and ui bug fixes</message>
+      <author>
+        <name>Thavanish brijesh</name>
+        <date>2026-04-04T05:51:02Z</date>
+        <avatarUrl></avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>39095de11b96cf07d6184d38ff418b4f71a575a1</sha>
+      <repo>airlinklabs/images</repo>
+      <htmlUrl>https://github.com/airlinklabs/images/commit/39095de11b96cf07d6184d38ff418b4f71a575a1</htmlUrl>
+      <message>Merge pull request #3 from g-flame/main
+
+Maybe update readme i was trying to find images and found it a bit annoying so made a read me for you merge it if you like it thats all</message>
+      <author>
+        <name>tfcprivt</name>
+        <date>2025-08-08T12:20:47Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/141457761?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>e4a486c101f6f9b9fe885dea0027699582b1ca26</sha>
+      <repo>airlinklabs/images</repo>
+      <htmlUrl>https://github.com/airlinklabs/images/commit/e4a486c101f6f9b9fe885dea0027699582b1ca26</htmlUrl>
+      <message>Merge branch &apos;airlinklabs:main&apos; into main</message>
+      <author>
+        <name>G-flame</name>
+        <date>2025-08-08T12:05:32Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/301384382?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>76c8d4a7a0878691b12966095993fa49f4edb68f</sha>
+      <repo>airlinklabs/images</repo>
+      <htmlUrl>https://github.com/airlinklabs/images/commit/76c8d4a7a0878691b12966095993fa49f4edb68f</htmlUrl>
+      <message>Update README.md</message>
+      <author>
+        <name>G-flame</name>
+        <date>2025-08-08T12:00:22Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/301384382?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>46220d733f87c02c20faf5dc3ccffcb18ff36722</sha>
+      <repo>airlinklabs/images</repo>
+      <htmlUrl>https://github.com/airlinklabs/images/commit/46220d733f87c02c20faf5dc3ccffcb18ff36722</htmlUrl>
+      <message>Update README.md</message>
+      <author>
+        <name>G-flame</name>
+        <date>2025-08-08T12:00:04Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/301384382?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>25d55a9fbd21c4d07148cbe151906e8dd005ad57</sha>
+      <repo>airlinklabs/images</repo>
+      <htmlUrl>https://github.com/airlinklabs/images/commit/25d55a9fbd21c4d07148cbe151906e8dd005ad57</htmlUrl>
+      <message>Update README.md</message>
+      <author>
+        <name>G-flame</name>
+        <date>2025-08-08T11:58:50Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/301384382?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>4329ee473f43238f5b7b551c75128151f5f1ad4e</sha>
+      <repo>airlinklabs/images</repo>
+      <htmlUrl>https://github.com/airlinklabs/images/commit/4329ee473f43238f5b7b551c75128151f5f1ad4e</htmlUrl>
+      <message>Merge pull request #1 from RumiDaNeko/patch-1
+
+Nodejs for airlink</message>
+      <author>
+        <name>tfcprivt</name>
+        <date>2025-07-09T13:17:09Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/141457761?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>a31861b18f8c8e3386bddd990b515443fd9f4488</sha>
+      <repo>airlinklabs/images</repo>
+      <htmlUrl>https://github.com/airlinklabs/images/commit/a31861b18f8c8e3386bddd990b515443fd9f4488</htmlUrl>
+      <message>Merge pull request #2 from g-flame/main
+
+Custom Fabric Server Configuration for Airlink</message>
+      <author>
+        <name>tfcprivt</name>
+        <date>2025-07-09T13:16:23Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/141457761?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>db4c09e818d5c2537e50b7613616b6dfa05a483d</sha>
+      <repo>airlinklabs/images</repo>
+      <htmlUrl>https://github.com/airlinklabs/images/commit/db4c09e818d5c2537e50b7613616b6dfa05a483d</htmlUrl>
+      <message>Apply suggestion from @coderabbitai[bot]
+
+Co-authored-by: coderabbitai[bot] &lt;136622811+coderabbitai[bot]@users.noreply.github.com&gt;</message>
+      <author>
+        <name>G-flame</name>
+        <date>2025-07-09T11:45:26Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/301384382?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>2c7288112a3ccf22bf02b72a19d2ec7c45c8be36</sha>
+      <repo>airlinklabs/images</repo>
+      <htmlUrl>https://github.com/airlinklabs/images/commit/2c7288112a3ccf22bf02b72a19d2ec7c45c8be36</htmlUrl>
+      <message>Create image-fabric.json</message>
+      <author>
+        <name>G-flame</name>
+        <date>2025-07-09T11:26:48Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/301384382?v=4</avatarUrl>
+      </author>
+    </commit>
+    <commit>
+      <sha>66fd820342e8267112fd1fa3f66cf8ae9709fa0c</sha>
+      <repo>airlinklabs/images</repo>
+      <htmlUrl>https://github.com/airlinklabs/images/commit/66fd820342e8267112fd1fa3f66cf8ae9709fa0c</htmlUrl>
+      <message>Added Python Image</message>
+      <author>
+        <name>privt00</name>
+        <date>2025-05-05T20:06:24Z</date>
+        <avatarUrl>https://avatars.githubusercontent.com/u/141457761?v=4</avatarUrl>
+      </author>
+    </commit>
+  </commits>
+  <addons>
+  </addons>
+</cache>

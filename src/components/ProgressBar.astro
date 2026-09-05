@@ -1,0 +1,55 @@
+---
+interface Props {
+  label: string;
+  value: number;
+}
+
+const { label, value } = Astro.props;
+const clamped = Math.min(100, Math.max(0, value));
+---
+
+<div class="progress">
+  <div class="progress__header">
+    <span class="progress__label">{label}</span>
+    <span class="progress__pct">{clamped}%</span>
+  </div>
+  <div class="progress__track">
+    <div class="progress__fill" style={`width: ${clamped}%`} />
+  </div>
+</div>
+
+<style>
+  .progress {
+    margin: 1rem 0;
+  }
+
+  .progress__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.375rem;
+  }
+
+  .progress__label {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .progress__pct {
+    font-size: 0.8rem;
+    color: var(--color-muted, #64748b);
+  }
+
+  .progress__track {
+    height: 0.5rem;
+    background: var(--color-border, #e2e8f0);
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+
+  .progress__fill {
+    height: 100%;
+    background: var(--color-primary, #6366f1);
+    border-radius: 9999px;
+    transition: width 0.6s ease;
+  }
+</style>

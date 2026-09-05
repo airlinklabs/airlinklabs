@@ -224,11 +224,6 @@ document.addEventListener(
       if (!isExternal(href)) return;
       e.preventDefault();
       e.stopPropagation();
-      // Close license modal if open so redirect modal is the only one visible
-      var licenseOverlay = document.getElementById("license-overlay");
-      if (licenseOverlay && licenseOverlay.classList.contains("open")) {
-        licenseOverlay.classList.remove("open");
-      }
       openRedirect(href, a);
     },
     true,
@@ -289,9 +284,13 @@ document.addEventListener(
     if (!shouldAnimateHero) {
       // Redirected from docs/hash/etc — show everything immediately, no cinematic
       var heroSection = document.querySelector(".hub-hero");
+      var heroBg = document.querySelector(".hero-bg");
+      var heroCarousel = document.querySelector(".hero-carousel");
       if (heroSection) heroSection.classList.add("visible");
       if (sidebar) sidebar.classList.add("sidebar-visible");
       if (mainContent) mainContent.classList.add("sidebar-visible");
+      if (heroBg) heroBg.classList.add("sunk");
+      if (heroCarousel) heroCarousel.classList.add("visible");
       var allSections = document.querySelectorAll(
         ".hub-section, .hero-text-animated",
       );
@@ -303,7 +302,9 @@ document.addEventListener(
       document.documentElement.classList.add("page-locked");
 
       var heroViewport = document.querySelector(".hero-viewport");
+      var heroBg = document.querySelector(".hero-bg");
       var heroSection = document.querySelector(".hub-hero");
+      var heroCarousel = document.querySelector(".hero-carousel");
       var welcomeEl = document.getElementById("hero-welcome");
       var sections = document.querySelectorAll(
         ".hub-section, .hero-text-animated",
@@ -314,10 +315,21 @@ document.addEventListener(
         s.classList.add("deferred");
       });
 
+      // Step 0: Start hero-bg sink animation
+      if (heroBg) heroBg.classList.add("sinking");
+
       function runHeroSequence() {
-        // Step 0: Wait for hero bg to sink (1000ms), then start welcome
+        // Step 0b: After sink anim ends, lock final state
+        if (heroBg) {
+          heroBg.addEventListener("animationend", function handler() {
+            heroBg.removeEventListener("animationend", handler);
+            heroBg.classList.remove("sinking");
+            heroBg.classList.add("sunk");
+          });
+        }
+
+        // Step 1: Wait for sink (1000ms), then fade in welcome text
         setTimeout(function () {
-          // Step 1: Fade in welcome text
           if (welcomeEl) {
             welcomeEl.classList.add("visible");
 
@@ -333,6 +345,17 @@ document.addEventListener(
                 // Step 3.5: Slide in sidebar + push content
                 if (sidebar) sidebar.classList.add("sidebar-visible");
                 if (mainContent) mainContent.classList.add("sidebar-visible");
+
+                // Step 3.6: Hero BG exits right, carousel follows
+                if (heroBg) {
+                  heroBg.classList.remove("sunk");
+                  heroBg.classList.add("exit-right");
+                }
+                if (heroCarousel) {
+                  setTimeout(function () {
+                    heroCarousel.classList.add("visible");
+                  }, 300);
+                }
 
                 // Step 4: After hero text settles, reveal sections + unlock scroll
                 setTimeout(function () {
@@ -395,6 +418,27 @@ document.addEventListener(
     if (mainContent) mainContent.classList.add("sidebar-visible");
   }
 
+  // Fade carousel when hero-viewport leaves viewport
+  if (isHome) {
+    var heroCarouselEl = document.querySelector(".hero-carousel");
+    var heroViewportEl = document.querySelector(".hero-viewport");
+    if (heroCarouselEl && heroViewportEl) {
+      var carouselObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              heroCarouselEl.style.opacity = "";
+            } else {
+              heroCarouselEl.style.opacity = "0";
+            }
+          });
+        },
+        { threshold: 0 },
+      );
+      carouselObserver.observe(heroViewportEl);
+    }
+  }
+
   // Smooth scroll with offset for anchor links
   document.addEventListener("click", function (e) {
     var a = e.target.closest('a[href^="#"]');
@@ -441,170 +485,6 @@ document.addEventListener(
     );
   });
 })();
-// ── License modal ────────────────────────────────────────────────────────
-(function () {
-  var overlay = document.getElementById("license-overlay");
-  var closeBtn = document.getElementById("license-close");
-  var reposEl = document.getElementById("license-repos");
-  var npmEl = document.getElementById("license-npm");
-  var cdnEl = document.getElementById("license-cdn");
-  var licenseBtn = document.getElementById("license-btn");
-  if (!overlay || !licenseBtn) return;
-
-  var licenseData = null;
-
-  function openModal() {
-    overlay.classList.add("open");
-    if (!licenseData) loadLicenses();
-  }
-
-  function closeModal() {
-    overlay.classList.remove("open");
-  }
-
-  licenseBtn.addEventListener("click", function (e) {
-    e.preventDefault();
-    openModal();
-  });
-  if (closeBtn) closeBtn.addEventListener("click", closeModal);
-  overlay.addEventListener("click", function (e) {
-    if (e.target === overlay) closeModal();
-  });
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && overlay.classList.contains("open")) closeModal();
-  });
-
-  function loadLicenses() {
-    if (licenseData) return renderLicenses(licenseData);
-    var script = document.querySelector('script[src*="github-db"]');
-    var base = script
-      ? script.src.replace(/public\/js\/.*/, "")
-      : window.location.pathname.replace(/\/[^/]*$/, "/");
-    fetch(base + "public/assets/licenses.json")
-      .then(function (r) {
-        if (!r.ok) throw new Error(r.status);
-        return r.json();
-      })
-      .then(function (data) {
-        licenseData = data;
-        renderLicenses(data);
-      })
-      .catch(function () {
-        if (reposEl)
-          reposEl.innerHTML =
-            '<p style="font-size:12px;color:var(--color-text-3)">License data not available.</p>';
-      });
-  }
-
-  function badge(name, url, license) {
-    if (!url) return '<span class="license-item-badge">' + license + "</span>";
-    return (
-      '<a class="license-item-badge" href="' +
-      url +
-      '" target="_blank" rel="noopener" data-license-link="' +
-      url +
-      '" onclick="event.stopPropagation()">' +
-      license +
-      "</a>"
-    );
-  }
-
-  function makeRowClickable(html) {
-    return html.replace(
-      /<div class="license-item">/g,
-      '<div class="license-item" style="cursor:pointer" onclick="var a=this.querySelector(\'a[href]\');if(a){a.click()}">',
-    );
-  }
-
-  function renderLicenses(data) {
-    if (reposEl && data.repos && data.repos.length) {
-      var repoDescs = {
-        panel: "Web interface for managing servers, users, nodes, and backups",
-        daemon: "Node agent handling containers, files, and server operations",
-        addons: "Community addon registry and marketplace",
-        home: "Project website and documentation",
-      };
-      reposEl.innerHTML = makeRowClickable(
-        data.repos
-          .map(function (r) {
-            var desc = repoDescs[r.name] || r.description || "";
-            return (
-              '<div class="license-item">' +
-              '<div class="license-item-info">' +
-              '<div class="license-item-name">' +
-              r.name +
-              "</div>" +
-              (desc
-                ? '<div class="license-item-desc">' + desc + "</div>"
-                : "") +
-              "</div>" +
-              badge(r.name, r.url, r.license || "Unknown") +
-              "</div>"
-            );
-          })
-          .join(""),
-      );
-    }
-    if (npmEl && data.npm && data.npm.length) {
-      var sorted = data.npm.slice().sort(function (a, b) {
-        return a.name.localeCompare(b.name);
-      });
-      npmEl.innerHTML = makeRowClickable(
-        sorted
-          .map(function (p) {
-            return (
-              '<div class="license-item">' +
-              '<div class="license-item-info">' +
-              '<div class="license-item-name">' +
-              p.name +
-              "</div>" +
-              '<div class="license-item-version">v' +
-              (p.version || "unknown") +
-              "</div>" +
-              (p.description
-                ? '<div class="license-item-desc">' + p.description + "</div>"
-                : "") +
-              "</div>" +
-              badge(p.name, p.repository, p.license || "Unknown") +
-              "</div>"
-            );
-          })
-          .join(""),
-      );
-    }
-    if (cdnEl && data.cdn && data.cdn.length) {
-      cdnEl.innerHTML = makeRowClickable(
-        data.cdn
-          .map(function (c) {
-            return (
-              '<div class="license-item">' +
-              '<div class="license-item-info">' +
-              '<div class="license-item-name">' +
-              c.name +
-              "</div>" +
-              '<div class="license-item-version">v' +
-              (c.version || "") +
-              " · loaded from CDN" +
-              "</div>" +
-              "</div>" +
-              badge(c.name, c.url, c.license || "Unknown") +
-              "</div>"
-            );
-          })
-          .join(""),
-      );
-    }
-  }
-
-  // Close license modal when a badge is clicked so redirect confirmer can handle it
-  overlay.addEventListener("click", function (e) {
-    var link = e.target.closest(".license-item-badge[href]");
-    if (link) {
-      closeModal();
-    }
-  });
-})();
-
 // ── About modal ─────────────────────────────────────────────────────────────
 (function () {
   var overlay = document.getElementById("about-overlay");
@@ -808,7 +688,7 @@ document.addEventListener(
   if (prefersReduced) return;
 
   var SEL =
-    ".hub-list-row, .docs-list-row, .project-row, .contrib-card, .blog-card, .blog-post-row, .post-back-link, .license-item";
+    ".hub-list-row, .docs-list-row, .project-row, .contrib-card, .blog-card, .blog-post-row, .post-back-link";
   var elements = document.querySelectorAll(SEL);
   elements.forEach(function (el) {
     function updatePos(e) {
@@ -827,4 +707,129 @@ document.addEventListener(
       el.style.setProperty("--mouse-y", "50%");
     });
   });
+})();
+
+// ── Mermaid diagram rendering ─────────────────────────────────────────────
+// Astro renders ```mermaid through Shiki which produces:
+//   <pre class="astro-code github-dark" data-language="mermaid"><code>...<span>...</span>...</code></pre>
+// Mermaid.js expects <pre class="mermaid">. Transform on load so mermaid picks them up.
+(function () {
+  function decodeEntities(str) {
+    return str
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&#39;/g, "'")
+      .replace(/&quot;/g, '"');
+  }
+
+  function extractMermaidText(el) {
+    var clone = el.cloneNode(true);
+    clone.querySelectorAll("span[style]").forEach(function (s) {
+      s.removeAttribute("style");
+      s.className = "";
+    });
+    return decodeEntities(clone.textContent || "");
+  }
+
+  function initMermaid() {
+    var shikiBlocks = document.querySelectorAll('pre[data-language="mermaid"]');
+    var directBlocks = document.querySelectorAll("pre > code.language-mermaid");
+
+    if (!shikiBlocks.length && !directBlocks.length) return;
+
+    shikiBlocks.forEach(function (pre) {
+      var text = extractMermaidText(pre);
+      if (!text.trim()) return;
+      var wrapper = document.createElement("div");
+      wrapper.className = "prose-mermaid";
+      var mermaidPre = document.createElement("pre");
+      mermaidPre.className = "mermaid";
+      mermaidPre.textContent = text;
+      wrapper.appendChild(mermaidPre);
+      pre.replaceWith(wrapper);
+    });
+
+    directBlocks.forEach(function (codeEl) {
+      var text = decodeEntities(codeEl.textContent || "");
+      if (!text.trim()) return;
+      var wrapper = document.createElement("div");
+      wrapper.className = "prose-mermaid";
+      var mermaidPre = document.createElement("pre");
+      mermaidPre.className = "mermaid";
+      mermaidPre.textContent = text;
+      wrapper.appendChild(mermaidPre);
+      codeEl.closest("pre").replaceWith(wrapper);
+    });
+
+    if (typeof window.mermaid === "undefined") {
+      import("https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs")
+        .then(function (mod) {
+          mod.default.initialize({
+            startOnLoad: true,
+            theme: "dark",
+            darkMode: true,
+            securityLevel: "loose",
+            fontFamily: 'ui-monospace, "SF Mono", "Fira Code", monospace',
+            flowchart: {
+              useMaxWidth: true,
+              htmlLabels: true,
+              curve: "cardinal",
+            },
+            themeVariables: {
+              primaryColor: "#1e40af",
+              primaryTextColor: "#e0e0e0",
+              primaryBorderColor: "#3b82f6",
+              lineColor: "#60a5fa",
+              secondaryColor: "#7c2d12",
+              tertiaryColor: "#1e3a5f",
+            },
+          });
+          mod.default.run();
+        })
+        .catch(function (err) {
+          console.warn("[mermaid] failed to load:", err);
+        });
+    } else if (window.mermaid.run) {
+      window.mermaid.run();
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMermaid);
+  } else {
+    initMermaid();
+  }
+})();
+
+// ── Auto-add copy buttons to all code blocks ────────────────────────────────
+(function () {
+  function addCopyButtons() {
+    var pres = document.querySelectorAll("pre");
+    pres.forEach(function (pre) {
+      // Skip if already wrapped or has a button
+      if (pre.closest(".prose-code-block") || pre.closest(".install-code"))
+        return;
+      if (pre.querySelector(".prose-copy-btn")) return;
+
+      var wrapper = document.createElement("div");
+      wrapper.className = "prose-code-block";
+      pre.parentNode.insertBefore(wrapper, pre);
+      wrapper.appendChild(pre);
+
+      var btn = document.createElement("button");
+      btn.className = "prose-copy-btn";
+      btn.type = "button";
+      btn.setAttribute("aria-label", "Copy code");
+      btn.innerHTML =
+        '<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy';
+      wrapper.appendChild(btn);
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", addCopyButtons);
+  } else {
+    addCopyButtons();
+  }
 })();

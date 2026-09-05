@@ -1,0 +1,117 @@
+---
+import InteractiveChart from "./InteractiveChart.astro";
+
+interface Bar {
+  label: string;
+  value: number;
+}
+
+interface Props {
+  title?: string;
+  bars: Bar[];
+  caption?: string;
+  interactive?: boolean;
+}
+
+const { title, bars, caption, interactive = false } = Astro.props;
+const max = Math.max(...bars.map((b) => b.value));
+---
+
+{
+  interactive ? (
+    <InteractiveChart
+      title={title}
+      type="bar"
+      data={bars.map((b) => ({ label: b.label, value: b.value }))}
+      caption={caption}
+    />
+  ) : (
+    <div class="bar-chart">
+      {title && <h3 class="bar-chart__title">{title}</h3>}
+      <div class="bar-chart__grid">
+        {bars.map((bar) => {
+          const pct = Math.round((bar.value / max) * 100);
+          return (
+            <div class="bar-chart__row">
+              <span class="bar-chart__label">{bar.label}</span>
+              <div class="bar-chart__track">
+                <div class="bar-chart__fill" style={`width: ${pct}%`}>
+                  <span class="bar-chart__pct">{pct}%</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {caption && <p class="bar-chart__caption">{caption}</p>}
+    </div>
+  )
+}
+
+<style>
+  .bar-chart {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    border: 1px solid var(--color-border, #e2e8f0);
+    border-radius: 0.75rem;
+    background: var(--color-surface, #f8fafc);
+  }
+
+  .bar-chart__title {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .bar-chart__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .bar-chart__row {
+    display: grid;
+    grid-template-columns: 10rem 1fr;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .bar-chart__label {
+    font-size: 0.875rem;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .bar-chart__track {
+    height: 1.5rem;
+    background: var(--color-border, #e2e8f0);
+    border-radius: 0.375rem;
+    overflow: hidden;
+  }
+
+  .bar-chart__fill {
+    height: 100%;
+    background: var(--color-primary, #6366f1);
+    border-radius: 0.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 0.5rem;
+    transition: width 0.6s ease;
+  }
+
+  .bar-chart__pct {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .bar-chart__caption {
+    margin: 1rem 0 0;
+    font-size: 0.8rem;
+    color: var(--color-muted, #94a3b8);
+    text-align: center;
+  }
+</style>

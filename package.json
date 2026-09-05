@@ -1,42 +1,26 @@
 {
   "name": "airlink-site",
-  "version": "1.0.0",
-  "private": true,
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
-    "build": "npm run cache && npm run cache:licenses && tsx src/scripts/build.ts && npm run tw",
-    "tw": "npx @tailwindcss/cli -i src/input.css -o dist/public/css/styles.css --minify",
-    "tw:watch": "npx @tailwindcss/cli -i src/input.css -o dist/public/css/styles.css --watch",
-    "dev": "tsx src/scripts/dev.ts",
-    "cache": "tsx src/scripts/cache-github.ts",
-    "cache:licenses": "tsx src/scripts/cache-licenses.ts"
-  },
-  "dependencies": {
-    "@tailwindcss/cli": "^4.3.1",
-    "better-sqlite3": "^13.0.3",
-    "ejs": "^3.1.10",
-    "front-matter": "^4.0.2",
-    "fs-extra": "^11.3.0",
-    "marked": "^18.0.5",
-    "tailwindcss": "^4.3.1"
-  },
-  "devDependencies": {
-    "@types/better-sqlite3": "^9.6.0",
-    "@types/ejs": "^3.1.5",
-    "@types/fs-extra": "^11.0.4",
-    "@types/node": "^22.15.3",
-    "prettier": "3.9.6",
-    "prettier-plugin-ejs": "^1.0.3",
-    "tsx": "^4.22.4",
-    "typescript": "^5.9.3"
+    "dev": "astro dev --background",
+    "build": "npm run cache && npm run cache:licenses && astro build",
+    "preview": "astro preview",
+    "cache": "tsx scripts/cache-github.ts",
+    "cache:licenses": "tsx scripts/cache-licenses.ts",
+    "astro": "astro"
   },
   "site": {
     "title": "AirLink",
     "description": "Open-source game server management panel. Built with TypeScript, runs on your hardware.",
     "versionLabel": "v2.0.0-rc1",
     "siteUrl": "https://airlinklabs.github.io/home",
-    "githubOrg": "AirlinkLabs",
-    "githubPanel": "AirlinkLabs/panel",
-    "githubDaemon": "AirlinkLabs/daemon",
+    "githubOrg": "airlinklabs",
+    "githubPanel": "airlinklabs/panel",
+    "githubDaemon": "airlinklabs/daemon",
     "discordUrl": "https://discord.gg/CmrDB2tRaN",
     "installVideoUrl": "https://youtu.be/-rGvbc1sVlI?si=MKfYOisLjJJKPMhe"
   },
@@ -44,5 +28,28 @@
     "enabled": true,
     "message": "The site is currently being updated. That means its NOT FINISHED AND IS BEING BUILT!!!!!!",
     "badge": "Under Construction"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^8.0.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.1",
+    "chart.js": "^4.5.1",
+    "chartjs-plugin-zoom": "^2.2.0",
+    "tailwindcss": "^4.3.3"
+  },
+  "allowScripts": {
+    "esbuild": true
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/fs-extra": "^11.0.4",
+    "better-sqlite3": "^13.0.3",
+    "fs-extra": "^11.4.0",
+    "tsx": "^4.23.13"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "better-sqlite3"
+    ]
   }
 }
