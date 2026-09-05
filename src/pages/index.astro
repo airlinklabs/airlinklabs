@@ -63,38 +63,43 @@ const teamMembers = [
       </div>
       <div class="hero-carousel" aria-hidden="true">
         <div class="hero-carousel-track">
-          {['dashboard-dark', 'console-dark', 'nodes-dark', 'file-manager-dark', 'users-dark', 'api-dark'].map((name, i) => (
+          {/* Primary set */}
+          {[
+            { src: '/assets/screenshots/dashboard-dark.png', label: 'Dashboard' },
+            { src: '/assets/features/console/console-dark.png', label: 'Console' },
+            { src: '/assets/features/nodes/nodes-dark.png', label: 'Nodes' },
+            { src: '/assets/features/file-manager/file-manager-dark.png', label: 'File manager' },
+            { src: '/assets/features/users/users-dark.png', label: 'Users' },
+            { src: '/assets/features/api/api-dark.png', label: 'API' },
+          ].map(({ src, label }, i) => (
             <div class="hero-carousel-item">
-              <Image
-                src={`/assets/${i === 0 ? 'screenshots/' : 'features/' + name.replace('-dark', '/') }${name}.png`}
-                alt={i === 0 ? 'Dashboard' : name.replace('-dark', '').replace(/-/g, ' ')}
-                width={640} height={400}
-                loading={i < 2 ? 'eager' : 'lazy'}
-              />
+              <Image src={src} alt={label} width={640} height={400} loading={i < 2 ? 'eager' : 'lazy'} />
             </div>
           ))}
           {/* Seamless loop duplicates */}
-          {['dashboard-dark', 'console-dark', 'nodes-dark', 'file-manager-dark', 'users-dark', 'api-dark'].map((name, i) => (
+          {[
+            { src: '/assets/screenshots/dashboard-dark.png' },
+            { src: '/assets/features/console/console-dark.png' },
+            { src: '/assets/features/nodes/nodes-dark.png' },
+            { src: '/assets/features/file-manager/file-manager-dark.png' },
+            { src: '/assets/features/users/users-dark.png' },
+            { src: '/assets/features/api/api-dark.png' },
+          ].map(({ src }) => (
             <div class="hero-carousel-item" aria-hidden="true">
-              <Image
-                src={`/assets/${i === 0 ? 'screenshots/' : 'features/' + name.replace('-dark', '/') }${name}.png`}
-                alt=""
-                width={640} height={400} loading="lazy"
-              />
+              <Image src={src} alt="" width={640} height={400} loading="lazy" />
             </div>
           ))}
         </div>
       </div>
       <div id="hero-welcome" class="hero-welcome" aria-hidden="true">
-        <p class="hero-welcome-text">Welcome to Airlinklabs</p>
+        <p class="hero-welcome-text">AirLink</p>
       </div>
       <section class="hub-hero hero-text-animated" data-animate="blur">
         <div>
-          <p class="hub-overline">Self-hosted · MIT licensed · Open source</p>
+          <p class="hub-overline">Self-hosted &middot; MIT licensed &middot; Open source</p>
           <h1>Game server management<br/>built for operators.</h1>
           <p class="hub-lede">
-            AirLink runs on your hardware. The panel lives in your browser, the daemon runs
-            on each node. Install takes minutes, runs indefinitely — you own every bit of it.
+            AirLink runs on your hardware. The panel lives in your browser, the daemon runs on each node. Install takes minutes and runs indefinitely — you own every bit of it.
           </p>
           <div class="hub-actions">
             <a href="#install" class="btn-primary">
@@ -122,7 +127,7 @@ const teamMembers = [
     <section class="hub-section" id="about" data-animate="fade-up">
       <div class="hub-section-heading">
         <h2>What AirLink does</h2>
-        <p>A self-hosted game server management platform. Install on your own machines, manage game servers through a web interface. No third-party control, no usage limits, no vendor lock-in.</p>
+        <p>Install on your own machines, manage game servers through a web interface. No third-party control, no usage limits, no lock-in.</p>
       </div>
       <div class="about-grid" data-animate-group>
         <div class="about-card">
@@ -154,10 +159,9 @@ const teamMembers = [
       <div class="section-bg" style="background-image:url('/assets/bg-install.svg')" aria-hidden="true"></div>
       <div class="install-layout">
         <div class="hub-section-heading">
-          <h2>One command to get started</h2>
+          <h2>One command to install</h2>
           <p>
-            Works on Ubuntu, Debian, Fedora, RHEL, Arch, and Alpine. The installer sets up the panel,
-            daemon, Node.js, and Docker. An interactive TUI guides you through each step.
+            Works on Ubuntu, Debian, Fedora, RHEL, Arch, and Alpine. The installer sets up Node.js, Docker, the panel, and daemon. An interactive TUI walks you through each step.
           </p>
         </div>
         <div class="install-block">
@@ -190,7 +194,7 @@ const teamMembers = [
     <section class="hub-section" id="projects" data-animate="fade-up">
       <div class="hub-section-heading">
         <h2>Two repos, one system</h2>
-        <p>Panel is the web interface. Daemon runs on each node and does the actual work. They communicate over HMAC-signed HTTP, so you can run the panel on one machine and daemon on as many nodes as you need.</p>
+        <p>Panel is the web interface. Daemon runs on each node and handles the real work. They talk over HMAC-signed HTTP, so one panel can talk to as many nodes as you need.</p>
       </div>
       <div class="project-cards" data-animate-group>
         <a class="project-card" href="https://github.com/AirlinkLabs/panel" target="_blank" rel="noopener">
@@ -237,7 +241,7 @@ const teamMembers = [
     <section class="hub-section" id="features" data-animate="fade-up">
       <div class="hub-section-heading">
         <h2>Features</h2>
-        <p>AirLink covers the full lifecycle: deploy servers, manage users, transfer files, monitor resources, and extend the panel with addons. Every feature ships with a screenshot.</p>
+        <p>Deploy servers, manage users, transfer files, monitor resources, and extend the panel with addons. Every feature has a screenshot below.</p>
       </div>
       <div class="feature-detail-list" data-animate-group>
         {features.map((feature: any) => (
@@ -320,7 +324,7 @@ const teamMembers = [
     <section class="hub-section" id="team" data-animate="fade-up">
       <div class="hub-section-heading">
         <h2>Who built this</h2>
-        <p>AirLink started as a side project and grew from there. The core team handles panel, daemon, and infrastructure.</p>
+        <p>Started as a side project. The core team handles panel, daemon, and infrastructure.</p>
       </div>
       <div class="team-grid" data-animate-group>
         {teamMembers.map((member) => {

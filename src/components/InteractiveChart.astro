@@ -193,14 +193,20 @@ const chartId = `chart-${Math.random().toString(36).slice(2, 9)}`;
 
       if (chartType === "bar" || chartType === "line") {
         Object.assign(common, {
+          layout: { padding: { left: 4, right: 8, top: 4, bottom: 4 } },
           scales: {
             x: {
               grid: { color: t.border, drawBorder: false },
-              ticks: { color: t.text3, font: { size: 12 } },
+              ticks: {
+                color: t.text2,
+                font: { size: 12 },
+                autoSkip: false,
+                maxRotation: 0,
+              },
             },
             y: {
               grid: { color: t.border, drawBorder: false },
-              ticks: { color: t.text3, font: { size: 12 } },
+              ticks: { color: t.text2, font: { size: 12 } },
               beginAtZero: true,
             },
           },

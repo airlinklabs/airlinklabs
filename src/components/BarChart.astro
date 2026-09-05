@@ -52,9 +52,9 @@ const max = Math.max(...bars.map((b) => b.value));
   .bar-chart {
     margin: 2rem 0;
     padding: 1.5rem;
-    border: 1px solid var(--color-border, #e2e8f0);
-    border-radius: 0.75rem;
-    background: var(--color-surface, #f8fafc);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-bg-2);
   }
 
   .bar-chart__title {
@@ -86,14 +86,14 @@ const max = Math.max(...bars.map((b) => b.value));
 
   .bar-chart__track {
     height: 1.5rem;
-    background: var(--color-border, #e2e8f0);
+    background: var(--color-bg-3);
     border-radius: 0.375rem;
     overflow: hidden;
   }
 
   .bar-chart__fill {
     height: 100%;
-    background: var(--color-primary, #6366f1);
+    background: var(--color-text-1);
     border-radius: 0.375rem;
     display: flex;
     align-items: center;
@@ -105,13 +105,13 @@ const max = Math.max(...bars.map((b) => b.value));
   .bar-chart__pct {
     font-size: 0.75rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--color-bg);
   }
 
   .bar-chart__caption {
     margin: 1rem 0 0;
     font-size: 0.8rem;
-    color: var(--color-muted, #94a3b8);
+    color: var(--color-text-2);
     text-align: center;
   }
 </style>
