@@ -1,0 +1,707 @@
+/* ════════════════════════════════════════════════════════════════════════════
+   Contributors + History sections
+   Extracted from layout.css + components.css for clarity.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Section inner container ────────────────────────────────────────────── */
+.section-inner {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Team grid ──────────────────────────────────────────────────────────── */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.team-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--color-bg-2);
+  text-decoration: none;
+  transition:
+    background var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard),
+    box-shadow var(--dur-default) var(--ease-standard),
+    transform var(--dur-default) var(--ease-standard);
+}
+
+.team-card--horizontal {
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.team-card:hover {
+  background: var(--color-text-1);
+  border-color: var(--color-text-1);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+}
+
+.team-card-avatar {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--color-bg-3);
+  border-bottom: 1px solid var(--color-border);
+  transition: border-color var(--dur-default) var(--ease-standard);
+  flex-shrink: 0;
+}
+
+.team-card--horizontal .team-card-avatar {
+  width: 80px;
+  min-height: 100%;
+  aspect-ratio: auto;
+  border-bottom: none;
+  border-left: 1px solid var(--color-border);
+}
+
+.team-card:hover .team-card-avatar {
+  border-color: var(--color-text-1);
+}
+
+.team-card-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(20%);
+  transition: filter var(--dur-default) var(--ease-standard);
+}
+
+.team-card:hover .team-card-avatar img {
+  filter: grayscale(0%);
+}
+
+.team-card-body {
+  flex: 1;
+  padding: 18px 20px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.team-card--horizontal .team-card-body {
+  padding: 14px 16px 12px;
+}
+
+.team-card-name {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  color: var(--color-text-1);
+  transition: color var(--dur-default) var(--ease-standard);
+}
+
+.team-card--horizontal .team-card-name {
+  font-size: 14px;
+}
+
+.team-card:hover .team-card-name {
+  color: var(--color-bg);
+}
+
+.team-card-role {
+  margin: 0;
+  font: 500 10px var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--color-text-3);
+  transition: color var(--dur-default) var(--ease-standard);
+}
+
+.team-card:hover .team-card-role {
+  color: var(--color-bg);
+  opacity: 0.6;
+}
+
+.team-card-bio {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--color-text-2);
+  transition: color var(--dur-default) var(--ease-standard);
+}
+
+.team-card--horizontal .team-card-bio {
+  margin: 4px 0 0;
+  font-size: 11px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.team-card:hover .team-card-bio {
+  color: var(--color-bg);
+}
+
+.team-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px 16px;
+  font: 11px var(--font-mono);
+  color: var(--color-text-3);
+  transition: color var(--dur-default) var(--ease-standard);
+}
+
+.team-card--horizontal .team-card-footer {
+  padding: 8px 0 0;
+  margin-top: auto;
+}
+
+.team-card:hover .team-card-footer {
+  color: var(--color-bg);
+  opacity: 0.65;
+}
+
+/* ── Contributor grid ──────────────────────────────────────────────────── */
+.contrib-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.contrib-card-full {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-bg-2);
+  text-decoration: none;
+  transition:
+    background var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard),
+    transform var(--dur-default) var(--ease-standard),
+    box-shadow var(--dur-default) var(--ease-standard);
+}
+
+.contrib-card-full:hover {
+  background: var(--color-text-1);
+  border-color: var(--color-text-1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.contrib-card-full img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: block;
+  background: var(--color-bg-3);
+  transition: filter var(--dur-default) var(--ease-standard);
+}
+
+.contrib-card-full:hover img {
+  filter: brightness(1.2);
+}
+
+.contrib-card-full-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.contrib-card-full-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color var(--dur-default) var(--ease-standard);
+}
+
+.contrib-card-full:hover .contrib-card-full-name {
+  color: var(--color-bg);
+}
+
+.contrib-card-full-handle {
+  font: 10px var(--font-mono);
+  color: var(--color-text-3);
+  transition: color var(--dur-default) var(--ease-standard);
+}
+
+.contrib-card-full:hover .contrib-card-full-handle {
+  color: var(--color-bg);
+  opacity: 0.6;
+}
+
+.contrib-card-full-count {
+  flex-shrink: 0;
+  font: 11px var(--font-mono);
+  color: var(--color-text-3);
+  padding: 2px 8px;
+  border-radius: 8px;
+  background: var(--color-bg-3);
+  border: 1px solid var(--color-border);
+  transition:
+    background var(--dur-default) var(--ease-standard),
+    color var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard);
+}
+
+.contrib-card-full:hover .contrib-card-full-count {
+  background: var(--color-bg);
+  border-color: var(--color-bg);
+  color: var(--color-text-1);
+}
+
+/* ── Commit list ────────────────────────────────────────────────────────── */
+.commit-list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--color-bg-2);
+}
+
+.commit-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--color-border);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition:
+    background var(--dur-default) var(--ease-standard),
+    color var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard),
+    box-shadow var(--dur-default) var(--ease-standard),
+    opacity var(--dur-default) var(--ease-standard);
+}
+
+.commit-row:last-child {
+  border-bottom: none;
+}
+
+.commit-row:hover {
+  background: var(--color-text-1);
+  color: var(--color-bg);
+}
+
+.commit-row:hover .commit-message,
+.commit-row:hover .commit-author,
+.commit-row:hover .commit-date {
+  color: var(--color-bg);
+}
+
+.commit-row:hover .commit-repo-badge {
+  background: var(--color-bg);
+  border-color: var(--color-bg);
+  color: var(--color-text-1);
+}
+
+.commit-row:hover .stat-add,
+.commit-row:hover .stat-del,
+.commit-row:hover .stat-files {
+  color: var(--color-bg);
+}
+
+.commit-row-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.commit-message {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-1);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  transition:
+    background var(--dur-default) var(--ease-standard),
+    color var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard),
+    box-shadow var(--dur-default) var(--ease-standard),
+    opacity var(--dur-default) var(--ease-standard);
+}
+
+.commit-stats {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font: 11px var(--font-mono);
+}
+
+.stat-add {
+  color: var(--color-success);
+  transition:
+    background var(--dur-default) var(--ease-standard),
+    color var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard),
+    box-shadow var(--dur-default) var(--ease-standard);
+}
+
+.stat-del {
+  color: var(--color-danger);
+  transition:
+    background var(--dur-default) var(--ease-standard),
+    color var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard),
+    box-shadow var(--dur-default) var(--ease-standard);
+}
+
+.stat-files {
+  color: var(--color-text-4);
+  transition:
+    background var(--dur-default) var(--ease-standard),
+    color var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard),
+    box-shadow var(--dur-default) var(--ease-standard);
+}
+
+.commit-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+
+.commit-repo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 5px;
+  background: var(--color-bg-3);
+  border: 1px solid var(--color-border);
+  font: 10px var(--font-mono);
+  color: var(--color-text-3);
+  white-space: nowrap;
+  transition:
+    background var(--dur-default) var(--ease-standard),
+    color var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard),
+    box-shadow var(--dur-default) var(--ease-standard),
+    opacity var(--dur-default) var(--ease-standard);
+}
+
+.commit-author {
+  font: 11px var(--font-mono);
+  color: var(--color-text-3);
+  transition:
+    background var(--dur-default) var(--ease-standard),
+    color var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard),
+    box-shadow var(--dur-default) var(--ease-standard),
+    opacity var(--dur-default) var(--ease-standard);
+}
+
+.commit-date {
+  font: 10px var(--font-mono);
+  color: var(--color-text-3);
+  transition:
+    background var(--dur-default) var(--ease-standard),
+    color var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard),
+    box-shadow var(--dur-default) var(--ease-standard),
+    opacity var(--dur-default) var(--ease-standard);
+}
+
+/* ── Commit more / popup ────────────────────────────────────────────────── */
+.commit-more-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.commit-more-btn {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 10px 20px;
+  font: 500 13px var(--font-body);
+  color: var(--color-text-2);
+  cursor: pointer;
+  transition:
+    background var(--dur-default) var(--ease-standard),
+    color var(--dur-default) var(--ease-standard),
+    border-color var(--dur-default) var(--ease-standard),
+    box-shadow var(--dur-default) var(--ease-standard);
+}
+
+.commit-more-btn:hover {
+  background: var(--color-text-1);
+  color: var(--color-bg);
+  border-color: var(--color-text-1);
+}
+
+.commit-popup-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.commit-popup-overlay.open {
+  display: flex;
+}
+
+.commit-popup-content {
+  background: var(--color-bg-2);
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  width: 100%;
+  max-width: 640px;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+}
+
+.commit-popup-overlay.open .commit-popup-content {
+  animation: popup-in 200ms var(--ease-standard);
+}
+
+.commit-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.commit-popup-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 650;
+  color: var(--color-text-1);
+}
+
+.commit-popup-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--color-text-3);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: color var(--dur-default) var(--ease-standard);
+}
+
+.commit-popup-close:hover {
+  color: var(--color-text-1);
+}
+
+.commit-popup-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.commit-popup-body .commit-row:hover {
+  background: var(--color-text-1);
+  color: var(--color-bg);
+}
+
+/* ── Section heading (split variant — contributors/history only) ──────── */
+.hub-section-heading--split {
+  display: flex;
+  gap: 28px;
+  align-items: end;
+  justify-content: space-between;
+  max-width: none;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+
+/* Small desktop: fit beside sidebar */
+@media (max-width: 1100px) {
+  .hub-section-heading--split {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .team-card--horizontal .team-card-avatar {
+    width: 64px;
+  }
+  .team-card-name {
+    font-size: 14px;
+  }
+  .team-card-role {
+    font-size: 11px;
+  }
+  .team-card-bio {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .team-card-footer {
+    font-size: 10px;
+  }
+  .contrib-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .contrib-card-full {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  .contrib-card-full img {
+    width: 36px;
+    height: 36px;
+  }
+  .contrib-card-full-name {
+    font-size: 12px;
+  }
+  .contrib-card-full-handle {
+    font-size: 9px;
+  }
+  .contrib-card-full-count {
+    font-size: 10px;
+    padding: 1px 5px;
+  }
+  .commit-list {
+    max-width: 700px;
+    margin: 0 auto;
+    border-radius: 14px;
+  }
+  .commit-row {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  .commit-message {
+    font-size: 12px;
+  }
+  .commit-author {
+    font-size: 11px;
+  }
+  .commit-date {
+    font-size: 10px;
+  }
+  .commit-repo-badge {
+    font-size: 9px;
+    padding: 1px 5px;
+  }
+  .stat-add,
+  .stat-del,
+  .stat-files {
+    font-size: 10px;
+  }
+}
+
+/* Tablet: 2-col team grid */
+@media (max-width: 860px) {
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Split heading stacks on narrow */
+@media (max-width: 560px) {
+  .hub-section-heading--split {
+    display: block;
+  }
+  .hub-section-heading--split .text-link {
+    display: inline-block;
+    margin-top: 17px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+  .commit-meta {
+    display: none;
+  }
+  .commit-row {
+    padding: 12px 14px;
+  }
+  .contrib-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .commit-message {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* XS */
+@media (max-width: 480px) {
+  .commit-stats {
+    display: none;
+  }
+  .commit-row {
+    padding: 10px 12px;
+  }
+  .commit-row-meta {
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 2px;
+  }
+  .commit-tag {
+    font-size: 8px;
+    padding: 1px 5px;
+  }
+}
+
+/* XXS contributor cards */
+@media (max-width: 420px) {
+  .contrib-grid {
+    grid-template-columns: 1fr;
+  }
+  .contrib-card-full {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  .contrib-card-full img {
+    width: 36px;
+    height: 36px;
+  }
+  .contrib-card-full-name {
+    font-size: 12px;
+  }
+  .contrib-card-full-handle {
+    font-size: 9px;
+  }
+  .contrib-card-full-count {
+    font-size: 10px;
+    padding: 1px 6px;
+  }
+}

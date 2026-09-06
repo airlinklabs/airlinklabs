@@ -54,6 +54,10 @@ body {
   /* accent — used by scroll progress bar, focus rings */
   --color-accent: #60a5fa;
 
+  --color-tag-purple: #a882ff;
+  --color-tag-teal: #34d3c4;
+  --color-tag-orange: #fb923c;
+
   /* Layout */
   --sidebar-width: 220px;
 }

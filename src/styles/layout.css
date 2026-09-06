@@ -1,53 +1,5 @@
 /* Layout, sidebar, hero, and page structure */
 
-/* ── Credit line ────────────────────────────────────────────────────────────── */
-#credit-line {
-  position: fixed;
-  bottom: 18px;
-  left: 20px;
-  z-index: var(--z-sticky);
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 10px;
-  font-family: var(--font-mono);
-}
-#credit-line span,
-#credit-line .credit-dot {
-  color: var(--color-text-4);
-}
-#credit-line a {
-  color: var(--color-text-3);
-}
-#credit-line a:hover {
-  color: var(--color-bg);
-  background: var(--color-text-1);
-}
-
-/* ── SPA root ────────────────────────────────────────────────────────────────── */
-#spa-root {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  background: var(--color-bg);
-  overscroll-behavior: none;
-}
-
-.spa-section {
-  position: absolute;
-  inset: 0;
-  overflow: hidden auto;
-  padding: clamp(24px, 4vw, 52px) clamp(20px, 3vw, 48px) clamp(24px, 4vw, 52px)
-    calc(60px + clamp(20px, 3vw, 48px));
-}
-
-.spa-section-inner {
-  width: 100%;
-  max-width: 1060px;
-  box-sizing: border-box;
-  min-width: 0;
-}
-
 /* ── Non-SPA page content wrapper ───────────────────────────────────────────── */
 /* All non-SPA pages (blog, docs, registry) use #page-content.
    Each page sets its own max-width on the inner wrapper; this handles
@@ -68,18 +20,6 @@
 
 /* ── Responsive: mobile breakpoint ──────────────────────────────────────────── */
 @media (max-width: 600px) {
-  #left-strip {
-    display: none !important;
-  }
-  #credit-line {
-    display: none;
-  }
-
-  .spa-section {
-    padding-bottom: 84px !important;
-    padding-right: clamp(16px, 4vw, 24px) !important;
-    padding-left: clamp(16px, 4vw, 24px) !important;
-  }
   #page-content {
     padding-top: clamp(24px, 4vw, 48px) !important;
     padding-bottom: 84px !important;
@@ -92,27 +32,35 @@
   #page-content > * {
     max-width: 100% !important;
   }
+  .hub-lede {
+    font-size: 15px;
+    max-width: none;
+  }
 }
 
-/* ── Sidebar icon button ────────────────────────────────────────────────── */
-.sidebar-icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  color: var(--color-text-3);
-  cursor: pointer;
-  padding: 0;
-  transition:
-    background var(--dur-default) var(--ease-standard),
-    color var(--dur-default) var(--ease-standard),
-    border-color var(--dur-default) var(--ease-standard),
-    box-shadow var(--dur-default) var(--ease-standard),
-    opacity var(--dur-default) var(--ease-standard);
+/* ── Responsive: XS breakpoint ──────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .hub-lede {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .install-options {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
-.sidebar-icon-btn:hover {
-  color: var(--color-text-1);
+
+/* ── Responsive: XS breakpoint ──────────────────────────────────────────── */
+@media (max-width: 400px) {
+  .hub-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hub-actions .btn-primary,
+  .hub-actions .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* ── Docs wrapper ──────────────────────────────────────────────────────── */
@@ -135,15 +83,6 @@
   margin-bottom: 10px;
 }
 
-.doc-title {
-  font-size: 28px;
-  font-weight: 600;
-  color: var(--color-text-1);
-  letter-spacing: -0.03em;
-  margin: 0 0 8px;
-  line-height: 1.2;
-}
-
 .doc-desc {
   font-size: 14px;
   color: var(--color-text-3);
@@ -161,99 +100,33 @@
   color: var(--color-text-3);
 }
 
-/* ── Heading anchor links ──────────────────────────────────────────────── */
-.prose h2,
-.prose h3,
-.prose h4 {
-  position: relative;
-}
-
-.prose h2 .anchor-link,
-.prose h3 .anchor-link,
-.prose h4 .anchor-link {
-  display: inline-flex;
-  align-items: center;
-  margin-left: 6px;
-  color: var(--color-text-3);
-  opacity: 0;
-  text-decoration: none;
-  transition: opacity 150ms;
-}
-
-.prose h2:hover .anchor-link,
-.prose h3:hover .anchor-link,
-.prose h4:hover .anchor-link {
-  opacity: 1;
-}
-
-.anchor-link:hover {
-  background: var(--color-text-1);
-  color: var(--color-bg);
-  border-radius: 4px;
-  padding: 2px 4px;
-}
-
-/* ── Prev / Next nav ───────────────────────────────────────────────────── */
-.doc-prev-next {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 48px;
-  padding-top: 24px;
-  border-top: 1px solid var(--color-border);
-}
-
-.doc-prev-next a {
-  display: flex;
-  flex-direction: column;
-  padding: 14px 16px;
-  background: var(--color-bg-3);
-  border: 1px solid var(--color-border);
-  border-radius: 14px;
-  text-decoration: none;
-  transition:
-    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
-    background var(--dur-default) var(--ease-standard),
-    color var(--dur-default) var(--ease-standard),
-    border-color var(--dur-default) var(--ease-standard),
-    box-shadow var(--dur-default) var(--ease-standard),
-    opacity var(--dur-default) var(--ease-standard);
-}
-
-.doc-prev-next a:hover {
-  background: var(--color-text-1);
-  color: var(--color-bg);
-  border-color: var(--color-text-3);
-  transform: translateY(-1px);
-}
-.doc-prev-next a:hover .label,
-.doc-prev-next a:hover .title {
-  color: var(--color-bg);
-}
-
-.doc-prev-next .label {
-  font-size: 10px;
-  font-family: var(--font-mono);
-  color: var(--color-text-3);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 4px;
-  transition:
-    background var(--dur-default) var(--ease-standard),
-    color var(--dur-default) var(--ease-standard);
-}
-
-.doc-prev-next .title {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--color-text-1);
-  transition:
-    background var(--dur-default) var(--ease-standard),
-    color var(--dur-default) var(--ease-standard);
-}
-
-.doc-prev-next .next {
-  text-align: right;
+/* ── Small desktop: shrink hero + install to fit beside sidebar ─────────── */
+@media (max-width: 1100px) {
+  .hero-layout {
+    max-width: 900px;
+    padding: 0 32px;
+    gap: 32px;
+  }
+  .hub-hero h1 {
+    font-size: clamp(36px, 4.5vw, 60px);
+  }
+  .hub-lede {
+    max-width: 420px;
+    font-size: 15px;
+  }
+  .hero-carousel {
+    height: clamp(260px, 42vh, 420px);
+  }
+  .hero-carousel-item {
+    width: clamp(200px, 18vw, 280px);
+    height: clamp(140px, 14vw, 200px);
+  }
+  .install-layout {
+    gap: 24px;
+  }
+  .hub-section {
+    padding: 60px 16px;
+  }
 }
 
 /* ── Responsive ────────────────────────────────────────────────────────── */
@@ -269,14 +142,22 @@
   .docs-content {
     padding: 24px 20px 80px;
   }
-  .doc-title {
-    font-size: 22px;
-  }
   .docs-card-grid {
     grid-template-columns: 1fr;
   }
-  .doc-prev-next {
-    grid-template-columns: 1fr;
+  #left-strip {
+    display: none !important;
+  }
+  #page-content {
+    padding-bottom: 100px;
+  }
+  .hub-hero h1 {
+    font-size: clamp(40px, 8.5vw, 64px);
+    line-height: 1.02;
+  }
+  .hero-viewport {
+    min-height: 100svh;
+    padding: 72px 0 96px;
   }
 }
 
@@ -298,7 +179,8 @@
   bottom: 0;
   width: clamp(200px, 18vw, 280px);
   background: var(--color-nav-bg);
-  border-right: 2px solid var(--hub-line);
+  border-right: none;
+  border-bottom: 1px solid var(--hub-line);
   border-radius: 0;
   padding: 12px 10px;
   display: flex;
@@ -510,16 +392,6 @@
   min-width: 0;
   margin-left: clamp(200px, 18vw, 280px);
 }
-/* Home page: start at 0, transition when sidebar slides in */
-.page-home .docs-main,
-.page-home .site-main {
-  margin-left: 0;
-  transition: margin-left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.page-home .docs-main.sidebar-visible,
-.page-home .site-main.sidebar-visible {
-  margin-left: clamp(200px, 18vw, 280px);
-}
 .docs-content {
   width: 100%;
   max-width: 100%;
@@ -534,72 +406,18 @@
   line-height: 1.05;
   margin: 0 0 12px;
 }
-/* Home page: full width until sidebar appears */
-.page-home .docs-content {
-  max-width: 100%;
-  transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.page-home .docs-main.sidebar-visible .docs-content,
-.page-home .site-main.sidebar-visible .docs-content {
-  max-width: 100%;
-}
 .hub-content {
   max-width: calc(100vw - 260px);
   margin: 0 auto;
   padding: 0 72px 100px;
 }
-/* Home page: full width until sidebar appears */
-.page-home .hub-content {
-  max-width: 100%;
-  transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.page-home .docs-main.sidebar-visible .hub-content,
-.page-home .site-main.sidebar-visible .hub-content {
-  max-width: calc(100vw - clamp(200px, 18vw, 280px));
-}
-/* ── Doc page header ───────────────────────────────────────────────────── */
-.doc-header {
-  margin-bottom: 32px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid var(--color-border);
-}
-.doc-breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-family: var(--font-mono);
-  color: var(--color-text-3);
-  margin-bottom: 16px;
-}
-.doc-breadcrumb a {
-  color: var(--color-text-3);
-  text-decoration: none;
-  transition:
-    background var(--dur-default) var(--ease-standard),
-    color var(--dur-default) var(--ease-standard),
-    border-color var(--dur-default) var(--ease-standard),
-    box-shadow var(--dur-default) var(--ease-standard),
-    opacity var(--dur-default) var(--ease-standard);
-}
-.doc-breadcrumb a:hover {
-  background: var(--color-text-1);
-  color: var(--color-bg);
-  border-radius: 4px;
-  padding: 1px 4px;
-  margin: 0 -4px;
-}
-.doc-breadcrumb .sep {
-  color: var(--color-text-4);
-}
 .hero-viewport {
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: calc(-1 * (100vw - 100%) / 2);
   overflow: hidden;
   padding: 24px 0;
   box-sizing: border-box;
@@ -661,13 +479,6 @@
   height: auto;
   object-fit: contain;
 }
-.hero-bg.exit-right {
-  transition:
-    transform 1.4s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.6s ease;
-  transform: translateX(100vw);
-  opacity: 0;
-}
 
 /* Hero carousel — vertical scroll on the right */
 .hero-carousel {
@@ -718,7 +529,7 @@
   position: relative;
   cursor: pointer;
   transition:
-    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 200ms var(--ease-standard),
     background var(--dur-default) var(--ease-standard),
     color var(--dur-default) var(--ease-standard),
     border-color var(--dur-default) var(--ease-standard),
@@ -795,7 +606,7 @@
   border: 1px solid var(--color-border);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
   transform: scale(0.95);
-  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 300ms var(--ease-standard);
 }
 .hero-popup-overlay.open .hero-popup-content {
   transform: scale(1);
@@ -867,29 +678,8 @@
 .install-block {
   margin-top: 28px;
 }
-.install-code {
-  position: relative;
-  padding: 16px 20px;
-  background: var(--color-bg-3);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--color-text-1);
-  overflow-x: auto;
-  display: flex;
-  justify-content: center;
-}
-.install-code code {
-  display: block;
-  white-space: nowrap;
-  min-width: 0;
-  padding-right: 70px;
-  text-align: center;
-}
-.install-code .prose-copy-btn {
-  opacity: 1;
-  pointer-events: auto;
+.install-block pre code {
+  font-size: 14px;
 }
 .install-note {
   margin-top: 14px;
@@ -909,63 +699,6 @@
   display: flex;
   gap: 20px;
   margin-top: 18px;
-}
-.hub-system {
-  position: relative;
-  display: grid;
-  gap: 11px;
-  padding: 18px;
-  background: var(--color-bg-2);
-  border: 1px solid var(--color-border);
-  border-radius: 14px;
-  box-shadow: 0 20px 44px -28px rgba(0, 0, 0, 0.85);
-}
-.hub-system::before {
-  content: "";
-  position: absolute;
-  left: 31px;
-  top: 74px;
-  bottom: 42px;
-  width: 1px;
-  background: var(--color-text-4);
-}
-.hub-system-node {
-  position: relative;
-  z-index: var(--z-base);
-  display: grid;
-  grid-template-columns: 24px 1fr;
-  gap: 0 10px;
-  align-items: center;
-  min-height: 58px;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: var(--color-bg-3);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-1);
-  font-size: 13px;
-  font-weight: 600;
-}
-.hub-system-node img {
-  border-radius: 5px;
-}
-.hub-system-node small {
-  grid-column: 2;
-  color: var(--color-text-3);
-  font: 10px var(--font-mono);
-  margin-top: 2px;
-}
-.hub-system-line {
-  height: 8px;
-  margin-left: 12px;
-  border-left: 1px solid var(--color-text-4);
-}
-.hub-system-panel {
-  background: var(--color-text-1);
-  border-color: var(--color-text-1);
-  color: var(--color-bg);
-}
-.hub-system-panel small {
-  color: rgba(0, 0, 0, 0.45);
 }
 .hub-section {
   position: relative;
@@ -1084,28 +817,12 @@
     transform: none;
     transition: none;
   }
-  .page-home .site-sidebar {
-    transition: none;
-  }
-  .page-home .docs-main,
-  .page-home .site-main {
-    transition: none;
-  }
-  .page-home .docs-content {
-    transition: none;
-  }
-  .page-home .hub-content {
-    transition: none;
-  }
   .hero-carousel {
     opacity: 1;
     transition: none;
   }
   .hero-carousel-track {
     animation: none !important;
-  }
-  .hero-bg.exit-right {
-    transition: none;
   }
 }
 
@@ -1149,7 +866,7 @@
   padding: 6px 10px;
   border-radius: 8px;
   transition:
-    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 200ms var(--ease-standard),
     background var(--dur-default) var(--ease-standard),
     color var(--dur-default) var(--ease-standard),
     border-color var(--dur-default) var(--ease-standard),
@@ -1163,10 +880,6 @@
   background: var(--color-text-1);
   transform: translateY(-1px);
 }
-.project-list {
-  padding: 8px 0;
-}
-.project-list,
 .hub-list {
   border-top: 1px solid var(--hub-line);
 }
@@ -1180,7 +893,7 @@
   border-radius: 16px;
   border: 1px solid transparent;
   transition:
-    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 200ms var(--ease-standard),
     background var(--dur-default) var(--ease-standard),
     color var(--dur-default) var(--ease-standard),
     border-color var(--dur-default) var(--ease-standard),
@@ -1286,7 +999,7 @@
   border-radius: 16px;
   border: 1px solid transparent;
   transition:
-    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 200ms var(--ease-standard),
     background var(--dur-default) var(--ease-standard),
     color var(--dur-default) var(--ease-standard),
     border-color var(--dur-default) var(--ease-standard),
@@ -1339,8 +1052,7 @@
 .docs-list-row:hover span {
   color: var(--color-bg);
 }
-.hub-list-meta,
-.hub-list-row-meta {
+.hub-list-meta {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1352,13 +1064,6 @@
     color var(--dur-default) var(--ease-standard),
     border-color var(--dur-default) var(--ease-standard),
     box-shadow var(--dur-default) var(--ease-standard);
-}
-.hub-list-row-stats {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 3px;
-  font: 11px var(--font-mono);
 }
 .stat-add {
   color: var(--color-success);
@@ -1384,73 +1089,6 @@
     border-color var(--dur-default) var(--ease-standard),
     box-shadow var(--dur-default) var(--ease-standard);
 }
-.hub-list-row-meta .commit-repo {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
-  border-radius: 6px;
-  background: var(--color-bg-3);
-  color: var(--color-text-3);
-  font-size: 10px;
-  transition:
-    background var(--dur-default) var(--ease-standard),
-    color var(--dur-default) var(--ease-standard),
-    border-color var(--dur-default) var(--ease-standard),
-    box-shadow var(--dur-default) var(--ease-standard);
-}
-.hub-list-row-meta .commit-repo svg {
-  width: 12px;
-  height: 12px;
-  flex-shrink: 0;
-}
-.hub-list-row-meta .commit-author {
-  color: var(--color-text-2);
-  transition:
-    background var(--dur-default) var(--ease-standard),
-    color var(--dur-default) var(--ease-standard),
-    border-color var(--dur-default) var(--ease-standard),
-    box-shadow var(--dur-default) var(--ease-standard);
-}
-.hub-list-row-meta .commit-date {
-  color: var(--color-text-3);
-  transition:
-    background var(--dur-default) var(--ease-standard),
-    color var(--dur-default) var(--ease-standard),
-    border-color var(--dur-default) var(--ease-standard),
-    box-shadow var(--dur-default) var(--ease-standard);
-}
-.hub-list-row:hover .hub-list-row-meta,
-.hub-list-row:hover .hub-list-row-meta .commit-author,
-.hub-list-row:hover .hub-list-row-meta .commit-date {
-  color: var(--color-bg);
-}
-.hub-list-row:hover .hub-list-row-meta .commit-repo {
-  background: var(--color-bg);
-  border-color: rgba(0, 0, 0, 0.12);
-  color: var(--color-text-1);
-}
-.hub-list-row-main {
-  min-width: 0;
-  overflow: hidden;
-}
-.hub-list-link {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: var(--color-text-1);
-  text-decoration: none;
-  font-size: 14px;
-  transition:
-    background var(--dur-default) var(--ease-standard),
-    color var(--dur-default) var(--ease-standard),
-    border-color var(--dur-default) var(--ease-standard),
-    box-shadow var(--dur-default) var(--ease-standard);
-}
-.hub-list-row:hover .hub-list-link {
-  color: var(--color-bg);
-}
 .hub-list-row:hover .hub-list-meta {
   color: var(--color-bg);
 }
@@ -1458,7 +1096,7 @@
 .docs-list-row svg {
   color: var(--color-text-3);
   transition:
-    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 200ms var(--ease-standard),
     background var(--dur-default) var(--ease-standard),
     color var(--dur-default) var(--ease-standard),
     border-color var(--dur-default) var(--ease-standard),

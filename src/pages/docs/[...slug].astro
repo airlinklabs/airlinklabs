@@ -326,6 +326,15 @@ const author = doc.data.author || "bthavanish";
     border-collapse: collapse;
     margin: 0 0 16px;
     font-size: 14px;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .doc-body :global(thead),
+  .doc-body :global(tbody) {
+    display: table;
+    width: 100%;
+    min-width: max-content;
   }
   .doc-body :global(th),
   .doc-body :global(td) {
@@ -347,11 +356,11 @@ const author = doc.data.author || "bthavanish";
     margin-bottom: 4px;
   }
   .doc-body :global(blockquote) {
-    border-left: 3px solid var(--color-info);
     margin: 0 0 16px;
-    padding: 8px 16px;
-    background: var(--color-info-bg);
-    border-radius: 0 6px 6px 0;
+    padding: 12px 16px;
+    background: rgba(96, 165, 250, 0.07);
+    border: 1px solid rgba(96, 165, 250, 0.18);
+    border-radius: 8px;
     color: var(--color-text-2);
   }
 
@@ -374,7 +383,7 @@ const author = doc.data.author || "bthavanish";
     color: var(--color-text-2);
     border: 1px solid var(--color-border);
     transition:
-      transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      transform 200ms var(--ease-standard),
       background var(--dur-default) var(--ease-standard),
       color var(--dur-default) var(--ease-standard),
       border-color var(--dur-default) var(--ease-standard),
@@ -413,5 +422,39 @@ const author = doc.data.author || "bthavanish";
   .doc-pagination-prev:hover .doc-pagination-title,
   .doc-pagination-next:hover .doc-pagination-title {
     color: var(--color-bg);
+  }
+
+  @media (max-width: 480px) {
+    .doc-pagination {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .doc-pagination-prev,
+    .doc-pagination-next {
+      max-width: 100%;
+    }
+    .doc-pagination-next {
+      margin-left: 0;
+      text-align: left;
+    }
+    .docs-breadcrumb {
+      flex-wrap: wrap;
+      row-gap: 2px;
+    }
+    .doc-author-info {
+      flex-wrap: wrap;
+      gap: 8px 12px;
+    }
+    .doc-author-avatar {
+      flex-shrink: 0;
+    }
+    .doc-body :global(h2) {
+      font-size: 18px;
+      margin: 24px 0 10px;
+    }
+    .doc-body :global(h3) {
+      font-size: 16px;
+      margin: 18px 0 6px;
+    }
   }
 </style>

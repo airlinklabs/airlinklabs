@@ -36,35 +36,6 @@ img[loading="lazy"][style*="display:none"] {
   opacity: 1;
 }
 
-/* ── ASCII diagram block ────────────────────────────────────────────────────── */
-.prose-diagram {
-  margin: 1.5rem 0;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  background: var(--color-bg-2);
-  overflow: hidden;
-}
-
-.prose-diagram pre {
-  margin: 0;
-  padding: 20px;
-  overflow-x: auto;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  line-height: 1.6;
-  color: var(--color-text-2);
-  background: transparent;
-  border: none;
-  white-space: pre;
-}
-
-@media (max-width: 600px) {
-  .prose-diagram pre {
-    font-size: 10px;
-    padding: 14px;
-  }
-}
-
 /* ── Mermaid graph blocks ───────────────────────────────────────────────── */
 /* mermaid.js renders inside <pre class="mermaid"> and replaces it with SVG */
 .prose-mermaid {
@@ -98,120 +69,6 @@ img[loading="lazy"][style*="display:none"] {
   border-radius: 10px;
   padding: 24px;
   background: var(--color-bg-2);
-}
-
-.prose-flow-title {
-  margin: 0 0 20px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-text-3);
-}
-
-/* Vertical flow container */
-.prose-flow-vertical {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-}
-
-/* Each step: node + optional arrow + label */
-.prose-flow-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 480px;
-  opacity: 0;
-  transform: translateY(12px);
-  transition:
-    opacity 400ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.prose-flow.revealed .prose-flow-item {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.prose-flow.revealed .prose-flow-item:nth-child(1) {
-  transition-delay: 0ms;
-}
-.prose-flow.revealed .prose-flow-item:nth-child(2) {
-  transition-delay: 100ms;
-}
-.prose-flow.revealed .prose-flow-item:nth-child(3) {
-  transition-delay: 200ms;
-}
-.prose-flow.revealed .prose-flow-item:nth-child(4) {
-  transition-delay: 300ms;
-}
-.prose-flow.revealed .prose-flow-item:nth-child(5) {
-  transition-delay: 400ms;
-}
-.prose-flow.revealed .prose-flow-item:nth-child(6) {
-  transition-delay: 500ms;
-}
-.prose-flow.revealed .prose-flow-item:nth-child(7) {
-  transition-delay: 600ms;
-}
-.prose-flow.revealed .prose-flow-item:nth-child(8) {
-  transition-delay: 700ms;
-}
-
-/* Node box */
-.prose-flow-node {
-  width: 100%;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 500;
-  padding: 12px 18px;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  background: var(--color-bg-3);
-  color: var(--color-text-1);
-  text-align: center;
-  box-sizing: border-box;
-}
-
-/* Arrow connector between nodes */
-.prose-flow-arrow-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 6px 0;
-  color: var(--color-text-4);
-}
-
-.prose-flow-arrow-line {
-  width: 2px;
-  height: 24px;
-  background: var(--color-text-4);
-}
-
-.prose-flow-arrow-label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--color-text-3);
-  padding: 3px 0;
-  text-align: center;
-}
-
-.prose-flow-arrow-head {
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 7px solid var(--color-text-4);
-}
-
-/* Legacy support: hide old horizontal layout if present */
-.prose-flow-nodes,
-.prose-flow-steps {
-  display: none;
 }
 
 /* removed: old prose-flow-arrow/label styles */
@@ -253,14 +110,6 @@ img[loading="lazy"][style*="display:none"] {
   font-weight: 700;
   color: var(--color-text-1);
   line-height: 1;
-}
-
-.prose-counter-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--color-text-3);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
 /* ── Stagger scroll animations ──────────────────────────────────────────── */
@@ -357,6 +206,9 @@ img[loading="lazy"][style*="display:none"] {
   }
   .feature-showcase--active .feature-showcase-row {
     opacity: 1 !important;
+    animation: none !important;
+  }
+  .hero-carousel-track {
     animation: none !important;
   }
 }

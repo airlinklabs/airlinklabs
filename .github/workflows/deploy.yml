@@ -44,6 +44,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Fetch GitHub data
+        run: pnpm tsx scripts/cache-github.ts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Cache GitHub data
         uses: actions/cache@v4
         with:

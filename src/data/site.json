@@ -3,8 +3,8 @@
   "description": "Open-source game server management panel. Built with TypeScript, runs on your hardware.",
   "siteUrl": "https://airlinklabs.github.io/home",
   "underConstruction": {
-    "enabled": true,
-    "message": "The site is currently being updated. That means its NOT FINISHED AND IS BEING BUILT!!!!!!",
+    "enabled": false,
+    "message": "",
     "badge": "Under Construction"
   },
   "features": [

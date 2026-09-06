@@ -74,17 +74,12 @@ document.addEventListener(
   "click",
   function (e) {
     var btn =
-      e.target.closest(".install-code .prose-copy-btn") ||
-      e.target.closest(".prose-copy-btn") ||
-      e.target.closest(".copy-btn");
+      e.target.closest(".prose-copy-btn") || e.target.closest(".copy-btn");
     if (!btn) return;
     e.preventDefault();
     e.stopPropagation();
 
-    var block =
-      btn.closest(".install-code") ||
-      btn.closest(".prose-code-block") ||
-      btn.closest(".code-block");
+    var block = btn.closest(".prose-code-block") || btn.closest(".code-block");
     if (!block) return;
 
     var pre = block.querySelector("pre");
@@ -405,11 +400,13 @@ document.addEventListener(
       var key = card.getAttribute("data-about");
       cards.forEach(function (c) {
         c.classList.remove("about-card--active");
+        c.setAttribute("aria-selected", "false");
       });
       showcases.forEach(function (s) {
         s.classList.remove("feature-showcase--active");
       });
       card.classList.add("about-card--active");
+      card.setAttribute("aria-selected", "true");
       var target = document.querySelector(
         '[data-about-showcase="' + key + '"]',
       );
@@ -739,7 +736,7 @@ document.addEventListener(
     var pres = document.querySelectorAll("pre");
     pres.forEach(function (pre) {
       // Skip if already wrapped or has a button
-      if (pre.closest(".prose-code-block") || pre.closest(".install-code"))
+      if (pre.closest(".prose-code-block") || pre.closest(".code-block"))
         return;
       if (pre.querySelector(".prose-copy-btn")) return;
 
