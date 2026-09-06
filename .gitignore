@@ -1,6 +1,12 @@
 # build output
 dist/
 
+# generated data (from cache-github.ts)
+public/assets/cache.xml
+public/assets/github.db
+public/assets/licenses.json
+public/assets/summary.txt
+
 # generated types
 .astro/
 

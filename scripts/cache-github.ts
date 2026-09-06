@@ -2,20 +2,15 @@
 import fs from "fs-extra";
 import path from "path";
 import { fileURLToPath } from "url";
-import Database from "better-sqlite3";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "../");
-const CACHE_DIR = path.join(ROOT, "public", "assets");
-const CACHE_FILE = path.join(CACHE_DIR, "cache.xml");
-const DB_FILE = path.join(ROOT, "public", "assets", "github.db");
 
 const GH_TOKEN =
   process.env.GITHUB_TOKEN || process.env.TOKEN || process.env.GH_TOKEN || "";
 const ORG_NAME = "AirlinkLabs";
 const PANEL_REPO = process.env.PANEL_REPO || "AirlinkLabs/panel";
 const DAEMON_REPO = process.env.DAEMON_REPO || "AirlinkLabs/daemon";
-const ADDONS_REPO = "airlinklabs/addons";
 
 async function ghFetch(url: string): Promise<unknown> {
   const headers: Record<string, string> = {
@@ -28,191 +23,6 @@ async function ghFetch(url: string): Promise<unknown> {
   return res.json();
 }
 
-// Escape characters that are invalid inside XML text/attribute values
-function esc(raw: unknown): string {
-  return String(raw ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;");
-}
-
-async function fetchAddons() {
-  try {
-    const contents = (await ghFetch(
-      `https://api.github.com/repos/${ADDONS_REPO}/contents`,
-    )) as { type: string; name: string }[];
-    const folders = contents.filter(
-      (i) => i.type === "dir" && !i.name.startsWith("."),
-    );
-
-    const results = await Promise.all(
-      folders.slice(0, 30).map(async (f) => {
-        const base = `https://raw.githubusercontent.com/${ADDONS_REPO}/main/${f.name}`;
-        try {
-          const infoRes = await fetch(`${base}/info.json`);
-          if (!infoRes.ok) return null;
-          const info = (await infoRes.json()) as Record<string, unknown>;
-          const installRes = await fetch(`${base}/install.json`);
-          const install = installRes.ok
-            ? ((await installRes.json()) as Record<string, unknown>)
-            : {};
-          return {
-            id: String(info["name"] ? f.name : f.name),
-            name: String(info["name"] || f.name),
-            version: String(info["version"] || ""),
-            description: String(info["description"] || ""),
-            longDescription: String(
-              info["longDescription"] || info["description"] || "",
-            ),
-            author: String(info["author"] || ""),
-            tags: (info["tags"] as string[]) || [],
-            status: String(info["status"] || "working"),
-            icon: String(info["icon"] || ""),
-            features: (info["features"] as string[]) || [],
-            github: String(
-              info["github"] ||
-                `https://github.com/${ADDONS_REPO}/tree/main/${f.name}`,
-            ),
-            installNote: String(install["note"] || ""),
-            installSteps:
-              (install["steps"] as { title: string; commands: string[] }[]) ||
-              [],
-          };
-        } catch {
-          return null;
-        }
-      }),
-    );
-
-    return results.filter(Boolean) as NonNullable<(typeof results)[number]>[];
-  } catch (err) {
-    console.warn("  Addons registry fetch failed:", (err as Error).message);
-    return [];
-  }
-}
-
-function buildXml(data: {
-  generatedAt: string;
-  stats: Record<string, number>;
-  versions: Record<string, string>;
-  contributors: {
-    login: string;
-    avatar_url: string;
-    html_url: string;
-    contributions: number;
-    name: string;
-    bio: string;
-    company: string;
-  }[];
-  allCommits: Record<string, unknown>[];
-  addons: ReturnType<typeof fetchAddons> extends Promise<infer T> ? T : never;
-}): string {
-  const lines: string[] = [];
-
-  lines.push('<?xml version="1.0" encoding="UTF-8"?>');
-  lines.push("<cache>");
-
-  lines.push(`  <generatedAt>${esc(data.generatedAt)}</generatedAt>`);
-
-  // Stats
-  lines.push("  <stats>");
-  for (const [k, v] of Object.entries(data.stats)) {
-    lines.push(`    <${k}>${v}</${k}>`);
-  }
-  lines.push("  </stats>");
-
-  // Versions
-  lines.push("  <versions>");
-  for (const [k, v] of Object.entries(data.versions)) {
-    lines.push(`    <${k}>${esc(v)}</${k}>`);
-  }
-  lines.push("  </versions>");
-
-  // Contributors
-  lines.push("  <contributors>");
-  for (const c of data.contributors) {
-    lines.push("    <contributor>");
-    lines.push(`      <login>${esc(c.login)}</login>`);
-    lines.push(`      <name>${esc(c.name)}</name>`);
-    lines.push(`      <bio>${esc(c.bio)}</bio>`);
-    lines.push(`      <company>${esc(c.company)}</company>`);
-    lines.push(`      <avatarUrl>${esc(c.avatar_url)}</avatarUrl>`);
-    lines.push(`      <htmlUrl>${esc(c.html_url)}</htmlUrl>`);
-    lines.push(`      <contributions>${c.contributions}</contributions>`);
-    lines.push("    </contributor>");
-  }
-  lines.push("  </contributors>");
-
-  // Commits — write all commits
-  lines.push("  <commits>");
-  for (const raw of data.allCommits) {
-    const commit = raw["commit"] as Record<string, unknown>;
-    const author = commit["author"] as Record<string, unknown>;
-    const ghAuthor = raw["author"] as Record<string, unknown> | null;
-    const repo = (raw["_repo"] as string) || "";
-    lines.push("    <commit>");
-    lines.push(`      <sha>${esc(raw["sha"])}</sha>`);
-    lines.push(`      <repo>${esc(repo)}</repo>`);
-    lines.push(`      <htmlUrl>${esc(raw["html_url"])}</htmlUrl>`);
-    lines.push(
-      `      <message>${esc(author ? String(commit["message"] || "") : "")}</message>`,
-    );
-    lines.push("      <author>");
-    lines.push(`        <name>${esc(author?.["name"])}</name>`);
-    lines.push(`        <date>${esc(author?.["date"])}</date>`);
-    lines.push(
-      `        <avatarUrl>${esc(ghAuthor?.["avatar_url"] ?? "")}</avatarUrl>`,
-    );
-    lines.push("      </author>");
-    lines.push("    </commit>");
-  }
-  lines.push("  </commits>");
-
-  // Addons
-  lines.push("  <addons>");
-  for (const a of data.addons) {
-    lines.push("    <addon>");
-    lines.push(`      <id>${esc(a.id)}</id>`);
-    lines.push(`      <name>${esc(a.name)}</name>`);
-    lines.push(`      <version>${esc(a.version)}</version>`);
-    lines.push(`      <author>${esc(a.author)}</author>`);
-    lines.push(`      <status>${esc(a.status)}</status>`);
-    lines.push(`      <description>${esc(a.description)}</description>`);
-    lines.push(
-      `      <longDescription>${esc(a.longDescription)}</longDescription>`,
-    );
-    lines.push(`      <icon>${esc(a.icon)}</icon>`);
-    lines.push(`      <github>${esc(a.github)}</github>`);
-    lines.push(`      <installNote>${esc(a.installNote)}</installNote>`);
-    lines.push("      <tags>");
-    for (const t of a.tags) lines.push(`        <tag>${esc(t)}</tag>`);
-    lines.push("      </tags>");
-    lines.push("      <features>");
-    for (const f of a.features)
-      lines.push(`        <feature>${esc(f)}</feature>`);
-    lines.push("      </features>");
-    lines.push("      <installSteps>");
-    for (const step of a.installSteps) {
-      lines.push("        <step>");
-      lines.push(`          <title>${esc(step.title)}</title>`);
-      lines.push("          <commands>");
-      for (const cmd of step.commands ?? [])
-        lines.push(`            <command>${esc(cmd)}</command>`);
-      lines.push("          </commands>");
-      lines.push("        </step>");
-    }
-    lines.push("      </installSteps>");
-    lines.push("    </addon>");
-  }
-  lines.push("  </addons>");
-
-  lines.push("</cache>");
-
-  return lines.join("\n");
-}
-
 async function run() {
   console.log("cache-github: fetching data...");
 
@@ -222,8 +32,6 @@ async function run() {
     );
     console.warn("Run with: GH_TOKEN=ghp_yourtoken npm run cache");
   }
-
-  await fs.ensureDir(CACHE_DIR);
 
   // Fetch all repos in the org
   let orgRepos: { full_name: string }[] = [];
@@ -360,8 +168,6 @@ async function run() {
   const panelIssues = (p?.["open_issues_count"] as number) || 0;
   const daemonIssues = (d?.["open_issues_count"] as number) || 0;
 
-  const addons = await fetchAddons();
-
   const [panelRelease, daemonRelease] = await Promise.all([
     ghFetch(`https://api.github.com/repos/${PANEL_REPO}/releases/latest`).catch(
       () => null,
@@ -379,115 +185,6 @@ async function run() {
       .then((r) => (r.ok ? (r.json() as Promise<{ version: string }>) : null))
       .catch(() => null),
   ]);
-
-  const xml = buildXml({
-    generatedAt: new Date().toISOString(),
-    stats: {
-      panelStars,
-      daemonStars,
-      totalStars: panelStars + daemonStars,
-      panelForks,
-      daemonForks,
-      totalForks: panelForks + daemonForks,
-      panelIssues,
-      daemonIssues,
-      openIssues: panelIssues + daemonIssues,
-      contributors: contributors.length,
-    },
-    versions: {
-      panel: panelPkg?.version || "",
-      daemon: daemonPkg?.version || "",
-      panelRelease: String(
-        (panelRelease as Record<string, unknown>)?.["tag_name"] || "",
-      ),
-      daemonRelease: String(
-        (daemonRelease as Record<string, unknown>)?.["tag_name"] || "",
-      ),
-    },
-    contributors,
-    allCommits,
-    addons,
-  });
-
-  await fs.writeFile(CACHE_FILE, xml, "utf-8");
-
-  // ── Write SQLite db ──────────────────────────────────────────────────────
-  await fs.ensureDir(path.dirname(DB_FILE));
-  const db = new Database(DB_FILE);
-  db.pragma("journal_mode = WAL");
-  db.exec(`
-    DROP TABLE IF EXISTS commits;
-    DROP TABLE IF EXISTS contributors;
-    DROP TABLE IF EXISTS meta;
-    CREATE TABLE commits (
-      sha TEXT PRIMARY KEY,
-      repo TEXT NOT NULL,
-      message TEXT,
-      author_name TEXT,
-      author_date TEXT,
-      author_avatar TEXT,
-      html_url TEXT
-    );
-    CREATE TABLE contributors (
-      login TEXT PRIMARY KEY,
-      name TEXT,
-      avatar_url TEXT,
-      html_url TEXT,
-      contributions INTEGER DEFAULT 0,
-      bio TEXT,
-      company TEXT
-    );
-    CREATE TABLE meta (
-      key TEXT PRIMARY KEY,
-      value TEXT
-    );
-  `);
-
-  const insertCommit = db.prepare(
-    "INSERT OR REPLACE INTO commits (sha, repo, message, author_name, author_date, author_avatar, html_url) VALUES (?, ?, ?, ?, ?, ?, ?)",
-  );
-  const insertContrib = db.prepare(
-    "INSERT OR REPLACE INTO contributors (login, name, avatar_url, html_url, contributions, bio, company) VALUES (?, ?, ?, ?, ?, ?, ?)",
-  );
-  const insertMeta = db.prepare(
-    "INSERT OR REPLACE INTO meta (key, value) VALUES (?, ?)",
-  );
-
-  // Write all commits with their repo tag
-  for (const raw of allCommits) {
-    const commit = raw["commit"] as Record<string, unknown>;
-    const author = commit["author"] as Record<string, unknown>;
-    const ghAuthor = raw["author"] as Record<string, unknown> | null;
-    const repo = (raw["_repo"] as string) || "unknown";
-    insertCommit.run(
-      String(raw["sha"] || ""),
-      repo,
-      String(commit?.["message"] || ""),
-      String(author?.["name"] || ""),
-      String(author?.["date"] || ""),
-      String(ghAuthor?.["avatar_url"] || ""),
-      String(raw["html_url"] || ""),
-    );
-  }
-
-  for (const c of contributors) {
-    insertContrib.run(
-      c.login,
-      c.name,
-      c.avatar_url,
-      c.html_url,
-      c.contributions,
-      c.bio,
-      c.company,
-    );
-  }
-
-  insertMeta.run("generatedAt", new Date().toISOString());
-  insertMeta.run("totalStars", String(panelStars + daemonStars));
-  insertMeta.run("totalForks", String(panelForks + daemonForks));
-  insertMeta.run("totalContributors", String(contributors.length));
-
-  db.close();
 
   // ── Write JSON file for client-side consumption ────────────────────────────
   const jsonData = {
@@ -613,9 +310,9 @@ async function run() {
     `  github-data.json (${(JSON.stringify(jsonData).length / 1024).toFixed(1)} KB)`,
   );
 
-  const summary = `stars:${panelStars + daemonStars} forks:${panelForks + daemonForks} issues:${panelIssues + daemonIssues} contributors:${contributors.length} addons:${addons.length}`;
-  console.log(`\nWrote cache.xml + github.db + github-data.json — ${summary}`);
-  await fs.writeFile(path.join(CACHE_DIR, "summary.txt"), summary, "utf-8");
+  console.log(
+    `\nWrote github-data.json — stars:${panelStars + daemonStars} forks:${panelForks + daemonForks} issues:${panelIssues + daemonIssues} contributors:${contributors.length}`,
+  );
 
   // Save bthavanish avatar for inline build
   const avatarDir = path.join(ROOT, "public", "assets");

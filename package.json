@@ -7,10 +7,9 @@
   },
   "scripts": {
     "dev": "astro dev --background",
-    "build": "npm run cache && npm run cache:licenses && astro build",
+    "build": "npm run cache && astro build",
     "preview": "astro preview",
     "cache": "tsx scripts/cache-github.ts",
-    "cache:licenses": "tsx scripts/cache-licenses.ts",
     "astro": "astro"
   },
   "site": {
@@ -41,17 +40,10 @@
     "esbuild": true
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^9.6.0",
     "@types/fs-extra": "^11.0.4",
-    "better-sqlite3": "^13.0.3",
     "fs-extra": "^11.4.0",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
     "tsx": "^4.23.13"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "better-sqlite3"
-    ]
   }
 }
