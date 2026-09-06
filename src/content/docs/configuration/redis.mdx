@@ -58,7 +58,7 @@ All user sessions are stored in Redis with a configurable TTL (typically 24 hour
 | `settings`                | Until invalidated | Panel settings                |
 | `nodes`                   | Until invalidated | Node connection state         |
 | `security:*`              | Varies            | Rate limiting, login attempts |
-| `search:{userId}:{query}` | 30 seconds        | Search results                |
+| `search:&#123;userId&#125;:&#123;query&#125;` | 30 seconds        | Search results                |
 | `images`                  | Until invalidated | Image definitions             |
 
 ### Cache Invalidation

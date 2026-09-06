@@ -18,8 +18,8 @@ When the panel starts, it scans `storage/addons/` for directories with a valid `
 4. Import the entry point and call its default export with an Express router and the API object
 
 ```mermaid
-%%{init: {"theme": "dark", "themeVariables": {"primaryColor": "#1e40af", "primaryTextColor": "#e0e0e0", "primaryBorderColor": "#3b82f6", "lineColor": "#60a5fa", "secondaryColor": "#7c2d12", "tertiaryColor": "#1e3a5f", "fontFamily": "ui-monospace, SF Mono, Fira Code, monospace"}} }%%
-flowchart TD
+%%{init: {"theme": "dark", "themeVariables": {"primaryColor": "#333", "primaryTextColor": "#e0e0e0", "primaryBorderColor": "#666", "lineColor": "#fff", "secondaryColor": "#444", "tertiaryColor": "#555", "fontFamily": "ui-monospace, SF Mono, Fira Code, monospace"}} }%%
+flowchart LR
     A["Panel: Scan storage/addons/"] --> B["Panel: Read package.json"]
     B --> C["Panel: Run migrations"]
     C --> D["Panel: Import entry point"]

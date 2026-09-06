@@ -50,11 +50,27 @@ const links: Link[] = [
         class:list={["mob-item", { "mob-item--active": link.key === active }]}
         {...(link.key === active ? { "aria-current": "page" } : {})}
       >
-        <iconify-icon icon={link.icon} width="18" height="18" />
+        <iconify-icon
+          icon={link.icon}
+          width="20"
+          height="20"
+          aria-hidden="true"
+        />
         <span>{link.label}</span>
       </a>
     ))
   }
+  <button
+    type="button"
+    id="mob-menu-btn"
+    aria-label="Open navigation menu"
+    aria-expanded="false"
+    aria-controls="mobile-drawer"
+  >
+    <iconify-icon icon="lucide:menu" width="20" height="20" aria-hidden="true"
+    ></iconify-icon>
+    <span>Menu</span>
+  </button>
 </nav>
 
 <!-- Redirect confirmation modal -->
@@ -175,21 +191,21 @@ const links: Link[] = [
 <!-- Modal logic handled by /js/main.js (single source of truth) -->
 
 <style>
-  /* --- Mobile bar --- */
   #mobile-bar {
     display: none;
     position: fixed;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 0;
+    left: 0;
+    right: 0;
     z-index: var(--z-sticky);
     background: var(--color-nav-bg);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border: 1px solid var(--color-border);
-    border-radius: 16px;
-    padding: 6px 10px;
-    gap: 4px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--color-border);
+    padding: 0 0 env(safe-area-inset-bottom, 0px);
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
   }
 
   @media (max-width: 860px) {
@@ -199,31 +215,80 @@ const links: Link[] = [
   }
 
   .mob-item {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
-    padding: 6px 14px;
-    border-radius: 10px;
+    justify-content: center;
+    gap: 4px;
+    padding: 10px 8px 10px;
+    min-height: 54px;
     color: var(--color-text-3);
     text-decoration: none;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 500;
+    letter-spacing: 0.01em;
+    position: relative;
     transition:
-      background var(--dur-default) var(--ease-standard),
       color var(--dur-default) var(--ease-standard),
-      border-color var(--dur-default) var(--ease-standard),
-      box-shadow var(--dur-default) var(--ease-standard),
-      opacity var(--dur-default) var(--ease-standard);
+      background var(--dur-default) var(--ease-standard);
     -webkit-tap-highlight-color: transparent;
   }
+
+  .mob-item iconify-icon {
+    transition: transform var(--dur-default) var(--ease-standard);
+  }
+
+  .mob-item:active iconify-icon {
+    transform: scale(0.88);
+  }
+
   .mob-item:hover {
     color: var(--color-text-2);
+    background: rgba(255, 255, 255, 0.03);
   }
+
   .mob-item--active,
   .mob-item[aria-current="page"] {
     color: var(--color-text-1);
-    background: var(--color-bg-hover);
+  }
+
+  .mob-item--active::before,
+  .mob-item[aria-current="page"]::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 20%;
+    right: 20%;
+    height: 2px;
+    background: #fff;
+    border-radius: 0 0 2px 2px;
+  }
+
+  #mob-menu-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 10px 8px 10px;
+    min-height: 54px;
+    color: var(--color-text-3);
+    background: none;
+    border: none;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: color var(--dur-default) var(--ease-standard);
+  }
+
+  #mob-menu-btn:hover {
+    color: var(--color-text-2);
+  }
+  #mob-menu-btn.active {
+    color: var(--color-text-1);
   }
 
   /* --- Shared overlay/modal --- */

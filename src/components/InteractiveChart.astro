@@ -2,7 +2,6 @@
 interface DataPoint {
   label: string;
   value: number;
-  color?: string;
 }
 
 interface Props {
@@ -13,7 +12,7 @@ interface Props {
   height?: string;
 }
 
-const { title, type = "bar", data, caption, height = "400px" } = Astro.props;
+const { title, type = "bar", data, caption, height = "280px" } = Astro.props;
 
 const chartId = `chart-${Math.random().toString(36).slice(2, 9)}`;
 ---
@@ -23,113 +22,70 @@ const chartId = `chart-${Math.random().toString(36).slice(2, 9)}`;
   data-chart-type={type}
   data-chart-data={JSON.stringify(data)}
 >
-  {title && <h3 class="chart-wrap__title">{title}</h3>}
-  <div class="chart-container" style={`height:${height}`}>
-    <canvas id={chartId}></canvas>
-    <button class="chart-reset-zoom" data-chart={chartId} type="button">
-      Reset Zoom
-    </button>
+  {title && <h3 class="chart-title">{title}</h3>}
+
+  <div class="chart-box" style={`min-height: ${height};`}>
+    <canvas
+      id={chartId}
+      role="img"
+      aria-label={title ? `Chart: ${title}` : "Chart"}></canvas>
   </div>
-  {caption && <p class="chart-wrap__caption">{caption}</p>}
+
+  {caption && <p class="chart-caption">{caption}</p>}
 </div>
 
 <script
   is:inline
   src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
-<script
-  is:inline
-  src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2/dist/chartjs-plugin-zoom.min.js"
-></script>
 
 <script>
-  function getThemeColors() {
-    const s = getComputedStyle(document.documentElement);
-    return {
-      bg: s.getPropertyValue("--color-bg").trim() || "#161616",
-      bg2: s.getPropertyValue("--color-bg-2").trim() || "#1e1e1e",
-      border:
-        s.getPropertyValue("--color-border").trim() || "rgba(255,255,255,0.13)",
-      text1: s.getPropertyValue("--color-text-1").trim() || "#e0e0e0",
-      text2: s.getPropertyValue("--color-text-2").trim() || "#b0b0b0",
-      text3: s.getPropertyValue("--color-text-3").trim() || "#767676",
-      info: s.getPropertyValue("--color-info").trim() || "#60a5fa",
-      success: s.getPropertyValue("--color-success").trim() || "#4ade80",
-      warning: s.getPropertyValue("--color-warning").trim() || "#fbbf24",
-      danger: s.getPropertyValue("--color-danger").trim() || "#f87171",
-    };
-  }
-
-  const VIBRANT = [
-    "#60a5fa",
-    "#a78bfa",
-    "#f472b6",
-    "#34d399",
-    "#fbbf24",
-    "#f87171",
-    "#38bdf8",
-    "#fb923c",
-  ];
-
   function initCharts() {
     document
       .querySelectorAll(".chart-wrap[data-chart-data]")
       .forEach((wrap) => {
         const el = wrap as HTMLElement;
-        const canvas = el.querySelector("canvas");
-        if (!canvas) return;
+        const canvas = el.querySelector("canvas") as HTMLCanvasElement | null;
+        if (!canvas || (canvas as any).__chartInitialized) return;
+        (canvas as any).__chartInitialized = true;
 
         const chartType = el.dataset.chartType || "bar";
-        const rawData = el.dataset.chartData || "[]";
-        let dataPoints: { label: string; value: number; color?: string }[];
+        let dataPoints: { label: string; value: number }[];
         try {
-          dataPoints = JSON.parse(rawData);
+          dataPoints = JSON.parse(el.dataset.chartData || "[]");
         } catch {
           return;
         }
 
-        const t = getThemeColors();
         const labels = dataPoints.map((d) => d.label);
         const values = dataPoints.map((d) => d.value);
+        const reduced = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
 
-        let bgColors: string[];
-        let borderColors: string[];
-
-        if (chartType === "doughnut") {
-          bgColors = dataPoints.map(
-            (d, i) => d.color || VIBRANT[i % VIBRANT.length],
-          );
-          borderColors = bgColors;
-        } else {
-          const base = dataPoints.map(
-            (d, i) => d.color || VIBRANT[i % VIBRANT.length],
-          );
-          bgColors = base.map((c) => c + "cc");
-          borderColors = base;
-        }
-
-        const datasets = {
+        const datasets: Record<string, any[]> = {
           bar: [
             {
               label: "Value",
               data: values,
-              backgroundColor: bgColors,
-              borderColor: borderColors,
-              borderWidth: 1.5,
-              borderRadius: 6,
-              hoverBackgroundColor: borderColors,
+              backgroundColor: "#fff",
+              borderColor: "#fff",
+              borderWidth: 0,
+              borderRadius: 4,
+              barPercentage: 0.7,
+              categoryPercentage: 0.8,
             },
           ],
           line: [
             {
               label: "Value",
               data: values,
-              borderColor: t.info,
-              backgroundColor: t.info + "22",
-              borderWidth: 2.5,
+              borderColor: "#fff",
+              backgroundColor: "rgba(255,255,255,0.08)",
+              borderWidth: 2,
               pointRadius: 4,
               pointHoverRadius: 7,
-              pointBackgroundColor: t.info,
-              pointBorderColor: t.bg,
+              pointBackgroundColor: "#fff",
+              pointBorderColor: "#000",
               pointBorderWidth: 2,
               fill: true,
               tension: 0.35,
@@ -139,104 +95,86 @@ const chartId = `chart-${Math.random().toString(36).slice(2, 9)}`;
             {
               label: "Value",
               data: values,
-              backgroundColor: bgColors,
-              borderColor: t.bg,
+              backgroundColor: ["#fff", "#888"],
+              borderColor: "#000",
               borderWidth: 3,
-              hoverBorderColor: t.text1,
+              hoverBorderColor: "#fff",
               hoverOffset: 8,
             },
           ],
         };
 
-        const common: any = {
+        const isHorizontal = chartType === "bar";
+
+        const options: any = {
+          indexAxis: isHorizontal ? "y" : "x",
           responsive: true,
           maintainAspectRatio: false,
-          animation: { duration: 800, easing: "easeOutQuart" },
+          animation: reduced
+            ? false
+            : { duration: 700, easing: "easeOutQuart" },
           plugins: {
-            legend: {
-              display: false,
-            },
+            legend: { display: false },
             tooltip: {
-              backgroundColor: t.bg2,
-              titleColor: t.text1,
-              bodyColor: t.text2,
-              borderColor: t.border,
+              backgroundColor: "#000",
+              titleColor: "#fff",
+              bodyColor: "#ccc",
+              borderColor: "#333",
               borderWidth: 1,
               cornerRadius: 8,
               padding: 10,
               titleFont: { weight: "600" },
-            },
-            zoom: {
-              pan: {
-                enabled: true,
-                mode: "xy",
-                modifierKey: null,
-              },
-              zoom: {
-                wheel: { enabled: true },
-                pinch: { enabled: true },
-                mode: "xy",
-              },
-              limits: {
-                x: { minRange: 2 },
-                y: { minRange: 2 },
+              callbacks: {
+                label: (ctx: any) =>
+                  ` ${ctx.parsed.x ?? ctx.parsed.y ?? ctx.parsed}`,
               },
             },
+          },
+          layout: {
+            padding: { left: 0, right: 8, top: 4, bottom: 4 },
           },
         };
 
-        if (chartType === "bar" || chartType === "line") {
-          Object.assign(common, {
-            layout: { padding: { left: 4, right: 8, top: 4, bottom: 4 } },
-            scales: {
-              x: {
-                grid: { color: t.border, drawBorder: false },
-                ticks: {
-                  color: t.text2,
-                  font: { size: 12 },
-                  autoSkip: false,
-                  maxRotation: 0,
-                },
-              },
-              y: {
-                grid: { color: t.border, drawBorder: false },
-                ticks: { color: t.text2, font: { size: 12 } },
-                beginAtZero: true,
-              },
+        if (chartType === "line") {
+          options.scales = {
+            x: {
+              grid: { color: "rgba(255,255,255,0.08)", drawBorder: false },
+              ticks: { color: "#888", font: { size: 11 } },
             },
-          });
+            y: {
+              grid: { color: "rgba(255,255,255,0.08)", drawBorder: false },
+              ticks: { color: "#888", font: { size: 11 } },
+              beginAtZero: true,
+            },
+          };
+        } else if (isHorizontal) {
+          options.scales = {
+            x: {
+              grid: { color: "rgba(255,255,255,0.08)", drawBorder: false },
+              ticks: { color: "#888", font: { size: 11 } },
+              beginAtZero: true,
+            },
+            y: {
+              grid: { display: false },
+              ticks: { color: "#ccc", font: { size: 12 } },
+            },
+          };
         }
 
-        const chart = new Chart(canvas, {
-          type: chartType as any,
-          data: {
-            labels,
-            datasets: datasets[chartType as keyof typeof datasets],
-          },
-          options: common,
+        const chart = new (window as any).Chart(canvas, {
+          type: chartType === "bar" ? "bar" : chartType,
+          data: { labels, datasets: datasets[chartType] || datasets.bar },
+          options,
         });
 
-        const resetBtn = el.querySelector(
-          `.chart-reset-zoom[data-chart="${canvas.id}"]`,
-        );
-        if (resetBtn) {
-          resetBtn.addEventListener("click", () => {
-            (chart as any).resetZoom();
-          });
-        }
-
-        (window as any).__charts = (window as any).__charts || [];
-        (window as any).__charts.push(chart);
+        (el as any).__chart = chart;
       });
   }
 
   function boot() {
-    if (typeof Chart === "undefined" || typeof zoomPlugin === "undefined") {
-      setTimeout(boot, 100);
+    if (typeof (window as any).Chart === "undefined") {
+      setTimeout(boot, 80);
       return;
-    }
-    if (!Chart.registry.plugins.get("zoom")) {
-      Chart.register(zoomPlugin);
     }
     initCharts();
   }
@@ -247,60 +185,30 @@ const chartId = `chart-${Math.random().toString(36).slice(2, 9)}`;
 
 <style>
   .chart-wrap {
-    margin: 2rem 0;
-    padding: 1.5rem;
-    border: 1px solid var(--color-border, rgba(255, 255, 255, 0.13));
-    border-radius: 0.75rem;
-    background: var(--color-bg-2, #1e1e1e);
+    width: 100%;
+    margin: 1.5rem 0;
   }
 
-  .chart-wrap__title {
-    margin: 0 0 1rem;
-    font-size: 1.1rem;
+  .chart-title {
+    margin: 0 0 0.75rem;
+    font-size: 14px;
     font-weight: 600;
-    color: var(--color-text-1, #e0e0e0);
+    color: var(--color-text-1);
   }
 
-  .chart-container {
+  .chart-box {
     position: relative;
     width: 100%;
   }
 
-  .chart-reset-zoom {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    padding: 4px 12px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--color-text-2, #b0b0b0);
-    background: var(--color-bg, #161616);
-    border: 1px solid var(--color-border, rgba(255, 255, 255, 0.13));
-    border-radius: 6px;
-    cursor: pointer;
-    opacity: 0;
-    transition:
-      background var(--dur-default) var(--ease-standard),
-      color var(--dur-default) var(--ease-standard),
-      border-color var(--dur-default) var(--ease-standard),
-      box-shadow var(--dur-default) var(--ease-standard),
-      opacity var(--dur-default) var(--ease-standard);
-    z-index: var(--z-raised);
+  .chart-box canvas {
+    width: 100% !important;
   }
 
-  .chart-wrap:hover .chart-reset-zoom {
-    opacity: 1;
-  }
-
-  .chart-reset-zoom:hover {
-    color: var(--color-text-1, #e0e0e0);
-    background: var(--color-bg-3, #212121);
-  }
-
-  .chart-wrap__caption {
-    margin: 1rem 0 0;
-    font-size: 0.8rem;
-    color: var(--color-text-3, #767676);
+  .chart-caption {
+    margin: 0.5rem 0 0;
+    font-size: 12px;
+    color: var(--color-text-3);
     text-align: center;
   }
 </style>

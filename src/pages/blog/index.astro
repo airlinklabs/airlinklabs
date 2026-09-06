@@ -56,7 +56,13 @@ const sidebarLinks = posts.map((post) => ({
                 <a
                   href={`/blog/${post.id}/`}
                   class="docs-list-row"
-                  data-search-text={`${post.data.title} ${post.data.author}`.toLowerCase()}
+                  data-search-text={[
+                    post.data.title,
+                    post.data.author,
+                    post.data.title.toLowerCase().split(/\s+/).join(" "),
+                  ]
+                    .join(" ")
+                    .toLowerCase()}
                 >
                   <div>
                     <p>{post.data.title}</p>
@@ -89,7 +95,13 @@ const sidebarLinks = posts.map((post) => ({
               <a
                 href={`/blog/${post.id}/`}
                 class="docs-list-row"
-                data-search-text={`${post.data.title} ${post.data.author}`.toLowerCase()}
+                data-search-text={[
+                  post.data.title,
+                  post.data.author,
+                  post.data.title.toLowerCase().split(/\s+/).join(" "),
+                ]
+                  .join(" ")
+                  .toLowerCase()}
               >
                 <div>
                   <p>{post.data.title}</p>
@@ -135,32 +147,42 @@ const sidebarLinks = posts.map((post) => ({
 
     var input = document.getElementById("blog-search-input");
     var noResults = document.getElementById("blog-search-no-results");
-    if (!input) return;
 
-    input.addEventListener("input", function () {
-      var q = input.value.toLowerCase().trim();
-      var visibleCount = 0;
-      document
-        .querySelectorAll(".docs-list-row[data-search-text]")
-        .forEach(function (row) {
-          var visible = !q || row.dataset.searchText.includes(q);
-          row.hidden = !visible;
-          if (visible) visibleCount++;
-        });
-      document.querySelectorAll(".docs-group").forEach(function (group) {
-        group.hidden =
-          !!q && !group.querySelector(".docs-list-row:not([hidden])");
+    function fuzzyMatch(text, query) {
+      if (!query) return true;
+      if (text.includes(query)) return true;
+      var words = query.split(/\s+/).filter(Boolean);
+      return words.every(function (word) {
+        return text.includes(word);
       });
-      if (noResults) {
-        noResults.style.display =
-          visibleCount === 0 && q.length > 0 ? "" : "none";
-      }
-    });
+    }
+
+    if (input) {
+      input.addEventListener("input", function () {
+        var q = input.value.toLowerCase().trim();
+        var visibleCount = 0;
+        document
+          .querySelectorAll(".docs-list-row[data-search-text]")
+          .forEach(function (row) {
+            var visible = fuzzyMatch(row.dataset.searchText, q);
+            row.hidden = !visible;
+            if (visible) visibleCount++;
+          });
+        document.querySelectorAll(".docs-group").forEach(function (group) {
+          group.hidden =
+            !!q && !group.querySelector(".docs-list-row:not([hidden])");
+        });
+        if (noResults) {
+          noResults.style.display =
+            visibleCount === 0 && q.length > 0 ? "" : "none";
+        }
+      });
+    }
 
     document.addEventListener("keydown", function (e) {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
-        input.focus();
+        if (input) input.focus();
       }
     });
   })();

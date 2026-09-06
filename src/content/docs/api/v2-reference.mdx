@@ -42,9 +42,9 @@ API keys require scope capabilities (e.g., `servers.*`, `files.read`). Session u
 | `GET`    | `/servers/:id`           | Get server details                                                                        |
 | `PATCH`  | `/servers/:id`           | Update server (name, description, memory, cpu, storage, swap, backupLimit, databaseLimit) |
 | `DELETE` | `/servers/:id`           | Delete server                                                                             |
-| `POST`   | `/servers/:id/power`     | Power action (`{ action: "start"                                                          | "stop" | "restart" | "kill" }`) |
+| `POST`   | `/servers/:id/power`     | Power action (`&#123; action: "start"                                                          | "stop" | "restart" | "kill" &#125;`) |
 | `POST`   | `/servers/:id/reinstall` | Reinstall server                                                                          |
-| `GET`    | `/servers/:id/status`    | Get container status (`{ online, status }`)                                               |
+| `GET`    | `/servers/:id/status`    | Get container status (`&#123; online, status &#125;`)                                               |
 
 Admins see all servers. Regular users see servers they own or have sub-user access to.
 
@@ -56,13 +56,13 @@ All file operations require `files.read` or `files.write` sub-user permission.
 | -------- | --------------------------------------- | ----------------------------------- |
 | `GET`    | `/servers/:id/files?path=/`             | List directory contents             |
 | `GET`    | `/servers/:id/files/content?file=/path` | Read file content                   |
-| `POST`   | `/servers/:id/files/content`            | Write file (`{ file, content }`)    |
-| `DELETE` | `/servers/:id/files`                    | Delete file (`{ file }`)            |
-| `POST`   | `/servers/:id/files/rename`             | Rename file (`{ file, newname }`)   |
-| `POST`   | `/servers/:id/files/mkdir`              | Create directory (`{ name }`)       |
-| `POST`   | `/servers/:id/files/copy`               | Copy file (`{ file, target }`)      |
-| `POST`   | `/servers/:id/files/zip`                | Zip files (`{ files: [], target }`) |
-| `POST`   | `/servers/:id/files/unzip`              | Unzip file (`{ file, target? }`)    |
+| `POST`   | `/servers/:id/files/content`            | Write file (`&#123; file, content &#125;`)    |
+| `DELETE` | `/servers/:id/files`                    | Delete file (`&#123; file &#125;`)            |
+| `POST`   | `/servers/:id/files/rename`             | Rename file (`&#123; file, newname &#125;`)   |
+| `POST`   | `/servers/:id/files/mkdir`              | Create directory (`&#123; name &#125;`)       |
+| `POST`   | `/servers/:id/files/copy`               | Copy file (`&#123; file, target &#125;`)      |
+| `POST`   | `/servers/:id/files/zip`                | Zip files (`&#123; files: [], target &#125;`) |
+| `POST`   | `/servers/:id/files/unzip`              | Unzip file (`&#123; file, target? &#125;`)    |
 | `POST`   | `/servers/:id/files/pull`               | Git pull                            |
 
 ## Databases
@@ -70,7 +70,7 @@ All file operations require `files.read` or `files.write` sub-user permission.
 | Method   | Path                                  | Description                    |
 | -------- | ------------------------------------- | ------------------------------ |
 | `GET`    | `/servers/:id/databases`              | List databases (paginated)     |
-| `POST`   | `/servers/:id/databases`              | Create database (`{ hostId }`) |
+| `POST`   | `/servers/:id/databases`              | Create database (`&#123; hostId &#125;`) |
 | `DELETE` | `/servers/:id/databases/:dbId`        | Delete database                |
 | `POST`   | `/servers/:id/databases/:dbId/rotate` | Rotate password                |
 
@@ -81,7 +81,7 @@ Database names are auto-generated: `s{uuid_prefix}_db{N}`. Passwords are random 
 | Method   | Path                                      | Description                     |
 | -------- | ----------------------------------------- | ------------------------------- |
 | `GET`    | `/servers/:id/backups`                    | List backups (paginated)        |
-| `POST`   | `/servers/:id/backups`                    | Create backup (`{ name }`)      |
+| `POST`   | `/servers/:id/backups`                    | Create backup (`&#123; name &#125;`)      |
 | `DELETE` | `/servers/:id/backups/:backupId`          | Delete backup (fails if locked) |
 | `POST`   | `/servers/:id/backups/:backupId/restore`  | Restore backup                  |
 | `PATCH`  | `/servers/:id/backups/:backupId/lock`     | Toggle lock                     |
@@ -96,7 +96,7 @@ Backup limit is per-server (default 5, configurable). Locked backups cannot be d
 | Method   | Path                                               | Description                                                                 |
 | -------- | -------------------------------------------------- | --------------------------------------------------------------------------- |
 | `GET`    | `/servers/:id/schedules`                           | List schedules (paginated)                                                  |
-| `POST`   | `/servers/:id/schedules`                           | Create schedule (`{ name, cron, action, payload?, enabled?, timeOffset? }`) |
+| `POST`   | `/servers/:id/schedules`                           | Create schedule (`&#123; name, cron, action, payload?, enabled?, timeOffset? &#125;`) |
 | `PATCH`  | `/servers/:id/schedules/:scheduleId`               | Update schedule                                                             |
 | `DELETE` | `/servers/:id/schedules/:scheduleId`               | Delete schedule                                                             |
 | `POST`   | `/servers/:id/schedules/:scheduleId/tasks`         | Add task                                                                    |
@@ -110,7 +110,7 @@ Schedule actions: `command`, `power`, `backup`. Power payload must include a val
 | Method   | Path                           | Description                                |
 | -------- | ------------------------------ | ------------------------------------------ |
 | `GET`    | `/servers/:id/subusers`        | List sub-users (paginated)                 |
-| `POST`   | `/servers/:id/subusers`        | Add sub-user (`{ userId, permissions[] }`) |
+| `POST`   | `/servers/:id/subusers`        | Add sub-user (`&#123; userId, permissions[] &#125;`) |
 | `PUT`    | `/servers/:id/subusers/:subId` | Update permissions                         |
 | `DELETE` | `/servers/:id/subusers/:subId` | Remove sub-user                            |
 
@@ -121,9 +121,9 @@ Only the server owner (or admin) can manage sub-users.
 | Method | Path                                | Description                                                                       |
 | ------ | ----------------------------------- | --------------------------------------------------------------------------------- |
 | `GET`  | `/servers/:id/startup`              | Get startup config (command, docker image, variables, image definition)           |
-| `POST` | `/servers/:id/startup/command`      | Save startup command (`{ command }`), requires `allowStartupEdit`                 |
-| `POST` | `/servers/:id/startup/docker-image` | Save docker image (`{ dockerImage }`), must be in image's allowed list            |
-| `POST` | `/servers/:id/startup/variables`    | Save environment variables (`{ variables: [{ key, value, editable?, rules? }] }`) |
+| `POST` | `/servers/:id/startup/command`      | Save startup command (`&#123; command &#125;`), requires `allowStartupEdit`                 |
+| `POST` | `/servers/:id/startup/docker-image` | Save docker image (`&#123; dockerImage &#125;`), must be in image's allowed list            |
+| `POST` | `/servers/:id/startup/variables`    | Save environment variables (`&#123; variables: [&#123; key, value, editable?, rules? &#125;] &#125;`) |
 
 ## Account
 
@@ -132,26 +132,26 @@ Session auth only. All endpoints under `/api/v2/account`.
 | Method   | Path                                   | Description                                           |
 | -------- | -------------------------------------- | ----------------------------------------------------- |
 | `GET`    | `/account`                             | Get current user profile                              |
-| `PATCH`  | `/account/username`                    | Update username (`{ username }`)                      |
-| `PATCH`  | `/account/email`                       | Change email (`{ email }`)                            |
-| `PATCH`  | `/account/password`                    | Change password (`{ currentPassword, newPassword }`)  |
+| `PATCH`  | `/account/username`                    | Update username (`&#123; username &#125;`)                      |
+| `PATCH`  | `/account/email`                       | Change email (`&#123; email &#125;`)                            |
+| `PATCH`  | `/account/password`                    | Change password (`&#123; currentPassword, newPassword &#125;`)  |
 | `PATCH`  | `/account/description`                 | Update description                                    |
-| `PATCH`  | `/account/preferred-node`              | Set preferred node (`{ nodeId }` or `null`)           |
+| `PATCH`  | `/account/preferred-node`              | Set preferred node (`&#123; nodeId &#125;` or `null`)           |
 | `PATCH`  | `/account/language`                    | Set language preference                               |
 | `POST`   | `/account/avatar`                      | Upload avatar (multipart, JPEG/PNG/GIF/WebP, max 5MB) |
 | `DELETE` | `/account/avatar`                      | Remove avatar                                         |
 | `GET`    | `/account/check-username?username=...` | Check username availability                           |
-| `POST`   | `/account/validate-password`           | Validate password strength (`{ password }`)           |
+| `POST`   | `/account/validate-password`           | Validate password strength (`&#123; password &#125;`)           |
 | `GET`    | `/account/2fa/setup`                   | Get TOTP setup data (secret + otpauth URL)            |
-| `POST`   | `/account/2fa/enable`                  | Enable 2FA (`{ code }`), returns recovery codes       |
-| `POST`   | `/account/2fa/disable`                 | Disable 2FA (`{ code }` or `{ recoveryCode }`)        |
+| `POST`   | `/account/2fa/enable`                  | Enable 2FA (`&#123; code &#125;`), returns recovery codes       |
+| `POST`   | `/account/2fa/disable`                 | Disable 2FA (`&#123; code &#125;` or `&#123; recoveryCode &#125;`)        |
 | `POST`   | `/account/images`                      | Create user image                                     |
 | `POST`   | `/account/images/import-url`           | Import image from URL                                 |
 | `DELETE` | `/account/images/:id`                  | Delete user image                                     |
 | `GET`    | `/account/folders`                     | List folders with server members                      |
-| `POST`   | `/account/folders`                     | Create folder (`{ name }`)                            |
+| `POST`   | `/account/folders`                     | Create folder (`&#123; name &#125;`)                            |
 | `DELETE` | `/account/folders/:id`                 | Delete folder                                         |
-| `POST`   | `/account/folders/:id/servers`         | Add server to folder (`{ serverUUID }`)               |
+| `POST`   | `/account/folders/:id/servers`         | Add server to folder (`&#123; serverUUID &#125;`)               |
 | `DELETE` | `/account/folders/servers/:uuid`       | Remove server from folder                             |
 | `POST`   | `/account/onboarding/complete`         | Mark onboarding complete                              |
 | `POST`   | `/account/onboarding/skip`             | Skip onboarding                                       |
@@ -161,7 +161,7 @@ Session auth only. All endpoints under `/api/v2/account`.
 | Method   | Path                                | Description                                         |
 | -------- | ----------------------------------- | --------------------------------------------------- |
 | `POST`   | `/account/passkey/register/options` | Generate registration challenge                     |
-| `POST`   | `/account/passkey/register/verify`  | Verify registration (`{ credential, deviceName? }`) |
+| `POST`   | `/account/passkey/register/verify`  | Verify registration (`&#123; credential, deviceName? &#125;`) |
 | `POST`   | `/account/passkey/auth/options`     | Generate auth challenge (login 2FA)                 |
 | `POST`   | `/account/passkey/auth/verify`      | Verify auth assertion (completes login)             |
 | `GET`    | `/account/passkey`                  | List user's passkeys                                |
@@ -195,7 +195,7 @@ All admin endpoints require admin session auth. Mounted under `/api/v2/admin`.
 | `POST`   | `/admin/nodes/:id/maintenance`          | Toggle maintenance mode                |
 | `GET`    | `/admin/nodes/:id/stats`                | Get node stats from daemon             |
 | `GET`    | `/admin/nodes/:id/allocations`          | List port allocations                  |
-| `POST`   | `/admin/nodes/:id/allocations`          | Add allocation (`{ ip, port }`)        |
+| `POST`   | `/admin/nodes/:id/allocations`          | Add allocation (`&#123; ip, port &#125;`)        |
 | `DELETE` | `/admin/nodes/:id/allocations/:allocId` | Delete allocation (must be unassigned) |
 
 ### Users
@@ -207,7 +207,7 @@ All admin endpoints require admin session auth. Mounted under `/api/v2/admin`.
 | `GET`    | `/admin/users/:id`                  | Get user                                             |
 | `PUT`    | `/admin/users/:id`                  | Update user                                          |
 | `DELETE` | `/admin/users/:id`                  | Delete user (must have 0 servers, can't delete self) |
-| `POST`   | `/admin/users/:id/transfer`         | Transfer server ownership (`{ newOwnerId }`)         |
+| `POST`   | `/admin/users/:id/transfer`         | Transfer server ownership (`&#123; newOwnerId &#125;`)         |
 | `POST`   | `/admin/users/:id/onboarding/reset` | Reset onboarding state                               |
 
 ### Servers (Admin)
@@ -234,8 +234,8 @@ All admin endpoints require admin session auth. Mounted under `/api/v2/admin`.
 | `POST`  | `/admin/settings/smtp/test`     | Test SMTP connection                                                          |
 | `PATCH` | `/admin/settings/s3`            | Update S3 settings                                                            |
 | `POST`  | `/admin/settings/s3/test`       | Test S3 connection                                                            |
-| `POST`  | `/admin/settings/ban-ip`        | Ban IP (`{ ip, reason? }`)                                                    |
-| `POST`  | `/admin/settings/unban-ip`      | Unban IP (`{ ip }`)                                                           |
+| `POST`  | `/admin/settings/ban-ip`        | Ban IP (`&#123; ip, reason? &#125;`)                                                    |
+| `POST`  | `/admin/settings/unban-ip`      | Unban IP (`&#123; ip &#125;`)                                                           |
 
 ### Databases (Admin)
 
@@ -280,7 +280,7 @@ All admin endpoints require admin session auth. Mounted under `/api/v2/admin`.
 | Method   | Path                   | Description                             |
 | -------- | ---------------------- | --------------------------------------- |
 | `GET`    | `/admin/locations`     | List locations                          |
-| `POST`   | `/admin/locations`     | Create location (`{ name, shortCode }`) |
+| `POST`   | `/admin/locations`     | Create location (`&#123; name, shortCode &#125;`) |
 | `PUT`    | `/admin/locations/:id` | Update location                         |
 | `DELETE` | `/admin/locations/:id` | Delete location                         |
 
@@ -289,7 +289,7 @@ All admin endpoints require admin session auth. Mounted under `/api/v2/admin`.
 | Method   | Path                | Description                                          |
 | -------- | ------------------- | ---------------------------------------------------- |
 | `GET`    | `/admin/mounts`     | List mounts                                          |
-| `POST`   | `/admin/mounts`     | Create mount (`{ name, source, target, readOnly? }`) |
+| `POST`   | `/admin/mounts`     | Create mount (`&#123; name, source, target, readOnly? &#125;`) |
 | `DELETE` | `/admin/mounts/:id` | Delete mount                                         |
 
 ### API Keys

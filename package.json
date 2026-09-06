@@ -40,10 +40,12 @@
     "esbuild": true
   },
   "devDependencies": {
+    "@astrojs/markdown-remark": "^7.3.0",
     "@types/fs-extra": "^11.0.4",
     "fs-extra": "^11.4.0",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
-    "tsx": "^4.23.13"
+    "tsx": "^4.23.13",
+    "unist-util-visit": "^5.1.0"
   }
 }

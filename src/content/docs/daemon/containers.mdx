@@ -53,8 +53,8 @@ missing -> installing -> created -> starting -> running -> stopping -> stopped
 ### Start Sequence
 
 ```mermaid
-%%{init: {"theme": "dark", "themeVariables": {"primaryColor": "#1e40af", "primaryTextColor": "#e0e0e0", "primaryBorderColor": "#3b82f6", "lineColor": "#60a5fa", "secondaryColor": "#7c2d12", "tertiaryColor": "#1e3a5f", "fontFamily": "ui-monospace, SF Mono, Fira Code, monospace"}} }%%
-flowchart TD
+%%{init: {"theme": "dark", "themeVariables": {"primaryColor": "#333", "primaryTextColor": "#e0e0e0", "primaryBorderColor": "#666", "lineColor": "#fff", "secondaryColor": "#444", "tertiaryColor": "#555", "fontFamily": "ui-monospace, SF Mono, Fira Code, monospace"}} }%%
+flowchart LR
     A["Daemon: Remove existing container if present"] --> B["Daemon: Pull Docker image"]
     B --> C["Daemon: Create container with config"]
     C --> D["Daemon: Start container"]
@@ -106,8 +106,8 @@ Memory overhead is calculated based on available system RAM to prevent host OOM:
 
 | System RAM | Overhead % | Effective Limit |
 | ---------- | ---------- | --------------- |
-| <= 2 GB    | 15%        | 300 MB max      |
-| <= 4 GB    | 10%        | 400 MB max      |
+| &lt;= 2 GB    | 15%        | 300 MB max      |
+| &lt;= 4 GB    | 10%        | 400 MB max      |
 | > 4 GB     | 5%         | No cap          |
 
 The container receives `Total RAM - Overhead` as its memory limit. Java heap and other runtimes must fit within this allocation.
@@ -179,8 +179,8 @@ Configuration values support template tokens that are resolved at apply time:
 
 | Token                           | Resolves To                | Example                 |
 | ------------------------------- | -------------------------- | ----------------------- |
-| `{{server.build.default.port}}` | Server's configured port   | `25565`                 |
-| `{{env.VAR_NAME}}`              | Environment variable value | `{{env.SERVER_MEMORY}}` |
+| `&#123;&#123;server.build.default.port&#125;&#125;` | Server's configured port   | `25565`                 |
+| `&#123;&#123;env.VAR_NAME&#125;&#125;`              | Environment variable value | `&#123;&#123;env.SERVER_MEMORY&#125;&#125;` |
 
 ### IfValue
 

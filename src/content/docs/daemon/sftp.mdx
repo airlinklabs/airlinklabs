@@ -49,7 +49,7 @@ Handles credentials and authentication:
 Full SFTP protocol handler:
 
 - Implements the SFTP packet framing layer
-- Maps SSH_FXP_* request types to filesystem operations
+- Maps SSH*FXP*\* request types to filesystem operations
 - Enforces path jail and security checks before every operation
 - Returns proper SFTP status codes on success and failure
 
@@ -124,7 +124,7 @@ Every filesystem operation goes through `jailPath()` which resolves the target p
 | Kernel Version | Method                | Description                                                                   |
 | -------------- | --------------------- | ----------------------------------------------------------------------------- |
 | >= 5.6         | `openat2` FFI         | Uses `RESOLVE_BENEATH` and `RESOLVE_NO_MAGICLINKS` for atomic path resolution |
-| < 5.6          | `O_NOFOLLOW` fallback | Opens file without following symlinks, relies on jailPath pre-check           |
+| &lt; 5.6       | `O_NOFOLLOW` fallback | Opens file without following symlinks, relies on jailPath pre-check           |
 
 The `openat2` approach prevents TOCTOU (time-of-check-time-of-use) races by resolving and opening the file in a single kernel syscall. The fallback path uses `O_NOFOLLOW` to block symlink following but does not fully eliminate the race window.
 

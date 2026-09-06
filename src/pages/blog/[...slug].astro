@@ -133,12 +133,12 @@ const sidebarLinks = allPosts.map((p) => ({
 
 <style>
   .docs-main {
-    margin-left: clamp(200px, 18vw, 280px);
+    margin-left: clamp(240px, 19vw, 300px);
     flex: 1;
     min-width: 0;
     min-height: 100vh;
   }
-  @media (max-width: 768px) {
+  @media (max-width: 860px) {
     .docs-main {
       margin-left: 0;
     }
@@ -213,8 +213,8 @@ const sidebarLinks = allPosts.map((p) => ({
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--color-info-bg);
-    color: var(--color-info);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--color-text-2);
     font-size: 14px;
     font-weight: 600;
     border: none;
@@ -272,7 +272,7 @@ const sidebarLinks = allPosts.map((p) => ({
     margin: 0 0 16px;
   }
   .blog-body :global(a) {
-    color: var(--color-info);
+    color: var(--color-text-1);
     text-decoration: none;
     transition:
       background var(--dur-default) var(--ease-standard),
@@ -285,41 +285,137 @@ const sidebarLinks = allPosts.map((p) => ({
     color: var(--color-text-1);
     text-decoration: underline;
   }
-  .blog-body :global(code) {
-    background: var(--color-bg-input);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 14px;
-    font-family: var(--font-mono);
-  }
+  .doc-body :global(pre),
   .blog-body :global(pre) {
-    background: var(--color-bg);
+    position: relative;
+    background: #0d0d0d;
     border: 1px solid var(--color-border);
-    border-radius: 8px;
-    padding: 16px;
+    border-radius: 10px;
+    padding: 1.25rem 1.25rem 1.25rem 1.5rem;
     overflow-x: auto;
-    margin: 0 0 16px;
+    margin: 0 0 1.25rem;
+    tab-size: 2;
   }
+
+  .doc-body :global(pre code),
   .blog-body :global(pre code) {
     background: none;
     padding: 0;
+    font-size: 13px;
+    font-family: var(--font-mono);
+    line-height: 1.65;
+    color: var(--color-text-1);
   }
+
+  .doc-body :global(code),
+  .blog-body :global(code) {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-text-1);
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-family: var(--font-mono);
+  }
+
+  .doc-body :global(pre code),
+  .blog-body :global(pre code) {
+    background: none;
+    border: none;
+    color: var(--color-text-1);
+    padding: 0;
+  }
+  .doc-body :global(table),
   .blog-body :global(table) {
-    display: block;
+    width: 100%;
+    margin: 0 0 1.5rem;
+    font-size: 13.5px;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    overflow: hidden;
+    display: table;
+  }
+
+  .doc-body :global(.table-wrapper),
+  .blog-body :global(.table-wrapper) {
+    width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    margin: 0 0 1.5rem;
+    border-radius: 10px;
   }
-  .blog-body :global(thead),
-  .blog-body :global(tbody) {
-    display: table;
-    width: 100%;
-    min-width: max-content;
+
+  .doc-body :global(.table-wrapper table),
+  .blog-body :global(.table-wrapper table) {
+    margin: 0;
+  }
+
+  .doc-body :global(th),
+  .blog-body :global(th) {
+    padding: 10px 14px;
+    background: var(--color-bg-3);
+    color: var(--color-text-1);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .doc-body :global(th:first-child),
+  .blog-body :global(th:first-child) {
+    border-top-left-radius: 9px;
+  }
+  .doc-body :global(th:last-child),
+  .blog-body :global(th:last-child) {
+    border-top-right-radius: 9px;
+  }
+
+  .doc-body :global(td),
+  .blog-body :global(td) {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-2);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .doc-body :global(tr:last-child td),
+  .blog-body :global(tr:last-child td) {
+    border-bottom: none;
+  }
+
+  .doc-body :global(tr:last-child td:first-child),
+  .blog-body :global(tr:last-child td:first-child) {
+    border-bottom-left-radius: 9px;
+  }
+  .doc-body :global(tr:last-child td:last-child),
+  .blog-body :global(tr:last-child td:last-child) {
+    border-bottom-right-radius: 9px;
+  }
+
+  .doc-body :global(tbody tr:nth-child(even) td),
+  .blog-body :global(tbody tr:nth-child(even) td) {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .doc-body :global(td code),
+  .blog-body :global(td code) {
+    font-size: 12px;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: var(--color-bg-input);
+    white-space: nowrap;
   }
   .blog-body :global(blockquote) {
     margin: 0 0 16px;
     padding: 12px 16px;
-    background: rgba(96, 165, 250, 0.07);
-    border: 1px solid rgba(96, 165, 250, 0.18);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     color: var(--color-text-2);
   }

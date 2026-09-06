@@ -5,6 +5,9 @@ section: "Features"
 order: 18
 ---
 
+import InteractiveChart from "../../../components/InteractiveChart.astro";
+import BarChart from "../../../components/BarChart.astro";
+
 # Analytics and Activity Logging
 
 ## Activity Logging
@@ -91,3 +94,40 @@ POST /api/v2/admin/radar/vtscan/:serverId
 ```
 
 Requires a VirusTotal API key configured in settings.
+
+## Example Charts
+
+<InteractiveChart
+  title="Server status distribution"
+  type="bar"
+  data={[
+    { label: "Running", value: 24 },
+    { label: "Stopped", value: 8 },
+    { label: "Installing", value: 3 },
+    { label: "Error", value: 1 },
+  ]}
+  caption="Snapshot from a sample deployment"
+/>
+
+<InteractiveChart
+  title="Active connections over 7 days"
+  type="line"
+  data={[
+    { label: "Mon", value: 120 },
+    { label: "Tue", value: 145 },
+    { label: "Wed", value: 132 },
+    { label: "Thu", value: 189 },
+    { label: "Fri", value: 210 },
+    { label: "Sat", value: 98 },
+    { label: "Sun", value: 76 },
+  ]}
+/>
+
+<BarChart
+  title="Resource usage by feature"
+  bars={[
+    { label: "File manager", value: 68 },
+    { label: "Backups", value: 42 },
+    { label: "Schedules", value: 29 },
+  ]}
+/>

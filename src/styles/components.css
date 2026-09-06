@@ -333,28 +333,28 @@
     opacity var(--dur-default) var(--ease-standard);
 }
 .feature-icon--green {
-  background: rgba(74, 222, 128, 0.15);
-  color: var(--color-success);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-2);
 }
 .feature-icon--blue {
-  background: rgba(96, 165, 250, 0.15);
-  color: var(--color-info);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-2);
 }
 .feature-icon--purple {
-  background: rgba(168, 130, 255, 0.15);
-  color: var(--color-tag-purple);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-2);
 }
 .feature-icon--amber {
-  background: rgba(251, 191, 36, 0.15);
-  color: var(--color-warning);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-2);
 }
 .feature-icon--teal {
-  background: rgba(52, 211, 196, 0.15);
-  color: var(--color-tag-teal);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-2);
 }
 .feature-icon--rose {
-  background: rgba(251, 113, 133, 0.15);
-  color: var(--color-danger);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-2);
 }
 
 /* ── About grid ─────────────────────────────────────────────────────────── */
@@ -644,12 +644,12 @@
 
 /* ── Project marks ────────────────────────────────────────────────────────── */
 .project-mark--daemon {
-  background: rgba(139, 92, 246, 0.12);
-  color: var(--color-tag-purple);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-2);
 }
 .project-mark--images {
-  background: rgba(251, 146, 60, 0.12);
-  color: var(--color-tag-orange);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-2);
 }
 
 @media (max-width: 600px) {
@@ -704,9 +704,9 @@
   border: 1px solid var(--color-border);
 }
 .commit-tag--daemon {
-  background: rgba(96, 165, 250, 0.1);
-  color: var(--color-accent);
-  border: 1px solid rgba(96, 165, 250, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .commit-sha {
   color: var(--color-text-3);

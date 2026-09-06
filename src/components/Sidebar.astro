@@ -101,6 +101,26 @@ const navLinks = [
     ) : sidebarLinks && sidebarLinks.length > 0 ? (
       <div class="site-sidebar-context">
         <p>{sidebarSectionLabel}</p>
+        {sidebarLinks && sidebarLinks.length > 8 && (
+          <div class="sidebar-search-wrap">
+            <iconify-icon
+              icon="lucide:search"
+              width="13"
+              height="13"
+              aria-hidden="true"
+              class="sidebar-search-icon"
+            />
+            <input
+              type="search"
+              class="sidebar-search-input"
+              placeholder="Filter..."
+              aria-label="Filter sidebar navigation"
+              id="sidebar-filter-input"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+        )}
         <nav>
           {(() => {
             let lastSection = "";
@@ -190,4 +210,113 @@ const navLinks = [
       </a>
     </div>
   </div>
+</aside>
+
+<div id="mobile-drawer-overlay" aria-hidden="true"></div>
+<aside
+  id="mobile-drawer"
+  class="mobile-drawer"
+  aria-label="Navigation menu"
+  aria-modal="true"
+  role="dialog"
+>
+  <div class="mobile-drawer-header">
+    <a href={rootPrefix} class="site-sidebar-logo">
+      <img src={`${rootPrefix}assets/icon.png`} alt="" width="24" height="24" />
+      <span>AirLink</span>
+    </a>
+    <button
+      type="button"
+      id="mobile-drawer-close"
+      aria-label="Close navigation menu"
+    >
+      <iconify-icon icon="lucide:x" width="18" height="18" aria-hidden="true"
+      ></iconify-icon>
+    </button>
+  </div>
+
+  <nav
+    class="site-sidebar-nav mobile-drawer-nav"
+    aria-label="Primary navigation"
+  >
+    {
+      navLinks.map((link) => (
+        <a
+          href={link.href}
+          class:list={["site-nav-link", { active: link.key === active }]}
+          {...(link.key === active ? { "aria-current": "page" } : {})}
+        >
+          <iconify-icon
+            icon={link.icon}
+            width="18"
+            height="18"
+            aria-hidden="true"
+          />
+          <span>{link.label}</span>
+        </a>
+      ))
+    }
+  </nav>
+
+  {
+    ((docHeadings && docHeadings.length > 0) ||
+      (sidebarLinks && sidebarLinks.length > 0)) && (
+      <div class="site-sidebar-context mobile-drawer-context">
+        <p>
+          {docHeadings && docHeadings.length > 0
+            ? "On this page"
+            : sidebarSectionLabel}
+        </p>
+        <nav>
+          {docHeadings && docHeadings.length > 0
+            ? docHeadings.map((h) => (
+                <a
+                  href={`#${h.id}`}
+                  class:list={["site-section-link", `toc-h${h.level}`]}
+                  data-toc-id={h.id}
+                >
+                  <span>{h.text}</span>
+                  <iconify-icon
+                    icon="lucide:chevron-right"
+                    width="12"
+                    height="12"
+                    aria-hidden="true"
+                  />
+                </a>
+              ))
+            : (() => {
+                let lastSection = "";
+                return sidebarLinks!.map((link) => {
+                  const showSection =
+                    link.section && link.section !== lastSection;
+                  if (showSection) lastSection = link.section!;
+                  return (
+                    <>
+                      {showSection && (
+                        <p class="site-sidebar-subsection">{link.section}</p>
+                      )}
+                      <a
+                        href={link.href}
+                        class:list={[
+                          "site-section-link",
+                          { active: link.active },
+                        ]}
+                        data-search-text={(link.label || "").toLowerCase()}
+                      >
+                        <span>{link.label}</span>
+                        <iconify-icon
+                          icon="lucide:chevron-right"
+                          width="12"
+                          height="12"
+                          aria-hidden="true"
+                        />
+                      </a>
+                    </>
+                  );
+                });
+              })()}
+        </nav>
+      </div>
+    )
+  }
 </aside>

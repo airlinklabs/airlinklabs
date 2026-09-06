@@ -45,18 +45,18 @@ body {
   --color-text-3: #a0a0a0;
   --color-text-4: #707070;
 
-  --color-success: #4ade80;
-  --color-warning: #fbbf24;
-  --color-danger: #f87171;
-  --color-info: #60a5fa;
-  --color-info-bg: rgba(96, 165, 250, 0.1);
+  --color-success: var(--color-text-1);
+  --color-warning: var(--color-text-2);
+  --color-danger: var(--color-text-3);
+  --color-info: var(--color-text-2);
+  --color-info-bg: rgba(255, 255, 255, 0.06);
 
   /* accent — used by scroll progress bar, focus rings */
-  --color-accent: #60a5fa;
+  --color-accent: #fff;
 
-  --color-tag-purple: #a882ff;
-  --color-tag-teal: #34d3c4;
-  --color-tag-orange: #fb923c;
+  --color-tag-purple: var(--color-text-2);
+  --color-tag-teal: var(--color-text-2);
+  --color-tag-orange: var(--color-text-2);
 
   /* Layout */
   --sidebar-width: 220px;

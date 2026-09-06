@@ -351,7 +351,7 @@
 }
 
 .stat-add {
-  color: var(--color-success);
+  color: var(--color-text-1);
   transition:
     background var(--dur-default) var(--ease-standard),
     color var(--dur-default) var(--ease-standard),
@@ -360,7 +360,7 @@
 }
 
 .stat-del {
-  color: var(--color-danger);
+  color: var(--color-text-3);
   transition:
     background var(--dur-default) var(--ease-standard),
     color var(--dur-default) var(--ease-standard),
