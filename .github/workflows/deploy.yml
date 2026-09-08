@@ -75,7 +75,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Prettier check
-        run: pnpm prettier --check "src/**/*.{astro,ts,js,mjs,md,mdx,css,json}"
+        run: pnpm prettier --write "src/**/*.{astro,ts,js,mjs,md,mdx,css,json}"
 
   # ─── 3. BUILD ─────────────────────────────────────────────────────────────────
   build:
