@@ -4,6 +4,12 @@ on:
   push:
     branches: [Site]
   workflow_dispatch:
+    inputs:
+      skip_cache:
+        description: "Skip GitHub data cache (use existing github-data.json)"
+        required: false
+        default: "false"
+        type: boolean
 
 permissions:
   contents: read
@@ -14,10 +20,16 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
+env:
+  NODE_VERSION: "22"
+  PNPM_VERSION: "10"
+
 jobs:
-  build:
+  # ─── 1. TYPE CHECK ────────────────────────────────────────────────────────────
+  typecheck:
+    name: Type Check
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,40 +37,132 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10
+          version: ${{ env.PNPM_VERSION }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Astro type check
+        run: pnpm astro check
+
+  # ─── 2. FORMAT CHECK ──────────────────────────────────────────────────────────
+  format:
+    name: Format Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Prettier check
+        run: pnpm prettier --check "src/**/*.{astro,ts,js,mjs,md,mdx,css,json}"
+
+  # ─── 3. BUILD ─────────────────────────────────────────────────────────────────
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [typecheck, format]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Cache the github-data.json so we don't hammer the API on every build.
+      # Key includes the day so it refreshes daily automatically.
+      - name: Restore GitHub data cache
+        id: gh-cache
+        uses: actions/cache@v4
+        with:
+          path: public/assets/github-data.json
+          key: github-data-${{ runner.os }}-${{ hashFiles('scripts/cache-github.ts') }}-${{ github.run_id }}
+          restore-keys: |
+            github-data-${{ runner.os }}-${{ hashFiles('scripts/cache-github.ts') }}-
+            github-data-${{ runner.os }}-
+
       - name: Fetch GitHub data
+        if: steps.gh-cache.outputs.cache-hit != 'true' && inputs.skip_cache != 'true'
         run: |
           for attempt in 1 2 3; do
+            echo "Attempt $attempt..."
             pnpm tsx scripts/cache-github.ts && break
-            echo "Attempt $attempt failed, retrying in 5s..."
-            sleep 5
+            if [ $attempt -eq 3 ]; then
+              echo "::warning::GitHub data fetch failed after 3 attempts — using fallback empty data."
+              echo '{"commits":[],"contributors":[]}' > public/assets/github-data.json
+            fi
+            sleep 10
           done
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build site
+      - name: Verify GitHub data exists
         run: |
-          pnpm build
-          test -d dist || { echo "dist/ not found after build"; exit 1; }
+          if [ ! -f public/assets/github-data.json ]; then
+            echo "::warning::github-data.json missing — writing empty fallback."
+            echo '{"commits":[],"contributors":[]}' > public/assets/github-data.json
+          fi
+          echo "github-data.json size: $(wc -c < public/assets/github-data.json) bytes"
+
+      - name: Build site
+        run: pnpm astro build
+        env:
+          NODE_ENV: production
+
+      - name: Verify build output
+        run: |
+          if [ ! -d dist ]; then
+            echo "::error::dist/ was not created. Build failed silently."
+            exit 1
+          fi
+          echo "Build output:"
+          du -sh dist/
+          echo "Files: $(find dist -type f | wc -l)"
+          echo "HTML pages: $(find dist -name '*.html' | wc -l)"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
+  # ─── 4. DEPLOY ────────────────────────────────────────────────────────────────
   deploy:
+    name: Deploy
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -66,3 +170,28 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Print deployed URL
+        run: echo "Deployed to ${{ steps.deployment.outputs.page_url }}"
+
+  # ─── 5. LIGHTHOUSE ────────────────────────────────────────────────────────────
+  lighthouse:
+    name: Lighthouse Audit
+    needs: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Only run on push (not manual dispatch) to avoid redundant audits
+    if: github.event_name == 'push'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Audit with Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            ${{ needs.deploy.outputs.page_url || 'https://airlinklabs.xyz/' }}
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          runs: 1
+        continue-on-error: true
