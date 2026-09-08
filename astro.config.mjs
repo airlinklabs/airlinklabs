@@ -6,7 +6,7 @@ import { remarkWrapTables } from "./src/lib/remark-wrap-tables.mjs";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://airlinklabs.github.io",
+  site: "https://airlinklabs.xyz",
   output: "static",
   trailingSlash: "always",
   integrations: [mdx()],
