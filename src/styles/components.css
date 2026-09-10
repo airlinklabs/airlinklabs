@@ -1548,3 +1548,154 @@
   vertical-align: middle;
   margin-left: 3px;
 }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Beta badge + install section warning overlay
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Hero beta badge ──────────────────────────────────────────────────── */
+.beta-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  margin-left: 10px;
+  border-radius: 6px;
+  background: rgba(255, 180, 50, 0.12);
+  border: 1px solid rgba(255, 180, 50, 0.3);
+  color: #ffb432;
+  font: 600 9px/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+
+/* ── Install content wrapper ──────────────────────────────────────────── */
+.install-beta-content {
+  position: relative;
+  z-index: var(--z-raised);
+}
+
+.install-beta-content-hidden {
+  z-index: -1 !important;
+  opacity: 0 !important;
+  transform: scale(0.92);
+  pointer-events: none;
+}
+
+.install-beta-content--revealed {
+  animation: install-content-reveal 400ms cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}
+
+@keyframes install-content-reveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ── Install section: warning overlay ─────────────────────────────────── */
+.install-beta-warning {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    180deg,
+    rgba(22, 22, 22, 0.85) 0%,
+    rgba(22, 22, 22, 0.95) 100%
+  );
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.install-beta-warning--dismissed {
+  animation: install-overlay-dismiss 400ms cubic-bezier(0.33, 1, 0.68, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes install-overlay-dismiss {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+}
+
+.install-beta-warning-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 440px;
+  padding: 48px 40px 40px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 180, 50, 0.18);
+  background: var(--color-bg-2);
+  box-shadow:
+    0 0 0 1px rgba(255, 180, 50, 0.06),
+    0 24px 64px rgba(0, 0, 0, 0.4),
+    0 0 120px rgba(255, 180, 50, 0.04);
+}
+
+.install-beta-warning-icon {
+  color: #ffb432;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 16px rgba(255, 180, 50, 0.2));
+}
+
+.install-beta-warning-title {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: var(--color-text-1);
+}
+
+.install-beta-warning-text {
+  margin: 0 0 28px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--color-text-2);
+  max-width: 360px;
+}
+
+.install-beta-warning-btn {
+  font-size: 14px;
+  padding: 11px 24px;
+}
+
+.install-beta-warning-subtext {
+  margin: 16px 0 0;
+  font-size: 11px;
+  color: var(--color-text-4);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 560px) {
+  .install-beta-warning-card {
+    padding: 36px 24px 32px;
+    margin: 0 16px;
+  }
+  .install-beta-warning-icon {
+    width: 40px;
+    height: 40px;
+  }
+  .install-beta-warning-title {
+    font-size: 17px;
+  }
+  .install-beta-warning-text {
+    font-size: 13px;
+  }
+}

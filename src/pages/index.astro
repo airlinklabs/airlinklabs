@@ -5,10 +5,13 @@ import { Image } from "astro:assets";
 import site from "../data/site.json";
 import { Content as InstallSnippet } from "../content/install.md";
 import githubData from "../../public/assets/github-data.json";
+import pkg from "../../package.json";
 
 const commits = githubData.commits || [];
 const contributors = githubData.contributors || [];
 const features = site.features || [];
+const betaBadge = pkg.beta?.badge ?? false;
+const betaInstallWarning = pkg.beta?.installWarning ?? false;
 
 const homeSidebarLinks = [
   { label: "Start here", href: "#start" },
@@ -161,6 +164,9 @@ const teamMembers = [
             <div>
               <p class="hub-overline">
                 Self-hosted · MIT licensed · Open source
+                {betaBadge && (
+                  <span class="beta-badge" aria-label="Beta software">BETA</span>
+                )}
               </p>
               <h1>Game server management<br />built for operators.</h1>
               <p class="hub-lede">
@@ -858,6 +864,28 @@ const teamMembers = [
         >
         </div>
         <div class="install-layout">
+          {betaInstallWarning && (
+            <div class="install-beta-warning" id="install-beta-warning">
+              <div class="install-beta-warning-card">
+                <svg class="install-beta-warning-icon" viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                <h3 class="install-beta-warning-title">Highly Unstable — Beta Software</h3>
+                <p class="install-beta-warning-text">
+                  AirLink is in early development. Expect breaking changes, incomplete features,
+                  and potential data loss. Not recommended for production use.
+                </p>
+                <button class="btn-primary install-beta-warning-btn" id="install-beta-accept" type="button">
+                  I Understand — Show Install
+                  <iconify-icon icon="lucide:arrow-right" width="14" height="14" aria-hidden="true"></iconify-icon>
+                </button>
+                <p class="install-beta-warning-subtext">By continuing, you acknowledge this is pre-release software.</p>
+              </div>
+            </div>
+          )}
+          <div class:list={["install-beta-content", { "install-beta-content-hidden": betaInstallWarning }]} id="install-beta-content">
           <div class="hub-section-heading">
             <h2>One command to install</h2>
             <p>
@@ -896,6 +924,7 @@ const teamMembers = [
                 height="14"
                 aria-hidden="true"></iconify-icon>
             </a>
+          </div>
           </div>
         </div>
       </section>
@@ -1254,4 +1283,24 @@ const teamMembers = [
       </div>
     </div>
   </div>
+
+  <script is:inline>
+    (function () {
+      var btn = document.getElementById("install-beta-accept");
+      var warning = document.getElementById("install-beta-warning");
+      var content = document.getElementById("install-beta-content");
+      if (!btn || !warning || !content) return;
+
+      btn.addEventListener("click", function () {
+        warning.classList.add("install-beta-warning--dismissed");
+
+        warning.addEventListener("animationend", function handler() {
+          warning.removeEventListener("animationend", handler);
+          warning.style.zIndex = "-1";
+          content.classList.remove("install-beta-content-hidden");
+          content.classList.add("install-beta-content--revealed");
+        });
+      });
+    })();
+  </script>
 </BaseLayout>

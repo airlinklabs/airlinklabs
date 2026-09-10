@@ -28,6 +28,10 @@
     "message": "The site is currently being updated. That means its NOT FINISHED AND IS BEING BUILT!!!!!!",
     "badge": "Under Construction"
   },
+  "beta": {
+    "badge": true,
+    "installWarning": true
+  },
   "dependencies": {
     "@astrojs/mdx": "^8.0.0",
     "@tailwindcss/vite": "^4.3.3",
